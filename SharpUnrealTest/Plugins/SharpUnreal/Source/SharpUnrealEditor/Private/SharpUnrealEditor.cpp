@@ -4,6 +4,7 @@
 #include "IDirectoryWatcher.h"
 #include "DirectoryWatcherModule.h"
 #include "MonoComponentDetails.h"
+#include "SharpUnreal.h"
 
 #define LOCTEXT_NAMESPACE "FSharpUnrealEditorModule"
 
@@ -24,13 +25,13 @@ void FSharpUnrealEditorModule::StartupModule()
 	auto DirWatcher = DirWatcherModule.Get();
 	if (DirWatcher)
 	{
-		FString runtime = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("RuntimeLibs"));
-		GLog->Logf(TEXT("[SharpUnrealEditor] RuntimeLibs Path %s"), *runtime);
+		FString build = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("BuildLibs"));
+		GLog->Logf(TEXT("[SharpUnrealEditor] BuildLibs Path %s"), *build);
 
-		MainAssemblyPath = runtime / TEXT("mono") / TEXT("4.5") / "MainAssembly.dll";
+		MainAssemblyPath = build / TEXT("MainAssembly.dll");
 
 		DirWatcher->RegisterDirectoryChangedCallback_Handle(
-			runtime, IDirectoryWatcher::FDirectoryChanged::CreateRaw(this, &FSharpUnrealEditorModule::OnBinaryDirChanged),
+			build, IDirectoryWatcher::FDirectoryChanged::CreateRaw(this, &FSharpUnrealEditorModule::OnBinaryDirChanged),
 			OnBinaryDirChangedDelegateHandle
 		);
 	}
@@ -58,9 +59,9 @@ void FSharpUnrealEditorModule::ShutdownModule()
 
 	if (DirWatcher)
 	{		
-		FString runtime = FPaths::Combine(FPaths::GameDir(), TEXT("RuntimeLibs"));
+		FString build = FPaths::Combine(FPaths::GameDir(), TEXT("BuildLibs"));
 		DirWatcher->UnregisterDirectoryChangedCallback_Handle(
-			runtime, OnBinaryDirChangedDelegateHandle
+			build, OnBinaryDirChangedDelegateHandle
 		);
 	}
 	else {
@@ -98,6 +99,10 @@ void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>&
 			{				
 				GLog->Logf(TEXT("[SharpUnrealEditor] FileChanged %s , %d"), *Filename, (int32)FileChange.Action);
 				//在这里可以进行Mono的dll重新加载了
+				auto& SharpUnreal =
+					FModuleManager::LoadModuleChecked<FSharpUnrealModule>("SharpUnreal");
+				//SharpUnreal.ReloadMainAssembly();
+				SharpUnreal.ReloadMainAssembly();
 			}
 			break;
 		}

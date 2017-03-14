@@ -15,15 +15,15 @@
 	"IsBetaVersion": true,
 	"Installed": true,
 	"Modules": [
-		{
-			"Name": "SharpUnreal",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "SharpUnrealEditor",
-			"Type": "Editor",
-			"LoadingPhase": "Default"
-		}
+    {
+      "Name": "SharpUnreal",
+      "Type": "Runtime",
+      "LoadingPhase": "PreDefault"
+    },
+    {
+      "Name": "SharpUnrealEditor",
+      "Type": "Developer",
+      "LoadingPhase": "Default"
+    }
 	]
 }

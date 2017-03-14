@@ -4,9 +4,7 @@
 #include "SharpUnrealEditor.h"
 
 #include "CoreUObject.h"
-
 #include "Engine.h"
-
 #include "UnrealEd.h"
 #include "PropertyEditing.h"
 #include "PropertyCustomizationHelpers.h"
