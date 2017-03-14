@@ -1,0 +1,29 @@
+{
+	"FileVersion": 1,
+	"Version": 1,
+	"VersionName": "0.1",
+	"FriendlyName": "SharpUnreal",
+	"Description": "",
+	"Category": "Programming",
+	"CreatedBy": "shubozhang",
+	"CreatedByURL": "https://github.com/o87481299/SharpUnreal",
+	"DocsURL": "https://github.com/o87481299/SharpUnreal",
+	"MarketplaceURL": "",
+	"SupportURL": "https://github.com/o87481299/SharpUnreal",
+	"EnabledByDefault": true,
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "SharpUnreal",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "SharpUnrealEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
