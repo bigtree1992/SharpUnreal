@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22C0225F-243D-4A6A-B6E0-F14C6433CDF2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnrealEngine</RootNamespace>
+    <AssemblyName>UnrealEngine</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\RuntimeLibs\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animation\Tweener.cs" />
+    <Compile Include="Component\Base\AppLifecycleComponent.cs" />
+    <Compile Include="Component\Audio\AudioComponent.cs" />
+    <Compile Include="Component\Collision\BoxComponent.cs" />
+    <Compile Include="Component\Base\CameraComponent.cs" />
+    <Compile Include="Component\Collision\CapsuleComponent.cs" />
+    <Compile Include="Component\Light\DirectionalLight.cs" />
+    <Compile Include="Component\Light\SkyLightComponent.cs" />
+    <Compile Include="Component\Light\SpotLightComponent.cs" />
+    <Compile Include="Component\Movement\InterpToMovementComponent.cs" />
+    <Compile Include="Component\Physics\DestructibleComponent.cs" />
+    <Compile Include="Component\Physics\PhysicsConstraint.cs" />
+    <Compile Include="Component\Physics\PhysicsHandleComponent.cs" />
+    <Compile Include="Component\Physics\PhysicsThruster.cs" />
+    <Compile Include="Component\Physics\RodialForceComponent.cs" />
+    <Compile Include="Component\Rendering\DecalMeshComponent.cs" />
+    <Compile Include="Component\Rendering\MaterialBillboardComponent.cs" />
+    <Compile Include="Component\Rendering\MeshComponent.cs" />
+    <Compile Include="Component\Base\MotionControllerComponent.cs" />
+    <Compile Include="Component\Movement\MovementComponent.cs" />
+    <Compile Include="Component\Rendering\ParticleSystemComponent.cs" />
+    <Compile Include="Component\Light\PointLightComponent.cs" />
+    <Compile Include="Component\Collision\PrimitiveComponent.cs" />
+    <Compile Include="Component\Movement\ProjectileMovementComponent.cs" />
+    <Compile Include="Component\Movement\RotatingMovementComponent.cs" />
+    <Compile Include="Component\Collision\ShapeComponent.cs" />
+    <Compile Include="Component\Rendering\SkeletalComponent.cs" />
+    <Compile Include="Component\Rendering\SkinnedMeshComponent.cs" />
+    <Compile Include="Component\Collision\SphereComponent.cs" />
+    <Compile Include="Component\Rendering\SplienMesh.cs" />
+    <Compile Include="Component\Rendering\StaticMeshComponent.cs" />
+    <Compile Include="Component\Rendering\TextRenderComponent.cs" />
+    <Compile Include="Component\Base\SceneComponent.cs" />
+    <Compile Include="Component\Rendering\VectorFieldComponent.cs" />
+    <Compile Include="Core\Event.cs" />
+    <Compile Include="Core\TimeManager.cs" />
+    <Compile Include="Engine\Log.cs" />
+    <Compile Include="Engine\WorldSettings.cs" />
+    <Compile Include="GamePlay\Actor.cs" />
+    <Compile Include="GamePlay\Pawn.cs" />
+    <Compile Include="MainEntry.cs" />
+    <Compile Include="Component\Base\ActorComponent.cs" />
+    <Compile Include="Physics\Physics.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Engine\UE4Structs.cs" />
+    <Compile Include="Engine\UObject.cs" />
+    <Compile Include="Engine\World.cs" />
+    <Compile Include="Rendering\DynamicMaterial.cs" />
+    <Compile Include="Rendering\Material.cs" />
+    <Compile Include="Animation\Sequencer.cs" />
+    <Compile Include="Animation\Timeline.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
