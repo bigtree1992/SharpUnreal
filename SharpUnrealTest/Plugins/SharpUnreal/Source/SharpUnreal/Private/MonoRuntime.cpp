@@ -5,6 +5,16 @@
 #include "MonoRuntime.h"
 #include "Engine.h"
 
+#include <mono/jit/jit.h>
+#include "mono/metadata/metadata.h"
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/image.h>
+#include <mono/metadata/class.h>
+#include <mono/metadata/mono-config.h>
+#include <mono/metadata/debug-helpers.h>
+#include <mono/metadata/tokentype.h>
+#include <mono/utils/mono-counters.h>
+
 static MonoRuntime* s_Instance;
 
 int MonoRuntime::CreateInstance()
@@ -97,6 +107,7 @@ int MonoRuntime::ReloadMainAssembly()
 	FString runtime = FPaths::ConvertRelativePathToFull(
 		FPaths::Combine(FPaths::GameDir(), TEXT("RuntimeLibs")));
 	FString assembly_path = runtime / TEXT("mono") / TEXT("4.5") / TEXT("MainAssembly.dll");
+	FString engine_path = runtime / TEXT("mono") / TEXT("4.5") / TEXT("UnrealEngine.dll");
 
 	if (m_ChildDomain != NULL)
 	{
@@ -114,7 +125,23 @@ int MonoRuntime::ReloadMainAssembly()
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] MainAssembly.dll NotExist."));
 		return 1001;
-	}	
+	}
+
+	//加载引擎脚本Dll文件
+	m_EngineAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*engine_path));
+	if (!m_EngineAssembly)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Can Not Load Assembly:UnrealEngine.dll."));
+		return 1002;
+	}
+	//根据加载的引擎dll获取镜像
+	m_EngineImage = mono_assembly_get_image(m_EngineAssembly);
+	if (m_EngineImage == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get UnrealEngine.dll Image Failed!!"));
+		return 1003;
+	}
+
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));
 	if (!m_MainAssembly)
@@ -122,7 +149,7 @@ int MonoRuntime::ReloadMainAssembly()
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Can Not Load Assembly:MainAssembly.dll."));
 		return 1002;
 	}
-	//根据加载的dll获取镜像
+	//根据加载的逻辑dll获取镜像
 	m_MainImage = mono_assembly_get_image(m_MainAssembly);
 	if (m_MainImage == NULL)
 	{
@@ -132,7 +159,47 @@ int MonoRuntime::ReloadMainAssembly()
 
 	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] MainAssembly.dll Load Success."));
 
+#if WITH_EDITOR
+	//编辑器模式下缓存所有ActorComponent的子类引用
+	m_ComponentNames = TArray<FString>();
+	if (m_RootDomain == NULL || m_ChildDomain == NULL ||
+		m_MainAssembly == NULL || m_MainImage == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! MainImage Is Null"));
+		return 1004;
+	}
+
+	MonoClass* base = mono_class_from_name(m_EngineImage, "UnrealEngine", "ActorComponent");
+	if (base == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! Not Find ActorComponent."));
+		return 1005;
+	}
+
+	unsigned length = 0;
+	int rows = mono_image_get_table_rows(m_MainImage, MONO_TABLE_TYPEDEF);
+	for (int i = 1; i < rows; ++i)
+	{
+		MonoClass * klass = mono_class_get(m_MainImage, (i + 1) | MONO_TOKEN_TYPE_DEF);
+
+		if (klass == NULL)
+		{
+			continue;
+		}
+
+		if (mono_class_is_subclass_of(klass, base, false))
+		{
+			const char * name = mono_class_get_name(klass);
+			m_ComponentNames.Add(FString(name));
+		}
+	}
+#endif
 	return 0;
+}
+
+TArray<FString> MonoRuntime::GetAllMonoComponent()
+{
+	return m_ComponentNames;
 }
 
 MonoRuntime::MonoRuntime()

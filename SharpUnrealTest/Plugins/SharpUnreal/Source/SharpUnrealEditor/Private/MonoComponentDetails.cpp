@@ -3,6 +3,7 @@
 #include "SharpUnrealEditorPrivatePCH.h"
 #include "MonoComponentDetails.h"
 #include "MonoComponent.h"
+#include "MonoRuntime.h"
 
 #define LOCTEXT_NAMESPACE "MonoComponentDetails"
 
@@ -11,112 +12,100 @@ TSharedRef<IDetailCustomization> FMonoComponentDetails::MakeInstance()
 	return MakeShareable(new FMonoComponentDetails);
 }
 
-bool FMonoComponentDetails::IsEditEnabled() const
-{
-	return true;
-}
-
-FReply FMonoComponentDetails::OnEditClicked()
-{
-	return FReply::Handled();
-}
-
 void FMonoComponentDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	auto widgets = SNew(SVerticalBox);
-	widgets->AddSlot().FillHeight(1.0f)
-		.Padding(2.0f, 0.0f)
+	//获取正在编辑的对象的引用
+	TArray<TWeakObjectPtr<UObject>> Objects;
+	DetailBuilder.GetObjectsBeingCustomized(Objects);
+	if (Objects.Num() != 1)
+	{
+		return;
+	}
+
+	m_MonoComponent = Cast<UMonoComponent>(Objects[0].Get());
+	if (!m_MonoComponent.Get())
+	{
+		return;
+	}
+	
+	//自定义一个编辑MonoComponent的UI
+	auto widgets = SNew(SHorizontalBox);
+	widgets->AddSlot().FillWidth(8.0f)
+		.Padding(2.0f, 1.0f)
 		.VAlign(VAlign_Center)
 		.HAlign(HAlign_Left)
 		[
-			SAssignNew(SearchBoxPtr, SAssetSearchBox)
-			.HintText(this, &FMonoComponentDetails::GetSearchAssetsHintText)
-			.OnTextChanged(this, &FMonoComponentDetails::OnSearchBoxChanged)
-			.OnTextCommitted(this, &FMonoComponentDetails::OnSearchBoxCommitted)
-			.PossibleSuggestions(this, &FMonoComponentDetails::GetAssetSearchSuggestions)
+			SAssignNew(m_SearchBoxPtr, SAssetSearchBox)
+			.HintText(this, &FMonoComponentDetails::OnHintText)
+			.OnTextCommitted(this, &FMonoComponentDetails::OnTextCommitted)
+			.PossibleSuggestions(this, &FMonoComponentDetails::OnPossibleSuggestions)
 		];
 
-		widgets->AddSlot().FillHeight(1.0f)
-		.Padding(2.0f, 0.0f)
+	widgets->AddSlot().FillWidth(5.0f)
+		.Padding(0.5f, 1.0f)
 		.VAlign(VAlign_Center)
 		.HAlign(HAlign_Left)
 		[
-			SNew(SHorizontalBox)
-			+ SHorizontalBox::Slot()
-			.FillWidth(1.0f)
-			.Padding(2.0f, 0.0f)
-			.VAlign(VAlign_Center)
-			.HAlign(HAlign_Left)
+			SNew(SButton)
+			.OnClicked(this, &FMonoComponentDetails::OnApplyClicked)
+			.Content()
 			[
-				SNew(SEditableText)
-				.HintText(FText::FromString(TEXT("Editable:")))
-				.OnTextCommitted_Lambda([=](const FText& InText, ETextCommit::Type InCommitType) {
-					GLog->Log(InText);
-				})
+				SNew(STextBlock)				
+				.Text(LOCTEXT("MonoComponent", "Apply"))
+				.ToolTipText(LOCTEXT("MonoComponent", "Apply."))
 			]
-
-			
 		];
 
 
 	DetailBuilder.EditCategory("MonoComponent", FText::GetEmpty(), ECategoryPriority::Important)
 	.AddCustomRow(FText::GetEmpty())
 	[
-			widgets
+		widgets
 	];
 
 }
 
-FText FMonoComponentDetails::GetSearchAssetsHintText() const
+FReply FMonoComponentDetails::OnApplyClicked()
 {
-	return NSLOCTEXT("ContentBrowser", "SearchBoxHint", "Search Assets");
+	GLog->Log(ELogVerbosity::Error, TEXT("[MonoDetail] OnApplyClicked."));
+	if (m_MonoComponent != NULL)
+	{
+		if (m_CommitedComponentName.Len() > 0) 
+		{
+			//PreEditChange跟PostEditChange保证了编辑完Property之后场景会被设置为已更改状态
+			UProperty* NameProperty = FindField<UProperty>(
+				UMonoComponent::StaticClass(), "ComponentName");
+			m_MonoComponent->PreEditChange(NameProperty);
+
+			//设置脚本名字
+			m_MonoComponent->ComponentName = m_CommitedComponentName;
+			
+			FPropertyChangedEvent PropertyChangedEvent(NameProperty);
+			m_MonoComponent->PostEditChangeProperty(PropertyChangedEvent);
+		}		
+	}
+	else
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoDetail] MonoComponent Is Null."));
+	}
+	return FReply::Handled();
 }
 
-void FMonoComponentDetails::OnSearchBoxChanged(const FText& InSearchText)
+FText FMonoComponentDetails::OnHintText() const
 {
-
+	return NSLOCTEXT("SharpUnreal", "MonoComponent", "Search MonoComponent");
 }
 
-void FMonoComponentDetails::OnSearchBoxCommitted(const FText& InSearchText, ETextCommit::Type CommitInfo)
-{
 
+void FMonoComponentDetails::OnTextCommitted(const FText& InSearchText, ETextCommit::Type CommitInfo)
+{
+	m_CommitedComponentName = InSearchText.ToString();
 }
 
-TArray<FString> FMonoComponentDetails::GetAssetSearchSuggestions() const
+//根据MonoRuntime获取Dll中继承于ActorComponent的类的列表
+TArray<FString> FMonoComponentDetails::OnPossibleSuggestions() const
 {
-	TArray<FString> AllSuggestions;
-	AllSuggestions.Add(FString(TEXT("Sugges1")));
-	AllSuggestions.Add(FString(TEXT("Sugges2")));
-	AllSuggestions.Add(FString(TEXT("Sugges3")));
-	AllSuggestions.Add(FString(TEXT("Sugges4")));
-	AllSuggestions.Add(FString(TEXT("Sugges5")));
-	AllSuggestions.Add(FString(TEXT("Sugges6")));
-	AllSuggestions.Add(FString(TEXT("Sugges7")));
-	AllSuggestions.Add(FString(TEXT("Sugges8")));
-	AllSuggestions.Add(FString(TEXT("Sugges9")));
-	AllSuggestions.Add(FString(TEXT("Sugges0")));
-	AllSuggestions.Add(FString(TEXT("1Sugges4")));
-	AllSuggestions.Add(FString(TEXT("2Sugges4")));
-	AllSuggestions.Add(FString(TEXT("3Sugges4")));
-	AllSuggestions.Add(FString(TEXT("4Sugges4")));
-	AllSuggestions.Add(FString(TEXT("5Sugges4")));
-	AllSuggestions.Add(FString(TEXT("6Sugges4")));
-	AllSuggestions.Add(FString(TEXT("7Sugges4")));
-	AllSuggestions.Add(FString(TEXT("8Sugges4")));
-	AllSuggestions.Add(FString(TEXT("9Sugges4")));
-	AllSuggestions.Add(FString(TEXT("0Sugges4")));
-	AllSuggestions.Add(FString(TEXT("aSugges4")));
-	AllSuggestions.Add(FString(TEXT("vSugges4")));
-
-	AllSuggestions.Add(FString(TEXT("rSugges4")));
-	AllSuggestions.Add(FString(TEXT("tSugges4")));
-	AllSuggestions.Add(FString(TEXT("ySugges4")));
-	AllSuggestions.Add(FString(TEXT("uSugges4")));
-	AllSuggestions.Add(FString(TEXT("iSugges4")));
-	AllSuggestions.Add(FString(TEXT("oSugges4")));
-	AllSuggestions.Add(FString(TEXT("pSugges4")));
-
-	return AllSuggestions;
+	return MonoRuntime::Instance()->GetAllMonoComponent();
 }
 
 #undef LOCTEXT_NAMESPACE

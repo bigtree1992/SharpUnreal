@@ -1,13 +1,5 @@
 #pragma once
 
-#include "mono/metadata/metadata.h"
-
-#include <mono/jit/jit.h>
-#include <mono/metadata/assembly.h>
-#include <mono/metadata/class.h>
-#include <mono/metadata/mono-config.h>
-#include <mono/metadata/debug-helpers.h>
-
 /**
 * 管理Mono虚拟机的创建，C# dll加载
 */
@@ -23,12 +15,19 @@ public:
 	//重新加载主逻辑脚本
 	int ReloadMainAssembly();
 
+	TArray<FString> GetAllMonoComponent();
+
 	MonoRuntime();
 private:
 	void CopyToTarget(FString &target);
 private:
-	MonoDomain*		m_RootDomain;
-	MonoDomain*		m_ChildDomain;
-	MonoAssembly*	m_MainAssembly;
-	MonoImage*		m_MainImage;
+	struct _MonoDomain*		m_RootDomain;
+	struct _MonoDomain*		m_ChildDomain;
+	struct _MonoAssembly*	m_MainAssembly;
+	struct _MonoImage*		m_MainImage;
+	
+	struct _MonoAssembly*	m_EngineAssembly;
+	struct _MonoImage*		m_EngineImage;
+
+	TArray<FString> m_ComponentNames;
 };
