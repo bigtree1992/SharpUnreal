@@ -30,10 +30,6 @@ namespace UnrealEngine
 
     public class MainEntry
     {
-        public static void Main()
-        {
-            Console.WriteLine("Hello World");
-        }
 
         public MainEntry()
         {

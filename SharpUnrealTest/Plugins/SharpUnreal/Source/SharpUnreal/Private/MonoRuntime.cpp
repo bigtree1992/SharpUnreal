@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SharpUnrealPrivatePCH.h"
+#include "Engine.h"
 #include "SharpUnreal.h"
 #include "MonoRuntime.h"
-#include "Engine.h"
+#include "UnrealAPI/UnrealAPI_Engine.h"
 
 #include <mono/jit/jit.h>
 #include "mono/metadata/metadata.h"
@@ -142,6 +143,8 @@ int MonoRuntime::ReloadMainAssembly()
 		return 1003;
 	}
 
+	UnrealAPI_Engine::RegisterAPI();
+	
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));
 	if (!m_MainAssembly)
@@ -200,6 +203,76 @@ int MonoRuntime::ReloadMainAssembly()
 TArray<FString> MonoRuntime::GetAllMonoComponent()
 {
 	return m_ComponentNames;
+}
+
+_MonoObject* MonoRuntime::CreateObject(const char * name)
+{
+	if (m_MainAssembly == NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error,TEXT("[MonoRuntime] MainAssembly Is Null When CreateObject %s"),name);
+		return NULL;
+	}
+
+	MonoClass* klass = mono_class_from_name(m_MainImage, "MainAssembly", name);
+	if (klass == NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObject But Can't Find %s "), name);
+		return NULL;
+	}
+
+	MonoObject* obj = mono_object_new(mono_domain_get(), klass);
+	if (obj == NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObject Failed %s "), name);
+		return NULL;
+	}
+	mono_runtime_object_init(obj);
+	
+	return obj;
+}
+
+uint32_t MonoRuntime::RetainObject(_MonoObject* object)
+{
+	return mono_gchandle_new(object, 1);
+}
+
+void MonoRuntime::FreeObject(uint32_t handle)
+{
+	mono_gchandle_free(handle);
+}
+
+_MonoMethod* MonoRuntime::FindMethod(_MonoClass* klass, const char* name, int paramCount)
+{
+	while (klass != NULL)
+	{
+		MonoMethod* method = mono_class_get_method_from_name(klass, name, paramCount);
+		if (method != NULL)
+		{
+			return method;
+		}
+		klass = mono_class_get_parent(klass);
+	};
+
+	return NULL;
+}
+
+_MonoMethod* MonoRuntime::FindMethodByObj(_MonoObject* object, const char* name, int paramCount)
+{
+	MonoClass* klass = mono_object_get_class(object);
+	return FindMethod(klass, name, paramCount);
+}
+
+_MonoObject* MonoRuntime::InvokeMethod(_MonoMethod *method, void *obj, void **params)
+{
+	MonoObject * ex = NULL;
+	_MonoObject* ret = mono_runtime_invoke(method, obj, params, &ex);
+	if (ex != NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InvokMethod] Failed!"));
+		mono_print_unhandled_exception(ex);
+		return NULL;
+	}
+	return ret;
 }
 
 MonoRuntime::MonoRuntime()

@@ -1,5 +1,9 @@
 #pragma once
 
+struct _MonoObject;
+struct _MonoMethod;
+struct _MonoClass;
+
 /**
 * 管理Mono虚拟机的创建，C# dll加载
 */
@@ -16,6 +20,14 @@ public:
 	int ReloadMainAssembly();
 
 	TArray<FString> GetAllMonoComponent();
+	
+	_MonoObject* CreateObject(const char * name);
+	uint32_t RetainObject(_MonoObject* object);
+	void FreeObject(uint32_t handle);
+
+	_MonoMethod* FindMethod(_MonoClass* klass,const char* name, int paramCount);
+	_MonoMethod* FindMethodByObj(_MonoObject* object, const char* name, int paramCount);
+	_MonoObject* InvokeMethod(_MonoMethod* method, void *obj, void **params);
 
 	MonoRuntime();
 private:

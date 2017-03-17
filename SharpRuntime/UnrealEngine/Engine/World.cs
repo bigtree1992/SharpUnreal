@@ -35,6 +35,7 @@ namespace UnrealEngine
         /// </summary>
         /// <param name="tag"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public extern static Actor FindActorByTag(string tag);
 
         /// <summary>

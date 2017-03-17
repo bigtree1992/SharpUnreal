@@ -8,27 +8,39 @@ namespace UnrealEngine
 {
     public class ActorComponent : UObject
     {
+        public ActorComponent()
+        {
+        }
+
         public bool Activited { get; set; }
 
         public bool CanEverTick { get; set; }
 
-        protected virtual void Initialize()
+        public virtual void OnRegister()
+        {          
+        }
+
+        public virtual void OnUnregister()
         {
         }
 
-	    protected virtual void Uninitialize()
+        public virtual void Initialize()
         {
         }
 
-        protected virtual void Tick(float dt)
+        public virtual void Uninitialize()
         {
         }
 
-        protected virtual void OnRegister()
+        public virtual void BeginPlay()
         {
         }
 
-        protected virtual void OnUnregister()
+        public virtual void EndPlay()
+        {
+        }
+
+        public virtual void Tick(float dt)
         {
         }
 

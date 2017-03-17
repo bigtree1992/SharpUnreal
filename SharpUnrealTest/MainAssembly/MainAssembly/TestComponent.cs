@@ -1,32 +1,52 @@
 ﻿using System;
+using UnrealEngine;
 
 namespace MainAssembly
 {
-    public class TestComponent : UnrealEngine.ActorComponent
+    public class TestComponent : ActorComponent
     {
-        protected override void OnRegister()
+        public TestComponent()
+        {
+        }
+        public override void OnRegister()
         {
             base.OnRegister();
+            Log.Error("[TestComponent] OnRegister");
         }
 
-        protected override void OnUnregister()
+        public override void OnUnregister()
         {
             base.OnUnregister();
+            Log.Error("[TestComponent] OnUnregister");
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
+            Log.Error("[TestComponent] Initialize");
         }
 
-        protected override void Uninitialize()
+        public override void Uninitialize()
         {
             base.Uninitialize();
+            Log.Error("[TestComponent] Uninitialize");
         }
 
-        protected override void Tick(float dt)
+        public override void Tick(float dt)
         {
             base.Tick(dt);
+            Log.Error("[TestComponent] Tick ");
+        }
+
+        public override void BeginPlay()
+        {
+            base.BeginPlay();
+            Log.Error("[TestComponent] BeginPlay ");
+        }
+        public override void EndPlay()
+        {
+            base.EndPlay();
+            Log.Error("[TestComponent] EndPlay ");
         }
 
     }
