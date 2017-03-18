@@ -2,60 +2,130 @@
 
 namespace UnrealEngine
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Vector2
+    [StructLayout(LayoutKind.Explicit, Size = 4)]
+    public partial struct Color
     {
-        public float X;
-        public float Y;
+        [FieldOffset(0)]
+        public byte B;
+        [FieldOffset(1)]
+        public byte G;
+        [FieldOffset(2)]
+        public byte R;
+        [FieldOffset(3)]
+        public byte A;
+
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Vector3
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    public partial struct LinearColor
     {
-        public float X;
-        public float Y;
-        public float Z;
+        [FieldOffset(0)]
+        public float R;
+        [FieldOffset(4)]
+        public float G;
+        [FieldOffset(8)]
+        public float B;
+        [FieldOffset(12)]
+        public float A;
+
     }
 
-    // TODO: The FVector4 class is 16-byte aligned, but the mirror FVector4 USTRUCT is not,
-    //       which one of those is this struct actually going to correspond to? And does it matter?
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Vector4
+    [StructLayout(LayoutKind.Explicit, Size = 64)]
+    public partial struct Matrix
     {
-        public float X;
-        public float Y;
-        public float Z;
+        [FieldOffset(0)]
+        public Plane XPlane;
+        [FieldOffset(16)]
+        public Plane YPlane;
+        [FieldOffset(32)]
+        public Plane ZPlane;
+        [FieldOffset(48)]
+        public Plane WPlane;
+
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    public partial struct Plane
+    {
+        [FieldOffset(12)]
         public float W;
-    }
-
-    // TODO: Check the alignment is correct
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Quaternion
-    {
+        [FieldOffset(0)]
         public float X;
+        [FieldOffset(4)]
         public float Y;
+        [FieldOffset(8)]
         public float Z;
+
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    public partial struct Quat
+    {
+        [FieldOffset(0)]
+        public float X;
+        [FieldOffset(4)]
+        public float Y;
+        [FieldOffset(8)]
+        public float Z;
+        [FieldOffset(12)]
         public float W;
+
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Transform
+    [StructLayout(LayoutKind.Explicit, Size = 12)]
+    public partial struct Rotator
     {
-        public Quaternion Rotation;
-        public Vector3  Position;
-        public Vector3  Scale;
+        [FieldOffset(0)]
+        public float Pitch;
+        [FieldOffset(4)]
+        public float Yaw;
+        [FieldOffset(8)]
+        public float Roll;
+
     }
 
-    // TODO: Check the alignment is correct
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Color
+    [StructLayout(LayoutKind.Explicit, Size = 48)]
+    public partial struct Transform
     {
-        public byte B, G, R, A;
+        [FieldOffset(0)]
+        public Quat Rotation;
+        [FieldOffset(16)]
+        public Vector Translation;
+        [FieldOffset(32)]
+        public Vector Scale3D;
+
+    }
+    [StructLayout(LayoutKind.Explicit, Size = 12)]
+    public partial struct Vector
+    {
+        [FieldOffset(0)]
+        public float X;
+        [FieldOffset(4)]
+        public float Y;
+        [FieldOffset(8)]
+        public float Z;
+    }
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    public partial struct Vector2D
+    {
+        [FieldOffset(0)]
+        public float X;
+        [FieldOffset(4)]
+        public float Y;
+
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct LinearColor
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    public partial struct Vector4D
     {
-        public float B, G, R, A;
+        [FieldOffset(0)]
+        public float X;
+        [FieldOffset(4)]
+        public float Y;
+        [FieldOffset(8)]
+        public float Z;
+        [FieldOffset(12)]
+        public float W;
+
     }
 }

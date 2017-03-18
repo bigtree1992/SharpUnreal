@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
     public class ActorComponent : UObject
     {
         public ActorComponent()
-        {
-        }
-
-        public bool Activited { get; set; }
-
-        public bool CanEverTick { get; set; }
+        {}
 
         public virtual void OnRegister()
         {          
@@ -42,6 +34,18 @@ namespace UnrealEngine
 
         public virtual void Tick(float dt)
         {
+        }
+
+        public bool Activited
+        {
+            get;
+            set;
+        }
+
+        public bool CanEverTick
+        {
+            get;
+            set;
         }
 
         public Actor GetOwner()
