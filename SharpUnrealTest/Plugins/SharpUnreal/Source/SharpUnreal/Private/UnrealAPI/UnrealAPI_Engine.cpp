@@ -44,33 +44,115 @@ extern "C" static void MonoLog(const char *log_domain, const char *log_level, co
 	}
 }
 
-extern "C" static void UnrealEngine_Log_Debug(MonoString * content)
+//Log类函数注册
+static void UnrealEngine_Log_Debug(MonoString* content)
 {
 	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_to_utf16(content)));
 }
 
-extern "C" static void UnrealEngine_Log_Warning(MonoString * content)
+static void UnrealEngine_Log_Warning(MonoString* content)
 {
 	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_to_utf16(content)));
 }
 
-extern "C" static void UnrealEngine_Log_Error(MonoString * content)
+static void UnrealEngine_Log_Error(MonoString* content)
 {
-	GLog->Logf(ELogVerbosity::Error, *FString(mono_string_to_utf16(content)));	
+	GLog->Logf(ELogVerbosity::Error, *FString(mono_string_to_utf16(content)));
 }
+
+//World类函数注册
+static MonoString* UnrealEngine_World_GetCurrentLevel() 
+{	
+	UWorld* world = GEngine->GetWorld();
+	if (world != NULL) 
+	{
+		ULevel* level = world->GetCurrentLevel();
+		if (level != NULL) 
+		{
+			const TCHAR* name = *level->GetName();
+			MonoString* ret = mono_string_from_utf16((mono_unichar2*)name);
+			return ret;
+		}
+	}
+	else {
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When GetCurrentLevel."));
+	}
+	return NULL;
+}
+
+static void UnrealEngine_World_LoadStreamingLevel(MonoString* name) 
+{
+	UWorld* World = GEngine->GetWorld();
+	if (World != NULL)
+	{
+		FName LevelName((WIDECHAR*)mono_string_to_utf16(name));
+		FLatentActionInfo LatentInfo;
+		UGameplayStatics::LoadStreamLevel(World, LevelName,true,false,LatentInfo);
+
+	}
+	else {
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When LoadStreamingLevel."));
+	}
+}
+
+static void UnrealEngine_World_UnLoadStreamingLevel(MonoString* name)
+{
+	UWorld* World = GEngine->GetWorld();
+	if (World != NULL)
+	{
+		FName LevelName((WIDECHAR*)mono_string_to_utf16(name));
+		FLatentActionInfo LatentInfo;
+		UGameplayStatics::UnloadStreamLevel(World, LevelName, LatentInfo);
+
+	}
+	else {
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When UnLoadStreamingLevel."));
+	}
+}
+
+static AActor* UnrealEngine_World_SpwanActor(MonoString* path, FTransform* trans)
+{
+	UWorld* World = GEngine->GetWorld();
+	if (World == NULL) 
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When SpwanActor."));
+		return NULL;
+	}
+	
+	UClass* Class = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), 
+		nullptr, (const TCHAR*)mono_string_to_utf16(path)));
+	if (Class == NULL) 
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetClass When SpwanActor."));
+		return NULL;
+	}
+
+	return World->SpawnActor(Class, trans);
+}
+
+
 
 void UnrealAPI_Engine::RegisterAPI()
 {
-	mono_trace_set_log_handler(MonoLog, nullptr);
+	mono_trace_set_log_handler(MonoLog, NULL);
 	mono_trace_set_print_handler(MonoPrintf);
 	mono_trace_set_printerr_handler(MonoPrintf);
 
-	mono_add_internal_call("UnrealEngine.Log::Debug", reinterpret_cast<void*>(UnrealEngine_Log_Debug));
-	mono_add_internal_call("UnrealEngine.Log::Warning", reinterpret_cast<void*>(UnrealEngine_Log_Warning));
-	mono_add_internal_call("UnrealEngine.Log::Error", reinterpret_cast<void*>(UnrealEngine_Log_Error));
+	mono_add_internal_call("UnrealEngine.Log::Debug",
+		reinterpret_cast<void*>(UnrealEngine_Log_Debug));
+	mono_add_internal_call("UnrealEngine.Log::Warning", 
+		reinterpret_cast<void*>(UnrealEngine_Log_Warning));
+	mono_add_internal_call("UnrealEngine.Log::Error", 
+		reinterpret_cast<void*>(UnrealEngine_Log_Error));
 
-
-
+	mono_add_internal_call("UnrealEngine.World::GetCurrentLevel", 
+		reinterpret_cast<void*>(UnrealEngine_World_GetCurrentLevel));
+	mono_add_internal_call("UnrealEngine.World::LoadStreamingLevel",
+		reinterpret_cast<void*>(UnrealEngine_World_LoadStreamingLevel));
+	mono_add_internal_call("UnrealEngine.World::UnLoadStreamingLevel",
+		reinterpret_cast<void*>(UnrealEngine_World_UnLoadStreamingLevel)); 
+	mono_add_internal_call("UnrealEngine.World::_SpwanActor",
+			reinterpret_cast<void*>(UnrealEngine_World_SpwanActor));
 }
 
 

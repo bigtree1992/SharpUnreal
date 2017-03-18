@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
-    class SplienMesh
+    class DirectionalLightComponent
     {
     }
 }

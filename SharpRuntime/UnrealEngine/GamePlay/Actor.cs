@@ -1,34 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace UnrealEngine
 {
-    public class Actor
+    public class Actor : UObject
     {
-        /// <summary>
-        /// 设置跟获取可见性
-        /// </summary>
-        public bool Visible
+        public Actor()
         {
-            [MethodImpl(MethodImplOptions.InternalCall)]
-            get;
-            [MethodImpl(MethodImplOptions.InternalCall)]
-            set;
         }
-
+        public Actor(IntPtr handler)
+        {
+            m_NativeHandler = handler;
+        }
+        
         /// <summary>
         /// 设置跟获取是否隐藏
         /// </summary>
         public bool HiddenInGame
         {
-            [MethodImpl(MethodImplOptions.InternalCall)]
-            get;
-            [MethodImpl(MethodImplOptions.InternalCall)]
-            set;
+            get { return _GetHiddenInGame(m_NativeHandler); }
+            set { _SetHiddenInGame(m_NativeHandler, value); }
+        }
+
+        /// <summary>
+        /// 获取场景的根组件
+        /// </summary>
+        private SceneComponent m_Root;
+        public SceneComponent Root
+        {
+            get
+            {
+                if (m_Root == null)
+                {
+                    m_Root = new SceneComponent(_GetSceneComponent(m_NativeHandler));
+                }
+                return m_Root;
+            }
+            set { _SetSceneComponent(m_NativeHandler, value.GetNativeHandler()); }
         }
 
         /// <summary>
@@ -38,11 +47,8 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponent<T>() where T : ActorComponent 
         {
-            return GetComponent(typeof(T).Name) as T;
+            return new ActorComponent(_GetComponent(m_NativeHandler,typeof(T).Name)) as T;
         }
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern ActorComponent GetComponent(string type);
 
         /// <summary>
         /// 根据Tag查找Actor指定类型的组件
@@ -52,22 +58,30 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponentByTag<T>(string tag) where T : ActorComponent
         {
-            return GetComponentByTag(typeof(T).Name,tag) as T;
+            return new ActorComponent(_GetComponentByTag(m_NativeHandler, typeof(T).Name, tag) ) as T;                
         }
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern ActorComponent GetComponentByTag(string type, string tag);
-
-        /// <summary>
-        /// 获取当前世界的引用
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        public extern UWorld GetWorld();
-
+        
         /// <summary>
         /// 销毁这个Actor
         /// </summary>
+        public void Destroy()
+        {
+            _Destroy(m_NativeHandler);
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
-        public extern void Destroy();
+        private extern static bool _GetHiddenInGame(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetHiddenInGame(IntPtr handler, bool value);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _GetSceneComponent(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetSceneComponent(IntPtr handler, IntPtr value);
+        [MethodImpl(MethodImplOptions.InternalCall)]      
+        private extern static IntPtr _GetComponent(IntPtr handler, string type);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _GetComponentByTag(IntPtr handler, string type, string tag);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _Destroy(IntPtr handler);
     }
 }

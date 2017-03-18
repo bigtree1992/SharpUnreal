@@ -43,7 +43,7 @@
     <Compile Include="Component\Collision\BoxComponent.cs" />
     <Compile Include="Component\Base\CameraComponent.cs" />
     <Compile Include="Component\Collision\CapsuleComponent.cs" />
-    <Compile Include="Component\Light\DirectionalLight.cs" />
+    <Compile Include="Component\Light\DirectionalLightComponent.cs" />
     <Compile Include="Component\Light\SkyLightComponent.cs" />
     <Compile Include="Component\Light\SpotLightComponent.cs" />
     <Compile Include="Component\Movement\InterpToMovementComponent.cs" />
@@ -66,7 +66,7 @@
     <Compile Include="Component\Rendering\SkeletalComponent.cs" />
     <Compile Include="Component\Rendering\SkinnedMeshComponent.cs" />
     <Compile Include="Component\Collision\SphereComponent.cs" />
-    <Compile Include="Component\Rendering\SplienMesh.cs" />
+    <Compile Include="Component\Rendering\SplineMesh.cs" />
     <Compile Include="Component\Rendering\StaticMeshComponent.cs" />
     <Compile Include="Component\Rendering\TextRenderComponent.cs" />
     <Compile Include="Component\Base\SceneComponent.cs" />

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
-    public class UWorld
+    public class World
     {
         /// <summary>
         /// 获取当前的关卡名字
@@ -31,51 +27,18 @@ namespace UnrealEngine
         public extern static void UnLoadStreamingLevel(string name);
 
         /// <summary>
-        /// 根据Tag在世界中寻找Actor
+        /// 根据路径生成一个Actor
         /// </summary>
-        /// <param name="tag"></param>
+        /// <param name="path"></param>
+        /// <param name="trans"></param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        public extern static Actor FindActorByTag(string tag);
-
-        /// <summary>
-        /// 根据Tag在世界中寻找Actor
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public static T FindActorByTag<T>(string tag) where T : Actor
+        public static Actor SpwanActor(string path, Transform trans)
         {
-            return FindActorByTag(tag) as T;
-        }
-
-        /// <summary>
-        /// 在世界中查找指定类型的组件
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static T FindComponent<T>()
-        {
-            return default(T);
-        }
-
-        public static T[] FindComponents<T>()
-        {
-            return default(T[]);
-        }
-
-        public static T FindComponentByTag<T>(string tag)
-        {
-            return default(T);
-        }
-
-        public static T[] FindComponentsByTag<T>(string tag)
-        {
-            return default(T[]);
+            return new Actor(_SpwanActor(path, trans));
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        public extern static Actor SpwanActor(string path, Transform trans);
+        private extern static IntPtr _SpwanActor(string path, Transform trans);
     }
 
 }

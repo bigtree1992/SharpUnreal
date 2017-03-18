@@ -9,6 +9,11 @@ namespace UnrealEngine
     public class UObject
     {
         protected IntPtr m_NativeHandler;
+
+        public IntPtr GetNativeHandler()
+        {
+            return m_NativeHandler;
+        }
     }
 
 }
