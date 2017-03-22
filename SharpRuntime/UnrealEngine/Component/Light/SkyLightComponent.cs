@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
-    class SkyLightComponent
+    public class SkyLightComponent : LightComponent
     {
     }
 }

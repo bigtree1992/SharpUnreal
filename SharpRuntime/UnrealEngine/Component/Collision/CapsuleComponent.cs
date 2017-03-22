@@ -1,12 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace UnrealEngine
 {
-    class CapsuleComponent : ShapeComponent
+    public class CapsuleComponent : ShapeComponent
     {
+        public float CapsuleHalfHeight
+        {
+            get;
+            set;
+        }
+
+        public float CapsuleRadius
+        {
+            get;
+            set;
+        }
+
+        public float GetShapeScale()
+        {
+            return 0.0f;
+        }
     }
 }

@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace UnrealEngine
 {
     public class BoxComponent : ShapeComponent
     {
+        public Vector BoxExtent
+        {
+            get;
+            set;
+        }
+
+        public float GetShapeScale()
+        {
+            return 0.0f;
+        }
     }
 }

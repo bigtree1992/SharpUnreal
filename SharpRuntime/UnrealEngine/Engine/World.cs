@@ -39,6 +39,26 @@ namespace UnrealEngine
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _SpwanActor(string path, Transform trans);
+
+        /// <summary>
+        /// 在世界中根据Tag找到Actor
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public Actor FindByTag(string tag)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 根据路径加载一个材质
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Material LoadMaterial(string path)
+        {
+            return null;
+        }
     }
 
 }

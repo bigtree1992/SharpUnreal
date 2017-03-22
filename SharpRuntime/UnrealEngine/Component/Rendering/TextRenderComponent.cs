@@ -1,12 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
-    class TextRenderComponent
+    public class TextRenderComponent : PrimitiveComponent
     {
+        public string Text
+        {
+            get;
+            set;
+        }
+
+        public Color Color
+        {
+            get;
+            set;
+        }
+
+        public float XScale
+        {
+            get;
+            set;
+        }
+
+        public float YScale
+        {
+            get;
+            set;
+        }
+
+        public float WorldSize
+        {
+            get;
+            set;
+        }
+
+        public Material Material
+        {
+            get;
+            set;
+        }
     }
 }

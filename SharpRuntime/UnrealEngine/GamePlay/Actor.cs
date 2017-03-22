@@ -9,6 +9,7 @@ namespace UnrealEngine
         public Actor()
         {
         }
+
         public Actor(IntPtr handler)
         {
             m_NativeHandler = handler;
@@ -33,11 +34,18 @@ namespace UnrealEngine
             {
                 if (m_Root == null)
                 {
-                    m_Root = new SceneComponent(_GetSceneComponent(m_NativeHandler));
+                    var root = new SceneComponent();
+                    root.NativeHandler = _GetSceneComponent(m_NativeHandler);
+                    m_Root = root;
                 }
                 return m_Root;
             }
-            set { _SetSceneComponent(m_NativeHandler, value.GetNativeHandler()); }
+            set { _SetSceneComponent(m_NativeHandler, value.NativeHandler); }
+        }
+
+        public Sequencer Sequencer
+        {
+            get;
         }
 
         /// <summary>
@@ -47,7 +55,9 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponent<T>() where T : ActorComponent 
         {
-            return new ActorComponent(_GetComponent(m_NativeHandler,typeof(T).Name)) as T;
+            var ret = new ActorComponent() as T;
+            ret.NativeHandler = _GetComponent(m_NativeHandler, typeof(T).Name);
+            return ret;
         }
 
         /// <summary>
@@ -58,7 +68,9 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponentByTag<T>(string tag) where T : ActorComponent
         {
-            return new ActorComponent(_GetComponentByTag(m_NativeHandler, typeof(T).Name, tag) ) as T;                
+            var ret = new ActorComponent() as T;
+            ret.NativeHandler = _GetComponentByTag(m_NativeHandler, typeof(T).Name, tag);
+            return ret;               
         }
         
         /// <summary>

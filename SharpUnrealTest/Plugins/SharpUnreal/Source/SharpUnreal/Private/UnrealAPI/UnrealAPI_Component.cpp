@@ -1,6 +1,7 @@
 #include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "UnrealAPI_Component.h"
+#include "MonoComponent.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>
@@ -14,7 +15,8 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
-static mono_bool UnrealEngine_ActorComponent_GetActivited(UActorComponent* _this)
+#if 1
+static mono_bool UnrealEngine_ActorComponent_GetActivited(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -24,7 +26,7 @@ static mono_bool UnrealEngine_ActorComponent_GetActivited(UActorComponent* _this
 	return _this->bIsActive;
 }
 
-static void UnrealEngine_ActorComponent_SetActivited(UActorComponent* _this, bool value)
+static void UnrealEngine_ActorComponent_SetActivited(UMonoComponent* _this, bool value)
 {
 	if (_this == NULL)
 	{
@@ -34,7 +36,7 @@ static void UnrealEngine_ActorComponent_SetActivited(UActorComponent* _this, boo
 	_this->SetActive(value);
 }
 
-static mono_bool UnrealEngine_ActorComponent_GetCanEverTick(UActorComponent* _this)
+static mono_bool UnrealEngine_ActorComponent_GetCanEverTick(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -44,7 +46,7 @@ static mono_bool UnrealEngine_ActorComponent_GetCanEverTick(UActorComponent* _th
 	return _this->PrimaryComponentTick.bCanEverTick;
 }
 
-static void UnrealEngine_ActorComponent_SetCanEverTick(UActorComponent* _this, mono_bool value)
+static void UnrealEngine_ActorComponent_SetCanEverTick(UMonoComponent* _this, mono_bool value)
 {
 	if (_this == NULL)
 	{
@@ -54,7 +56,7 @@ static void UnrealEngine_ActorComponent_SetCanEverTick(UActorComponent* _this, m
 	_this->PrimaryComponentTick.bCanEverTick = value;
 }
 
-static AActor* UnrealEngine_ActorComponent_GetOwner(UActorComponent* _this)
+static AActor* UnrealEngine_ActorComponent_GetOwner(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -64,7 +66,7 @@ static AActor* UnrealEngine_ActorComponent_GetOwner(UActorComponent* _this)
 	return _this->GetOwner();
 }
 
-static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UActorComponent* _this, mono_bool bTickableWhenPaused)
+static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UMonoComponent* _this, mono_bool bTickableWhenPaused)
 {
 	if (_this == NULL)
 	{
@@ -74,7 +76,7 @@ static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UActorComponent* _
 	_this->SetTickableWhenPaused(bTickableWhenPaused != 0);
 }
 
-static mono_bool UnrealEngine_ActorComponent_HasTag(UActorComponent* _this, MonoString* tag)
+static mono_bool UnrealEngine_ActorComponent_HasTag(UMonoComponent* _this, MonoString* tag)
 {
 	if (_this == NULL)
 	{
@@ -90,7 +92,62 @@ static mono_bool UnrealEngine_ActorComponent_HasTag(UActorComponent* _this, Mono
 	return _this->ComponentHasTag(tag_name);
 }
 
-//
+static void UnrealEngine_ActorComponent_SendEvent(UMonoComponent* _this, MonoString* evt)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEvent But _this is NULL."));
+		return ;
+	}
+	if (evt == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEvent But evt is NULL."));
+		return ;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	_this->OnMonoEvent.Broadcast(evt_name);
+}
+
+static void UnrealEngine_ActorComponent_SendEventWithString(UMonoComponent* _this, MonoString* evt, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithString But _this is NULL."));
+		return ;
+	}
+	if (evt == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithString But evt is NULL."));
+		return ;
+	}
+	if (data == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithString But data is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
+	_this->OnMonoEventWithString.Broadcast(evt_name, data_string);
+}
+
+static void UnrealEngine_ActorComponent_SendEventWithInt(UMonoComponent* _this, MonoString* evt, int data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But _this is NULL."));
+		return ;
+	}
+	if (evt == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But evt is NULL."));
+		return ;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
+}
+#endif
+
+#if 1
 static FTransform UnrealEngine_SceneComponent_GetTransform(USceneComponent* _this)
 {
 	if (_this == NULL)
@@ -456,9 +513,12 @@ static void UnrealEngine_SceneComponent_SetHiddenInGame(USceneComponent* _this, 
 	}
 	_this->SetHiddenInGame(value != 0);
 }
+#endif
+
 
 void UnrealAPI_Component::RegisterAPI() 
 {
+	#if 1
 	//注册ActorComponent的函数
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetActivited",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetActivited));
@@ -474,7 +534,15 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SetTickableWhenPaused));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_HasTag",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_HasTag));
-
+	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEvent",
+		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEvent));
+	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEventWithString",
+		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithString));
+	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEventWithInt",
+		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithInt));
+	#endif
+	
+	#if 1
 	//注册SceneComponent的函数
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetTransform",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetTransform));
@@ -541,5 +609,7 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetHiddenInGame));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetHiddenInGame",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetHiddenInGame));
-	
+	#endif
+
+
 }

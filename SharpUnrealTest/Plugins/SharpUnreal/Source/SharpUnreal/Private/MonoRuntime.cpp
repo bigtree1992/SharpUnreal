@@ -4,7 +4,12 @@
 #include "Engine.h"
 #include "SharpUnreal.h"
 #include "MonoRuntime.h"
+#include "MonoCallbackTable.h"
+
 #include "UnrealAPI/UnrealAPI_Engine.h"
+#include "UnrealAPI/UnrealAPI_Math.h"
+#include "UnrealAPI/UnrealAPI_Component.h"
+#include "UnrealAPI/UnrealAPI_GamePlay.h"
 
 #include <mono/jit/jit.h>
 #include "mono/metadata/metadata.h"
@@ -52,10 +57,15 @@ void MonoRuntime::DestoryInstance()
 			//unload之前必须切换到根domain
 			mono_domain_set(s_Instance->m_RootDomain, 0);
 			mono_domain_unload(s_Instance->m_ChildDomain);
+			MonoCallbackTable::DestroyAllCallback();
 		}
+
 		s_Instance->m_ChildDomain = NULL;
 		s_Instance->m_MainAssembly = NULL;
 		s_Instance->m_MainImage = NULL;
+		s_Instance->m_MainAssembly = NULL;
+		s_Instance->m_EngineAssembly = NULL;
+
 #if !WITH_EDITOR
 		mono_jit_cleanup(_domain);
 #endif
@@ -115,6 +125,7 @@ int MonoRuntime::ReloadMainAssembly()
 		//unload之前必须切换到根domain
 		mono_domain_set(m_RootDomain, 0);
 		mono_domain_unload(m_ChildDomain);
+		MonoCallbackTable::DestroyAllCallback();
 	}
 	m_ChildDomain = mono_domain_create_appdomain("SharpUnreal ChildDomain", NULL);
 	mono_domain_set(m_ChildDomain, 0);
@@ -144,7 +155,10 @@ int MonoRuntime::ReloadMainAssembly()
 	}
 
 	UnrealAPI_Engine::RegisterAPI();
-	
+	UnrealAPI_Math::RegisterAPI();
+	UnrealAPI_Component::RegisterAPI();
+	UnrealAPI_Game::RegisterAPI();
+
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));
 	if (!m_MainAssembly)
@@ -162,7 +176,6 @@ int MonoRuntime::ReloadMainAssembly()
 
 	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] MainAssembly.dll Load Success."));
 
-#if WITH_EDITOR
 	//编辑器模式下缓存所有ActorComponent的子类引用
 	m_ComponentNames = TArray<FString>();
 	if (m_RootDomain == NULL || m_ChildDomain == NULL ||
@@ -194,9 +207,11 @@ int MonoRuntime::ReloadMainAssembly()
 		{
 			const char * name = mono_class_get_name(klass);
 			m_ComponentNames.Add(FString(name));
+
+			//初始化创建类的回调函数
+			MonoCallbackTable::CreateClassCallback(klass);
 		}
 	}
-#endif
 	return 0;
 }
 
@@ -264,6 +279,12 @@ _MonoMethod* MonoRuntime::FindMethodByObj(_MonoObject* object, const char* name,
 
 _MonoObject* MonoRuntime::InvokeMethod(_MonoMethod *method, void *obj, void **params)
 {
+	if (method == NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InvokMethod] Method Is Null."));
+		return NULL;
+	}
+
 	MonoObject * ex = NULL;
 	_MonoObject* ret = mono_runtime_invoke(method, obj, params, &ex);
 	if (ex != NULL) 
@@ -275,11 +296,18 @@ _MonoObject* MonoRuntime::InvokeMethod(_MonoMethod *method, void *obj, void **pa
 	return ret;
 }
 
+_MonoClass* MonoRuntime::FindClassByName(const char* name)
+{
+	return mono_class_from_name(m_EngineImage, "UnrealEngine", name);
+}
+
 MonoRuntime::MonoRuntime()
 	: m_RootDomain(NULL)
 	, m_ChildDomain(NULL)
 	, m_MainAssembly(NULL)
 	, m_MainImage(NULL)
+	, m_EngineAssembly(NULL)
+	, m_EngineImage(NULL)
 {}
 
 

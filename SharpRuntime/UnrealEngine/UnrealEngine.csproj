@@ -44,6 +44,7 @@
     <Compile Include="Component\Base\CameraComponent.cs" />
     <Compile Include="Component\Collision\CapsuleComponent.cs" />
     <Compile Include="Component\Light\DirectionalLightComponent.cs" />
+    <Compile Include="Component\Light\LightComponent.cs" />
     <Compile Include="Component\Light\SkyLightComponent.cs" />
     <Compile Include="Component\Light\SpotLightComponent.cs" />
     <Compile Include="Component\Movement\InterpToMovementComponent.cs" />
@@ -55,18 +56,17 @@
     <Compile Include="Component\Rendering\DecalMeshComponent.cs" />
     <Compile Include="Component\Rendering\MaterialBillboardComponent.cs" />
     <Compile Include="Component\Rendering\MeshComponent.cs" />
-    <Compile Include="Component\Base\MotionControllerComponent.cs" />
     <Compile Include="Component\Movement\MovementComponent.cs" />
     <Compile Include="Component\Rendering\ParticleSystemComponent.cs" />
     <Compile Include="Component\Light\PointLightComponent.cs" />
-    <Compile Include="Component\Collision\PrimitiveComponent.cs" />
+    <Compile Include="Component\Base\PrimitiveComponent.cs" />
     <Compile Include="Component\Movement\ProjectileMovementComponent.cs" />
     <Compile Include="Component\Movement\RotatingMovementComponent.cs" />
     <Compile Include="Component\Collision\ShapeComponent.cs" />
     <Compile Include="Component\Rendering\SkeletalComponent.cs" />
     <Compile Include="Component\Rendering\SkinnedMeshComponent.cs" />
     <Compile Include="Component\Collision\SphereComponent.cs" />
-    <Compile Include="Component\Rendering\SplineMesh.cs" />
+    <Compile Include="Component\Rendering\SplineMeshComponent.cs" />
     <Compile Include="Component\Rendering\StaticMeshComponent.cs" />
     <Compile Include="Component\Rendering\TextRenderComponent.cs" />
     <Compile Include="Component\Base\SceneComponent.cs" />
@@ -76,7 +76,6 @@
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\WorldSettings.cs" />
     <Compile Include="GamePlay\Actor.cs" />
-    <Compile Include="GamePlay\Pawn.cs" />
     <Compile Include="MainEntry.cs" />
     <Compile Include="Component\Base\ActorComponent.cs" />
     <Compile Include="Math\Axis.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="Rendering\Material.cs" />
     <Compile Include="Animation\Sequencer.cs" />
     <Compile Include="Animation\Timeline.cs" />
+    <Compile Include="Rendering\MaterialInstance.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

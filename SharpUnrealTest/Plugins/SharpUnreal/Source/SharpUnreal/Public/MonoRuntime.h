@@ -29,6 +29,8 @@ public:
 	_MonoMethod* FindMethodByObj(_MonoObject* object, const char* name, int paramCount);
 	_MonoObject* InvokeMethod(_MonoMethod* method, void *obj, void **params);
 
+	_MonoClass* FindClassByName(const char* name);
+
 	MonoRuntime();
 private:
 	void CopyToTarget(FString &target);

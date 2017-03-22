@@ -31,7 +31,43 @@ namespace UnrealEngine
             set;
         }
 
-        public void AddEvent(string evt,Action callback) {}
-        public void RemoveEvent(string evt) { }
+        public float PlayRate
+        {
+            get;
+            set;
+        }
+
+        public float StartTime
+        {
+            get;
+        }
+
+        public float EndTime
+        {
+            get;
+        }
+
+        public void SetPlaybackRange(float startTime, float endTime)
+        {
+
+        }
+
+        #region 设置回调
+        public void RegSequencerStart(ActorComponent _this)
+        {
+
+        }
+
+        public void RegSequencerPause(ActorComponent _this)
+        {
+
+        }
+
+        public void RegSequencerStop(ActorComponent _this)
+        {
+
+        }
+        
+        #endregion
     }
 }

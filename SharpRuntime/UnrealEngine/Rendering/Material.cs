@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace UnrealEngine
 {
-    public class Material
+    /// <summary>
+    /// 表示一个材质
+    /// </summary>
+    public class Material : UObject
     {
+        public Material(IntPtr handler)
+        {
+            m_NativeHandler = handler;
+        }
     }
 }

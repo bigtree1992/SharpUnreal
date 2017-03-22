@@ -1,12 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
-    class PointLightComponent
+    public class PointLightComponent : LightComponent
     {
+        public float AttenuationRadius
+        {
+            get;set;
+        }
+        public float LightFalloffExponent
+        {
+            get; set;
+        }
+        public float SourceRadius
+        {
+            get; set;
+        }
+        public float SourceLength
+        {
+            get; set;
+        }
     }
 }

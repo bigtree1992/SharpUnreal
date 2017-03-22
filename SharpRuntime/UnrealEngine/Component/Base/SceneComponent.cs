@@ -6,9 +6,6 @@ namespace UnrealEngine
 {
     public class SceneComponent : ActorComponent
     {
-        public SceneComponent(IntPtr handler) : base(handler)
-        {}
-
         /// <summary>
         /// 设置跟获取可见性
         /// </summary>
@@ -146,7 +143,6 @@ namespace UnrealEngine
         public bool SimulatingPhysics
         {
             get { return _GetSimulatingPhysics(m_NativeHandler); }
-            set { _SetSimulatingPhysics(m_NativeHandler, value); }
         }
         
         public void AttachTo(SceneComponent parent, string socket)

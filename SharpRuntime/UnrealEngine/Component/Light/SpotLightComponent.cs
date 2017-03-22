@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnrealEngine
 {
-    public class SpotLightComponent
+    public class SpotLightComponent : LightComponent
     {
+        public float InnerConeAngle
+        {
+            get;set;
+        }
+
+        public float OuterConeAngle
+        {
+            get;set;
+        }
     }
 }

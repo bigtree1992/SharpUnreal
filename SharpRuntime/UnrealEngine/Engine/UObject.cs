@@ -10,9 +10,9 @@ namespace UnrealEngine
     {
         protected IntPtr m_NativeHandler;
 
-        public IntPtr GetNativeHandler()
+        public IntPtr NativeHandler
         {
-            return m_NativeHandler;
+            get;set;
         }
     }
 
