@@ -7,7 +7,6 @@ namespace UnrealEngine
     {
         public void ActivateSystem(bool bFlagAsJustAttached = false)
         {
-
         }
 
         public void DeactivateSystem()
@@ -21,7 +20,6 @@ namespace UnrealEngine
         public void SetFloatParameter(string ParameterName, float Param)
         {
         }
-
 
         public void SetVectorParameter(string ParameterName, Vector Param)
         {
@@ -65,6 +63,11 @@ namespace UnrealEngine
         }
 
         public void RegParticleCollide(ActorComponent _this)
+        {
+
+        }
+
+        public void RegSystemFinished(ActorComponent _this)
         {
 
         }

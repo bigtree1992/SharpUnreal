@@ -128,3 +128,108 @@ void UMonoComponent::SendEventToMono(const FString& Event)
 	}	
 }
 
+void UMonoComponent::OnAppDeactivate()
+{
+
+}
+
+void UMonoComponent::OnAppHasReactivated() 
+{
+
+}
+
+void UMonoComponent::OnAppWillEnterBackground() 
+{
+
+}
+
+void UMonoComponent::OnAppHasEnteredForeground() 
+{
+
+}
+
+void UMonoComponent::OnAppWillTerminate() 
+{
+
+}
+
+void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
+{
+
+}
+
+void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
+{
+
+}
+
+void UMonoComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
+{
+
+}
+
+void UMonoComponent::OnComponentWake(UPrimitiveComponent* WakingComponent, FName BoneName) 
+{
+
+}
+
+void UMonoComponent::OnComponentSleep(UPrimitiveComponent* SleepingComponent, FName BoneName) 
+{
+
+}
+
+void UMonoComponent::OnParticleSpawn(FName EventName, float EmitterTime, FVector Location, FVector Velocity)
+{
+
+}
+
+void UMonoComponent::OnParticleBurst(FName EventName, float EmitterTime, int32 ParticleCount)
+{
+
+}
+
+void UMonoComponent::OnParticleDeath(FName EventName, float EmitterTime, int32 ParticleTime,
+	FVector Location, FVector Velocity, FVector Direction) 
+{
+
+}
+
+void UMonoComponent::OnParticleCollide(FName EventName, float EmitterTime, int32 ParticleTime,
+	FVector Location, FVector Velocity, FVector Direction, 
+	FVector Normal, FName BoneName, UPhysicalMaterial* PhysMat) 
+{
+
+}
+
+void UMonoComponent::OnSystemFinished(UParticleSystemComponent* PSystem)
+{
+
+}
+
+void UMonoComponent::OnAudioFinished() 
+{
+
+}
+
+void UMonoComponent::OnAudioPlaybackPercent(const USoundWave* PlayingSoundWave, const float PlaybackPercen)
+{
+
+}
+
+void UMonoComponent::OnSequencerStart() 
+{
+
+}
+
+void UMonoComponent::OnSequencerPause() 
+{
+
+}
+
+void UMonoComponent::OnSequencerStop() 
+{
+
+}

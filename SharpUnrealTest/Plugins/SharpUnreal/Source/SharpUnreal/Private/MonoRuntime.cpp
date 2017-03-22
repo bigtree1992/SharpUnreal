@@ -154,10 +154,11 @@ int MonoRuntime::ReloadMainAssembly()
 		return 1003;
 	}
 
+	//注册C#调用C++的回调函数
 	UnrealAPI_Engine::RegisterAPI();
 	UnrealAPI_Math::RegisterAPI();
 	UnrealAPI_Component::RegisterAPI();
-	UnrealAPI_Game::RegisterAPI();
+	UnrealAPI_GamePlay::RegisterAPI();
 
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));

@@ -52,7 +52,7 @@ namespace UnrealEngine
 
         }
 
-        #region 设置回调
+        #region 设置事件回调
         public void RegSequencerStart(ActorComponent _this)
         {
 

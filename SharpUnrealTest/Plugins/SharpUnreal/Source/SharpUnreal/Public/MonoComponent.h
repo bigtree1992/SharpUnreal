@@ -45,7 +45,55 @@ public:
 	#endif
 
 	#if 1 // »Øµ÷º¯Êý
+	UFUNCTION()
+	void OnAppDeactivate();
+	UFUNCTION()
+	void OnAppHasReactivated();
+	UFUNCTION()
+	void OnAppWillEnterBackground();
+	UFUNCTION()
+	void OnAppHasEnteredForeground();
+	UFUNCTION()
+	void OnAppWillTerminate();
 	
+	UFUNCTION()
+	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
+		 UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	UFUNCTION()
+	void OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+		 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+		 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	UFUNCTION()
+	void OnComponentWake(UPrimitiveComponent* WakingComponent, FName BoneName);
+	UFUNCTION()
+	void OnComponentSleep(UPrimitiveComponent* SleepingComponent, FName BoneName);
+
+	UFUNCTION()
+	void OnParticleSpawn(FName EventName, float EmitterTime, FVector Location, FVector Velocity);
+	UFUNCTION()
+	void OnParticleBurst(FName EventName, float EmitterTime, int32 ParticleCount);
+	UFUNCTION()
+	void OnParticleDeath(FName EventName, float EmitterTime, int32 ParticleTime, 
+		FVector Location, FVector Velocity, FVector Direction);
+	UFUNCTION()
+	void OnParticleCollide(FName EventName, float EmitterTime, int32 ParticleTime, 
+		FVector Location, FVector Velocity, FVector Direction, FVector Normal, FName BoneName, UPhysicalMaterial* PhysMat);
+	UFUNCTION()
+	void OnSystemFinished(UParticleSystemComponent* PSystem);
+	
+	UFUNCTION()
+	void OnAudioFinished();
+	UFUNCTION()
+	void OnAudioPlaybackPercent(const class USoundWave* PlayingSoundWave, const float PlaybackPercent);
+	
+	UFUNCTION()
+	void OnSequencerStart();
+	UFUNCTION()
+	void OnSequencerPause();
+	UFUNCTION()
+	void OnSequencerStop();
 
 	#endif
 
