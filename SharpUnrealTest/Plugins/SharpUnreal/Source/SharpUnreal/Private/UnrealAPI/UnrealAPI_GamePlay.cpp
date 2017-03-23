@@ -1,5 +1,7 @@
 #include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
+#include "LevelSequenceActor.h"
+
 #include "UnrealAPI_GamePlay.h"
 #include "MonoClassTable.h"
 
@@ -121,6 +123,27 @@ static void Unrealengine_Actor_Destroy(AActor* _this)
 	_this->Destroy();
 }
 
+static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] GetSequencer But _this is NULL."));
+		return NULL;
+	}
+
+	if (!_this->IsA(ALevelSequenceActor::StaticClass()) )
+	{
+		return NULL;
+	}
+
+	ALevelSequenceActor* seq_actor = CastChecked<ALevelSequenceActor>(_this);
+	if (seq_actor == NULL)
+	{
+		return NULL;
+	}
+
+	return seq_actor->SequencePlayer;
+}
 
 void UnrealAPI_GamePlay::RegisterAPI()
 {
@@ -138,4 +161,6 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(Unrealengine_Actor_GetComponentByTag));
 	mono_add_internal_call("UnrealEngine.Actor::_Destroy",
 		reinterpret_cast<void*>(Unrealengine_Actor_Destroy));
+	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
+		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer));
 }

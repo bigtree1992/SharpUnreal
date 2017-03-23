@@ -34,9 +34,9 @@ namespace MainAssembly
         {
             Log.Error("[TestComponent] [BeginPlay] ");
         }
-        public override void EndPlay()
+        public override void EndPlay(EndPlayReason reason)
         {
-            Log.Error("[TestComponent] [EndPlay] ");
+            Log.Error("[TestComponent] [EndPlay] " + reason);
         }
 
         public override void OnEvent(string evt)

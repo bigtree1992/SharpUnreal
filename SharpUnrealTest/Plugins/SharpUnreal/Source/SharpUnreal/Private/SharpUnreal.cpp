@@ -17,7 +17,7 @@ void FSharpUnrealModule::ShutdownModule()
 
 void FSharpUnrealModule::ReloadMainAssembly()
 {
-	MonoRuntime::Instance()->ReloadMainAssembly();
+	MonoRuntime::Instance()->ReloadAssembly();
 }
 
 #undef LOCTEXT_NAMESPACE

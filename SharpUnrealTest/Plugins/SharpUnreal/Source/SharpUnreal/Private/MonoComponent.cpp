@@ -47,14 +47,18 @@ void UMonoComponent::InitializeComponent()
 	{
 		m_Handle = MonoRuntime::Instance()->RetainObject(m_MonoComponent);
 
-		m_Callback = MonoCallbackTable::GetCallbackByObject(m_MonoComponent);
+		m_Callback = MonoCallbackTable::GetCallbackByObject(m_MonoComponent);		
 		if (m_Callback == NULL)
 		{
 			m_Callback = new MonoCallback();
 			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Initialize Failed Callback NUL: %s."), *ComponentName);
 			return;
 		}
-		
+
+		//设置Mono对象的本地对象为自己
+		void * _this = this;
+		MonoRuntime::Instance()->SetNativeHandler(m_MonoComponent, &_this);
+		//调用Mono初始化方法
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->Initialize, m_MonoComponent, NULL);
 	}
@@ -96,8 +100,11 @@ void UMonoComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] EndPlay %s "), *ComponentName);
 	if (m_MonoComponent != NULL)
 	{
+		void *args[1];
+		auto reason = EndPlayReason;
+		args[0] = &reason;
 		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->EndPlay, m_MonoComponent, NULL);
+			m_Callback->EndPlay, m_MonoComponent, args);
 	}
 }
 
@@ -130,106 +137,312 @@ void UMonoComponent::SendEventToMono(const FString& Event)
 
 void UMonoComponent::OnAppDeactivate()
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAppDeactivate, m_MonoComponent, NULL);
+	}
 }
 
 void UMonoComponent::OnAppHasReactivated() 
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAppHasReactivated, m_MonoComponent, NULL);
+	}
 }
 
 void UMonoComponent::OnAppWillEnterBackground() 
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAppWillEnterBackground, m_MonoComponent, NULL);
+	}
 }
 
 void UMonoComponent::OnAppHasEnteredForeground() 
 {
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAppHasEnteredForeground, m_MonoComponent, NULL);
+	}
 
 }
 
 void UMonoComponent::OnAppWillTerminate() 
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAppWillTerminate, m_MonoComponent, NULL);
+	}
 }
 
 void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		//参数1 自己的组件
+		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(self, &HitComponent);
+		if (self == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
 
+		//参数2 碰撞组件
+		MonoObject* other = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
+		if (other == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
+		//参数3 作用点
+		FVector impact = Hit.ImpactPoint;
+
+		void *args[3];
+		args[0] = self;
+		args[1] = other;
+		args[2] = &impact;
+
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnComponentHit, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		//参数1 自己的组件
+		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(self, &OverlappedComponent);
+		if (self == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
+		//参数2 触发组件
+		MonoObject* other = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
+		if (other == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
+		//参数2 作用点
+		FVector impact = SweepResult.ImpactPoint;
 
+		void *args[3];
+		args[0] = self;
+		args[1] = other;
+		args[2] = &impact;
+
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnComponentBeginOverlap, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		//参数1 自己的组件
+		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(self, &OverlappedComponent);
+		if (self == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
+		//参数2 触发组件
+		MonoObject* other = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
+		if (other == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
 
+		void *args[2];
+		args[0] = self;
+		args[1] = other;
+
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnComponentEndOverlap, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnComponentWake(UPrimitiveComponent* WakingComponent, FName BoneName) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		//参数1 自己的组件
+		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(self, &WakingComponent);
+		if (self == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
 
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)BoneName.GetPlainWIDEString());
+		void *args[2];
+		args[0] = self;
+		args[1] = name;
+
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnComponentWake, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnComponentSleep(UPrimitiveComponent* SleepingComponent, FName BoneName) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		//参数1 自己的组件
+		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
+		MonoRuntime::Instance()->SetNativeHandler(self, &SleepingComponent);
+		if (self == NULL)
+		{
+			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			return;
+		}
 
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)BoneName.GetPlainWIDEString());
+		void *args[2];
+		args[1] = self;
+		args[1] = name;
+
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnComponentSleep, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnParticleSpawn(FName EventName, float EmitterTime, FVector Location, FVector Velocity)
 {
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)EventName.GetPlainWIDEString());
+		void *args[1];
+		args[0] = name;
 
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnParticleSpawn, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnParticleBurst(FName EventName, float EmitterTime, int32 ParticleCount)
 {
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)EventName.GetPlainWIDEString());
+		void *args[1];
+		args[0] = name;
 
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnParticleBurst, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnParticleDeath(FName EventName, float EmitterTime, int32 ParticleTime,
 	FVector Location, FVector Velocity, FVector Direction) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)EventName.GetPlainWIDEString());
+		void *args[1];
+		args[0] = name;
 
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnParticleDeath, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnParticleCollide(FName EventName, float EmitterTime, int32 ParticleTime,
 	FVector Location, FVector Velocity, FVector Direction, 
 	FVector Normal, FName BoneName, UPhysicalMaterial* PhysMat) 
 {
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)EventName.GetPlainWIDEString());
+		void *args[1];
+		args[0] = name;
 
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnParticleCollide, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnSystemFinished(UParticleSystemComponent* PSystem)
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)*PSystem->GetName());
+		void *args[1];
+		args[0] = name;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnSystemFinished, m_MonoComponent, args);
+	}
 }
 
-void UMonoComponent::OnAudioFinished() 
+void UMonoComponent::OnAudioFinished(const UAudioComponent* Audio)
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)*Audio->GetName());
+		void *args[1];
+		args[0] = name;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAudioFinished, m_MonoComponent, args);
+	}
 }
 
-void UMonoComponent::OnAudioPlaybackPercent(const USoundWave* PlayingSoundWave, const float PlaybackPercen)
+void UMonoComponent::OnAudioPlaybackPercent(const UAudioComponent* Audio,const USoundWave* PlayingSoundWave, const float PlaybackPercen)
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* name = mono_string_from_utf16((mono_unichar2*)*Audio->GetName());
+		float persent = PlaybackPercen;
+		void *args[2];
+		args[0] = name;
+		args[1] = &persent;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnAudioPlaybackPercent, m_MonoComponent, args);
+	}
 }
 
 void UMonoComponent::OnSequencerStart() 
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnSequencerStart, m_MonoComponent, NULL);
+	}
 }
 
 void UMonoComponent::OnSequencerPause() 
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnSequencerPause, m_MonoComponent, NULL);
+	}
 }
 
 void UMonoComponent::OnSequencerStop() 
 {
-
+	if (m_MonoComponent != NULL)
+	{
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnSequencerStop, m_MonoComponent, NULL);
+	}
 }

@@ -65,6 +65,7 @@ public class SharpUnreal : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "LevelSequence",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

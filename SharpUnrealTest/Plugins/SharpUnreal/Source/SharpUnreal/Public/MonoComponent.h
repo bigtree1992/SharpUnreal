@@ -84,9 +84,9 @@ public:
 	void OnSystemFinished(UParticleSystemComponent* PSystem);
 	
 	UFUNCTION()
-	void OnAudioFinished();
+	void OnAudioFinished(const UAudioComponent* Audio);
 	UFUNCTION()
-	void OnAudioPlaybackPercent(const class USoundWave* PlayingSoundWave, const float PlaybackPercent);
+	void OnAudioPlaybackPercent(const UAudioComponent* Audio,const class USoundWave* PlayingSoundWave, const float PlaybackPercent);
 	
 	UFUNCTION()
 	void OnSequencerStart();

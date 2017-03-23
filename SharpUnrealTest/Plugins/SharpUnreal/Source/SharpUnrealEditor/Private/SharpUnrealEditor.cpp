@@ -89,7 +89,7 @@ void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>&
 		const FString& Filename = FileChange.Filename;
 		
 		if (bActionRelevant && Filename.EndsWith(TEXT(".dll")) &&
-			(FPaths::GetBaseFilename(Filename) == TEXT("MainAssembly")))
+			(FPaths::GetBaseFilename(Filename) == TEXT("MainAssembly") || FPaths::GetBaseFilename(Filename) == TEXT("UnrealEngine")))
 		{
 			auto time = IFileManager::Get().GetTimeStamp(*MainAssemblyPath);
 			auto delta = time - LastAssemblyMotifyTimeStamp;
@@ -97,7 +97,7 @@ void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>&
 			//如果代码更新了而且编辑器没有再运行的话
 			if (delta.GetSeconds() > 1 && !IsEditorRunningGame)
 			{				
-				GLog->Logf(TEXT("[SharpUnrealEditor] FileChanged %s , %d"), *Filename, (int32)FileChange.Action);
+				//GLog->Logf(TEXT("[SharpUnrealEditor] FileChanged %s , %d"), *Filename;
 				//在这里可以进行Mono的dll重新加载了
 				auto& SharpUnreal =
 					FModuleManager::LoadModuleChecked<FSharpUnrealModule>("SharpUnreal");

@@ -17,13 +17,16 @@ public:
 	//获取Mono运行时的单例
 	static MonoRuntime* Instance();
 	//重新加载主逻辑脚本
-	int ReloadMainAssembly();
+	int ReloadAssembly();
 
 	TArray<FString> GetAllMonoComponent();
 	
 	_MonoObject* CreateObject(const char * name);
+	_MonoObject* CreateObjectFromEngine(const char * name);
 	uint32_t RetainObject(_MonoObject* object);
 	void FreeObject(uint32_t handle);
+
+	void SetNativeHandler(_MonoObject* object, void* handler);
 
 	_MonoMethod* FindMethod(_MonoClass* klass,const char* name, int paramCount);
 	_MonoMethod* FindMethodByObj(_MonoObject* object, const char* name, int paramCount);
@@ -33,7 +36,7 @@ public:
 
 	MonoRuntime();
 private:
-	void CopyToTarget(FString &target);
+	void CopyToTarget(const FString& source, const FString &target);
 private:
 	struct _MonoDomain*		m_RootDomain;
 	struct _MonoDomain*		m_ChildDomain;

@@ -37,7 +37,7 @@ int MonoRuntime::CreateInstance()
 		GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] RootDomain Created."));
 	}
 
-	int ret = s_Instance->ReloadMainAssembly();
+	int ret = s_Instance->ReloadAssembly();
 	if (ret != 0) 
 	{
 		return ret;
@@ -86,28 +86,28 @@ MonoRuntime* MonoRuntime::Instance()
 	return s_Instance;
 }
 
-void MonoRuntime::CopyToTarget(FString &target)
+void MonoRuntime::CopyToTarget(const FString& source,const FString &target)
 {
 	FString build = FPaths::ConvertRelativePathToFull(
 		FPaths::Combine(FPaths::GameDir(), TEXT("BuildLibs")));
 
-	FString source = build / TEXT("MainAssembly.dll");
+	FString source_path = build / *source;
 
-	if (FPaths::FileExists(source)) 
+	if (FPaths::FileExists(source_path))
 	{
 		IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
 		if (FPaths::FileExists(target)) 
 		{
 			PlatformFile.DeleteFile(*target);
 		}
-		if (!PlatformFile.CopyFile(*target, *source)) 
+		if (!PlatformFile.CopyFile(*target, *source_path))
 		{
-			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CopyAssembly Failed: %s,%s."),*target,*source);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CopyAssembly Failed: %s,%s."),*target,*source_path);
 		}
 	}
 }
 
-int MonoRuntime::ReloadMainAssembly()
+int MonoRuntime::ReloadAssembly()
 {
 	if (m_RootDomain == NULL)
 	{
@@ -130,9 +130,11 @@ int MonoRuntime::ReloadMainAssembly()
 	m_ChildDomain = mono_domain_create_appdomain("SharpUnreal ChildDomain", NULL);
 	mono_domain_set(m_ChildDomain, 0);
 
+#if WITH_EDITOR
 	//复制并覆盖文件
-	CopyToTarget(assembly_path);
-
+	CopyToTarget(TEXT("MainAssembly.dll"), assembly_path);
+	CopyToTarget(TEXT("UnrealEngine.dll"), engine_path);
+#endif
 	if (!FPaths::FileExists(assembly_path))
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] MainAssembly.dll NotExist."));
@@ -174,10 +176,7 @@ int MonoRuntime::ReloadMainAssembly()
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get MainAssembly.dll Image Failed!!"));
 		return 1003;
 	}
-
-	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] MainAssembly.dll Load Success."));
-
-	//编辑器模式下缓存所有ActorComponent的子类引用
+	//下缓存所有ActorComponent的子类引用
 	m_ComponentNames = TArray<FString>();
 	if (m_RootDomain == NULL || m_ChildDomain == NULL ||
 		m_MainAssembly == NULL || m_MainImage == NULL)
@@ -207,12 +206,14 @@ int MonoRuntime::ReloadMainAssembly()
 		if (mono_class_is_subclass_of(klass, base, false))
 		{
 			const char * name = mono_class_get_name(klass);
+			#if WITH_EDITOR			
 			m_ComponentNames.Add(FString(name));
-
+			#endif
 			//初始化创建类的回调函数
 			MonoCallbackTable::CreateClassCallback(klass);
 		}
 	}
+	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] ReloadAssembly Complete."));
 	return 0;
 }
 
@@ -247,6 +248,32 @@ _MonoObject* MonoRuntime::CreateObject(const char * name)
 	return obj;
 }
 
+_MonoObject* MonoRuntime::CreateObjectFromEngine(const char * name)
+{
+	if (m_EngineAssembly == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] m_EngineAssembly Is Null When CreateObjectFromEngine %s"), name);
+		return NULL;
+	}
+
+	MonoClass* klass = mono_class_from_name(m_EngineImage, "UnrealEngine", name);
+	if (klass == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObjectFromEngine But Can't Find %s "), name);
+		return NULL;
+	}
+
+	MonoObject* obj = mono_object_new(mono_domain_get(), klass);
+	if (obj == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObjectFromEngine Failed %s "), name);
+		return NULL;
+	}
+	mono_runtime_object_init(obj);
+
+	return obj;
+}
+
 uint32_t MonoRuntime::RetainObject(_MonoObject* object)
 {
 	return mono_gchandle_new(object, 1);
@@ -255,6 +282,13 @@ uint32_t MonoRuntime::RetainObject(_MonoObject* object)
 void MonoRuntime::FreeObject(uint32_t handle)
 {
 	mono_gchandle_free(handle);
+}
+
+void MonoRuntime::SetNativeHandler(_MonoObject* object, void* handler)
+{
+	MonoClass* klass = mono_object_get_class(object);
+	MonoClassField* field = mono_class_get_field_from_name(klass, "m_NativeHandler");
+	mono_field_set_value(object, field, handler);
 }
 
 _MonoMethod* MonoRuntime::FindMethod(_MonoClass* klass, const char* name, int paramCount)
