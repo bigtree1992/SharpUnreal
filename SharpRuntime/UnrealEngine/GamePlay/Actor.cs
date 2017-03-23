@@ -45,7 +45,12 @@ namespace UnrealEngine
 
         public Sequencer Sequencer
         {
-            get;
+            get
+            {
+                var sequencer = new Sequencer();
+                sequencer.NativeHandler = _GetSequencer(m_NativeHandler);
+                return sequencer;
+            }
         }
 
         /// <summary>
@@ -81,6 +86,8 @@ namespace UnrealEngine
             _Destroy(m_NativeHandler);
         }
 
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _GetSequencer(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _GetHiddenInGame(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]

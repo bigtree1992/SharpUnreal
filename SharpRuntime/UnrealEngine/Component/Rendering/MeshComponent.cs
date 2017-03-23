@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
@@ -15,7 +16,7 @@ namespace UnrealEngine
         /// <param name="value"></param>
         public void SetScalarParameter(string name, float value)
         {
-
+            _SetScalarParameter(m_NativeHandler,name, value);
         }
 
         /// <summary>
@@ -25,7 +26,12 @@ namespace UnrealEngine
         /// <param name="value"></param>
         public void SetVectorParameter(string name, LinearColor value)
         {
-
+            _SetVectorParameter(m_NativeHandler, name, value);
         }
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetScalarParameter(IntPtr handler, string name, float value);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetVectorParameter(IntPtr handler, string name, LinearColor value);
     }
 }

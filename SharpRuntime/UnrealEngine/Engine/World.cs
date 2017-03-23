@@ -32,33 +32,13 @@ namespace UnrealEngine
         /// <param name="path"></param>
         /// <param name="trans"></param>
         /// <returns></returns>
-        public static Actor SpwanActor(string path, Transform trans)
+        public static Actor SpwanActor(string path, ref Transform trans)
         {
-            return new Actor(_SpwanActor(path, trans));
+            return new Actor(_SpwanActor(path, ref trans));
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static IntPtr _SpwanActor(string path, Transform trans);
-
-        /// <summary>
-        /// 在世界中根据Tag找到Actor
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public Actor FindByTag(string tag)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 根据路径加载一个材质
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public Material LoadMaterial(string path)
-        {
-            return null;
-        }
+        private extern static IntPtr _SpwanActor(string path, ref Transform trans);
     }
 
 }

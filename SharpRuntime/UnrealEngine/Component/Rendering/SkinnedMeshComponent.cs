@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
@@ -7,80 +8,89 @@ namespace UnrealEngine
     {
         public int GetBoneIndex(string BoneName)
         {
-            return 0;
+            return _GetBoneIndex(m_NativeHandler,BoneName);
         }
+      
         public string GetBoneName(int BoneIndex)
         {
-            return "";
+            return _GetBoneName(m_NativeHandler,BoneIndex);
         }
-
+        
         public string GetSocketBoneName(string InSocketName)
         {
-            return "";
+            return _GetSocketBoneName(m_NativeHandler,InSocketName);
         }
+       
         public string GetParentBone(string BoneName)
         {
-            return "";
+            return _GetParentBone(m_NativeHandler,BoneName);
         }
-
+        
         public Matrix GetBoneMatrix(int BoneIndex)
         {
-            return Matrix.Identity;
+            return _GetBoneMatrix(m_NativeHandler,BoneIndex);
         }
-
+        
         public Transform GetBoneTransform(int BoneIndex, Transform LocalToWorld)
         {
-            return Transform.Identity;
+            return _GetBoneTransform(m_NativeHandler,BoneIndex,LocalToWorld);
         }
-
+       
         public Transform GetBoneTransform(int BoneIndex)
         {
-            return Transform.Identity;
+            return _GetBoneTransform(m_NativeHandler,BoneIndex);
         }
-
-        public enum EBoneSpaces
-        {
-            /** Set absolute position of bone in world space. */
-            WorldSpace,
-            /** Set position of bone in components reference frame. */
-            ComponentSpace
-            /** Set position of bone relative to parent bone. */
-            //LocalSpace		UMETA( DisplayName = "Parent Bone Space" ),
-        };
+        
         public Quat GetBoneQuaternion(string BoneName, EBoneSpaces space = EBoneSpaces.WorldSpace)
         {
-            return Quat.Identity;
-        }
+            return _GetBoneQuaternion(m_NativeHandler,BoneName,space);
+        }        
 
         public Vector GetBoneLocation(string BoneName, EBoneSpaces Space = EBoneSpaces.WorldSpace)
         {
-            return Vector.ZeroVector;
+            return _GetBoneLocation(m_NativeHandler,BoneName,Space);
         }
-
-        public enum EPhysBodyOp
-        {
-            /** Don't do anything. */
-            PBO_None,
-            /** Terminate - if you terminate, you won't be able to re-init when unhidden. */
-            PBO_Term,
-            /** Disable collision - it will enable collision when unhidden. */
-            PBO_Disable,
-            PBO_MAX
-        };
 
         public void HideBoneByName(string BoneName, EPhysBodyOp PhysBodyOption)
         {
-
-        }
-
+            _HideBoneByName(m_NativeHandler, BoneName, PhysBodyOption);
+        }  
+        
         public void UnHideBoneByName(string BoneName)
         {
-
+            _UnHideBoneByName(m_NativeHandler, BoneName);
         }
-
+        
         public bool IsBoneHiddenByName(string BoneName)
         {
-            return false;
+            return _IsBoneHiddenByName(m_NativeHandler,BoneName);
         }
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static int _GetBoneIndex(IntPtr handler, string BoneName);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static string _GetBoneName(IntPtr handler, int BoneIndex);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static string _GetSocketBoneName(IntPtr handler, string InSocketName);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static string _GetParentBone(IntPtr handler, string BoneName);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Matrix _GetBoneMatrix(IntPtr handler, int BoneIndex);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Transform _GetBoneTransform(IntPtr handler, int BoneIndex, Transform LocalToWorld);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Transform _GetBoneTransform(IntPtr handler, int BoneIndex);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Quat _GetBoneQuaternion(IntPtr handler, string BoneName, EBoneSpaces space);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Vector _GetBoneLocation(IntPtr handler, string BoneName, EBoneSpaces Space);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _HideBoneByName(IntPtr handler, string BoneName, EPhysBodyOp PhysBodyOption);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _UnHideBoneByName(IntPtr handler, string BoneName);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static bool _IsBoneHiddenByName(IntPtr handler, string BoneName);
+
     }
 }

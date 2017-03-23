@@ -4,20 +4,6 @@ using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
-    enum EEndPlayReason
-    {
-        /** When the Actor or Component is explicitly destroyed. */
-        Destroyed,
-        /** When the world is being unloaded for a level transition. */
-        LevelTransition,
-        /** When the world is being unloaded because PIE is ending. */
-        EndPlayInEditor,
-        /** When the level it is a member of is streamed out. */
-        RemovedFromWorld,
-        /** When the application is being exited. */
-        Quit,
-    };
-
     /// <summary>
     /// 组件脚本的基类
     /// </summary>
@@ -44,7 +30,7 @@ namespace UnrealEngine
         {
         }
 
-        public virtual void EndPlay()
+        public virtual void EndPlay(EndPlayReason reason)
         {
         }
 
@@ -143,47 +129,49 @@ namespace UnrealEngine
         {
         }
 
-        public virtual void OnComponentHit()
+        public virtual void OnComponentHit(PrimitiveComponent self,PrimitiveComponent comp,Vector impact)
         {
         }
 
-        public virtual void OnComponentBeginOverlap()
+        public virtual void OnComponentBeginOverlap(PrimitiveComponent self, PrimitiveComponent comp, Vector impact)
         {
         }
 
-        public virtual void OnComponentEndOverlap()
+        public virtual void OnComponentEndOverlap(PrimitiveComponent self, PrimitiveComponent comp)
         {
         }
 
-        public virtual void OnComponentWake()
+        public virtual void OnComponentWake(PrimitiveComponent self,string bone_name)
         {
         }
 
-        public virtual void OnComponentSleep()
+        public virtual void OnComponentSleep(PrimitiveComponent self,string bone_name)
         {
         }
 
-        public virtual void OnParticleSpawn()
+        public virtual void OnParticleSpawn(string event_name)
         {
         }
 
-        public virtual void OnParticleBurst()
+        public virtual void OnParticleBurst(string event_name)
         {
         }
 
-        public virtual void OnParticleDeath()
+        public virtual void OnParticleDeath(string event_name)
         {
         }
 
-        public virtual void OnParticleCollide()
+        public virtual void OnParticleCollide(string event_name)
+        {
+        }
+        public virtual void OnSystemFinished(string event_name)
+        {
+        }
+        public virtual void OnAudioFinished(string event_name)
         {
         }
 
-        public virtual void OnAudioFinished()
-        {
-        }
-
-        public virtual void OnAudioPlaybackPercent()
+        public virtual void OnAudioPlaybackPercent(string event_name,float percent)
         {
         }
 

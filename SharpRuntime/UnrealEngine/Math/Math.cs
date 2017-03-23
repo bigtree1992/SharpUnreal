@@ -110,7 +110,7 @@
         {
             return System.Math.Min(System.Math.Max(A, min), max);
         }
-        public static new int Clamp(int A, int min, int max)
+        public static int Clamp(int A, int min, int max)
         {
             return System.Math.Min(System.Math.Max(A, min), max);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
@@ -8,19 +8,30 @@ namespace UnrealEngine
     {
         public float CapsuleHalfHeight
         {
-            get;
-            set;
+            get { return _GetCapsuleHalfHeight(m_NativeHandler); }
+            set { _SetCapsuleHalfHeight(m_NativeHandler,value); }
         }
 
         public float CapsuleRadius
         {
-            get;
-            set;
+            get { return _GetCapsuleRadius(m_NativeHandler); }
+            set { _SetCapsuleHalfHeight(m_NativeHandler, value); }
         }
 
-        public float GetShapeScale()
+        public float ShapeScale
         {
-            return 0.0f;
+            get { return _GetGetShapeScale(m_NativeHandler); }
         }
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static float _GetCapsuleHalfHeight(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetCapsuleHalfHeight(IntPtr handler, float value);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static float _GetCapsuleRadius(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetCapsuleRadius(IntPtr handler, float value);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static float _GetGetShapeScale(IntPtr handler);
     }
 }

@@ -5,9 +5,5 @@ namespace UnrealEngine
 {
     public class MaterialInstance : Material
     {
-        public MaterialInstance(IntPtr handler) : base(handler)
-        {
-
-        }
     }
 }

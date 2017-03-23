@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
@@ -8,8 +9,13 @@ namespace UnrealEngine
 
         public Color ShapeColor
         {
-            get;
-            set;
+            get { return _GetShapeColor(m_NativeHandler); }
+            set { _SetShapeColor(m_NativeHandler, value); }
         }
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Color _GetShapeColor(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetShapeColor(IntPtr handler, Color value);
     }
 }

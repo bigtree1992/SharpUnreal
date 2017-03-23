@@ -9,9 +9,5 @@ namespace UnrealEngine
     /// </summary>
     public class Material : UObject
     {
-        public Material(IntPtr handler)
-        {
-            m_NativeHandler = handler;
-        }
     }
 }
