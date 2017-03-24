@@ -133,12 +133,14 @@ static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
 
 	if (!_this->IsA(ALevelSequenceActor::StaticClass()) )
 	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] GetSequencer _this Not is LevelSequenceActor."));
 		return NULL;
 	}
 
 	ALevelSequenceActor* seq_actor = CastChecked<ALevelSequenceActor>(_this);
 	if (seq_actor == NULL)
 	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] GetSequencer _this Cast To LevelSequenceActor Failed."));
 		return NULL;
 	}
 

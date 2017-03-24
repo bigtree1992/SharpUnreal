@@ -420,12 +420,12 @@ void UMonoComponent::OnAudioPlaybackPercent(const UAudioComponent* Audio,const U
 	}
 }
 
-void UMonoComponent::OnSequencerStart() 
+void UMonoComponent::OnSequencerPlay() 
 {
 	if (m_MonoComponent != NULL)
 	{
 		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->OnSequencerStart, m_MonoComponent, NULL);
+			m_Callback->OnSequencerPlay, m_MonoComponent, NULL);
 	}
 }
 

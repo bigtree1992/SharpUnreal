@@ -39,7 +39,7 @@ struct MonoCallback
 	_MonoMethod* OnSystemFinished;
 	_MonoMethod* OnAudioFinished;
 	_MonoMethod* OnAudioPlaybackPercent;
-	_MonoMethod* OnSequencerStart;
+	_MonoMethod* OnSequencerPlay;
 	_MonoMethod* OnSequencerPause;
 	_MonoMethod* OnSequencerStop;
 
@@ -72,7 +72,7 @@ struct MonoCallback
 		OnSystemFinished = NULL;
 		OnAudioFinished = NULL;
 		OnAudioPlaybackPercent = NULL;
-		OnSequencerStart = NULL;
+		OnSequencerPlay = NULL;
 		OnSequencerPause = NULL;
 		OnSequencerStop = NULL;
 	}

@@ -56,7 +56,7 @@ void MonoCallbackTable::CreateClassCallback(_MonoClass* klass)
 	m_Callback->OnSystemFinished = MonoRuntime::Instance()->FindMethod(klass, "OnSystemFinished", 1);
 	m_Callback->OnAudioFinished = MonoRuntime::Instance()->FindMethod(klass, "OnAudioFinished", 1);
 	m_Callback->OnAudioPlaybackPercent = MonoRuntime::Instance()->FindMethod(klass, "OnAudioPlaybackPercent", 2);
-	m_Callback->OnSequencerStart = MonoRuntime::Instance()->FindMethod(klass, "OnSequencerStart", -1);
+	m_Callback->OnSequencerPlay = MonoRuntime::Instance()->FindMethod(klass, "OnSequencerPlay", -1);
 	m_Callback->OnSequencerPause = MonoRuntime::Instance()->FindMethod(klass, "OnSequencerPause", -1);
 	m_Callback->OnSequencerStop = MonoRuntime::Instance()->FindMethod(klass, "OnSequencerStop", -1);
 

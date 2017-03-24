@@ -89,7 +89,7 @@ public:
 	void OnAudioPlaybackPercent(const UAudioComponent* Audio,const class USoundWave* PlayingSoundWave, const float PlaybackPercent);
 	
 	UFUNCTION()
-	void OnSequencerStart();
+	void OnSequencerPlay();
 	UFUNCTION()
 	void OnSequencerPause();
 	UFUNCTION()

@@ -9,40 +9,40 @@ namespace UnrealEngine
 
         public void RegAppDeactivate(ActorComponent _this)
         {
-            _RegAppDeactivate(_this.NativeHandler);
+            _RegAppDeactivate(m_NativeHandler, _this.NativeHandler);
         }
 
         public void RegAppHasReactivated(ActorComponent _this)
         {
-            _RegAppHasReactivated(_this.NativeHandler);
+            _RegAppHasReactivated(m_NativeHandler,_this.NativeHandler);
         }
 
         public void RegAppWillEnterBackground(ActorComponent _this)
         {
-            _RegAppWillEnterBackground(_this.NativeHandler);
+            _RegAppWillEnterBackground(m_NativeHandler, _this.NativeHandler);
         }
 
         public void RegAppHasEnteredForeground(ActorComponent _this)
         {
-            _RegAppHasEnteredForeground(_this.NativeHandler);
+            _RegAppHasEnteredForeground(m_NativeHandler, _this.NativeHandler);
         }
 
         public void RegAppWillTerminate(ActorComponent _this)
         {
-            _RegAppWillTerminate(_this.NativeHandler);
+            _RegAppWillTerminate(m_NativeHandler, _this.NativeHandler);
         }
         #endregion
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAppDeactivate(IntPtr handler);
+        private extern static void _RegAppDeactivate(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAppHasReactivated(IntPtr handler);
+        private extern static void _RegAppHasReactivated(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAppWillEnterBackground(IntPtr handler);
+        private extern static void _RegAppWillEnterBackground(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAppHasEnteredForeground(IntPtr handler);
+        private extern static void _RegAppHasEnteredForeground(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAppWillTerminate(IntPtr handler);
+        private extern static void _RegAppWillTerminate(IntPtr handler, IntPtr listener);
 
     }
 }

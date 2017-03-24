@@ -175,7 +175,7 @@ namespace UnrealEngine
         {
         }
 
-        public virtual void OnSequencerStart()
+        public virtual void OnSequencerPlay()
         {
         }
 

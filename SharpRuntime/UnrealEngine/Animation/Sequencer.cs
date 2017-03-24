@@ -76,9 +76,9 @@ namespace UnrealEngine
         }
 
         #region 设置事件回调
-        public void RegSequencerStart(ActorComponent _this)
+        public void RegSequencerPlay(ActorComponent _this)
         {
-            _RegSequencerStart(m_NativeHandler,_this.NativeHandler);
+            _RegSequencerPlay(m_NativeHandler,_this.NativeHandler);
         }
         
         public void RegSequencerPause(ActorComponent _this)
@@ -115,7 +115,7 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetPlaybackRange(IntPtr handler, float startTime, float endTime);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegSequencerStart(IntPtr handler, IntPtr listener);
+        private extern static void _RegSequencerPlay(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _RegSequencerPause(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]

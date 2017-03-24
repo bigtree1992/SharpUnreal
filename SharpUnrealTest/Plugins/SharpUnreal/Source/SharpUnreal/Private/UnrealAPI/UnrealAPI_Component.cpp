@@ -2,6 +2,8 @@
 #include "SharpUnreal.h"
 #include "UnrealAPI_Component.h"
 #include "MonoComponent.h"
+#include "Components/ApplicationLifecycleComponent.h"
+#include "Camera/CameraComponent.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>
@@ -516,6 +518,135 @@ static void UnrealEngine_SceneComponent_SetHiddenInGame(USceneComponent* _this, 
 }
 #endif
 
+#if 1
+//
+static void UnrealEngine_AppLifecycleComponent_RegAppDeactivate(UApplicationLifecycleComponent* _this, UMonoComponent* listener)
+{
+	FScriptDelegate del;
+	del.BindUFunction(listener, FName(TEXT("OnAppDeactivate")));
+	_this->ApplicationWillDeactivateDelegate.Add(del);
+}
+static void UnrealEngine_AppLifecycleComponent_RegAppHasReactivated(UApplicationLifecycleComponent* _this, UMonoComponent* listener)
+{
+	FScriptDelegate del;
+	del.BindUFunction(listener, FName(TEXT("OnAppHasReactivated")));
+	_this->ApplicationWillDeactivateDelegate.Add(del);
+}
+
+static void UnrealEngine_AppLifecycleComponent_RegAppWillEnterBackground(UApplicationLifecycleComponent* _this, UMonoComponent* listener)
+{
+	FScriptDelegate del;
+	del.BindUFunction(listener, FName(TEXT("OnAppWillEnterBackground")));
+	_this->ApplicationWillDeactivateDelegate.Add(del);
+}
+
+static void UnrealEngine_AppLifecycleComponent_RegAppHasEnteredForeground(UApplicationLifecycleComponent* _this, UMonoComponent* listener)
+{
+	FScriptDelegate del;
+	del.BindUFunction(listener, FName(TEXT("OnAppHasEnteredForeground")));
+	_this->ApplicationWillDeactivateDelegate.Add(del);
+}
+
+static void UnrealEngine_AppLifecycleComponent_RegAppWillTerminate(UApplicationLifecycleComponent* _this, UMonoComponent* listener)
+{
+	FScriptDelegate del;
+	del.BindUFunction(listener, FName(TEXT("OnAppWillTerminate")));
+	_this->ApplicationWillDeactivateDelegate.Add(del);
+}
+#endif
+
+#if 1
+
+static float UnrealEngine_CameraComponent_GetFieldOfView(UCameraComponent* _this) 
+{
+	return _this->FieldOfView;
+}
+
+static void UnrealEngine_CameraComponent_SetFieldOfView(UCameraComponent* _this, float FieldOfView)
+{
+	_this->SetFieldOfView(FieldOfView);
+}
+
+static float UnrealEngine_CameraComponent_GetOrthoWidth(UCameraComponent* _this) 
+{
+	return _this->OrthoWidth;
+}
+
+static void UnrealEngine_CameraComponent_SetOrthoWidth(UCameraComponent* _this, float value) 
+{
+	_this->SetOrthoWidth(value);
+}
+
+static float UnrealEngine_CameraComponent_GetOrthoNearClipPlane(UCameraComponent* _this) 
+{
+	return _this->OrthoNearClipPlane;
+}
+
+static void UnrealEngine_CameraComponent_SetOrthoNearClipPlane(UCameraComponent* _this, float value) 
+{
+	_this->SetOrthoNearClipPlane(value);
+}
+
+static float UnrealEngine_CameraComponent_GetOrthoFarClipPlane(UCameraComponent* _this) 
+{
+	return _this->OrthoFarClipPlane;
+}
+
+static void UnrealEngine_CameraComponent_SetOrthoFarClipPlane(UCameraComponent* _this, float value) 
+{
+	_this->SetOrthoFarClipPlane(value);
+}
+
+static float UnrealEngine_CameraComponent_GetAspectRatio(UCameraComponent* _this) 
+{
+	return _this->AspectRatio;
+}
+
+static void UnrealEngine_CameraComponent_SetAspectRatio(UCameraComponent* _this, float value) 
+{
+	_this->SetAspectRatio(value);
+}
+
+static bool UnrealEngine_CameraComponent_GetConstrainAspectRatio(UCameraComponent* _this) 
+{
+	return _this->bConstrainAspectRatio;
+}
+
+static void UnrealEngine_CameraComponent_SetConstrainAspectRatio(UCameraComponent* _this, bool value) 
+{
+	_this->SetConstraintAspectRatio(value);
+}
+
+static bool UnrealEngine_CameraComponent_GetUseFieldOfViewForLOD(UCameraComponent* _this) 
+{
+	return _this->bUseFieldOfViewForLOD;
+}
+
+static void UnrealEngine_CameraComponent_SetUseFieldOfViewForLOD(UCameraComponent* _this, bool value) 
+{
+	_this->SetUseFieldOfViewForLOD(value);
+}
+
+static bool UnrealEngine_CameraComponent_GetLockToHmd(UCameraComponent* _this) 
+{
+	return _this->bLockToHmd;
+}
+
+static void UnrealEngine_CameraComponent_SetLockToHmd(UCameraComponent* _this, bool value) 
+{
+	_this->bLockToHmd = value;
+}
+
+static bool UnrealEngine_CameraComponent_GetUsePawnControlRotation(UCameraComponent* _this) 
+{
+	return _this->bUsePawnControlRotation;
+}
+
+static void UnrealEngine_CameraComponent_SetUsePawnControlRotation(UCameraComponent* _this, bool value) 
+{
+	_this->bUsePawnControlRotation = value;
+}
+#endif
 
 void UnrealAPI_Component::RegisterAPI() 
 {
@@ -611,6 +742,59 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetHiddenInGame",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetHiddenInGame));
 	#endif
+	
+	#if 1
+	//注册AppLifecycleComponent的回调
+	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppDeactivate",
+		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppDeactivate));
+	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppHasReactivated",
+		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppHasReactivated));
+	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppWillEnterBackground",
+		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppWillEnterBackground));
+	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppHasEnteredForeground",
+		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppHasEnteredForeground));
+	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppWillTerminate",
+		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppWillTerminate));
+	#endif
 
+	#if 1
+	//注册CameraComponent的函数
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetFieldOfView",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetFieldOfView));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetFieldOfView",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetFieldOfView));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetOrthoWidth",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetOrthoWidth));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetOrthoWidth",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetOrthoWidth));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetOrthoNearClipPlane",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetOrthoNearClipPlane));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetOrthoNearClipPlane",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetOrthoNearClipPlane));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetOrthoFarClipPlane",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetOrthoFarClipPlane));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetOrthoFarClipPlane",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetOrthoFarClipPlane));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetAspectRatio",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetAspectRatio));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetAspectRatio",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetAspectRatio));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetConstrainAspectRatio",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetConstrainAspectRatio));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetConstrainAspectRatio",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetConstrainAspectRatio));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetUseFieldOfViewForLOD",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetUseFieldOfViewForLOD));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetUseFieldOfViewForLOD",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetUseFieldOfViewForLOD));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetLockToHmd",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetLockToHmd));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetLockToHmd",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetLockToHmd));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_GetUsePawnControlRotation",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetUsePawnControlRotation));
+	mono_add_internal_call("UnrealEngine.CameraComponent::_SetUsePawnControlRotation",
+		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetUsePawnControlRotation));
 
+	#endif
 }

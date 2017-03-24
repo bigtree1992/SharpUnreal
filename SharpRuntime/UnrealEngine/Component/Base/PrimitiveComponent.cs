@@ -14,13 +14,14 @@ namespace UnrealEngine
         public virtual Material GetMaterial(int elementIndex)
         {
             var h = _GetMaterial(m_NativeHandler, elementIndex);
-            if (h.ToInt64() != 0)
+            if (h.ToInt64() == 0)
             {
-                var mat = new Material();
-                mat.NativeHandler = _GetMaterial(m_NativeHandler, elementIndex);
-                return mat;
+                return null;
             }
-            return null;
+
+            var mat = new Material();
+            mat.NativeHandler = _GetMaterial(m_NativeHandler, elementIndex);
+            return mat;            
         }
         
         public virtual void SetMaterial(int elementIndex, Material material)

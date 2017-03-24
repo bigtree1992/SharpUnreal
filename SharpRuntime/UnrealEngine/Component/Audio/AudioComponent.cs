@@ -69,12 +69,12 @@ namespace UnrealEngine
         #region 设置事件回调
         public void RegAudioFinished(ActorComponent _this)
         {
-            _RegAudioFinished(_this.NativeHandler);
+            _RegAudioFinished(m_NativeHandler,_this.NativeHandler);
         }
 
         public void RegAudioPlaybackPercent(ActorComponent _this)
         {
-            _RegAudioPlaybackPercent(_this.NativeHandler);
+            _RegAudioPlaybackPercent(m_NativeHandler, _this.NativeHandler);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -98,9 +98,9 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetPaused(IntPtr handler, bool bPause);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAudioFinished(IntPtr handler);
+        private extern static void _RegAudioFinished(IntPtr handler,IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegAudioPlaybackPercent(IntPtr handler);
+        private extern static void _RegAudioPlaybackPercent(IntPtr handler,IntPtr listener);
 
         #endregion
     }
