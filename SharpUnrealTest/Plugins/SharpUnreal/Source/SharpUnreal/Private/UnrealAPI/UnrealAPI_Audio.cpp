@@ -37,7 +37,7 @@ static void UnrealAPI_AudioComponent_SetPriority(UAudioComponent* _this, float p
 
 static float UnrealAPI_AudioComponent_GetPitchMultiplier(UAudioComponent* _this) 
 {
-	_this->PitchMultiplier;
+	return _this->PitchMultiplier;
 }
 
 static void UnrealAPI_AudioComponent_SetPitchMultiplier(UAudioComponent* _this, float multiplier) 
