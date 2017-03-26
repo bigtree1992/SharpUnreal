@@ -9,6 +9,8 @@ struct _MonoClass;
 class MonoClassTable
 {
 public:
-	static UClass* GetUClassFromMonoClass(_MonoClass* mono_class);
+	static void CreateTable();
+	static void DestroyTable();
+	static UClass* GetUClassFromName(const FName& name);
 
 };

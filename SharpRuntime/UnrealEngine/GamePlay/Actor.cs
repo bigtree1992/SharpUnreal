@@ -60,8 +60,13 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponent<T>() where T : ActorComponent 
         {
+            var handler = _GetComponent(m_NativeHandler, typeof(T).Name);
+            if(handler == null)
+            {
+                return null;
+            }
             var ret = new ActorComponent() as T;
-            ret.NativeHandler = _GetComponent(m_NativeHandler, typeof(T).Name);
+            ret.NativeHandler = handler;
             return ret;
         }
 
@@ -73,9 +78,14 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponentByTag<T>(string tag) where T : ActorComponent
         {
+            var handler = _GetComponentByTag(m_NativeHandler, typeof(T).Name, tag);
+            if (handler == null)
+            {
+                return null;
+            }
             var ret = new ActorComponent() as T;
-            ret.NativeHandler = _GetComponentByTag(m_NativeHandler, typeof(T).Name, tag);
-            return ret;               
+            ret.NativeHandler = handler;
+            return ret;
         }
         
         /// <summary>

@@ -70,19 +70,14 @@ static UActorComponent* Unrealengine_Actor_GetComponent(AActor* _this, MonoStrin
 		return NULL;
 	}
 
-	FString type_name = FString((TCHAR*)mono_string_to_utf16(type));
-	auto components = _this->GetComponents();
-	//ToDo:: 优化速度
-	for (auto component : components)
+	FName type_name = FName((TCHAR*)mono_string_to_utf16(type));
+	UClass* type_class = MonoClassTable::GetUClassFromName(type_name);
+	if (type_class == NULL) 
 	{
-		if (component != NULL)
-		{
-			if (component->GetClass()->GetName().Contains(type_name))
-			{
-				return component;
-			}
-		}
+		return NULL;
 	}
+
+	_this->GetComponentByClass(type_class);
 
 	return NULL;
 }
@@ -96,15 +91,16 @@ static UActorComponent* Unrealengine_Actor_GetComponentByTag(AActor* _this, Mono
 	}
 
 	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
-	FString type_name = FString((TCHAR*)mono_string_to_utf16(type));
-
+	FName type_name = FName((TCHAR*)mono_string_to_utf16(type));
+	UClass* type_class = MonoClassTable::GetUClassFromName(type_name);
+	
 	auto components = _this->GetComponentsByTag(UActorComponent::StaticClass(), tag_name);
 	for (int32 i = 0; i < components.Num(); i++)
 	{
 		auto component = components[i];
 		if (component != NULL)
 		{
-			if (component->GetClass()->GetName().Contains(type_name))
+			if (component->GetClass()->IsChildOf(type_class))
 			{
 				return component;
 			}

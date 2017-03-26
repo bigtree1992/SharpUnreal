@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UnrealEngine
 {
-    class DecalMeshComponent
+    public class DecalComponent
     {
     }
 }
