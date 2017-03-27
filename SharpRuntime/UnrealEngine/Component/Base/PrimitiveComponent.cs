@@ -13,40 +13,40 @@ namespace UnrealEngine
         #region 材质部分
         public virtual Material GetMaterial(int elementIndex)
         {
-            var h = _GetMaterial(m_NativeHandler, elementIndex);
+            var h = _GetMaterial(NativeHandler, elementIndex);
             if (h.ToInt64() == 0)
             {
                 return null;
             }
 
             var mat = new Material();
-            mat.NativeHandler = _GetMaterial(m_NativeHandler, elementIndex);
+            mat.NativeHandler = _GetMaterial(NativeHandler, elementIndex);
             return mat;            
         }
         
         public virtual void SetMaterial(int elementIndex, Material material)
         {
-            _SetMaterial(m_NativeHandler, elementIndex, material.NativeHandler);
+            _SetMaterial(NativeHandler, elementIndex, material.NativeHandler);
         }
         
         public virtual void SetMaterialByName(string slotName, Material material)
         {
-            _SetMaterialByName(m_NativeHandler, slotName, material.NativeHandler);
+            _SetMaterialByName(NativeHandler, slotName, material.NativeHandler);
         }
         
         public int GetMaterialIndex(string slotName)
         {
-            return _GetMaterialIndex(m_NativeHandler,slotName);
+            return _GetMaterialIndex(NativeHandler,slotName);
         }
         
         public bool IsMaterialSlotNameValid(string slotName)
         {
-            return _IsMaterialSlotNameValid(m_NativeHandler,slotName);
+            return _IsMaterialSlotNameValid(NativeHandler,slotName);
         }
         
         public virtual DynamicMaterial CreateDynamicMaterial(int elementIndex, Material sourceMaterial)
         {
-            var p = _CreateDynamicMaterial(m_NativeHandler, elementIndex, sourceMaterial.NativeHandler);
+            var p = _CreateDynamicMaterial(NativeHandler, elementIndex, sourceMaterial.NativeHandler);
             if (p.ToInt64() != 0)
             {
                 var m = new DynamicMaterial();
@@ -72,27 +72,27 @@ namespace UnrealEngine
         #region 设置事件回调
         public void RegComponentHit(ActorComponent _this)
         {
-            _RegComponentHit(m_NativeHandler, _this.NativeHandler);
+            _RegComponentHit(NativeHandler, _this.NativeHandler);
         }
 
         public void RegComponentBeginOverlap(ActorComponent _this)
         {
-            _RegComponentBeginOverlap(m_NativeHandler, _this.NativeHandler);
+            _RegComponentBeginOverlap(NativeHandler, _this.NativeHandler);
         }
 
         public void RegComponentEndOverlap(ActorComponent _this)
         {
-            _RegComponentEndOverlap(m_NativeHandler, _this.NativeHandler);
+            _RegComponentEndOverlap(NativeHandler, _this.NativeHandler);
         }
 
         public void RegComponentWake(ActorComponent _this)
         {
-            _RegComponentWake(m_NativeHandler, _this.NativeHandler);
+            _RegComponentWake(NativeHandler, _this.NativeHandler);
         }
 
         public void RegComponentSleep(ActorComponent _this)
         {
-            _RegComponentSleep(m_NativeHandler, _this.NativeHandler);
+            _RegComponentSleep(NativeHandler, _this.NativeHandler);
         }
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _RegComponentHit(IntPtr handler, IntPtr listener);
@@ -110,188 +110,188 @@ namespace UnrealEngine
 
         public bool GenerateOverlapEvents
         {
-            get { return _GetGenerateOverlapEvents(m_NativeHandler); }
-            set { _SetGenerateOverlapEvents(m_NativeHandler, value); }
+            get { return _GetGenerateOverlapEvents(NativeHandler); }
+            set { _SetGenerateOverlapEvents(NativeHandler, value); }
         }       
 
         public virtual bool SimulatePhysics
         {
-            set { _SetSimulatePhysics(m_NativeHandler,value); }
+            set { _SetSimulatePhysics(NativeHandler,value); }
         }      
 
         public CollosionEnabled CollisionEnabled
         {
-            set { _SetCollisionEnabled(m_NativeHandler, value); }
+            set { _SetCollisionEnabled(NativeHandler, value); }
         }
 
         public void IgnoreComponentWhenMoving(PrimitiveComponent component, bool shouldIgnore)
         {
-            _IgnoreComponentWhenMoving(m_NativeHandler, component.NativeHandler, shouldIgnore);
+            _IgnoreComponentWhenMoving(NativeHandler, component.NativeHandler, shouldIgnore);
         }
         
         public bool IsOverlappingComponent(PrimitiveComponent other)
         {
-            return _IsOverlappingComponent(m_NativeHandler,other.NativeHandler);
+            return _IsOverlappingComponent(NativeHandler,other.NativeHandler);
         }
 
         public float BoundsScale
         {
-            set{ _SetBoundsScale(m_NativeHandler, value); }
+            set{ _SetBoundsScale(NativeHandler, value); }
         }
 
         public DOFMode ConstraintMode
         {
-            set { _SetConstraintMode(m_NativeHandler,value); }
+            set { _SetConstraintMode(NativeHandler,value); }
         }
 
         public void AddImpulse(Vector Impulse, string BoneName = "", bool bVelChange = false)
         {
-            _AddImpulse(m_NativeHandler, Impulse, BoneName, bVelChange);
+            _AddImpulse(NativeHandler, Impulse, BoneName, bVelChange);
         }
         
         public void AddImpulseAtLocation(Vector Impulse, Vector Location, string BoneName = "")
         {
-            _AddImpulseAtLocation(m_NativeHandler, Impulse, Location, BoneName);
+            _AddImpulseAtLocation(NativeHandler, Impulse, Location, BoneName);
         }
 
         public void AddRadialImpulse(Vector Origin, float Radius, float Strength, RadialImpulseFalloff Falloff, bool bVelChange = false)
         {
-            _AddRadialImpulse( m_NativeHandler,Origin,Radius, Strength,Falloff, bVelChange);
+            _AddRadialImpulse( NativeHandler,Origin,Radius, Strength,Falloff, bVelChange);
         }
 
         public void AddForceAtLocation(Vector Force, Vector Location, string BoneName = "")
         {
-            _AddForceAtLocation(m_NativeHandler,  Force,  Location,  BoneName);
+            _AddForceAtLocation(NativeHandler,  Force,  Location,  BoneName);
         }
         
         public void AddRadialForce(Vector Origin, float Radius, float Strength, RadialImpulseFalloff Falloff, bool bAccelChange = false)
         {
-            _AddRadialForce(m_NativeHandler,  Origin,  Radius,  Strength,  Falloff,  bAccelChange);
+            _AddRadialForce(NativeHandler,  Origin,  Radius,  Strength,  Falloff,  bAccelChange);
         }
         
         public void AddTorque(Vector Torque, string BoneName = "", bool bAccelChange = false)
         {
-            _AddTorque(m_NativeHandler,  Torque,  BoneName,  bAccelChange);
+            _AddTorque(NativeHandler,  Torque,  BoneName,  bAccelChange);
         }
         
 
 
         public void SetPhysicsLinearVelocity(Vector NewVel, bool bAddToCurrent = false, string BoneName = "")
         {
-            _SetPhysicsLinearVelocity(m_NativeHandler,  NewVel,  bAddToCurrent, BoneName);
+            _SetPhysicsLinearVelocity(NativeHandler,  NewVel,  bAddToCurrent, BoneName);
         }
         
         public Vector GetPhysicsLinearVelocity(string BoneName = "")
         {
-            return _GetPhysicsLinearVelocity(m_NativeHandler, BoneName);
+            return _GetPhysicsLinearVelocity(NativeHandler, BoneName);
         }
         
         public Vector GetPhysicsLinearVelocityAtPoint(Vector Point, string BoneName = "")
         {
-            return _GetPhysicsLinearVelocityAtPoint(m_NativeHandler, Point, BoneName);
+            return _GetPhysicsLinearVelocityAtPoint(NativeHandler, Point, BoneName);
         }
        
         public void SetAllPhysicsLinearVelocity(Vector NewVel, bool bAddToCurrent = false)
         {
-            _SetAllPhysicsLinearVelocity(m_NativeHandler, NewVel, bAddToCurrent);
+            _SetAllPhysicsLinearVelocity(NativeHandler, NewVel, bAddToCurrent);
         }
         
         public void SetPhysicsAngularVelocity(Vector NewAngVel, bool bAddToCurrent = false, string BoneName = "")
         {
-            _SetPhysicsAngularVelocity(m_NativeHandler, NewAngVel, bAddToCurrent, BoneName);
+            _SetPhysicsAngularVelocity(NativeHandler, NewAngVel, bAddToCurrent, BoneName);
         }
         
         public void SetPhysicsMaxAngularVelocity(float NewMaxAngVel, bool bAddToCurrent = false, string BoneName = "")
         {
-            _SetPhysicsMaxAngularVelocity(m_NativeHandler, NewMaxAngVel, bAddToCurrent , BoneName);
+            _SetPhysicsMaxAngularVelocity(NativeHandler, NewMaxAngVel, bAddToCurrent , BoneName);
         }
         
         public Vector GetPhysicsAngularVelocity(string BoneName = "")
         {
-            return _GetPhysicsAngularVelocity(m_NativeHandler, BoneName);
+            return _GetPhysicsAngularVelocity(NativeHandler, BoneName);
         }
         
         public Vector GetCenterOfMass(string BoneName = "")
         {
-            return _GetCenterOfMass(m_NativeHandler, BoneName);
+            return _GetCenterOfMass(NativeHandler, BoneName);
         }
         
         public void SetCenterOfMass(Vector CenterOfMassOffset, string BoneName = "")
         {
-            _SetCenterOfMass(m_NativeHandler, CenterOfMassOffset, BoneName);
+            _SetCenterOfMass(NativeHandler, CenterOfMassOffset, BoneName);
         }
 
         public float GetClosestPointOnCollision(Vector Point, ref Vector OutPointOnBody, string BoneName = "")
         {
-            return _GetClosestPointOnCollision(m_NativeHandler, Point, ref OutPointOnBody, BoneName);
+            return _GetClosestPointOnCollision(NativeHandler, Point, ref OutPointOnBody, BoneName);
         }
 
         public void WakeAllRigidBodies()
         {
-            _WakeAllRigidBodies(m_NativeHandler);
+            _WakeAllRigidBodies(NativeHandler);
         }        
 
         public bool IsGravityEnabled        
         {
-            get { return _GetIsGravityEnabled(m_NativeHandler); }
-            set { _SetIsGravityEnabled(m_NativeHandler, value); }
+            get { return _GetIsGravityEnabled(NativeHandler); }
+            set { _SetIsGravityEnabled(NativeHandler, value); }
         }     
 
         public float LinearDamping
         {
-            get { return _GetLinearDamping(m_NativeHandler); }
-            set { _SetLinearDamping(m_NativeHandler, value); }
+            get { return _GetLinearDamping(NativeHandler); }
+            set { _SetLinearDamping(NativeHandler, value); }
         }       
 
         public float AngularDamping
         {
-            get { return _GetAngularDamping(m_NativeHandler); }
-            set { _SetAngularDamping0(m_NativeHandler, value); }
+            get { return _GetAngularDamping(NativeHandler); }
+            set { _SetAngularDamping0(NativeHandler, value); }
         }    
 
         public void SetMassScale(string BoneName = "", float InMassScale = 1.0f)
         {
-            _SetMassScale(m_NativeHandler, BoneName, InMassScale);
+            _SetMassScale(NativeHandler, BoneName, InMassScale);
         }
         
         public float GetMassScale(string BoneName = "")
         {
-            return _GetMassScale(m_NativeHandler, BoneName);
+            return _GetMassScale(NativeHandler, BoneName);
         }
         
         public void SetAllMassScale(float InMassScale = 1.0f)
         {
-            _SetAllMassScale(m_NativeHandler, InMassScale);
+            _SetAllMassScale(NativeHandler, InMassScale);
         }
         
         public void SetMassOverrideInKg(string BoneName = "", float MassInKg = 1.0f, bool bOverrideMass = true)
         {
-            _SetMassOverrideInKg(m_NativeHandler, BoneName, MassInKg, bOverrideMass);
+            _SetMassOverrideInKg(NativeHandler, BoneName, MassInKg, bOverrideMass);
         }
         
         public float Mass
         {
-            get { return _GetMass(m_NativeHandler); }
+            get { return _GetMass(NativeHandler); }
         }
         
         public Vector GetInertiaTensor(string BoneName = "")
         {
-            return _GetInertiaTensor(m_NativeHandler, BoneName);
+            return _GetInertiaTensor(NativeHandler, BoneName);
         }
         
         public Vector ScaleByMomentOfInertia(Vector InputVector, string BoneName = "")
         {
-            return _SetScaleByMomentOfInertia(m_NativeHandler, InputVector, BoneName);
+            return _SetScaleByMomentOfInertia(NativeHandler, InputVector, BoneName);
         }
         
         public void SetCollisionResponseToChannel(CollisionChannel Channel, CollisionResponse NewResponse)
         {
-            _SetCollisionResponseToChannel(m_NativeHandler, Channel, NewResponse);
+            _SetCollisionResponseToChannel(NativeHandler, Channel, NewResponse);
         }
         
         public void SetCollisionResponseToAllChannels(CollisionResponse NewResponse)
         {
-            _SetAngularDamping1(m_NativeHandler, NewResponse);
+            _SetAngularDamping1(NativeHandler, NewResponse);
         }
 
 

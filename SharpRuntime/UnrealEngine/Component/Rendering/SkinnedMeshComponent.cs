@@ -8,62 +8,62 @@ namespace UnrealEngine
     {
         public int GetBoneIndex(string BoneName)
         {
-            return _GetBoneIndex(m_NativeHandler,BoneName);
+            return _GetBoneIndex(NativeHandler,BoneName);
         }
       
         public string GetBoneName(int BoneIndex)
         {
-            return _GetBoneName(m_NativeHandler,BoneIndex);
+            return _GetBoneName(NativeHandler,BoneIndex);
         }
         
         public string GetSocketBoneName(string InSocketName)
         {
-            return _GetSocketBoneName(m_NativeHandler,InSocketName);
+            return _GetSocketBoneName(NativeHandler,InSocketName);
         }
        
         public string GetParentBone(string BoneName)
         {
-            return _GetParentBone(m_NativeHandler,BoneName);
+            return _GetParentBone(NativeHandler,BoneName);
         }
         
         public Matrix GetBoneMatrix(int BoneIndex)
         {
-            return _GetBoneMatrix(m_NativeHandler,BoneIndex);
+            return _GetBoneMatrix(NativeHandler,BoneIndex);
         }
         
         public Transform GetBoneTransform(int BoneIndex, Transform LocalToWorld)
         {
-            return _GetBoneTransform0(m_NativeHandler,BoneIndex,LocalToWorld);
+            return _GetBoneTransform0(NativeHandler,BoneIndex,LocalToWorld);
         }
        
         public Transform GetBoneTransform(int BoneIndex)
         {
-            return _GetBoneTransform1(m_NativeHandler,BoneIndex);
+            return _GetBoneTransform1(NativeHandler,BoneIndex);
         }
         
         public Quat GetBoneQuaternion(string BoneName, EBoneSpaces space = EBoneSpaces.WorldSpace)
         {
-            return _GetBoneQuaternion(m_NativeHandler,BoneName,space);
+            return _GetBoneQuaternion(NativeHandler,BoneName,space);
         }        
 
         public Vector GetBoneLocation(string BoneName, EBoneSpaces Space = EBoneSpaces.WorldSpace)
         {
-            return _GetBoneLocation(m_NativeHandler,BoneName,Space);
+            return _GetBoneLocation(NativeHandler,BoneName,Space);
         }
 
         public void HideBoneByName(string BoneName, EPhysBodyOp PhysBodyOption)
         {
-            _HideBoneByName(m_NativeHandler, BoneName, PhysBodyOption);
+            _HideBoneByName(NativeHandler, BoneName, PhysBodyOption);
         }  
         
         public void UnHideBoneByName(string BoneName)
         {
-            _UnHideBoneByName(m_NativeHandler, BoneName);
+            _UnHideBoneByName(NativeHandler, BoneName);
         }
         
         public bool IsBoneHiddenByName(string BoneName)
         {
-            return _IsBoneHiddenByName(m_NativeHandler,BoneName);
+            return _IsBoneHiddenByName(NativeHandler,BoneName);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

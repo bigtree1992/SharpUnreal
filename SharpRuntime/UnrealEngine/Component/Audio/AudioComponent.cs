@@ -10,11 +10,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetPitchMultiplier(m_NativeHandler);
+                return _GetPitchMultiplier(NativeHandler);
             }
             set
             {
-                _SetPitchMultiplier(m_NativeHandler, value);
+                _SetPitchMultiplier(NativeHandler, value);
             }
         }      
 
@@ -22,11 +22,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetPriority(m_NativeHandler);
+                return _GetPriority(NativeHandler);
             }
             set
             {
-                _SetPriority(m_NativeHandler,value);
+                _SetPriority(NativeHandler,value);
             }
         }      
 
@@ -34,11 +34,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetPitchMultiplier(m_NativeHandler);
+                return _GetPitchMultiplier(NativeHandler);
             }
             set
             {
-                _SetPitchMultiplier(m_NativeHandler, value);
+                _SetPitchMultiplier(NativeHandler, value);
             }
         }
 
@@ -46,35 +46,35 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetIsPlaying(m_NativeHandler);
+                return _GetIsPlaying(NativeHandler);
             }
         }
 
         public void Play(float StartTime = 0.0f)
         {
-            _Play(m_NativeHandler, StartTime);
+            _Play(NativeHandler, StartTime);
         }
 
 
         public void Stop()
         {
-            _Stop(m_NativeHandler);
+            _Stop(NativeHandler);
         }
         
         public void SetPaused(bool bPause)
         {
-            _SetPaused(m_NativeHandler,bPause);
+            _SetPaused(NativeHandler,bPause);
         }
         
         #region 设置事件回调
         public void RegAudioFinished(ActorComponent _this)
         {
-            _RegAudioFinished(m_NativeHandler,_this.NativeHandler);
+            _RegAudioFinished(NativeHandler,_this.NativeHandler);
         }
 
         public void RegAudioPlaybackPercent(ActorComponent _this)
         {
-            _RegAudioPlaybackPercent(m_NativeHandler, _this.NativeHandler);
+            _RegAudioPlaybackPercent(NativeHandler, _this.NativeHandler);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

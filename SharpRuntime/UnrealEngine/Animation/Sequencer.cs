@@ -11,37 +11,37 @@ namespace UnrealEngine
     {
         public void Play()
         {
-            _Play(m_NativeHandler);
+            _Play(NativeHandler);
         }
 
 
         public void Pause()
         {
-            _Pause(m_NativeHandler);
+            _Pause(NativeHandler);
         }
 
 
         public void Stop()
         {
-            _Stop(m_NativeHandler);
+            _Stop(NativeHandler);
         }
 
         public float Length
         {
             get
             {
-                return _GetLength(m_NativeHandler);
+                return _GetLength(NativeHandler);
             }
         }
         public float Current
         {
             get
             {
-                return _GetLength(m_NativeHandler);
+                return _GetLength(NativeHandler);
             }
             set
             {
-                _SetCurrent(m_NativeHandler, value);
+                _SetCurrent(NativeHandler, value);
             }
         }
 
@@ -49,46 +49,46 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetPlayRate(m_NativeHandler);
+                return _GetPlayRate(NativeHandler);
             }
             set
             {
-                _SetPlayRate(m_NativeHandler, value);
+                _SetPlayRate(NativeHandler, value);
             }
         }
         
         public float StartTime
         {
-            get { return _GetStartTime(m_NativeHandler); }
+            get { return _GetStartTime(NativeHandler); }
         }
 
         public float EndTime
         {
             get
             {
-                return _GetStartTime(m_NativeHandler);
+                return _GetStartTime(NativeHandler);
             }
         }        
 
         public void SetPlaybackRange(float startTime, float endTime)
         {
-            _SetPlaybackRange(m_NativeHandler, startTime, endTime);
+            _SetPlaybackRange(NativeHandler, startTime, endTime);
         }
 
         #region 设置事件回调
         public void RegSequencerPlay(ActorComponent _this)
         {
-            _RegSequencerPlay(m_NativeHandler,_this.NativeHandler);
+            _RegSequencerPlay(NativeHandler,_this.NativeHandler);
         }
         
         public void RegSequencerPause(ActorComponent _this)
         {
-            _RegSequencerPause(m_NativeHandler, _this.NativeHandler);
+            _RegSequencerPause(NativeHandler, _this.NativeHandler);
         }
         
         public void RegSequencerStop(ActorComponent _this)
         {
-            _RegSequencerStop(m_NativeHandler,_this.NativeHandler);
+            _RegSequencerStop(NativeHandler,_this.NativeHandler);
         }
         #endregion
 

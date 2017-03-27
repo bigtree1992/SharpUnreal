@@ -16,7 +16,7 @@ namespace UnrealEngine
         /// <param name="value"></param>
         public void SetScalarParameter(string name, float value)
         {
-            _SetScalarParameter(m_NativeHandler,name, value);
+            _SetScalarParameter(NativeHandler,name, value);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace UnrealEngine
         /// <param name="value"></param>
         public void SetVectorParameter(string name, Vector value)
         {
-            _SetVectorParameter(m_NativeHandler, name, value);
+            _SetVectorParameter(NativeHandler, name, value);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

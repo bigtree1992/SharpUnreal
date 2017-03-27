@@ -9,8 +9,8 @@ namespace UnrealEngine
 
         public Color ShapeColor
         {
-            get { return _GetShapeColor(m_NativeHandler); }
-            set { _SetShapeColor(m_NativeHandler, value); }
+            get { return _GetShapeColor(NativeHandler); }
+            set { _SetShapeColor(NativeHandler, value); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

@@ -5,37 +5,37 @@ namespace MainAssembly
 {
     public class HelloComponent : ActorComponent
     {
-        public override void OnRegister()
+        protected override void OnRegister()
         {
             Log.Error("[HelloComponent] OnRegister");
         }
 
-        public override void OnUnregister()
+        protected override void OnUnregister()
         {
             Log.Error("[HelloComponent] OnUnregister");
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             Log.Error("[HelloComponent] Initialize");
         }
 
-        public override void Uninitialize()
+        protected override void Uninitialize()
         {
             Log.Error("[HelloComponent] Uninitialize");
         }
 
-        public override void Tick(float dt)
+        protected override void Tick(float dt)
         {
             Log.Error("[HelloComponent] Tick ");
         }
 
-        public override void BeginPlay()
+        protected override void BeginPlay()
         {
             Log.Error("[HelloComponent] [BeginPlay]");
         }
 
-        public override void EndPlay(EndPlayReason reason)
+        protected override void EndPlay(EndPlayReason reason)
         {
             Log.Error("[HelloComponent] [EndPlay] " + reason);
         }

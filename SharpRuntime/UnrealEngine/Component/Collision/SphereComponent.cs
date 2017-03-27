@@ -8,13 +8,13 @@ namespace UnrealEngine
     {
         public float SphereRadius
         {
-            get { return _GetSphereRadius(m_NativeHandler); }
-            set { _SetSphereRadius(m_NativeHandler, value); }
+            get { return _GetSphereRadius(NativeHandler); }
+            set { _SetSphereRadius(NativeHandler, value); }
         }
 
         public float ShapeScale
         {
-            get { return _GetShapeScale(m_NativeHandler); }
+            get { return _GetShapeScale(NativeHandler); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

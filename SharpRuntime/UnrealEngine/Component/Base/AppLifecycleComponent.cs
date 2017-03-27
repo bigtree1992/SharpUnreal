@@ -9,27 +9,27 @@ namespace UnrealEngine
 
         public void RegAppDeactivate(ActorComponent _this)
         {
-            _RegAppDeactivate(m_NativeHandler, _this.NativeHandler);
+            _RegAppDeactivate(NativeHandler, _this.NativeHandler);
         }
 
         public void RegAppHasReactivated(ActorComponent _this)
         {
-            _RegAppHasReactivated(m_NativeHandler,_this.NativeHandler);
+            _RegAppHasReactivated(NativeHandler,_this.NativeHandler);
         }
 
         public void RegAppWillEnterBackground(ActorComponent _this)
         {
-            _RegAppWillEnterBackground(m_NativeHandler, _this.NativeHandler);
+            _RegAppWillEnterBackground(NativeHandler, _this.NativeHandler);
         }
 
         public void RegAppHasEnteredForeground(ActorComponent _this)
         {
-            _RegAppHasEnteredForeground(m_NativeHandler, _this.NativeHandler);
+            _RegAppHasEnteredForeground(NativeHandler, _this.NativeHandler);
         }
 
         public void RegAppWillTerminate(ActorComponent _this)
         {
-            _RegAppWillTerminate(m_NativeHandler, _this.NativeHandler);
+            _RegAppWillTerminate(NativeHandler, _this.NativeHandler);
         }
         #endregion
 

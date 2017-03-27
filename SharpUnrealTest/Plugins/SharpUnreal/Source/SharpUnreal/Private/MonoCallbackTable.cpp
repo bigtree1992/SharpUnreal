@@ -22,8 +22,12 @@ void MonoCallbackTable::CreateClassCallback(_MonoClass* klass)
 	if (g_CallbackTable.Contains(klass))
 	{
 		const char* name = mono_class_get_name(klass);
-		GLog->Logf(ELogVerbosity::Log, TEXT("[CreateCallback] Same Name Class Find:%s,Ignored."), *FString(name));
-		return;
+		GLog->Logf(ELogVerbosity::Warning, TEXT("[CreateCallback] Same Name Class Find:%s,Destroy PreCallback."), *FString(name));
+		MonoCallback* callback = g_CallbackTable[klass];
+		if (callback != NULL) 
+		{
+			delete callback;
+		}
 	}
 
 	MonoCallback* m_Callback = new MonoCallback();
@@ -76,6 +80,7 @@ void MonoCallbackTable::DestroyAllCallback()
 			delete elem.Value;
 		}
 	}
+	g_CallbackTable.Empty();
 	//GLog->Logf(ELogVerbosity::Log, TEXT("[DestroyAllCallback]"));
 }
 

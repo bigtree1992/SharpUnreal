@@ -10,31 +10,31 @@ namespace UnrealEngine
     public class ActorComponent : UObject
     {     
         #region 生命周期函数
-        public virtual void OnRegister()
+        protected virtual void OnRegister()
         {          
         }
 
-        public virtual void OnUnregister()
+        protected virtual void OnUnregister()
         {
         }
 
-        public virtual void Initialize()
+        protected virtual void Initialize()
         {
         }
 
-        public virtual void Uninitialize()
+        protected virtual void Uninitialize()
         {
         }
 
-        public virtual void BeginPlay()
+        protected virtual void BeginPlay()
         {
         }
 
-        public virtual void EndPlay(EndPlayReason reason)
+        protected virtual void EndPlay(EndPlayReason reason)
         {
         }
 
-        public virtual void Tick(float dt)
+        protected virtual void Tick(float dt)
         {
         }
         #endregion
@@ -45,8 +45,8 @@ namespace UnrealEngine
         /// </summary>
         public bool Activited
         {
-            get { return _GetActivited(m_NativeHandler);}
-            set { _SetActivited(m_NativeHandler,value);}
+            get { return _GetActivited(NativeHandler);}
+            set { _SetActivited(NativeHandler,value);}
         }
 
         /// <summary>
@@ -54,18 +54,31 @@ namespace UnrealEngine
         /// </summary>
         public bool CanEverTick
         {
-            get { return _GetCanEverTick(m_NativeHandler);}
-            set { _SetCanEverTick(m_NativeHandler,value);}
+            get { return _GetCanEverTick(NativeHandler);}
+            set { _SetCanEverTick(NativeHandler,value);}
         }
 
         private Actor m_Owner;
-        public Actor GetOwner()
+        public Actor Actor
         {
-            if(m_Owner == null)
+            get
             {
-                m_Owner = new Actor(_GetOwner(m_NativeHandler));
+                if (m_Owner == null)
+                {
+                    var handler = _GetOwner(NativeHandler);
+                    if (handler.ToInt64() == 0)
+                    {
+                        m_Owner = null;
+                    }
+                    else
+                    {
+                        m_Owner = new Actor();
+                        m_Owner.NativeHandler = handler;
+                    }
+                }
+                return m_Owner;
             }
-            return m_Owner;
+            
         }
         #endregion
 
@@ -73,7 +86,7 @@ namespace UnrealEngine
         /// <summary>
         /// 蓝图调用C#脚本的通用事件函数
         /// </summary>
-        /// <param name="dt"></param>
+        /// <param name="evt"></param>
         public virtual void OnEvent(string evt)
         {
         }
@@ -84,7 +97,7 @@ namespace UnrealEngine
         /// <param name="evt"></param>
         public void SendEvent(string evt)
         {
-            _SendEvent(m_NativeHandler, evt);
+            _SendEvent(NativeHandler, evt);
         }
 
         /// <summary>
@@ -94,7 +107,7 @@ namespace UnrealEngine
         /// <param name="data"></param>
         public void SendEvent(string evt, string data)
         {
-            _SendEventWithString(m_NativeHandler, evt, data);
+            _SendEventWithString(NativeHandler, evt, data);
         }
 
         /// <summary>
@@ -104,7 +117,7 @@ namespace UnrealEngine
         /// <param name="data"></param>
         public void SendEvent(string evt, int data)
         {
-            _SendEventWithInt(m_NativeHandler, evt,data);
+            _SendEventWithInt(NativeHandler, evt,data);
         }
         #endregion
 
@@ -191,12 +204,12 @@ namespace UnrealEngine
 
         public bool HasTag(string tag)
         {
-            return _HasTag(m_NativeHandler, tag);
+            return _HasTag(NativeHandler, tag);
         }
 
         public void SetTickableWhenPaused(bool bTickableWhenPaused)
         {
-            _SetTickableWhenPaused(m_NativeHandler, bTickableWhenPaused);
+            _SetTickableWhenPaused(NativeHandler, bTickableWhenPaused);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

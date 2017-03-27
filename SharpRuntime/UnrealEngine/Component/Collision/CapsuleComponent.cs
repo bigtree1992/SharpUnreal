@@ -8,19 +8,19 @@ namespace UnrealEngine
     {
         public float CapsuleHalfHeight
         {
-            get { return _GetCapsuleHalfHeight(m_NativeHandler); }
-            set { _SetCapsuleHalfHeight(m_NativeHandler,value); }
+            get { return _GetCapsuleHalfHeight(NativeHandler); }
+            set { _SetCapsuleHalfHeight(NativeHandler,value); }
         }
 
         public float CapsuleRadius
         {
-            get { return _GetCapsuleRadius(m_NativeHandler); }
-            set { _SetCapsuleHalfHeight(m_NativeHandler, value); }
+            get { return _GetCapsuleRadius(NativeHandler); }
+            set { _SetCapsuleHalfHeight(NativeHandler, value); }
         }
 
         public float ShapeScale
         {
-            get { return _GetShapeScale(m_NativeHandler); }
+            get { return _GetShapeScale(NativeHandler); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

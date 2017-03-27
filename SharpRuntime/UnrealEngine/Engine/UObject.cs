@@ -5,11 +5,12 @@ namespace UnrealEngine
 {
     public class UObject
     {
-        protected IntPtr m_NativeHandler;
+        private IntPtr m_NativeHandler;
 
         public IntPtr NativeHandler
         {
-            get;set;
+            get { return m_NativeHandler; }
+            set { m_NativeHandler = value; }
         }
     }
 

@@ -8,13 +8,13 @@ namespace UnrealEngine
     {
         public Vector BoxExtent
         {
-            get { return _GetBoxExtent(m_NativeHandler); }
-            set { _SetBoxExtent(m_NativeHandler, value); }
+            get { return _GetBoxExtent(NativeHandler); }
+            set { _SetBoxExtent(NativeHandler, value); }
         }
 
         public Vector ShapeScale
         {
-            get { return _GetShapeScale(m_NativeHandler); }
+            get { return _GetShapeScale(NativeHandler); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

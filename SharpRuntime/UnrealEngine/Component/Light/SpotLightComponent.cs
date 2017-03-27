@@ -8,14 +8,14 @@ namespace UnrealEngine
     {
         public float InnerConeAngle
         {
-            get { return _GetInnerConeAngle(m_NativeHandler); }
-            set { _SetInnerConeAngle(m_NativeHandler, value); }
+            get { return _GetInnerConeAngle(NativeHandler); }
+            set { _SetInnerConeAngle(NativeHandler, value); }
         }
 
         public float OuterConeAngle
         {
-            get { return _GetOuterConeAngle(m_NativeHandler); }
-            set { _SetOuterConeAngle(m_NativeHandler, value); }
+            get { return _GetOuterConeAngle(NativeHandler); }
+            set { _SetOuterConeAngle(NativeHandler, value); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

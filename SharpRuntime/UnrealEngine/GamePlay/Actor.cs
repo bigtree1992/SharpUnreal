@@ -12,7 +12,7 @@ namespace UnrealEngine
 
         public Actor(IntPtr handler)
         {
-            m_NativeHandler = handler;
+            NativeHandler = handler;
         }
         
         /// <summary>
@@ -20,8 +20,8 @@ namespace UnrealEngine
         /// </summary>
         public bool HiddenInGame
         {
-            get { return _GetHiddenInGame(m_NativeHandler); }
-            set { _SetHiddenInGame(m_NativeHandler, value); }
+            get { return _GetHiddenInGame(NativeHandler); }
+            set { _SetHiddenInGame(NativeHandler, value); }
         }
 
         /// <summary>
@@ -34,13 +34,20 @@ namespace UnrealEngine
             {
                 if (m_Root == null)
                 {
-                    var root = new SceneComponent();
-                    root.NativeHandler = _GetSceneComponent(m_NativeHandler);
-                    m_Root = root;
+                    var handler = _GetSceneComponent(NativeHandler);
+                    if (handler == null)
+                    {
+                        m_Root = null;
+                    }
+                    else
+                    {
+                        m_Root = new SceneComponent();
+                        m_Root.NativeHandler = handler;
+                    }
                 }
                 return m_Root;
             }
-            set { _SetSceneComponent(m_NativeHandler, value.NativeHandler); }
+            set { _SetSceneComponent(NativeHandler, value.NativeHandler); }
         }
 
         public Sequencer Sequencer
@@ -48,7 +55,7 @@ namespace UnrealEngine
             get
             {
                 var sequencer = new Sequencer();
-                sequencer.NativeHandler = _GetSequencer(m_NativeHandler);
+                sequencer.NativeHandler = _GetSequencer(NativeHandler);
                 return sequencer;
             }
         }
@@ -60,7 +67,7 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponent<T>() where T : ActorComponent 
         {
-            var handler = _GetComponent(m_NativeHandler, typeof(T).Name);
+            var handler = _GetComponent(NativeHandler, typeof(T).Name);
             if(handler == null)
             {
                 return null;
@@ -78,7 +85,7 @@ namespace UnrealEngine
         /// <returns></returns>
         public T GetComponentByTag<T>(string tag) where T : ActorComponent
         {
-            var handler = _GetComponentByTag(m_NativeHandler, typeof(T).Name, tag);
+            var handler = _GetComponentByTag(NativeHandler, typeof(T).Name, tag);
             if (handler == null)
             {
                 return null;
@@ -93,7 +100,7 @@ namespace UnrealEngine
         /// </summary>
         public void Destroy()
         {
-            _Destroy(m_NativeHandler);
+            _Destroy(NativeHandler);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

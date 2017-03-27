@@ -8,56 +8,56 @@ namespace UnrealEngine
     {
         public float DynamicShadowDistanceMovableLight
         {
-            get { return _GetDynamicShadowDistanceMovableLight(m_NativeHandler); }
-            set { _SetDynamicShadowDistanceMovableLight(m_NativeHandler,value); }
+            get { return _GetDynamicShadowDistanceMovableLight(NativeHandler); }
+            set { _SetDynamicShadowDistanceMovableLight(NativeHandler,value); }
         }
 
         public float DynamicShadowDistanceStationaryLight
         {
-            get { return _GetDynamicShadowDistanceStationaryLight(m_NativeHandler); }
-            set { _SetDynamicShadowDistanceStationaryLight(m_NativeHandler,value); }
+            get { return _GetDynamicShadowDistanceStationaryLight(NativeHandler); }
+            set { _SetDynamicShadowDistanceStationaryLight(NativeHandler,value); }
         }
 
         public float DynamicShadowCascades
         {
-            get { return _GetDynamicShadowCascades(m_NativeHandler); }
-            set { _SetDynamicShadowCascades(m_NativeHandler, value); }
+            get { return _GetDynamicShadowCascades(NativeHandler); }
+            set { _SetDynamicShadowCascades(NativeHandler, value); }
         }
 
         public float CascadeDistributionExponent
         {
-            get { return _GetCascadeDistributionExponent(m_NativeHandler); }
-            set { _SetCascadeDistributionExponent(m_NativeHandler,value); }
+            get { return _GetCascadeDistributionExponent(NativeHandler); }
+            set { _SetCascadeDistributionExponent(NativeHandler,value); }
         }
         
         public float CascadeTransitionFraction
         {
-            get { return _GetCascadeTransitionFraction(m_NativeHandler); }
-            set { _SetCascadeTransitionFraction(m_NativeHandler,value); }
+            get { return _GetCascadeTransitionFraction(NativeHandler); }
+            set { _SetCascadeTransitionFraction(NativeHandler,value); }
         }
 
         public float ShadowDistanceFadeoutFraction
         {
-            get { return _GetShadowDistanceFadeoutFraction(m_NativeHandler); }
-            set { _SetShadowDistanceFadeoutFraction(m_NativeHandler,value); }
+            get { return _GetShadowDistanceFadeoutFraction(NativeHandler); }
+            set { _SetShadowDistanceFadeoutFraction(NativeHandler,value); }
         }
         
         public bool EnableLightShaftOcclusion
         {
-            get { return _GetEnableLightShaftOcclusion(m_NativeHandler); }
-            set { _SetEnableLightShaftOcclusion(m_NativeHandler, value); }
+            get { return _GetEnableLightShaftOcclusion(NativeHandler); }
+            set { _SetEnableLightShaftOcclusion(NativeHandler, value); }
         }
 
         public float OcclusionMaskDarkness
         {
-            get { return _GetOcclusionMaskDarkness(m_NativeHandler); }
-            set { _SetOcclusionMaskDarkness(m_NativeHandler, value); }
+            get { return _GetOcclusionMaskDarkness(NativeHandler); }
+            set { _SetOcclusionMaskDarkness(NativeHandler, value); }
         }
 
         public Vector LightShaftOverrideDirection
         {
-            get { return _GetLightShaftOverrideDirection(m_NativeHandler); }
-            set { _SetLightShaftOverrideDirection(m_NativeHandler, value); }
+            get { return _GetLightShaftOverrideDirection(NativeHandler); }
+            set { _SetLightShaftOverrideDirection(NativeHandler, value); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

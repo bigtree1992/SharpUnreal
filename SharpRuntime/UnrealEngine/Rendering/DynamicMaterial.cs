@@ -15,22 +15,22 @@ namespace UnrealEngine
 
         public float GetScalarParameter(string name)
         {
-            return _GetScalarParameter(m_NativeHandler,name);
+            return _GetScalarParameter(NativeHandler,name);
         }
 
         public void SetScalarParameter(string name,float value)
         {
-            _SetScalarParameter(m_NativeHandler, name,value);
+            _SetScalarParameter(NativeHandler, name,value);
         }
 
         public LinearColor GetVectorParameter(string name)
         {
-            return _GetVectorParameter(m_NativeHandler,name);
+            return _GetVectorParameter(NativeHandler,name);
         }
 
         public void SetVectorParameter(string name, LinearColor value)
         {
-            _SetVectorParameter(m_NativeHandler, name, value);
+            _SetVectorParameter(NativeHandler, name, value);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

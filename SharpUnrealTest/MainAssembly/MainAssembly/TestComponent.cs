@@ -5,36 +5,46 @@ namespace MainAssembly
 {
     public class TestComponent : ActorComponent
     {
-        public override void OnRegister()
+        protected override void OnRegister()
         {
             Log.Error("[TestComponent] OnRegister");
         }
 
-        public override void OnUnregister()
+        protected override void OnUnregister()
         {
             Log.Error("[TestComponent] OnUnregister");
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             Log.Error("[TestComponent] Initialize");
+            if (Actor.Root.HasTag("Hello"))
+            {
+                Log.Error("[TestComponent] True! Hello!");
+            }
+            else
+            {
+                Log.Error("[TestComponent] False! Hello!");
+            }
+            Actor.Root.LocalPosition = Actor.Root.LocalPosition + new Vector(0, 0, 100);
+
         }
 
-        public override void Uninitialize()
+        protected override void Uninitialize()
         {
             Log.Error("[TestComponent] Uninitialize");
         }
 
-        public override void Tick(float dt)
+        protected override void Tick(float dt)
         {
             Log.Error("[TestComponent] Tick ");
         }
 
-        public override void BeginPlay()
+        protected override void BeginPlay()
         {
             Log.Error("[TestComponent] [BeginPlay] ");
         }
-        public override void EndPlay(EndPlayReason reason)
+        protected override void EndPlay(EndPlayReason reason)
         {
             Log.Error("[TestComponent] [EndPlay] " + reason);
         }

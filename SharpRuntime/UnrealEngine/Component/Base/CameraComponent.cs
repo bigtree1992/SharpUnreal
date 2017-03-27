@@ -8,56 +8,56 @@ namespace UnrealEngine
     {
         public float FieldOfView
         {
-            get { return _GetFieldOfView(m_NativeHandler); }
-            set { _SetFieldOfView(m_NativeHandler, value); }
+            get { return _GetFieldOfView(NativeHandler); }
+            set { _SetFieldOfView(NativeHandler, value); }
         }
 
         public float OrthoWidth
         {
-            get { return _GetOrthoWidth(m_NativeHandler); }
-            set { _SetOrthoWidth(m_NativeHandler, value); }
+            get { return _GetOrthoWidth(NativeHandler); }
+            set { _SetOrthoWidth(NativeHandler, value); }
         }
 
         public float OrthoNearClipPlane
         {
-            get { return _GetOrthoNearClipPlane(m_NativeHandler);}
-            set { _SetOrthoNearClipPlane(m_NativeHandler, value);}
+            get { return _GetOrthoNearClipPlane(NativeHandler);}
+            set { _SetOrthoNearClipPlane(NativeHandler, value);}
         }
 
         public float OrthoFarClipPlane
         {
-            get { return _GetOrthoFarClipPlane(m_NativeHandler); }
-            set { _SetOrthoFarClipPlane(m_NativeHandler, value); }
+            get { return _GetOrthoFarClipPlane(NativeHandler); }
+            set { _SetOrthoFarClipPlane(NativeHandler, value); }
         }
 
         public float AspectRatio
         {
-            get { return _GetAspectRatio(m_NativeHandler);}
-            set { _SetAspectRatio(m_NativeHandler, value);}
+            get { return _GetAspectRatio(NativeHandler);}
+            set { _SetAspectRatio(NativeHandler, value);}
         }
 
         public bool ConstrainAspectRatio
         {
-            get { return _GetConstrainAspectRatio(m_NativeHandler);}
-            set { _SetConstrainAspectRatio(m_NativeHandler, value);}
+            get { return _GetConstrainAspectRatio(NativeHandler);}
+            set { _SetConstrainAspectRatio(NativeHandler, value);}
         }
 
         public bool UseFieldOfViewForLOD
         {
-            get { return _GetUseFieldOfViewForLOD(m_NativeHandler); }
-            set { _SetUseFieldOfViewForLOD(m_NativeHandler, value); }
+            get { return _GetUseFieldOfViewForLOD(NativeHandler); }
+            set { _SetUseFieldOfViewForLOD(NativeHandler, value); }
         }
 
         public bool LockToHmd
         {
-            get { return _GetLockToHmd(m_NativeHandler);}
-            set {_SetLockToHmd(m_NativeHandler, value);}
+            get { return _GetLockToHmd(NativeHandler);}
+            set {_SetLockToHmd(NativeHandler, value);}
         }
 
         public bool UsePawnControlRotation
         {
-            get { return _GetUsePawnControlRotation(m_NativeHandler);}
-            set { _SetUsePawnControlRotation(m_NativeHandler, value); }
+            get { return _GetUsePawnControlRotation(NativeHandler);}
+            set { _SetUsePawnControlRotation(NativeHandler, value); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

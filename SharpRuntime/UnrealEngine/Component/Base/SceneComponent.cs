@@ -11,8 +11,8 @@ namespace UnrealEngine
         /// </summary>
         public bool Visible
         {
-            get { return _GetVisible(m_NativeHandler); }
-            set { _SetVisible(m_NativeHandler, value); }
+            get { return _GetVisible(NativeHandler); }
+            set { _SetVisible(NativeHandler, value); }
         }
 
         /// <summary>
@@ -20,19 +20,19 @@ namespace UnrealEngine
         /// </summary>
         public bool HiddenInGame
         {
-            get { return _GetHiddenInGame(m_NativeHandler); }
-            set { _SetHiddenInGame(m_NativeHandler, value); }
+            get { return _GetHiddenInGame(NativeHandler); }
+            set { _SetHiddenInGame(NativeHandler, value); }
         }
 
         public Transform Transform
         {
             get
             {
-                return _GetTransform(m_NativeHandler);
+                return _GetTransform(NativeHandler);
             }
             set
             {
-                _SetTransform(m_NativeHandler, value);
+                _SetTransform(NativeHandler, value);
             }
         }
 
@@ -40,11 +40,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetPosition(m_NativeHandler);
+                return _GetPosition(NativeHandler);
             }
             set
             {
-                _SetPosition(m_NativeHandler, value);
+                _SetPosition(NativeHandler, value);
             }
         }
 
@@ -52,11 +52,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetRotation(m_NativeHandler);
+                return _GetRotation(NativeHandler);
             }
             set
             {
-                _SetRotation(m_NativeHandler, value);
+                _SetRotation(NativeHandler, value);
             }
         }
 
@@ -64,11 +64,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetScale(m_NativeHandler);
+                return _GetScale(NativeHandler);
             }
             set
             {
-                _SetScale(m_NativeHandler, value);
+                _SetScale(NativeHandler, value);
             }
         }
 
@@ -76,7 +76,7 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetForward(m_NativeHandler);
+                return _GetForward(NativeHandler);
             }
         }
 
@@ -84,7 +84,7 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetRight(m_NativeHandler);
+                return _GetRight(NativeHandler);
             }
         }
 
@@ -92,7 +92,7 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetUp(m_NativeHandler);
+                return _GetUp(NativeHandler);
             }
         }
         
@@ -100,11 +100,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetLocalTransform(m_NativeHandler);
+                return _GetLocalTransform(NativeHandler);
             }
             set
             {
-                _SetLocalTransform(m_NativeHandler, value);
+                _SetLocalTransform(NativeHandler, value);
             }
         }
 
@@ -112,11 +112,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetLocalPosition(m_NativeHandler);
+                return _GetLocalPosition(NativeHandler);
             }
             set
             {
-                _SetLocalPosition(m_NativeHandler, value);
+                _SetLocalPosition(NativeHandler, value);
             }
         }
 
@@ -124,11 +124,11 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetLocalRotation(m_NativeHandler);
+                return _GetLocalRotation(NativeHandler);
             }
             set
             {
-                _SetLocalRotation(m_NativeHandler, value);
+                _SetLocalRotation(NativeHandler, value);
             }
         }
         
@@ -136,53 +136,53 @@ namespace UnrealEngine
         {
             get
             {
-                return _GetLocalScale(m_NativeHandler);
+                return _GetLocalScale(NativeHandler);
             }
         }     
 
         public bool SimulatingPhysics
         {
-            get { return _GetSimulatingPhysics(m_NativeHandler); }
+            get { return _GetSimulatingPhysics(NativeHandler); }
         }
         
         public void AttachTo(SceneComponent parent, string socket)
         {
-            _AttachTo(m_NativeHandler,parent,socket);
+            _AttachTo(NativeHandler,parent,socket);
         }       
 
         public void SnapTo(SceneComponent parent, string socket)
         {
-            _SnapTo(m_NativeHandler, parent, socket);
+            _SnapTo(NativeHandler, parent, socket);
         }
         
         public void Detach()
         {
-            _Detach(m_NativeHandler);
+            _Detach(NativeHandler);
         }
         
         public string AttachedSocket
         {
-            get { return _GetAttachedSocket(m_NativeHandler); }
+            get { return _GetAttachedSocket(NativeHandler); }
         }
         
         public Transform GetSocketTransform(string socket)
         {
-            return _GetSocketTransform(m_NativeHandler, socket);
+            return _GetSocketTransform(NativeHandler, socket);
         }
         
         public Vector GetSocketLocation(string socket)
         {
-            return _GetSocketLocation(m_NativeHandler,socket);
+            return _GetSocketLocation(NativeHandler,socket);
         }
         
         public Quat GetSocketRotation(string socket)
         {
-            return _GetSocketRotation(m_NativeHandler,socket);
+            return _GetSocketRotation(NativeHandler,socket);
         }
         
         bool DoesSocketExist(string socket)
         {
-            return _DoesSocketExist(m_NativeHandler,socket);
+            return _DoesSocketExist(NativeHandler,socket);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

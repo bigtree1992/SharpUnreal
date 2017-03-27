@@ -8,73 +8,73 @@ namespace UnrealEngine
     {
         public void ActivateSystem(bool bFlagAsJustAttached = false)
         {
-            _ActivateSystem(m_NativeHandler, bFlagAsJustAttached);
+            _ActivateSystem(NativeHandler, bFlagAsJustAttached);
         }
         
         public void DeactivateSystem()
         {
-            _DeactivateSystem(m_NativeHandler);
+            _DeactivateSystem(NativeHandler);
         }
         
         public void ResetToDefaults()
         {
-            _ResetToDefaults(m_NativeHandler);
+            _ResetToDefaults(NativeHandler);
         }
         
         public void SetFloatParameter(string ParameterName, float Param)
         {
-            _SetFloatParameter(m_NativeHandler, ParameterName, Param);
+            _SetFloatParameter(NativeHandler, ParameterName, Param);
         }
         
         public void SetVectorParameter(string ParameterName, Vector Param)
         {
-            _SetVectorParameter(m_NativeHandler, ParameterName, Param);
+            _SetVectorParameter(NativeHandler, ParameterName, Param);
         }
         
         public void SetColorParameter(string ParameterName, LinearColor Param)
         {
-            _SetColorParameter(m_NativeHandler,ParameterName, Param);
+            _SetColorParameter(NativeHandler,ParameterName, Param);
         }
         
         public float GetFloatParameter(string ParameterName)
         {
-            return _GetFloatParameter(m_NativeHandler,ParameterName);
+            return _GetFloatParameter(NativeHandler,ParameterName);
         }
         
         public Vector GetVectorParameter(string ParameterName)
         {
-            return _GetVectorParameter(m_NativeHandler,ParameterName);
+            return _GetVectorParameter(NativeHandler,ParameterName);
         }
         
         public LinearColor GetColorParameter(string ParameterName)
         {
-            return _GetColorParameter(m_NativeHandler,ParameterName);
+            return _GetColorParameter(NativeHandler,ParameterName);
         }
         
         #region 设置事件回调
         public void RegParticleSpawn(ActorComponent _this)
         {
-            _RegParticleSpawn(m_NativeHandler, _this.NativeHandler);
+            _RegParticleSpawn(NativeHandler, _this.NativeHandler);
         }
 
         public void RegParticleBurst(ActorComponent _this)
         {
-            _RegParticleBurst(m_NativeHandler, _this.NativeHandler);
+            _RegParticleBurst(NativeHandler, _this.NativeHandler);
         }
         
         public void RegParticleDeath(ActorComponent _this)
         {
-            _RegParticleDeath(m_NativeHandler, _this.NativeHandler);
+            _RegParticleDeath(NativeHandler, _this.NativeHandler);
         }
         
         public void RegParticleCollide(ActorComponent _this)
         {
-            _RegParticleCollide(m_NativeHandler, _this.NativeHandler);
+            _RegParticleCollide(NativeHandler, _this.NativeHandler);
         }
         
         public void RegSystemFinished(ActorComponent _this)
         {
-            _RegSystemFinished(m_NativeHandler, _this.NativeHandler);
+            _RegSystemFinished(NativeHandler, _this.NativeHandler);
         }
         #endregion
         [MethodImpl(MethodImplOptions.InternalCall)]

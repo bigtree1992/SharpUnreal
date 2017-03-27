@@ -8,23 +8,23 @@ namespace UnrealEngine
     {
         public float GlobalAnimRateScale
         {
-            get { return _GetGlobalAnimRateScale(m_NativeHandler); }
-            set { _SetGlobalAnimRateScale(m_NativeHandler, value); }
+            get { return _GetGlobalAnimRateScale(NativeHandler); }
+            set { _SetGlobalAnimRateScale(NativeHandler, value); }
         }
 
         public void Play(bool looping)
         {
-            _Play(m_NativeHandler, looping);
+            _Play(NativeHandler, looping);
         }
 
         public void Stop()
         {
-            _Stop(m_NativeHandler);
+            _Stop(NativeHandler);
         }
 
         public bool IsPlaying
         {
-            get { return _GetIsPlaying(m_NativeHandler); }
+            get { return _GetIsPlaying(NativeHandler); }
         }
 
 
@@ -36,12 +36,12 @@ namespace UnrealEngine
 
         public void SetEnableBodyGravity(bool bEnableGravity, string BoneName)
         {
-            _SetEnableBodyGravity(m_NativeHandler, bEnableGravity, BoneName);
+            _SetEnableBodyGravity(NativeHandler, bEnableGravity, BoneName);
         }
 
         public bool IsBodyGravityEnabled(string BoneName)
         {
-            return _IsBodyGravityEnabled(m_NativeHandler, BoneName);
+            return _IsBodyGravityEnabled(NativeHandler, BoneName);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

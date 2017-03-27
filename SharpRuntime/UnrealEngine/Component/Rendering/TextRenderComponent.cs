@@ -8,32 +8,32 @@ namespace UnrealEngine
     {
         public string Text
         {
-            get { return _GetText(m_NativeHandler); }
-            set { _SetText(m_NativeHandler, value); }
+            get { return _GetText(NativeHandler); }
+            set { _SetText(NativeHandler, value); }
         }
 
         public Color Color
         {
-            get { return _GetColor(m_NativeHandler); }
-            set { _SetColor(m_NativeHandler,value); }
+            get { return _GetColor(NativeHandler); }
+            set { _SetColor(NativeHandler,value); }
         }
 
         public float XScale
         {
-            get { return _GetXScale(m_NativeHandler); }
-            set { _SetXScale(m_NativeHandler,value); }
+            get { return _GetXScale(NativeHandler); }
+            set { _SetXScale(NativeHandler,value); }
         }
 
         public float YScale
         {
-            get { return _GetYScale(m_NativeHandler); }
-            set { _SetYScale(m_NativeHandler, value); }
+            get { return _GetYScale(NativeHandler); }
+            set { _SetYScale(NativeHandler, value); }
         }
 
         public float WorldSize
         {
-            get { return _GetWorldSize(m_NativeHandler); }
-            set { _SetWorldSize(m_NativeHandler,value); }
+            get { return _GetWorldSize(NativeHandler); }
+            set { _SetWorldSize(NativeHandler,value); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

@@ -11,6 +11,8 @@
 #include "UnrealAPI/UnrealAPI_Math.h"
 #include "UnrealAPI/UnrealAPI_Component.h"
 #include "UnrealAPI/UnrealAPI_GamePlay.h"
+#include "UnrealAPI/UnrealAPI_Animation.h"
+#include "UnrealAPI/UnrealAPI_Audio.h"
 
 #include <mono/jit/jit.h>
 #include "mono/metadata/metadata.h"
@@ -164,6 +166,8 @@ int MonoRuntime::ReloadAssembly()
 	UnrealAPI_Math::RegisterAPI();
 	UnrealAPI_Component::RegisterAPI();
 	UnrealAPI_GamePlay::RegisterAPI();
+	UnrealAPI_Animation::RegisterAPI();
+	UnrealAPI_Audio::RegisterAPI();
 
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));

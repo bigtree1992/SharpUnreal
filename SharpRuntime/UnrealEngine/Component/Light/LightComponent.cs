@@ -8,62 +8,62 @@ namespace UnrealEngine
     {
         public float Intensity
         {
-            get { return _GetIntensity(m_NativeHandler); }
-            set { _SetIntensity(m_NativeHandler, value); }
+            get { return _GetIntensity(NativeHandler); }
+            set { _SetIntensity(NativeHandler, value); }
         }
 
         public Color LightColor
         {
-            get { return _GetLightColor(m_NativeHandler); }
-            set { _SetLightColor(m_NativeHandler, value); }
+            get { return _GetLightColor(NativeHandler); }
+            set { _SetLightColor(NativeHandler, value); }
         }       
    
         public float IndirectLightingIntensity
         {
-            get { return _GetIndirectLightingIntensity(m_NativeHandler); }
-            set { _SetIndirectLightingIntensity(m_NativeHandler, value); }
+            get { return _GetIndirectLightingIntensity(NativeHandler); }
+            set { _SetIndirectLightingIntensity(NativeHandler, value); }
         }
         
         public float Temperature
         {
-            get { return _GetTemperature(m_NativeHandler); }
-            set { _SetTemperature(m_NativeHandler, value); }
+            get { return _GetTemperature(NativeHandler); }
+            set { _SetTemperature(NativeHandler, value); }
         }
             
         public bool AffectIndirectLighting
         {
-            get { return _GetAffectIndirectLighting(m_NativeHandler); }
-            set { _SetAffectIndirectLighting(m_NativeHandler,value); }
+            get { return _GetAffectIndirectLighting(NativeHandler); }
+            set { _SetAffectIndirectLighting(NativeHandler,value); }
         }
 
         public bool AffectTranslucentLighting
         {
-            get { return _GetAffectTranslucentLighting(m_NativeHandler); }
-            set { _SetAffectTranslucentLighting(m_NativeHandler, value); }
+            get { return _GetAffectTranslucentLighting(NativeHandler); }
+            set { _SetAffectTranslucentLighting(NativeHandler, value); }
         }
         
         public bool EnableLightShaftBloom
         {
-            get { return _GetEnableLightShaftBloom(m_NativeHandler); }
-            set { _SetEnableLightShaftBloom(m_NativeHandler, value); }
+            get { return _GetEnableLightShaftBloom(NativeHandler); }
+            set { _SetEnableLightShaftBloom(NativeHandler, value); }
         }
         
         public float BloomScale
         {
-            get { return _GetBloomScale(m_NativeHandler); }
-            set { _SetBloomScale(m_NativeHandler,value); }
+            get { return _GetBloomScale(NativeHandler); }
+            set { _SetBloomScale(NativeHandler,value); }
         }
 
         public float BloomThreshold
         {
-            get { return _GetBloomThreshold(m_NativeHandler); }
-            set { _SetBloomThreshold(m_NativeHandler,value); }
+            get { return _GetBloomThreshold(NativeHandler); }
+            set { _SetBloomThreshold(NativeHandler,value); }
         }
         
         public Color BloomTint
         {
-            get { return _GetBloomTint(m_NativeHandler); }
-            set { _SetBloomTint(m_NativeHandler,value); }
+            get { return _GetBloomTint(NativeHandler); }
+            set { _SetBloomTint(NativeHandler,value); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
