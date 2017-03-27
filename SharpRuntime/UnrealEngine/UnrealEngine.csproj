@@ -62,7 +62,7 @@
     <Compile Include="Component\Movement\ProjectileMovementComponent.cs" />
     <Compile Include="Component\Movement\RotatingMovementComponent.cs" />
     <Compile Include="Component\Collision\ShapeComponent.cs" />
-    <Compile Include="Component\Rendering\SkeletalComponent.cs" />
+    <Compile Include="Component\Rendering\SkeletalMeshComponent.cs" />
     <Compile Include="Component\Rendering\SkinnedMeshComponent.cs" />
     <Compile Include="Component\Collision\SphereComponent.cs" />
     <Compile Include="Component\Rendering\SplineMeshComponent.cs" />

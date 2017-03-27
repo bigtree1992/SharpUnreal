@@ -246,7 +246,7 @@ namespace UnrealEngine
         public float AngularDamping
         {
             get { return _GetAngularDamping(m_NativeHandler); }
-            set { _SetAngularDamping(m_NativeHandler, value); }
+            set { _SetAngularDamping0(m_NativeHandler, value); }
         }    
 
         public void SetMassScale(string BoneName = "", float InMassScale = 1.0f)
@@ -291,7 +291,7 @@ namespace UnrealEngine
         
         public void SetCollisionResponseToAllChannels(CollisionResponse NewResponse)
         {
-            _SetAngularDamping(m_NativeHandler, NewResponse);
+            _SetAngularDamping1(m_NativeHandler, NewResponse);
         }
 
 
@@ -360,7 +360,7 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static float _GetAngularDamping(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetAngularDamping(IntPtr handler, float value);
+        private extern static void _SetAngularDamping0(IntPtr handler, float value);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetMassScale(IntPtr handler, string BoneName, float InMassScale);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -379,6 +379,6 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetCollisionResponseToChannel(IntPtr handler, CollisionChannel Channel, CollisionResponse NewResponse);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetAngularDamping(IntPtr handler, CollisionResponse NewResponse);
+        private extern static void _SetAngularDamping1(IntPtr handler, CollisionResponse NewResponse);
     }
 }

@@ -33,12 +33,12 @@ namespace UnrealEngine
         
         public Transform GetBoneTransform(int BoneIndex, Transform LocalToWorld)
         {
-            return _GetBoneTransform(m_NativeHandler,BoneIndex,LocalToWorld);
+            return _GetBoneTransform0(m_NativeHandler,BoneIndex,LocalToWorld);
         }
        
         public Transform GetBoneTransform(int BoneIndex)
         {
-            return _GetBoneTransform(m_NativeHandler,BoneIndex);
+            return _GetBoneTransform1(m_NativeHandler,BoneIndex);
         }
         
         public Quat GetBoneQuaternion(string BoneName, EBoneSpaces space = EBoneSpaces.WorldSpace)
@@ -78,9 +78,9 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Matrix _GetBoneMatrix(IntPtr handler, int BoneIndex);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Transform _GetBoneTransform(IntPtr handler, int BoneIndex, Transform LocalToWorld);
+        private extern static Transform _GetBoneTransform0(IntPtr handler, int BoneIndex, Transform LocalToWorld);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Transform _GetBoneTransform(IntPtr handler, int BoneIndex);
+        private extern static Transform _GetBoneTransform1(IntPtr handler, int BoneIndex);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Quat _GetBoneQuaternion(IntPtr handler, string BoneName, EBoneSpaces space);
         [MethodImpl(MethodImplOptions.InternalCall)]

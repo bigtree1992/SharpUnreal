@@ -648,6 +648,1893 @@ static void UnrealEngine_CameraComponent_SetUsePawnControlRotation(UCameraCompon
 }
 #endif
 
+#if 1
+
+static UMaterial* UnrealEngine_PrimitiveComponent_GetMaterial(UPrimitiveComponent* _this, int elementIndex)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterial But _this is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetMaterial(UPrimitiveComponent* _this, int elementIndex, UMaterial* material)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMaterial But _this is NULL."));
+		return;
+	}
+	if (material == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMaterial But material is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetMaterialByName(UPrimitiveComponent* _this, MonoString* slotName, UMaterial* material)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMaterialByName But _this is NULL."));
+		return;
+	}
+	if (slotName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMaterialByName But slotName is NULL."));
+		return;
+	}
+	if (material == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMaterialByName But material is NULL."));
+		return;
+	}
+}
+
+static int UnrealEngine_PrimitiveComponent_GetMaterialIndex(UPrimitiveComponent* _this, MonoString* slotName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterialIndex But _this is NULL."));
+		return NULL;
+	}
+	if (slotName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterialIndex But slotName is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static mono_bool UnrealEngine_PrimitiveComponent_IsMaterialSlotNameValid(UPrimitiveComponent* _this, MonoString* slotName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] IsMaterialSlotNameValid But _this is NULL."));
+		return false;
+	}
+	if (slotName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] IsMaterialSlotNameValid But slotName is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static UMaterial* UnrealEngine_PrimitiveComponent_CreateDynamicMaterial(UPrimitiveComponent* _this, int elementIndex, UMaterial* source)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] CreateDynamicMaterial But _this is NULL."));
+		return NULL;
+	}
+	if (source == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] CreateDynamicMaterial But source is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static void UnrealEngine_PrimitiveComponent_RegComponentHit(UPrimitiveComponent* _this, UMonoComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentHit But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentHit But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_RegComponentBeginOverlap(UPrimitiveComponent* _this, UMonoComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentBeginOverlap But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentBeginOverlap But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_RegComponentEndOverlap(UPrimitiveComponent* _this, UMonoComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentEndOverlap But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentEndOverlap But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_RegComponentWake(UPrimitiveComponent* _this, UMonoComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentWake But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentWake But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_RegComponentSleep(UPrimitiveComponent* _this, UMonoComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentSleep But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] RegComponentSleep But listener is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_PrimitiveComponent_GetGenerateOverlapEvents(UPrimitiveComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetGenerateOverlapEvents But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetGenerateOverlapEvents(UPrimitiveComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetGenerateOverlapEvents But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetSimulatePhysics(UPrimitiveComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetSimulatePhysics But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetCollisionEnabled(UPrimitiveComponent* _this, /*CollosionEnabled*/ int value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCollisionEnabled But _this is NULL."));
+		return;
+	}
+	if (value == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCollisionEnabled But value is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_IgnoreComponentWhenMoving(UPrimitiveComponent* _this, UPrimitiveComponent* component, mono_bool shouldIgnore)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] IgnoreComponentWhenMoving But _this is NULL."));
+		return;
+	}
+	if (component == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] IgnoreComponentWhenMoving But component is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_PrimitiveComponent_IsOverlappingComponent(UPrimitiveComponent* _this, UPrimitiveComponent* other)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] IsOverlappingComponent But _this is NULL."));
+		return false;
+	}
+	if (other == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] IsOverlappingComponent But other is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetBoundsScale(UPrimitiveComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetBoundsScale But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetConstraintMode(UPrimitiveComponent* _this, EDOFMode::Type value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetConstraintMode But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_AddImpulse(UPrimitiveComponent* _this, FVector Impulse, MonoString* BoneName, mono_bool bVelChange)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddImpulse But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddImpulse But BoneName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_AddImpulseAtLocation(UPrimitiveComponent* _this, FVector Impulse, FVector Location, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddImpulseAtLocation But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddImpulseAtLocation But BoneName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_AddRadialImpulse(UPrimitiveComponent* _this, FVector Origin, float Radius, float Strength, ERadialImpulseFalloff Falloff, mono_bool bVelChange)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddRadialImpulse But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_AddForceAtLocation(UPrimitiveComponent* _this, FVector Force, FVector Location, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddForceAtLocation But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddForceAtLocation But BoneName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_AddRadialForce(UPrimitiveComponent* _this, FVector Origin, float Radius, float Strength, ERadialImpulseFalloff Falloff, mono_bool bAccelChange)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddRadialForce But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_AddTorque(UPrimitiveComponent* _this, FVector Torque, MonoString* BoneName, mono_bool bAccelChange)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddTorque But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddTorque But BoneName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetPhysicsLinearVelocity(UPrimitiveComponent* _this, FVector NewVel, mono_bool bAddToCurrent, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsLinearVelocity But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsLinearVelocity But BoneName is NULL."));
+		return;
+	}
+}
+
+static FVector UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocity(UPrimitiveComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsLinearVelocity But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsLinearVelocity But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static FVector UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocityAtPoint(UPrimitiveComponent* _this, FVector Point, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsLinearVelocityAtPoint But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsLinearVelocityAtPoint But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetAllPhysicsLinearVelocity(UPrimitiveComponent* _this, FVector NewVel, mono_bool bAddToCurrent)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetAllPhysicsLinearVelocity But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetPhysicsAngularVelocity(UPrimitiveComponent* _this, FVector NewAngVel, mono_bool bAddToCurrent, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsAngularVelocity But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsAngularVelocity But BoneName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetPhysicsMaxAngularVelocity(UPrimitiveComponent* _this, float NewMaxAngVel, mono_bool bAddToCurrent, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsMaxAngularVelocity But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsMaxAngularVelocity But BoneName is NULL."));
+		return;
+	}
+}
+
+static FVector UnrealEngine_PrimitiveComponent_GetPhysicsAngularVelocity(UPrimitiveComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsAngularVelocity But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsAngularVelocity But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static FVector UnrealEngine_PrimitiveComponent_GetCenterOfMass(UPrimitiveComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetCenterOfMass But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetCenterOfMass But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static FVector UnrealEngine_PrimitiveComponent_SetCenterOfMass(UPrimitiveComponent* _this, FVector CenterOfMassOffset, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCenterOfMass But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCenterOfMass But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static float UnrealEngine_PrimitiveComponent_GetClosestPointOnCollision(UPrimitiveComponent* _this, FVector Point, FVector* OutPointOnBody, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetClosestPointOnCollision But _this is NULL."));
+		return 0.0f;
+	}
+	if (OutPointOnBody == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetClosestPointOnCollision But OutPointOnBody is NULL."));
+		return 0.0f;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetClosestPointOnCollision But BoneName is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PrimitiveComponent_WakeAllRigidBodies(UPrimitiveComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] WakeAllRigidBodies But _this is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_PrimitiveComponent_GetIsGravityEnabled(UPrimitiveComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetIsGravityEnabled But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetIsGravityEnabled(UPrimitiveComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetIsGravityEnabled But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PrimitiveComponent_GetLinearDamping(UPrimitiveComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetLinearDamping But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetLinearDamping(UPrimitiveComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetLinearDamping But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PrimitiveComponent_GetAngularDamping(UPrimitiveComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetAngularDamping But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetAngularDamping0(UPrimitiveComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetAngularDamping0 But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetMassScale(UPrimitiveComponent* _this, MonoString* BoneName, float InMassScale)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMassScale But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMassScale But BoneName is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PrimitiveComponent_GetMassScale(UPrimitiveComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMassScale But _this is NULL."));
+		return 0.0f;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMassScale But BoneName is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetAllMassScale(UPrimitiveComponent* _this, float InMassScale)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetAllMassScale But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetMassOverrideInKg(UPrimitiveComponent* _this, MonoString* BoneName, float MassInKg, mono_bool bOverrideMass)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMassOverrideInKg But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMassOverrideInKg But BoneName is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PrimitiveComponent_GetMass(UPrimitiveComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMass But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static FVector UnrealEngine_PrimitiveComponent_GetInertiaTensor(UPrimitiveComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetInertiaTensor But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetInertiaTensor But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static FVector UnrealEngine_PrimitiveComponent_SetScaleByMomentOfInertia(UPrimitiveComponent* _this, FVector InputVector, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetScaleByMomentOfInertia But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetScaleByMomentOfInertia But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static void UnrealEngine_PrimitiveComponent_SetCollisionResponseToChannel(UPrimitiveComponent* _this, ECollisionChannel Channel, FCollisionResponse NewResponse)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCollisionResponseToChannel But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_PrimitiveComponent_SetAngularDamping1(UPrimitiveComponent* _this, FCollisionResponse NewResponse)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetAngularDamping1 But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static FVector UnrealEngine_BoxComponent_GetBoxExtent(UBoxComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[BoxComponent] GetBoxExtent But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static void UnrealEngine_BoxComponent_SetBoxExtent(UBoxComponent* _this, FVector value)
+{
+
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[BoxComponent] SetBoxExtent But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_BoxComponent_GetShapeScale(UBoxComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[BoxComponent] GetShapeScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+#endif
+
+#if 1
+
+static float UnrealEngune_CapsuleComponent_GetCapsuleHalfHeight(UCapsuleComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[CapsuleComponent] GetCapsuleHalfHeight But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngune_CapsuleComponent_SetCapsuleHalfHeight(UCapsuleComponent* _this, float value)
+{
+
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[CapsuleComponent] SetCapsuleHalfHeight But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngune_CapsuleComponent_GetCapsuleRadius(UCapsuleComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[CapsuleComponent] GetCapsuleRadius But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngune_CapsuleComponent_SetCapsuleRadius(UCapsuleComponent* _this, float value)
+{
+
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[CapsuleComponent] SetCapsuleRadius But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngune_CapsuleComponent_GetGetShapeScale(UCapsuleComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[CapsuleComponent] GetGetShapeScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+#endif
+
+#if 1
+
+static FColor UnrealEngine_ShapeComponent_GetShapeColor(UShapeComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ShapeComponent] GetShapeColor But _this is NULL."));
+		return FColor::White;
+	}
+	return FColor::White;
+}
+
+static void UnrealEngine_ShapeComponent_SetShapeColor(UShapeComponent* _this, FColor value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ShapeComponent] SetShapeColor But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static float UnrealEngine_SphereComponent_GetSphereRadius(USphereComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SphereComponent] GetSphereRadius But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_SphereComponent_SetSphereRadius(USphereComponent* _this, float value)
+{
+
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SphereComponent] SetSphereRadius But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_SphereComponent_GetShapeScale(USphereComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SphereComponent] GetShapeScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+#endif
+
+#if 1
+
+static float UnrealEngine_DirectionalLightComponent_GetDynamicShadowDistanceMovableLight(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetDynamicShadowDistanceMovableLight But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetDynamicShadowDistanceMovableLight(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetDynamicShadowDistanceMovableLight But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_DirectionalLightComponent_GetDynamicShadowDistanceStationaryLight(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetDynamicShadowDistanceStationaryLight But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetDynamicShadowDistanceStationaryLight(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetDynamicShadowDistanceStationaryLight But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_DirectionalLightComponent_GetDynamicShadowCascades(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetDynamicShadowCascades But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetDynamicShadowCascades(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetDynamicShadowCascades But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_DirectionalLightComponent_GetCascadeDistributionExponent(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetCascadeDistributionExponent But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetCascadeDistributionExponent(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetCascadeDistributionExponent But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_DirectionalLightComponent_GetCascadeTransitionFraction(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetCascadeTransitionFraction But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetCascadeTransitionFraction(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetCascadeTransitionFraction But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_DirectionalLightComponent_GetSShadowDistanceFadeoutFraction(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetSShadowDistanceFadeoutFraction But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetSShadowDistanceFadeoutFraction(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetSShadowDistanceFadeoutFraction But _this is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_DirectionalLightComponent_GetEnableLightShaftOcclusion(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetEnableLightShaftOcclusion But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetEnableLightShaftOcclusion(UDirectionalLightComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetEnableLightShaftOcclusion But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_DirectionalLightComponent_GetOcclusionMaskDarkness(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetOcclusionMaskDarkness But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetOcclusionMaskDarkness(UDirectionalLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetOcclusionMaskDarkness But _this is NULL."));
+		return;
+	}
+}
+
+static FVector UnrealEngine_DirectionalLightComponent_GetLightShaftOverrideDirection(UDirectionalLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] GetLightShaftOverrideDirection But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static void UnrealEngine_DirectionalLightComponent_SetLightShaftOverrideDirection(UDirectionalLightComponent* _this, FVector value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[DirectionalLightComponent] SetLightShaftOverrideDirection But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static float UnrealEngine_LightComponent_GetIntensity(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetIntensity But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_LightComponent_SetIntensity(ULightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetIntensity But _this is NULL."));
+		return;
+	}
+}
+
+static FColor UnrealEngine_LightComponent_GetLightColor(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetLightColor But _this is NULL."));
+		return FColor::White;
+	}
+	return FColor::White;
+}
+
+static void UnrealEngine_LightComponent_SetLightColor(ULightComponent* _this, FColor value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetLightColor But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_LightComponent_GetIndirectLightingIntensity(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetIndirectLightingIntensity But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_LightComponent_SetIndirectLightingIntensity(ULightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetIndirectLightingIntensity But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_LightComponent_GetTemperature(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetTemperature But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_LightComponent_SetTemperature(ULightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetTemperature But _this is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_LightComponent_GetAffectIndirectLighting(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetAffectIndirectLighting But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_LightComponent_SetAffectIndirectLighting(ULightComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetAffectIndirectLighting But _this is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_LightComponent_GetAffectTranslucentLighting(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetAffectTranslucentLighting But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_LightComponent_SetAffectTranslucentLighting(ULightComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetAffectTranslucentLighting But _this is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_LightComponent_GetEnableLightShaftBloom(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetEnableLightShaftBloom But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static void UnrealEngine_LightComponent_SetEnableLightShaftBloom(ULightComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetEnableLightShaftBloom But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_LightComponent_GetBloomScale(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetBloomScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_LightComponent_SetBloomScale(ULightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetBloomScale But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_LightComponent_GetBloomThreshold(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetBloomThreshold But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_LightComponent_SetBloomThreshold(ULightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetBloomThreshold But _this is NULL."));
+		return;
+	}
+}
+
+static FColor UnrealEngine_LightComponent_GetBloomTint(ULightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] GetBloomTint But _this is NULL."));
+		return FColor::White;
+	}
+	return FColor::White;
+}
+
+static void UnrealEngine_LightComponent_SetBloomTint(ULightComponent* _this, FColor value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[LightComponent] SetBloomTint But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static float UnrealEngine_PointLightComponent_GetAttenuationRadius(UPointLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] GetAttenuationRadius But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PointLightComponent_SetAttenuationRadius(UPointLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] SetAttenuationRadius But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PointLightComponent_GetLightFalloffExponent(UPointLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] GetLightFalloffExponent But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PointLightComponent_SetLightFalloffExponent(UPointLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] SetLightFalloffExponent But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PointLightComponent_GetSourceRadius(UPointLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] GetSourceRadius But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PointLightComponent_SetSourceRadius(UPointLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] SetSourceRadius But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_PointLightComponent_GetSourceLength(UPointLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] GetSourceLength But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_PointLightComponent_SetSourceLength(UPointLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PointLightComponent] SetSourceLength But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static float UnrealEngine_SpotLightComponent_GetInnerConeAngle(USpotLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SpotLightComponent] GetInnerConeAngle But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_SpotLightComponent_SetInnerConeAngle(USpotLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SpotLightComponent] SetInnerConeAngle But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_SpotLightComponent_GetOuterConeAngle(USpotLightComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SpotLightComponent] GetOuterConeAngle But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_SpotLightComponent_SetOuterConeAngle(USpotLightComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SpotLightComponent] SetOuterConeAngle But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+
+static void UnrealEngine_MeshComponent_SetScalarParameter(UMeshComponent* _this, MonoString* name, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MeshComponent] SetScalarParameter But _this is NULL."));
+		return;
+	}
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MeshComponent] SetScalarParameter But name is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_MeshComponent_SetVectorParameter(UMeshComponent* _this, MonoString* name, FLinearColor value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MeshComponent] SetVectorParameter But _this is NULL."));
+		return;
+	}
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MeshComponent] SetVectorParameter But name is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static void UnrealEngine_ParticleSystemComponent_ActivateSystem(UParticleSystemComponent* _this, mono_bool bFlagAsJustAttached)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] ActivateSystem But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_DeactivateSystem(UParticleSystemComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] DeactivateSystem But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_ResetToDefaults(UParticleSystemComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] ResetToDefaults But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_SetFloatParameter(UParticleSystemComponent* _this, MonoString* ParameterName, float Param)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetFloatParameter But _this is NULL."));
+		return;
+	}
+	if (ParameterName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetFloatParameter But ParameterName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_SetVectorParameter(UParticleSystemComponent* _this, MonoString* ParameterName, FVector Param)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetVectorParameter But _this is NULL."));
+		return;
+	}
+	if (ParameterName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetVectorParameter But ParameterName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_SetColorParameter(UParticleSystemComponent* _this, MonoString* ParameterName, FLinearColor Param)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetColorParameter But _this is NULL."));
+		return;
+	}
+	if (ParameterName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetColorParameter But ParameterName is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_ParticleSystemComponent_GetFloatParameter(UParticleSystemComponent* _this, MonoString* ParameterName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetFloatParameter But _this is NULL."));
+		return 0.0f;
+	}
+	if (ParameterName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetFloatParameter But ParameterName is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static FVector UnrealEngine_ParticleSystemComponent_GetVectorParameter(UParticleSystemComponent* _this, MonoString* ParameterName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetVectorParameter But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (ParameterName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetVectorParameter But ParameterName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static FLinearColor UnrealEngine_ParticleSystemComponent_GetColorParameter(UParticleSystemComponent* _this, MonoString* ParameterName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetColorParameter But _this is NULL."));
+		return FLinearColor::White;
+	}
+	if (ParameterName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetColorParameter But ParameterName is NULL."));
+		return FLinearColor::White;
+	}
+	return FLinearColor::White;
+}
+
+static void UnrealEngine_ParticleSystemComponent_RegParticleSpawn(UParticleSystemComponent* _this, UActorComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleSpawn But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleSpawn But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_RegParticleBurst(UParticleSystemComponent* _this, UActorComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleBurst But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleBurst But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_RegParticleDeath(UParticleSystemComponent* _this, UActorComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleDeath But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleDeath But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_RegParticleCollide(UParticleSystemComponent* _this, UActorComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleCollide But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegParticleCollide But listener is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_ParticleSystemComponent_RegSystemFinished(UParticleSystemComponent* _this, UActorComponent* listener)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegSystemFinished But _this is NULL."));
+		return;
+	}
+	if (listener == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] RegSystemFinished But listener is NULL."));
+		return;
+	}
+}
+
+#endif
+
+#if 1
+
+static float UnrealEngine_SkeletalMeshComponent_GetGlobalAnimRateScale(USkeletalMeshComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] GetGlobalAnimRateScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_SkeletalMeshComponent_SetGlobalAnimRateScale(USkeletalMeshComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] SetGlobalAnimRateScale But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_SkeletalMeshComponent_SetPlay(USkeletalMeshComponent* _this, mono_bool looping)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] SetPlay But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_SkeletalMeshComponent_Stop(USkeletalMeshComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] Stop But _this is NULL."));
+		return;
+	}
+}
+
+static bool UnrealEngine_SkeletalMeshComponent_GetIsPlaying(USkeletalMeshComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] GetIsPlaying But _this is NULL."));
+		return false;
+	}
+	return false;
+}
+
+static float UnrealEngine_SkeletalMeshComponent_GetPlayRate(USkeletalMeshComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] GetPlayRate But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_SkeletalMeshComponent_SetPlayRate(USkeletalMeshComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] SetPlayRate But _this is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_SkeletalMeshComponent_SetEnableBodyGravity(USkeletalMeshComponent* _this, mono_bool bEnableGravity, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] SetEnableBodyGravity But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] SetEnableBodyGravity But BoneName is NULL."));
+		return;
+	}
+}
+
+static bool UnrealEngine_SkeletalMeshComponent_IsBodyGravityEnabled(USkeletalMeshComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] IsBodyGravityEnabled But _this is NULL."));
+		return false;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] IsBodyGravityEnabled But BoneName is NULL."));
+		return false;
+	}
+	return false;
+}
+
+#endif
+
+#if 1
+
+static int UnrealEngine_SkinnedMeshComponent_GetBoneIndex(USkinnedMeshComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneIndex But _this is NULL."));
+		return NULL;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneIndex But BoneName is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static MonoString* UnrealEngine_SkinnedMeshComponent_GetBoneName(USkinnedMeshComponent* _this, int BoneIndex)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneName But _this is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static MonoString* UnrealEngine_SkinnedMeshComponent_GetSocketBoneName(USkinnedMeshComponent* _this, MonoString* InSocketName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetSocketBoneName But _this is NULL."));
+		return NULL;
+	}
+	if (InSocketName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetSocketBoneName But InSocketName is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static MonoString* UnrealEngine_SkinnedMeshComponent_GetParentBone(USkinnedMeshComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetParentBone But _this is NULL."));
+		return NULL;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetParentBone But BoneName is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static FMatrix UnrealEngine_SkinnedMeshComponent_GetBoneMatrix(USkinnedMeshComponent* _this, int BoneIndex)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneMatrix But _this is NULL."));
+		return FMatrix::Identity;
+	}
+	return FMatrix::Identity;
+}
+
+static FTransform UnrealEngine_SkinnedMeshComponent_GetBoneTransform0(USkinnedMeshComponent* _this, int BoneIndex, FTransform LocalToWorld)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneTransform But _this is NULL."));
+		return FTransform::Identity;
+	}
+	return FTransform::Identity;
+}
+
+static FTransform UnrealEngine_SkinnedMeshComponent_GetBoneTransform1(USkinnedMeshComponent* _this, int BoneIndex)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneTransform But _this is NULL."));
+		return FTransform::Identity;
+	}
+	return FTransform::Identity;
+}
+
+static FQuat UnrealEngine_SkinnedMeshComponent_GetBoneQuaternion(USkinnedMeshComponent* _this, MonoString* BoneName, EBoneSpaces::Type space)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneQuaternion But _this is NULL."));
+		return FQuat::Identity;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneQuaternion But BoneName is NULL."));
+		return FQuat::Identity;
+	}
+	return FQuat::Identity;
+}
+
+static FVector UnrealEngine_SkinnedMeshComponent_GetBoneLocation(USkinnedMeshComponent* _this, MonoString* BoneName, EBoneSpaces::Type Space)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneLocation But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneLocation But BoneName is NULL."));
+		return FVector::ZeroVector;
+	}
+	return FVector::ZeroVector;
+}
+
+static void UnrealEngine_SkinnedMeshComponent_HideBoneByName(USkinnedMeshComponent* _this, MonoString* BoneName, EPhysBodyOp PhysBodyOption)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] HideBoneByName But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] HideBoneByName But BoneName is NULL."));
+		return;
+	}
+}
+
+static void UnrealEngine_SkinnedMeshComponent_UnHideBoneByName(USkinnedMeshComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] UnHideBoneByName But _this is NULL."));
+		return;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] UnHideBoneByName But BoneName is NULL."));
+		return;
+	}
+}
+
+static mono_bool UnrealEngine_SkinnedMeshComponent_IsBoneHiddenByName(USkinnedMeshComponent* _this, MonoString* BoneName)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] IsBoneHiddenByName But _this is NULL."));
+		return false;
+	}
+	if (BoneName == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] IsBoneHiddenByName But BoneName is NULL."));
+		return false;
+	}
+	return false;
+}
+
+#endif
+
+#if 1
+
+static MonoString* UnrealEngine_TextRenderComponent_GetText(UTextRenderComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] GetText But _this is NULL."));
+		return NULL;
+	}
+	return NULL;
+}
+
+static void UnrealEngine_TextRenderComponent_SetText(UTextRenderComponent* _this, MonoString* value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetText But _this is NULL."));
+		return;
+	}
+	if (value == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetText But value is NULL."));
+		return;
+	}
+}
+
+static FColor UnrealEngine_TextRenderComponent_GetColor(UTextRenderComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] GetColor But _this is NULL."));
+		return FColor::White;
+	}
+	return FColor::White;
+}
+
+static void UnrealEngine_TextRenderComponent_SetColor(UTextRenderComponent* _this, FColor value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetColor But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_TextRenderComponent_GetSourceLength(UTextRenderComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] GetSourceLength But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_TextRenderComponent_SetSourceLength(UTextRenderComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetSourceLength But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_TextRenderComponent_GetXScale(UTextRenderComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] GetXScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_TextRenderComponent_SetXScale(UTextRenderComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetXScale But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_TextRenderComponent_GetYScale(UTextRenderComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] GetYScale But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_TextRenderComponent_SetYScale(UTextRenderComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetYScale But _this is NULL."));
+		return;
+	}
+}
+
+static float UnrealEngine_TextRenderComponent_GetWorldSize(UTextRenderComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] GetWorldSize But _this is NULL."));
+		return 0.0f;
+	}
+	return 0.0f;
+}
+
+static void UnrealEngine_TextRenderComponent_SetWorldSize(UTextRenderComponent* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetWorldSize But _this is NULL."));
+		return;
+	}
+}
+
+#endif
+
 void UnrealAPI_Component::RegisterAPI() 
 {
 	#if 1
@@ -795,6 +2682,402 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetUsePawnControlRotation));
 	mono_add_internal_call("UnrealEngine.CameraComponent::_SetUsePawnControlRotation",
 		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetUsePawnControlRotation));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetMaterial",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetMaterial));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetMaterial",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetMaterial));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetMaterialByName",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetMaterialByName));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetMaterialIndex",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetMaterialIndex));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_IsMaterialSlotNameValid",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_IsMaterialSlotNameValid));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_CreateDynamicMaterial",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_CreateDynamicMaterial));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_RegComponentHit",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_RegComponentHit));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_RegComponentBeginOverlap",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_RegComponentBeginOverlap));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_RegComponentEndOverlap",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_RegComponentEndOverlap));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_RegComponentWake",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_RegComponentWake));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_RegComponentSleep",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_RegComponentSleep));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetGenerateOverlapEvents",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetGenerateOverlapEvents));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetGenerateOverlapEvents",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetGenerateOverlapEvents));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetSimulatePhysics",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetSimulatePhysics));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetCollisionEnabled",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetCollisionEnabled));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_IgnoreComponentWhenMoving",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_IgnoreComponentWhenMoving));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_IsOverlappingComponent",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_IsOverlappingComponent));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetBoundsScale",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetBoundsScale));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetConstraintMode",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetConstraintMode));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_AddImpulse",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_AddImpulse));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_AddImpulseAtLocation",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_AddImpulseAtLocation));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_AddRadialImpulse",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_AddRadialImpulse));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_AddForceAtLocation",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_AddForceAtLocation));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_AddRadialForce",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_AddRadialForce));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_AddTorque",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_AddTorque));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetPhysicsLinearVelocity",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetPhysicsLinearVelocity));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetPhysicsLinearVelocity",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocity));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetPhysicsLinearVelocityAtPoint",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocityAtPoint));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetAllPhysicsLinearVelocity",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetAllPhysicsLinearVelocity));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetPhysicsAngularVelocity",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetPhysicsAngularVelocity));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetPhysicsMaxAngularVelocity",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetPhysicsMaxAngularVelocity));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetPhysicsAngularVelocity",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetPhysicsAngularVelocity));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetCenterOfMass",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetCenterOfMass));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetCenterOfMass",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetCenterOfMass));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetClosestPointOnCollision",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetClosestPointOnCollision));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_WakeAllRigidBodies",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_WakeAllRigidBodies));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetIsGravityEnabled",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetIsGravityEnabled));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetIsGravityEnabled",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetIsGravityEnabled));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetLinearDamping",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetLinearDamping));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetLinearDamping",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetLinearDamping));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetAngularDamping",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetAngularDamping));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetAngularDamping0",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetAngularDamping0));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetMassScale",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetMassScale));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetMassScale",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetMassScale));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetAllMassScale",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetAllMassScale));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetMassOverrideInKg",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetMassOverrideInKg));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetMass",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetMass));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetInertiaTensor",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetInertiaTensor));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetScaleByMomentOfInertia",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetScaleByMomentOfInertia));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetCollisionResponseToChannel",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetCollisionResponseToChannel));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetAngularDamping1",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetAngularDamping1));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.BoxComponent::_GetBoxExtent",
+		reinterpret_cast<void*>(UnrealEngine_BoxComponent_GetBoxExtent));
+	mono_add_internal_call("UnrealEngine.BoxComponent::_SetBoxExtent",
+		reinterpret_cast<void*>(UnrealEngine_BoxComponent_SetBoxExtent));
+	mono_add_internal_call("UnrealEngine.BoxComponent::_GetShapeScale",
+		reinterpret_cast<void*>(UnrealEngine_BoxComponent_GetShapeScale));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.CapsuleComponent::_GetCapsuleHalfHeight",
+		reinterpret_cast<void*>(UnrealEngune_CapsuleComponent_GetCapsuleHalfHeight));
+	mono_add_internal_call("UnrealEngine.CapsuleComponent::_SetCapsuleHalfHeight",
+		reinterpret_cast<void*>(UnrealEngune_CapsuleComponent_SetCapsuleHalfHeight));
+	mono_add_internal_call("UnrealEngine.CapsuleComponent::_GetCapsuleRadius",
+		reinterpret_cast<void*>(UnrealEngune_CapsuleComponent_GetCapsuleRadius));
+	mono_add_internal_call("UnrealEngine.CapsuleComponent::_SetCapsuleRadius",
+		reinterpret_cast<void*>(UnrealEngune_CapsuleComponent_SetCapsuleRadius));
+	mono_add_internal_call("UnrealEngine.CapsuleComponent::_GetGetShapeScale",
+		reinterpret_cast<void*>(UnrealEngune_CapsuleComponent_GetGetShapeScale));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.ShapeComponent::_GetShapeColor",
+		reinterpret_cast<void*>(UnrealEngine_ShapeComponent_GetShapeColor));
+	mono_add_internal_call("UnrealEngine.ShapeComponent::_SetShapeColor",
+		reinterpret_cast<void*>(UnrealEngine_ShapeComponent_SetShapeColor));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.SphereComponent::_GetSphereRadius",
+		reinterpret_cast<void*>(UnrealEngine_SphereComponent_GetSphereRadius));
+	mono_add_internal_call("UnrealEngine.SphereComponent::_SetSphereRadius",
+		reinterpret_cast<void*>(UnrealEngine_SphereComponent_SetSphereRadius));
+	mono_add_internal_call("UnrealEngine.SphereComponent::_GetShapeScale",
+		reinterpret_cast<void*>(UnrealEngine_SphereComponent_GetShapeScale));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetDynamicShadowDistanceMovableLight",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetDynamicShadowDistanceMovableLight));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetDynamicShadowDistanceMovableLight",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetDynamicShadowDistanceMovableLight));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetDynamicShadowDistanceStationaryLight",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetDynamicShadowDistanceStationaryLight));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetDynamicShadowDistanceStationaryLight",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetDynamicShadowDistanceStationaryLight));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetDynamicShadowCascades",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetDynamicShadowCascades));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetDynamicShadowCascades",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetDynamicShadowCascades));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetCascadeDistributionExponent",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetCascadeDistributionExponent));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetCascadeDistributionExponent",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetCascadeDistributionExponent));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetCascadeTransitionFraction",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetCascadeTransitionFraction));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetCascadeTransitionFraction",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetCascadeTransitionFraction));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetSShadowDistanceFadeoutFraction",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetSShadowDistanceFadeoutFraction));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetSShadowDistanceFadeoutFraction",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetSShadowDistanceFadeoutFraction));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetEnableLightShaftOcclusion",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetEnableLightShaftOcclusion));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetEnableLightShaftOcclusion",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetEnableLightShaftOcclusion));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetOcclusionMaskDarkness",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetOcclusionMaskDarkness));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetOcclusionMaskDarkness",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetOcclusionMaskDarkness));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetLightShaftOverrideDirection",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetLightShaftOverrideDirection));
+	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetLightShaftOverrideDirection",
+		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetLightShaftOverrideDirection));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetIntensity",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetIntensity));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetIntensity",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetIntensity));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetLightColor",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetLightColor));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetLightColor",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetLightColor));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetIndirectLightingIntensity",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetIndirectLightingIntensity));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetIndirectLightingIntensity",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetIndirectLightingIntensity));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetTemperature",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetTemperature));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetTemperature",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetTemperature));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetAffectIndirectLighting",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetAffectIndirectLighting));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetAffectIndirectLighting",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetAffectIndirectLighting));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetAffectTranslucentLighting",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetAffectTranslucentLighting));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetAffectTranslucentLighting",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetAffectTranslucentLighting));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetEnableLightShaftBloom",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetEnableLightShaftBloom));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetEnableLightShaftBloom",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetEnableLightShaftBloom));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetBloomScale",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetBloomScale));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetBloomScale",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetBloomScale));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetBloomThreshold",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetBloomThreshold));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetBloomThreshold",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetBloomThreshold));
+	mono_add_internal_call("UnrealEngine.LightComponent::_GetBloomTint",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetBloomTint));
+	mono_add_internal_call("UnrealEngine.LightComponent::_SetBloomTint",
+		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetBloomTint));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_GetAttenuationRadius",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_GetAttenuationRadius));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_SetAttenuationRadius",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_SetAttenuationRadius));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_GetLightFalloffExponent",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_GetLightFalloffExponent));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_SetLightFalloffExponent",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_SetLightFalloffExponent));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_GetSourceRadius",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_GetSourceRadius));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_SetSourceRadius",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_SetSourceRadius));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_GetSourceLength",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_GetSourceLength));
+	mono_add_internal_call("UnrealEngine.PointLightComponent::_SetSourceLength",
+		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_SetSourceLength));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.SpotLightComponent::_GetInnerConeAngle",
+		reinterpret_cast<void*>(UnrealEngine_SpotLightComponent_GetInnerConeAngle));
+	mono_add_internal_call("UnrealEngine.SpotLightComponent::_SetInnerConeAngle",
+		reinterpret_cast<void*>(UnrealEngine_SpotLightComponent_SetInnerConeAngle));
+	mono_add_internal_call("UnrealEngine.SpotLightComponent::_GetOuterConeAngle",
+		reinterpret_cast<void*>(UnrealEngine_SpotLightComponent_GetOuterConeAngle));
+	mono_add_internal_call("UnrealEngine.SpotLightComponent::_SetOuterConeAngle",
+		reinterpret_cast<void*>(UnrealEngine_SpotLightComponent_SetOuterConeAngle));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.MeshComponent::_SetScalarParameter",
+		reinterpret_cast<void*>(UnrealEngine_MeshComponent_SetScalarParameter));
+	mono_add_internal_call("UnrealEngine.MeshComponent::_SetVectorParameter",
+		reinterpret_cast<void*>(UnrealEngine_MeshComponent_SetVectorParameter));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_ActivateSystem",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_ActivateSystem));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_DeactivateSystem",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_DeactivateSystem));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_ResetToDefaults",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_ResetToDefaults));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_SetFloatParameter",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_SetFloatParameter));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_SetVectorParameter",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_SetVectorParameter));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_SetColorParameter",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_SetColorParameter));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_GetFloatParameter",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_GetFloatParameter));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_GetVectorParameter",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_GetVectorParameter));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_GetColorParameter",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_GetColorParameter));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_RegParticleSpawn",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_RegParticleSpawn));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_RegParticleBurst",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_RegParticleBurst));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_RegParticleDeath",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_RegParticleDeath));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_RegParticleCollide",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_RegParticleCollide));
+	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_RegSystemFinished",
+		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_RegSystemFinished));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_GetGlobalAnimRateScale",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_GetGlobalAnimRateScale));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_SetGlobalAnimRateScale",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_SetGlobalAnimRateScale));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_SetPlay",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_SetPlay));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_Stop",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_Stop));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_GetIsPlaying",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_GetIsPlaying));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_GetPlayRate",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_GetPlayRate));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_SetPlayRate",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_SetPlayRate));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_SetEnableBodyGravity",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_SetEnableBodyGravity));
+	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_IsBodyGravityEnabled",
+		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_IsBodyGravityEnabled));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneIndex",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneIndex));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneName",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneName));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetSocketBoneName",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetSocketBoneName));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetParentBone",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetParentBone));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneMatrix",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneMatrix));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneTransform0",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneTransform0));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneTransform1",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneTransform1));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneQuaternion",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneQuaternion));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneLocation",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneLocation));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_HideBoneByName",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_HideBoneByName));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_UnHideBoneByName",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_UnHideBoneByName));
+	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_IsBoneHiddenByName",
+		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_IsBoneHiddenByName));
+
+	#endif
+
+	#if 1
+
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetText",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetText));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetText",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetText));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetColor",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetColor));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetColor",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetColor));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetSourceLength",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetSourceLength));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetSourceLength",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetSourceLength));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetXScale",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetXScale));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetXScale",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetXScale));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetYScale",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetYScale));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetYScale",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetYScale));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetWorldSize",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetWorldSize));
+	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetWorldSize",
+		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetWorldSize));
 
 	#endif
 }
