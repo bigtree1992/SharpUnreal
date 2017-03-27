@@ -17,7 +17,7 @@ class SHARPUNREAL_API UMonoComponent : public UActorComponent
 public:	
 	UMonoComponent();
 	virtual ~UMonoComponent();
-	#if 1 //声明周期函数
+	#if 1 //生命周期函数
 	virtual void OnRegister() override;
 	virtual void OnUnregister() override;
 	virtual void InitializeComponent() override;

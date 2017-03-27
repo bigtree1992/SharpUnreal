@@ -101,7 +101,7 @@ void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>&
 				//在这里可以进行Mono的dll重新加载了
 				auto& SharpUnreal =
 					FModuleManager::LoadModuleChecked<FSharpUnrealModule>("SharpUnreal");
-				//SharpUnreal.ReloadMainAssembly();
+				
 				SharpUnreal.ReloadMainAssembly();
 			}
 			break;

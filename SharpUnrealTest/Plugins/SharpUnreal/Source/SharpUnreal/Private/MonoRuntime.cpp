@@ -5,6 +5,7 @@
 #include "SharpUnreal.h"
 #include "MonoRuntime.h"
 #include "MonoCallbackTable.h"
+#include "MonoClassTable.h"
 
 #include "UnrealAPI/UnrealAPI_Engine.h"
 #include "UnrealAPI/UnrealAPI_Math.h"
@@ -37,6 +38,7 @@ int MonoRuntime::CreateInstance()
 		GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] RootDomain Created."));
 	}
 
+	MonoClassTable::CreateTable();
 	int ret = s_Instance->ReloadAssembly();
 	if (ret != 0) 
 	{
@@ -50,6 +52,7 @@ int MonoRuntime::CreateInstance()
 
 void MonoRuntime::DestoryInstance()
 {
+	MonoClassTable::DestroyTable();
 	if (s_Instance && s_Instance->m_RootDomain != NULL)
 	{
 		if (s_Instance->m_ChildDomain != NULL)
@@ -67,7 +70,7 @@ void MonoRuntime::DestoryInstance()
 		s_Instance->m_EngineAssembly = NULL;
 
 #if !WITH_EDITOR
-		mono_jit_cleanup(_domain);
+		mono_jit_cleanup(s_Instance->m_RootDomain);
 #endif
 		GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] CDestoryInstance."));
 	}

@@ -19,61 +19,125 @@
 
 static void UnrealEngine_Sequencer_Play(ULevelSequencePlayer* _this) 
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] Play But _this is NULL."));
+		return ;
+	}
+
 	_this->Play();
 }
 
 static void UnrealEngine_Sequencer_Pause(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] Pause But _this is NULL."));
+		return;
+	}
+
 	_this->Pause();
 }
 
 static void UnrealEngine_Sequencer_Stop(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] Stop But _this is NULL."));
+		return;
+	}
+
 	_this->Stop();
 }
 
 static float UnrealEngine_Sequencer_GetLength(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] GetLength But _this is NULL."));
+		return 0.0f;
+	}
+
 	return _this->GetLength();
 }
 
 static float UnrealEngine_Sequencer_GetCurrent(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] GetCurrent But _this is NULL."));
+		return 0.0f;
+	}
 	return _this->GetPlaybackPosition();
 }
 
 static void UnrealEngine_Sequencer_SetCurrent(ULevelSequencePlayer* _this, float current)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] SetCurrent But _this is NULL."));
+		return ;
+	}
 	_this->SetPlaybackPosition(current);
 }
 
 static float UnrealEngine_Sequencer_GetPlayRate(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] GetPlayRate But _this is NULL."));
+		return 0.0f;
+	}
 	return _this->GetPlayRate();
 }
 
 static void UnrealEngine_Sequencer_SetPlayRate(ULevelSequencePlayer* _this, float current)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] SetPlayRate But _this is NULL."));
+		return ;
+	}
 	_this->SetPlayRate(current);
 }
 
 static float UnrealEngine_Sequencer_GetStartTime(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] GetStartTime But _this is NULL."));
+		return 0.0f;
+	}
 	return _this->GetPlaybackStart();
 }
 
 static float UnrealEngine_Sequencer_GetEndTime(ULevelSequencePlayer* _this)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] GetEndTime But _this is NULL."));
+		return 0.0f;
+	}
 	return _this->GetPlaybackEnd();
 }
 
 static void UnrealEngine_Sequencer_SetPlaybackRange(ULevelSequencePlayer* _this, float startTime, float endTime)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] SetPlaybackRange But _this is NULL."));
+		return ;
+	}
 	_this->SetPlaybackRange(startTime, endTime);
 }
 
 static void UnrealEngine_Sequencer_RegSequencerPlay(ULevelSequencePlayer* _this, UMonoComponent* listener)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] RegSequencerPlay But _this is NULL."));
+		return;
+	}
 	FScriptDelegate del;
 	del.BindUFunction(listener, FName(TEXT("OnSequencerPlay")));
 	_this->OnPlay.AddUnique(del);
@@ -81,6 +145,11 @@ static void UnrealEngine_Sequencer_RegSequencerPlay(ULevelSequencePlayer* _this,
 
 static void UnrealEngine_Sequencer_RegSequencerPause(ULevelSequencePlayer* _this, UMonoComponent* listener)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] RegSequencerPause But _this is NULL."));
+		return;
+	}
 	FScriptDelegate del;
 	del.BindUFunction(listener, FName(TEXT("OnSequencerPause")));
 	_this->OnPlay.AddUnique(del);
@@ -88,6 +157,11 @@ static void UnrealEngine_Sequencer_RegSequencerPause(ULevelSequencePlayer* _this
 
 static void UnrealEngine_Sequencer_RegSequencerStop(ULevelSequencePlayer* _this, UMonoComponent* listener)
 {
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Sequencer] RegSequencerStop But _this is NULL."));
+		return;
+	}
 	FScriptDelegate del;
 	del.BindUFunction(listener, FName(TEXT("OnSequencerStop")));
 	_this->OnPlay.AddUnique(del);

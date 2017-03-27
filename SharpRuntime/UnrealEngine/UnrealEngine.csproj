@@ -52,7 +52,7 @@
     <Compile Include="Component\Physics\PhysicsHandleComponent.cs" />
     <Compile Include="Component\Physics\PhysicsThruster.cs" />
     <Compile Include="Component\Physics\RodialForceComponent.cs" />
-    <Compile Include="Component\Rendering\DecalMeshComponent.cs" />
+    <Compile Include="Component\Rendering\DecalComponent.cs" />
     <Compile Include="Component\Rendering\MaterialBillboardComponent.cs" />
     <Compile Include="Component\Rendering\MeshComponent.cs" />
     <Compile Include="Component\Movement\MovementComponent.cs" />
