@@ -12,7 +12,7 @@ namespace UnrealEngine
             set { _SetBoxExtent(m_NativeHandler, value); }
         }
 
-        public float ShapeScale
+        public Vector ShapeScale
         {
             get { return _GetShapeScale(m_NativeHandler); }
         }
@@ -22,6 +22,6 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetBoxExtent(IntPtr handler, Vector value);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static float _GetShapeScale(IntPtr handler);
+        private extern static Vector _GetShapeScale(IntPtr handler);
     }
 }

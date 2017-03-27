@@ -5,11 +5,14 @@
 #include "Components/ApplicationLifecycleComponent.h"
 #include "Components/SplineMeshComponent.h"
 #include "Camera/CameraComponent.h"
+#include "MonoComponent.h"
 
 static TMap<FName, UClass*> g_ClassTable;
 
 void MonoClassTable::CreateTable()
 {
+	g_ClassTable.Add(FName(TEXT("MonoComponent")), UMonoComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("ActorComponent")), UActorComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("AudioComponent")), UAudioComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("AppLifecycleComponent")), UApplicationLifecycleComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("CameraComponent")), UCameraComponent::StaticClass());

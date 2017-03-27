@@ -344,7 +344,7 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Vector _GetCenterOfMass(IntPtr handler, string BoneName);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Vector _SetCenterOfMass(IntPtr handler, Vector CenterOfMassOffset, string BoneName);
+        private extern static void _SetCenterOfMass(IntPtr handler, Vector CenterOfMassOffset, string BoneName);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static float _GetClosestPointOnCollision(IntPtr handler, Vector Point, ref Vector OutPointOnBody, string BoneName);
         [MethodImpl(MethodImplOptions.InternalCall)]

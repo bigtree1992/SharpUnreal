@@ -24,7 +24,7 @@ namespace UnrealEngine
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void SetVectorParameter(string name, LinearColor value)
+        public void SetVectorParameter(string name, Vector value)
         {
             _SetVectorParameter(m_NativeHandler, name, value);
         }
@@ -32,6 +32,6 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetScalarParameter(IntPtr handler, string name, float value);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetVectorParameter(IntPtr handler, string name, LinearColor value);
+        private extern static void _SetVectorParameter(IntPtr handler, string name, Vector value);
     }
 }

@@ -20,7 +20,7 @@ namespace UnrealEngine
 
         public float ShapeScale
         {
-            get { return _GetGetShapeScale(m_NativeHandler); }
+            get { return _GetShapeScale(m_NativeHandler); }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -32,6 +32,6 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetCapsuleRadius(IntPtr handler, float value);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static float _GetGetShapeScale(IntPtr handler);
+        private extern static float _GetShapeScale(IntPtr handler);
     }
 }

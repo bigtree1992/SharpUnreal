@@ -36,10 +36,10 @@ namespace UnrealEngine
             set { _SetCascadeTransitionFraction(m_NativeHandler,value); }
         }
 
-        public float SShadowDistanceFadeoutFraction
+        public float ShadowDistanceFadeoutFraction
         {
-            get { return _GetSShadowDistanceFadeoutFraction(m_NativeHandler); }
-            set { _SetSShadowDistanceFadeoutFraction(m_NativeHandler,value); }
+            get { return _GetShadowDistanceFadeoutFraction(m_NativeHandler); }
+            set { _SetShadowDistanceFadeoutFraction(m_NativeHandler,value); }
         }
         
         public bool EnableLightShaftOcclusion
@@ -81,9 +81,9 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetCascadeTransitionFraction(IntPtr handler, float value);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static float _GetSShadowDistanceFadeoutFraction(IntPtr handler);
+        private extern static float _GetShadowDistanceFadeoutFraction(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetSShadowDistanceFadeoutFraction(IntPtr handler, float value);
+        private extern static void _SetShadowDistanceFadeoutFraction(IntPtr handler, float value);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _GetEnableLightShaftOcclusion(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
