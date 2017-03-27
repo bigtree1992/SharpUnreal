@@ -27,7 +27,8 @@ namespace MainAssembly
                 Log.Error("[TestComponent] False! Hello!");
             }
             Actor.Root.LocalPosition = Actor.Root.LocalPosition + new Vector(0, 0, 100);
-
+            Actor a = null;
+            a.Destroy();
         }
 
         protected override void Uninitialize()

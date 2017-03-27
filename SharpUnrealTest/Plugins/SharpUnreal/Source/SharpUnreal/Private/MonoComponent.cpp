@@ -85,7 +85,7 @@ void UMonoComponent::UninitializeComponent()
 void UMonoComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] BeginPlay %s "), *ComponentName);
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] BeginPlay %s "), *ComponentName);
 	
 	if (m_MonoComponent != NULL)
 	{		
@@ -97,7 +97,7 @@ void UMonoComponent::BeginPlay()
 void UMonoComponent::EndPlay(const EEndPlayReason::Type EndPlayReason) 
 {
 	Super::EndPlay(EndPlayReason);
-	GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] EndPlay %s "), *ComponentName);
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] EndPlay %s "), *ComponentName);
 	if (m_MonoComponent != NULL)
 	{
 		void *args[1];
@@ -191,7 +191,7 @@ void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 		MonoRuntime::Instance()->SetNativeHandler(self, &HitComponent);
 		if (self == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 
@@ -200,7 +200,7 @@ void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
 		if (other == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 		//参数3 作用点
@@ -226,7 +226,7 @@ void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComp
 		MonoRuntime::Instance()->SetNativeHandler(self, &OverlappedComponent);
 		if (self == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 		//参数2 触发组件
@@ -234,7 +234,7 @@ void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComp
 		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
 		if (other == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 		//参数2 作用点
@@ -260,7 +260,7 @@ void UMonoComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedCompon
 		MonoRuntime::Instance()->SetNativeHandler(self, &OverlappedComponent);
 		if (self == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 		//参数2 触发组件
@@ -268,7 +268,7 @@ void UMonoComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedCompon
 		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
 		if (other == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 
@@ -290,7 +290,7 @@ void UMonoComponent::OnComponentWake(UPrimitiveComponent* WakingComponent, FName
 		MonoRuntime::Instance()->SetNativeHandler(self, &WakingComponent);
 		if (self == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 
@@ -313,7 +313,7 @@ void UMonoComponent::OnComponentSleep(UPrimitiveComponent* SleepingComponent, FN
 		MonoRuntime::Instance()->SetNativeHandler(self, &SleepingComponent);
 		if (self == NULL)
 		{
-			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
+			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
 

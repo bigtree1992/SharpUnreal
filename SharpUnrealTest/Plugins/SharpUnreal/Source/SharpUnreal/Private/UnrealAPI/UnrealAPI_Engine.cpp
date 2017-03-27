@@ -18,7 +18,7 @@
 //日志回调
 extern "C" static void MonoPrintf(const char *string, mono_bool is_stdout)
 {
-	GLog->Logf(ELogVerbosity::Warning, TEXT("%s"), ANSI_TO_TCHAR(string));
+	GLog->Logf(ELogVerbosity::Error, TEXT("%s"), ANSI_TO_TCHAR(string));
 }
 
 extern "C" static void MonoLog(const char *log_domain, const char *log_level, const char *message, mono_bool fatal, void *user_data)
