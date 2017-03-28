@@ -11,6 +11,7 @@ namespace UnrealEngine
         /// </summary>
         public static void LineTrace()
         {
+
         }
 
         /// <summary>
@@ -18,6 +19,7 @@ namespace UnrealEngine
         /// </summary>
         public static void SphereTrace()
         {
+
         }
 
     }

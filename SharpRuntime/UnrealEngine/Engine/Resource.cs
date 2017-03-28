@@ -15,8 +15,25 @@ namespace UnrealEngine
             return null;
         }
 
-        //ToDo : 加载音效
-        //ToDo : 加载Sequence
-        //ToDo : 加载Texture
+        /// <summary>
+        /// 根据路径加载一个纹理
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Texture LoadTexture(string path)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 根据路径加载一个音效
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Audio LoadAudio(string path)
+        {
+            return null;
+        }
+        
     }
 }

@@ -33,8 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Base\AppLifecycleComponent.cs" />
@@ -71,7 +69,7 @@
     <Compile Include="Component\Base\SceneComponent.cs" />
     <Compile Include="Component\Rendering\VectorFieldComponent.cs" />
     <Compile Include="Core\Event.cs" />
-    <Compile Include="Core\TimeManager.cs" />
+    <Compile Include="Core\Timer.cs" />
     <Compile Include="Engine\Enum.cs" />
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\Resource.cs" />
@@ -95,10 +93,12 @@
     <Compile Include="Engine\UE4Structs.cs" />
     <Compile Include="Engine\UObject.cs" />
     <Compile Include="Engine\World.cs" />
+    <Compile Include="Engine\Audio.cs" />
     <Compile Include="Rendering\DynamicMaterial.cs" />
     <Compile Include="Rendering\Material.cs" />
     <Compile Include="Animation\Sequencer.cs" />
     <Compile Include="Rendering\MaterialInstance.cs" />
+    <Compile Include="Rendering\Texture.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
