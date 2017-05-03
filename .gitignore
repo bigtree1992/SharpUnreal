@@ -250,3 +250,5 @@ SharpUnrealTest/Plugins/SharpUnreal/Intermediate
 /SharpUnrealTest/Saved
 /SharpUnrealTest/MainAssembly/MainAssembly/bin
 /SharpUnrealTest/MainAssembly/MainAssembly/obj
+/SharpUnrealTest/BuildLibs/MainAssembly.dll
+/SharpUnrealTest/BuildLibs/UnrealEngine.dll

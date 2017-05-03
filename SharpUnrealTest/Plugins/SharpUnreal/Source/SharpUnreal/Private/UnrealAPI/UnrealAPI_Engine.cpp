@@ -14,7 +14,6 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
-
 //日志回调
 extern "C" static void MonoPrintf(const char *string, mono_bool is_stdout)
 {
@@ -63,7 +62,7 @@ static void UnrealEngine_Log_Error(MonoString* content)
 //World类函数注册
 static MonoString* UnrealEngine_World_GetCurrentLevel() 
 {	
-	UWorld* world = GEngine->GetWorld();
+	UWorld* world = GWorld.GetReference();
 	if (world != NULL) 
 	{
 		ULevel* level = world->GetCurrentLevel();
@@ -82,7 +81,13 @@ static MonoString* UnrealEngine_World_GetCurrentLevel()
 
 static void UnrealEngine_World_LoadStreamingLevel(MonoString* name) 
 {
-	UWorld* World = GEngine->GetWorld();
+	if (name == NULL) 
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] LoadStreamingLevel But name is Null."));
+		return;
+	}
+
+	UWorld* World = GWorld.GetReference();
 	if (World != NULL)
 	{
 		FName LevelName((WIDECHAR*)mono_string_to_utf16(name));
@@ -97,7 +102,13 @@ static void UnrealEngine_World_LoadStreamingLevel(MonoString* name)
 
 static void UnrealEngine_World_UnLoadStreamingLevel(MonoString* name)
 {
-	UWorld* World = GEngine->GetWorld();
+	if (name == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] UnLoadStreamingLevel But name is Null."));
+		return;
+	}
+
+	UWorld* World = GWorld.GetReference();
 	if (World != NULL)
 	{
 		FName LevelName((WIDECHAR*)mono_string_to_utf16(name));
@@ -112,24 +123,70 @@ static void UnrealEngine_World_UnLoadStreamingLevel(MonoString* name)
 
 static AActor* UnrealEngine_World_SpwanActor(MonoString* path, FTransform* trans)
 {
-	UWorld* World = GEngine->GetWorld();
-	if (World == NULL) 
+	if (path == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] SpwanActor But path is Null."));
+		return NULL;
+	}
+		
+	if (GWorld.GetReference() == NULL)
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When SpwanActor."));
 		return NULL;
 	}
 	
 	UClass* Class = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), 
-		nullptr, (const TCHAR*)mono_string_to_utf16(path)));
+		NULL, (const TCHAR*)mono_string_to_utf16(path)));
 	if (Class == NULL) 
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetClass When SpwanActor."));
 		return NULL;
 	}
 
-	return World->SpawnActor(Class, trans);
+	return GWorld->SpawnActor(Class, trans);
 }
 
+static UMaterialInterface* UnrealEngine_Resource_LoadMaterial(MonoString* path)
+{
+	if (path == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] LoadMaterial But path is Null."));
+		return NULL;
+	}
+
+	const TCHAR* p = (const TCHAR*)mono_string_to_utf16(path);
+	UMaterialInterface* mat = Cast<UMaterialInterface>(
+		StaticLoadObject(UMaterialInterface::StaticClass(), 
+			NULL,p));
+	if (mat == NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Resource] Can't LoadMaterial %s."),p);
+		return NULL;
+	}
+
+	return mat;
+}
+
+static UTexture* UnrealEngine_Resource_LoadTexture(MonoString* path)
+{
+	if (path == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] LoadTexture But path is Null."));
+		return NULL;
+	}
+
+	const TCHAR* p = (const TCHAR*)mono_string_to_utf16(path);
+	UTexture* texture = Cast<UTexture>(
+		StaticLoadObject(UTexture::StaticClass(),NULL, p));
+	
+	if (texture == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Resource] Can't LoadTexture %s."), p);
+		return NULL;
+	}
+
+	return texture;
+}
 
 
 void UnrealAPI_Engine::RegisterAPI()
@@ -153,6 +210,11 @@ void UnrealAPI_Engine::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_World_UnLoadStreamingLevel)); 
 	mono_add_internal_call("UnrealEngine.World::_SpwanActor",
 			reinterpret_cast<void*>(UnrealEngine_World_SpwanActor));
+
+	mono_add_internal_call("UnrealEngine.Resource::_LoadMaterial",
+		reinterpret_cast<void*>(UnrealEngine_Resource_LoadMaterial));
+	mono_add_internal_call("UnrealEngine.Resource::_LoadTexture",
+		reinterpret_cast<void*>(UnrealEngine_Resource_LoadTexture));
 }
 
 

@@ -768,6 +768,7 @@ static UMaterialInterface* UnrealEngine_PrimitiveComponent_GetMaterial(UPrimitiv
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterial But _this is NULL."));
 		return NULL;
 	}
+	
 	return _this->GetMaterial(elementIndex);
 }
 
@@ -840,7 +841,7 @@ static mono_bool UnrealEngine_PrimitiveComponent_IsMaterialSlotNameValid(UPrimit
 	return 0;
 }
 
-static UMaterialInterface* UnrealEngine_PrimitiveComponent_CreateDynamicMaterial(UPrimitiveComponent* _this, int elementIndex, UMaterialInterface* source)
+static UMaterialInstanceDynamic* UnrealEngine_PrimitiveComponent_CreateDynamicMaterial(UPrimitiveComponent* _this, int elementIndex, UMaterialInterface* source)
 {
 	if (_this == NULL)
 	{

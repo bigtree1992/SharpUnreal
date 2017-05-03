@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace UnrealEngine
 {
+    /// <summary>
+    /// 定时器类，使用前请把脚本挂载到场景中
+    /// </summary>
     public class Timer : ActorComponent
     {
         private struct TimeEvent
@@ -19,9 +22,12 @@ namespace UnrealEngine
 
         private static List<TimeEvent> m_Events = new List<TimeEvent>();
 
+        private static bool s_Init;
+
         protected override void Initialize()
         {
             CanEverTick = true;
+            s_Init = true;
         }
 
         protected override void Tick(float dt)
@@ -55,6 +61,11 @@ namespace UnrealEngine
 
         public static void DelayInvoke(float delay, Action callback)
         {
+            if (!s_Init)
+            {
+                Log.Error("[Timer] Timer Not In World.");
+            }
+
             if (delay < 0.0f || callback == null )
             {
                 return;
@@ -66,6 +77,7 @@ namespace UnrealEngine
         protected override void Uninitialize()
         {
             CanEverTick = false;
+            s_Init = false;
         }
     }
 }

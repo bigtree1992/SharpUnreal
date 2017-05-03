@@ -1,26 +1,26 @@
 ﻿using System;
 using System.IO;
 
-namespace MainAssembly
+namespace UnrealEngine
 {
-    internal class FLog
+    public class FLog
     {
         static FileStream ostrm;
         static StreamWriter writer;
 
-        internal static void SetLogToFile()
+        public static void SetLogToFile()
         {
             try
             {
                 string filename = "QLog-" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
 
-                string path = Path.GetFullPath("D:\\Log\\");
+                string path = Path.GetFullPath(".\\Log\\");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
                 }
 
-                ostrm = new FileStream("D:\\Log\\" + filename, FileMode.Append, FileAccess.Write);
+                ostrm = new FileStream(".\\Log\\" + filename, FileMode.Append, FileAccess.Write);
                 writer = new StreamWriter(ostrm);
                 writer.AutoFlush = true;
             }
@@ -33,22 +33,22 @@ namespace MainAssembly
             Console.SetOut(writer);
         }
 
-        internal static void WriteLog(string level, string content)
+        public static void WriteLog(string level, string content)
         {
             Console.WriteLine("[{0}] {1} {2}", level, DateTime.Now.ToString("hh.mm.ss"), content);
         }
 
-        internal static void Warning(string content)
+        public static void Warning(string content)
         {
             WriteLog("Warning", content);
         }
 
-        internal static void Debug(string content)
+        public static void Debug(string content)
         {
             WriteLog("Debug", content);
         }
 
-        internal static void Error(string content)
+        public static void Error(string content)
         {
             WriteLog("Error", content);
         }

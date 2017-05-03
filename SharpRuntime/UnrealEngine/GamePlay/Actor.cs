@@ -50,6 +50,9 @@ namespace UnrealEngine
             set { _SetSceneComponent(NativeHandler, value.NativeHandler); }
         }
 
+        /// <summary>
+        /// 获取这个Actor上的Sequencer
+        /// </summary>
         public Sequencer Sequencer
         {
             get
@@ -65,15 +68,18 @@ namespace UnrealEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetComponent<T>() where T : ActorComponent 
+        public T GetComponent<T>() where T : ActorComponent , new()
         {
-            var handler = _GetComponent(NativeHandler, typeof(T).Name);
-            if(handler == null)
+            IntPtr handler = _GetComponent(NativeHandler, typeof(T).Name);
+            
+            if (handler.ToInt64() == 0)
             {
                 return null;
             }
-            var ret = new ActorComponent() as T;
+
+            T ret = new T();
             ret.NativeHandler = handler;
+
             return ret;
         }
 
@@ -83,14 +89,14 @@ namespace UnrealEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public T GetComponentByTag<T>(string tag) where T : ActorComponent
+        public T GetComponentByTag<T>(string tag) where T : ActorComponent, new()
         {
             var handler = _GetComponentByTag(NativeHandler, typeof(T).Name, tag);
-            if (handler == null)
+            if (handler.ToInt64() == 0)
             {
                 return null;
             }
-            var ret = new ActorComponent() as T;
+            T ret = new T();
             ret.NativeHandler = handler;
             return ret;
         }

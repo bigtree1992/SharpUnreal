@@ -33,6 +33,7 @@ namespace UnrealEngine
                 return _GetLength(NativeHandler);
             }
         }
+
         public float Current
         {
             get

@@ -20,7 +20,7 @@ namespace UnrealEngine
             }
 
             var mat = new Material();
-            mat.NativeHandler = _GetMaterial(NativeHandler, elementIndex);
+            mat.NativeHandler = h;
             return mat;            
         }
         
@@ -55,18 +55,7 @@ namespace UnrealEngine
             }
             return null;
         }
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static IntPtr _GetMaterial(IntPtr handler, int elementIndex);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetMaterial(IntPtr handler, int elementIndex, IntPtr material);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetMaterialByName(IntPtr handler, string slotName, IntPtr material);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static int _GetMaterialIndex(IntPtr handler, string slotName);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static bool _IsMaterialSlotNameValid(IntPtr handler, string slotName);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static IntPtr _CreateDynamicMaterial(IntPtr handler, int elementIndex,IntPtr source);
+
         #endregion
 
         #region 设置事件回调
@@ -94,16 +83,7 @@ namespace UnrealEngine
         {
             _RegComponentSleep(NativeHandler, _this.NativeHandler);
         }
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegComponentHit(IntPtr handler, IntPtr listener);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegComponentBeginOverlap(IntPtr handler, IntPtr listener);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegComponentEndOverlap(IntPtr handler, IntPtr listener);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegComponentWake(IntPtr handler, IntPtr listener);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _RegComponentSleep(IntPtr handler, IntPtr listener);
+        
         #endregion
 
         #region 物理部分
@@ -174,8 +154,6 @@ namespace UnrealEngine
             _AddTorque(NativeHandler,  Torque,  BoneName,  bAccelChange);
         }
         
-
-
         public void SetPhysicsLinearVelocity(Vector NewVel, bool bAddToCurrent = false, string BoneName = "")
         {
             _SetPhysicsLinearVelocity(NativeHandler,  NewVel,  bAddToCurrent, BoneName);
@@ -294,11 +272,30 @@ namespace UnrealEngine
             _SetAngularDamping1(NativeHandler, NewResponse);
         }
 
-
-
-        
         #endregion
 
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _GetMaterial(IntPtr handler, int elementIndex);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetMaterial(IntPtr handler, int elementIndex, IntPtr material);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetMaterialByName(IntPtr handler, string slotName, IntPtr material);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static int _GetMaterialIndex(IntPtr handler, string slotName);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static bool _IsMaterialSlotNameValid(IntPtr handler, string slotName);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _CreateDynamicMaterial(IntPtr handler, int elementIndex, IntPtr source);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RegComponentHit(IntPtr handler, IntPtr listener);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RegComponentBeginOverlap(IntPtr handler, IntPtr listener);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RegComponentEndOverlap(IntPtr handler, IntPtr listener);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RegComponentWake(IntPtr handler, IntPtr listener);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RegComponentSleep(IntPtr handler, IntPtr listener);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _GetGenerateOverlapEvents(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]

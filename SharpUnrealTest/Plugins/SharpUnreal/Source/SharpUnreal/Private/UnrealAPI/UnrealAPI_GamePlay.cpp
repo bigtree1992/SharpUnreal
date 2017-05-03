@@ -74,12 +74,11 @@ static UActorComponent* Unrealengine_Actor_GetComponent(AActor* _this, MonoStrin
 	UClass* type_class = MonoClassTable::GetUClassFromName(type_name);
 	if (type_class == NULL) 
 	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] GetComponent But No Class Found."));
 		return NULL;
 	}
 
-	_this->GetComponentByClass(type_class);
-
-	return NULL;
+	return _this->GetComponentByClass(type_class);
 }
 
 static UActorComponent* Unrealengine_Actor_GetComponentByTag(AActor* _this, MonoString* type,MonoString* tag)

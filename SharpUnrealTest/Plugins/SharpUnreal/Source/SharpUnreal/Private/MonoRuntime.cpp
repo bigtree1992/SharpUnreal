@@ -13,6 +13,7 @@
 #include "UnrealAPI/UnrealAPI_GamePlay.h"
 #include "UnrealAPI/UnrealAPI_Animation.h"
 #include "UnrealAPI/UnrealAPI_Audio.h"
+#include "UnrealAPI/UnrealAPI_Rendering.h"
 
 #include <mono/jit/jit.h>
 #include "mono/metadata/metadata.h"
@@ -168,6 +169,7 @@ int MonoRuntime::ReloadAssembly()
 	UnrealAPI_GamePlay::RegisterAPI();
 	UnrealAPI_Animation::RegisterAPI();
 	UnrealAPI_Audio::RegisterAPI();
+	UnrealAPI_Rendering::RegisterAPI();
 
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));
@@ -183,7 +185,7 @@ int MonoRuntime::ReloadAssembly()
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get MainAssembly.dll Image Failed!!"));
 		return 1003;
 	}
-	//下缓存所有ActorComponent的子类引用
+	//缓存下所有ActorComponent的子类引用
 	m_ComponentNames = TArray<FString>();
 	if (m_RootDomain == NULL || m_ChildDomain == NULL ||
 		m_MainAssembly == NULL || m_MainImage == NULL)

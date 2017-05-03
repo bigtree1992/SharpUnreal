@@ -11,7 +11,7 @@ namespace UnrealEngine
     {     
         #region 生命周期函数
         protected virtual void OnRegister()
-        {          
+        {
         }
 
         protected virtual void OnUnregister()

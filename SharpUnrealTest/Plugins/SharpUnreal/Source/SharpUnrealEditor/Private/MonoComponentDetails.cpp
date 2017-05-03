@@ -67,7 +67,7 @@ void FMonoComponentDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder
 
 FReply FMonoComponentDetails::OnApplyClicked()
 {
-	GLog->Log(ELogVerbosity::Error, TEXT("[MonoDetail] OnApplyClicked."));
+	//GLog->Log(ELogVerbosity::Error, TEXT("[MonoDetail] OnApplyClicked."));
 	if (m_MonoComponent != NULL)
 	{
 		if (m_CommitedComponentName.Len() > 0) 
