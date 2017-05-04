@@ -118,6 +118,16 @@ static void Unrealengine_Actor_Destroy(AActor* _this)
 	_this->Destroy();
 }
 
+static MonoString* Unrealengine_Actor_GetName(AActor* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] GetName But _this is NULL."));
+		return NULL;
+	}
+	return mono_string_from_utf16((mono_unichar2*)*_this->GetName());
+}
+
 static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
 {
 	if (_this == NULL)
@@ -158,6 +168,8 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(Unrealengine_Actor_GetComponentByTag));
 	mono_add_internal_call("UnrealEngine.Actor::_Destroy",
 		reinterpret_cast<void*>(Unrealengine_Actor_Destroy));
+	mono_add_internal_call("UnrealEngine.Actor::_GetName",
+		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer));
+		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 
 }

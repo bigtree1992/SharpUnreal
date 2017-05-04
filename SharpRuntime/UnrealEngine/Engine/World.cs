@@ -34,7 +34,16 @@ namespace UnrealEngine
         /// <returns></returns>
         public static Actor SpwanActor(string path, ref Transform trans)
         {
-            return new Actor(_SpwanActor(path, ref trans));
+            int index = path.LastIndexOf('/');
+            string name = path.Substring(index + 1, path.Length - index - 1);
+            path = string.Format("/Game/{0}.{1}_C", path, name);
+
+            var handler = _SpwanActor(path, ref trans);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+            return new Actor(handler);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]

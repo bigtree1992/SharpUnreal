@@ -177,9 +177,11 @@ namespace UnrealEngine
         public virtual void OnParticleCollide(string event_name)
         {
         }
+
         public virtual void OnSystemFinished(string event_name)
         {
         }
+
         public virtual void OnAudioFinished(string event_name)
         {
         }
@@ -212,6 +214,11 @@ namespace UnrealEngine
             _SetTickableWhenPaused(NativeHandler, bTickableWhenPaused);
         }
 
+        public string Name
+        {
+            get;
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _GetActivited(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -233,6 +240,9 @@ namespace UnrealEngine
         private extern static void _SendEventWithString(IntPtr handler, string evt,string data);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SendEventWithInt(IntPtr handler, string evt,int data);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static string _GetName(IntPtr handler);
 
     }
 }

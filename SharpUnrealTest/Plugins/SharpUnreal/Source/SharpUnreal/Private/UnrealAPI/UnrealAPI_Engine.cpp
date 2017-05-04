@@ -90,7 +90,7 @@ static void UnrealEngine_World_LoadStreamingLevel(MonoString* name)
 	UWorld* World = GWorld.GetReference();
 	if (World != NULL)
 	{
-		FName LevelName((WIDECHAR*)mono_string_to_utf16(name));
+		FName LevelName((const TCHAR*)mono_string_to_utf16(name));
 		FLatentActionInfo LatentInfo;
 		UGameplayStatics::LoadStreamLevel(World, LevelName,true,false,LatentInfo);
 
@@ -111,10 +111,9 @@ static void UnrealEngine_World_UnLoadStreamingLevel(MonoString* name)
 	UWorld* World = GWorld.GetReference();
 	if (World != NULL)
 	{
-		FName LevelName((WIDECHAR*)mono_string_to_utf16(name));
+		FName LevelName((const TCHAR*)mono_string_to_utf16(name));
 		FLatentActionInfo LatentInfo;
 		UGameplayStatics::UnloadStreamLevel(World, LevelName, LatentInfo);
-
 	}
 	else {
 		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When UnLoadStreamingLevel."));

@@ -109,6 +109,11 @@ namespace UnrealEngine
             _Destroy(NativeHandler);
         }
 
+        public string Name
+        {
+            get { return _GetName(NativeHandler); }
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetSequencer(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -125,5 +130,7 @@ namespace UnrealEngine
         private extern static IntPtr _GetComponentByTag(IntPtr handler, string type, string tag);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _Destroy(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static string _GetName(IntPtr handler);
     }
 }

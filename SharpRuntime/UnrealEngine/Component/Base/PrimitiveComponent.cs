@@ -94,10 +94,15 @@ namespace UnrealEngine
             set { _SetGenerateOverlapEvents(NativeHandler, value); }
         }       
 
-        public virtual bool SimulatePhysics
+        public bool SimulatePhysics
         {
             set { _SetSimulatePhysics(NativeHandler,value); }
         }      
+
+        public bool GeneratesHitEvents
+        {
+            set { _SetGeneratesHitEvents(NativeHandler, value); }
+        }
 
         public CollosionEnabled CollisionEnabled
         {
@@ -302,6 +307,8 @@ namespace UnrealEngine
         private extern static void _SetGenerateOverlapEvents(IntPtr handler, bool value);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetSimulatePhysics(IntPtr handler, bool value);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetGeneratesHitEvents(IntPtr handler, bool value);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetCollisionEnabled(IntPtr handler, CollosionEnabled value);
         [MethodImpl(MethodImplOptions.InternalCall)]

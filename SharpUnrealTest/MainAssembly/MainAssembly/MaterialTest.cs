@@ -7,10 +7,12 @@ namespace MainAssembly
     {
         protected override void Initialize()
         {
-            base.Initialize();
             TestDynamicMaterial();
         }
 
+        /// <summary>
+        /// 测试加载一个动态的可以设置参数的材质
+        /// </summary>
         private void TestDynamicMaterial()
         {
             var mesh = Actor.GetComponent<StaticMeshComponent>();
@@ -24,7 +26,7 @@ namespace MainAssembly
                 return;
             }
 
-            var m = Resource.LoadMaterial("/Game/Materials/NewMaterial");
+            var m = Resource.LoadMaterial("/Materials/NewMaterial");
             if (m == null)
             {
                 return;
@@ -36,7 +38,7 @@ namespace MainAssembly
                 return;
             }
 
-            var tex = Resource.LoadTexture("/Game/Textures/Ground4");
+            var tex = Resource.LoadTexture("/Textures/Ground4");
             if (tex == null)
             {
                 Log.Debug("tex != null.");
@@ -47,6 +49,9 @@ namespace MainAssembly
             dm.SetTextureParameter("MainTex", tex);
         }
 
+        /// <summary>
+        /// 测试动态加载一个静态材质
+        /// </summary>
         private void TestMaterial()
         {
             var mesh = Actor.GetComponent<StaticMeshComponent>();
@@ -60,7 +65,7 @@ namespace MainAssembly
                 return;
             }
 
-            var m = Resource.LoadMaterial("/Game/Materials/NewMaterial");
+            var m = Resource.LoadMaterial("/Materials/NewMaterial");
             if (m == null)
             {
                 return;

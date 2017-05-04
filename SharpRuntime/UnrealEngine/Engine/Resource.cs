@@ -13,6 +13,7 @@ namespace UnrealEngine
         /// <returns></returns>
         public static Material LoadMaterial(string path)
         {
+            path = "/Game" + path;
             var handler = _LoadMaterial(path);
             if (handler.ToInt64() != 0)
             {
@@ -33,6 +34,7 @@ namespace UnrealEngine
         /// <returns></returns>
         public static Texture LoadTexture(string path)
         {
+            path = "/Game" + path;
             var handler = _LoadTexture(path);
             if (handler.ToInt64() != 0)
             {

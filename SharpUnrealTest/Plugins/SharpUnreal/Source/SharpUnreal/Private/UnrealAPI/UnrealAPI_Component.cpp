@@ -148,6 +148,17 @@ static void UnrealEngine_ActorComponent_SendEventWithInt(UMonoComponent* _this, 
 	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
 }
 
+static MonoString* UnrealEngine_ActorComponent_GetName(UMonoComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] GetName But _this is NULL."));
+		return NULL;
+	}
+	
+	MonoString* name = mono_string_from_utf16((mono_unichar2*)*_this->GetName());
+	return name;
+}
 #endif
 
 #if 1
@@ -972,6 +983,16 @@ static void UnrealEngine_PrimitiveComponent_SetSimulatePhysics(UPrimitiveCompone
 		return;
 	}
 	_this->SetSimulatePhysics(value != 0);
+}
+
+static void UnrealEngine_PrimitiveComponent_SetGeneratesHitEvents(UPrimitiveComponent* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetGeneratesHitEvents But _this is NULL."));
+		return;
+	}
+	_this->SetNotifyRigidBodyCollision(value != 0);
 }
 
 static void UnrealEngine_PrimitiveComponent_SetCollisionEnabled(UPrimitiveComponent* _this, ECollisionEnabled::Type value)
@@ -2843,6 +2864,8 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithString));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEventWithInt",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithInt));
+		mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
+			reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
 	#endif
 	
 	#if 1
@@ -2996,9 +3019,11 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetGenerateOverlapEvents",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetGenerateOverlapEvents));
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetGenerateOverlapEvents",
-		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetGenerateOverlapEvents));
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetGenerateOverlapEvents)); 
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetSimulatePhysics",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetSimulatePhysics));
+	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetGeneratesHitEvents",
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetGeneratesHitEvents));
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetCollisionEnabled",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetCollisionEnabled));
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_IgnoreComponentWhenMoving",
