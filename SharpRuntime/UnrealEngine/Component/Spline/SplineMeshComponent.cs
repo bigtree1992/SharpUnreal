@@ -3,96 +3,103 @@ using System.Collections.Generic;
 
 namespace UnrealEngine
 {
-    public class ProjectileMovementComponent : MovementComponent
+    public class SplineMeshComponent : StaticMeshComponent
     {
-        public float InitialSpeed
+        public void UpdateMesh()
+        {
+
+        }
+
+        public Vector StartPosition
         {
             get;
             set;
         }
 
-        public bool RotationFollowsVelocity
+        public Vector StartTangent
         {
             get;
             set;
         }
 
-        public bool ShouldBounce
+        public Vector EndPosition
         {
             get;
             set;
         }
 
-        public bool InitialVelocityInLocalSpace
+        public Vector GetEndTangent
         {
             get;
             set;
         }
 
-        public bool ForceSubStepping
+        public Vector2D StartScale
+        {
+            get;
+            set;
+        }
+    
+        public float StartRoll
         {
             get;
             set;
         }
 
-        public bool IsHomingProjectile
+        public Vector2D StartOffset
         {
             get;
             set;
         }
 
-        public bool BounceAngleAffectsFriction
+        public Vector2D EndScale
+        {
+            get;
+            set;
+        }
+    
+        public float GetEndRoll
+        {
+            get;
+            set;
+        }
+    
+        public Vector2D EndOffset
+        {
+            get;
+            set;
+        }        
+        
+        public enum SplineMeshAxis
+        {
+            X,
+            Y,
+            Z,
+        }
+    
+        public SplineMeshAxis ForwardAxis
+        {
+            get;
+            set;
+        }
+        
+        public Vector SplineUpDir
         {
             get;
             set;
         }
 
-        public bool IsSliding
+        public float BoundaryMin
         {
             get;
             set;
         }
 
-        public float PreviousHitTime
+        public float BoundaryMax
         {
             get;
             set;
         }
 
-        public Vector PreviousHitNormal
-        {
-            get;
-            set;
-        }
-
-        public float ProjectileGravityScale
-        {
-            get;
-            set;
-        }
-
-        public float Buoyancy
-        {
-            get;
-            set;
-        }
-
-        public float Bounciness
-        {
-            get;
-            set;
-        }
-
-        public float Friction
-        {
-            get;
-            set;
-        }
-
-        public float BounceVelocityStopSimulatingThreshold
-        {
-            get;
-            set;
-        }
     }
 }

@@ -48,6 +48,14 @@ namespace UnrealEngine
             }
         }
 
+        /// <summary>
+        /// 进行内存垃圾回收 
+        /// </summary>
+        public void GC()
+        {
+            //ToDo
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _LoadMaterial(string path);
 

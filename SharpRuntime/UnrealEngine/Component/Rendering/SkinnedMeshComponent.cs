@@ -41,17 +41,17 @@ namespace UnrealEngine
             return _GetBoneTransform1(NativeHandler,BoneIndex);
         }
         
-        public Quat GetBoneQuaternion(string BoneName, EBoneSpaces space = EBoneSpaces.WorldSpace)
+        public Quat GetBoneQuaternion(string BoneName, BoneSpaces space = BoneSpaces.WorldSpace)
         {
             return _GetBoneQuaternion(NativeHandler,BoneName,space);
         }        
 
-        public Vector GetBoneLocation(string BoneName, EBoneSpaces Space = EBoneSpaces.WorldSpace)
+        public Vector GetBoneLocation(string BoneName, BoneSpaces Space = BoneSpaces.WorldSpace)
         {
             return _GetBoneLocation(NativeHandler,BoneName,Space);
         }
 
-        public void HideBoneByName(string BoneName, EPhysBodyOp PhysBodyOption)
+        public void HideBoneByName(string BoneName, PhysBodyOp PhysBodyOption)
         {
             _HideBoneByName(NativeHandler, BoneName, PhysBodyOption);
         }  
@@ -82,11 +82,11 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Transform _GetBoneTransform1(IntPtr handler, int BoneIndex);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Quat _GetBoneQuaternion(IntPtr handler, string BoneName, EBoneSpaces space);
+        private extern static Quat _GetBoneQuaternion(IntPtr handler, string BoneName, BoneSpaces space);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Vector _GetBoneLocation(IntPtr handler, string BoneName, EBoneSpaces Space);
+        private extern static Vector _GetBoneLocation(IntPtr handler, string BoneName, BoneSpaces Space);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _HideBoneByName(IntPtr handler, string BoneName, EPhysBodyOp PhysBodyOption);
+        private extern static void _HideBoneByName(IntPtr handler, string BoneName, PhysBodyOp PhysBodyOption);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _UnHideBoneByName(IntPtr handler, string BoneName);
         [MethodImpl(MethodImplOptions.InternalCall)]

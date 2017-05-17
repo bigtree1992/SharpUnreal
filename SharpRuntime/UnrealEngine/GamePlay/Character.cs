@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UnrealEngine
 {
-    public class PhysicsHandleComponent
+    public class Character : Pawn
     {
     }
 }

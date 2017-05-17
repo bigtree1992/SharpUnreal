@@ -4,6 +4,7 @@
 
 #include "UnrealAPI_GamePlay.h"
 #include "MonoClassTable.h"
+#include "MonoComponent.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>
@@ -60,6 +61,16 @@ static void Unrealengine_Actor_SetSceneComponent(AActor* _this, USceneComponent*
 		return;
 	}
 	_this->SetRootComponent(root);
+}
+
+static _MonoObject* Unrealengine_Actor_GetMonoComponent(AActor* _this) 
+{
+	UMonoComponent* comp = (UMonoComponent*)_this->GetComponentByClass(UMonoComponent::StaticClass());
+	if (comp != NULL) 
+	{
+		return comp->GetMonoObject();
+	}
+	return NULL;
 }
 
 static UActorComponent* Unrealengine_Actor_GetComponent(AActor* _this, MonoString* type)
@@ -161,7 +172,9 @@ void UnrealAPI_GamePlay::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.Actor::_GetSceneComponent",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetSceneComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_SetSceneComponent",
-		reinterpret_cast<void*>(Unrealengine_Actor_SetSceneComponent));
+		reinterpret_cast<void*>(Unrealengine_Actor_SetSceneComponent)); 
+	mono_add_internal_call("UnrealEngine.Actor::_GetMonoComponent",
+			reinterpret_cast<void*>(Unrealengine_Actor_GetMonoComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_GetComponent",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_GetComponentByTag",

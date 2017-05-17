@@ -15,6 +15,11 @@ UMonoComponent::UMonoComponent()
 UMonoComponent::~UMonoComponent()
 {}
 
+_MonoObject* UMonoComponent::GetMonoObject() 
+{
+	return this->m_MonoComponent;
+}
+
 void UMonoComponent::OnRegister() 
 {
 	Super::OnRegister();

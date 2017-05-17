@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("MainAssembly")]
+[assembly: AssemblyTitle("PraseHeader")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("深圳奇境森林科技有限公司")]
-[assembly: AssemblyProduct("MainAssembly")]
-[assembly: AssemblyCopyright("Copyright © 深圳奇境森林科技有限公司 2017")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("PraseHeader")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("37382a0b-006f-4399-84ac-87c7eedaecaf")]
+[assembly: Guid("aea0c5d3-c509-416d-bc26-39888a97ae2e")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

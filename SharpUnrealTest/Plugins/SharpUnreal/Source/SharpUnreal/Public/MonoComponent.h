@@ -97,6 +97,7 @@ public:
 
 	#endif
 
+	_MonoObject * GetMonoObject();
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MonoComponent)
 	FString ComponentName;

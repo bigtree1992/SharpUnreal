@@ -4,7 +4,7 @@ namespace UnrealEngine
 {
     public class InterpToMovementComponent : MovementComponent
     {
-        void RestartMovement(float InitialDirection)
+        public void RestartMovement(float InitialDirection)
         {
         }
     }

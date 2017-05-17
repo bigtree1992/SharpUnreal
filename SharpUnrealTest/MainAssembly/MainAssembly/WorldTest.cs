@@ -7,7 +7,7 @@ namespace MainAssembly
     {
         protected override void Initialize()
         {
-            TestLoadLevel();
+            TestSpawnActor();
         }
 
         /// <summary>
@@ -15,8 +15,12 @@ namespace MainAssembly
         /// </summary>
         private void TestSpawnActor()
         {
-            var trans = new Transform();           
-            World.SpwanActor("/Actor3_Blueprint", ref trans);
+            var trans = new Transform();
+            var actor = World.SpwanActor("/Actor3_Blueprint", ref trans);
+            var init = actor.GetMonoComponent() as InitTest;
+            //测试初始化组件值，会在Initialize之后调用，BeginPlay之前调用
+            init.TestValue = 100;
+
         }
 
         /// <summary>

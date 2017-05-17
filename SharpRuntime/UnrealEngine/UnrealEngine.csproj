@@ -44,7 +44,10 @@
     <Compile Include="Component\Light\LightComponent.cs" />
     <Compile Include="Component\Light\SkyLightComponent.cs" />
     <Compile Include="Component\Light\SpotLightComponent.cs" />
+    <Compile Include="Component\Movement\CharacterMovementComponent.cs" />
     <Compile Include="Component\Movement\InterpToMovementComponent.cs" />
+    <Compile Include="Component\Movement\NavMovementComponent.cs" />
+    <Compile Include="Component\Movement\PawnMovementComponent.cs" />
     <Compile Include="Component\Physics\DestructibleComponent.cs" />
     <Compile Include="Component\Physics\PhysicsConstraint.cs" />
     <Compile Include="Component\Physics\PhysicsHandleComponent.cs" />
@@ -63,11 +66,13 @@
     <Compile Include="Component\Rendering\SkeletalMeshComponent.cs" />
     <Compile Include="Component\Rendering\SkinnedMeshComponent.cs" />
     <Compile Include="Component\Collision\SphereComponent.cs" />
-    <Compile Include="Component\Rendering\SplineMeshComponent.cs" />
+    <Compile Include="Component\Spline\SplineMeshComponent.cs" />
     <Compile Include="Component\Rendering\StaticMeshComponent.cs" />
     <Compile Include="Component\Rendering\TextRenderComponent.cs" />
     <Compile Include="Component\Base\SceneComponent.cs" />
     <Compile Include="Component\Rendering\VectorFieldComponent.cs" />
+    <Compile Include="Component\Spline\SplineComponent.cs" />
+    <Compile Include="Core\Data.cs" />
     <Compile Include="Core\Event.cs" />
     <Compile Include="Core\FLog.cs" />
     <Compile Include="Core\Timer.cs" />
@@ -77,6 +82,11 @@
     <Compile Include="Engine\WorldSettings.cs" />
     <Compile Include="GamePlay\Actor.cs" />
     <Compile Include="Component\Base\ActorComponent.cs" />
+    <Compile Include="GamePlay\AIController.cs" />
+    <Compile Include="GamePlay\Character.cs" />
+    <Compile Include="GamePlay\Controller.cs" />
+    <Compile Include="GamePlay\Pawn.cs" />
+    <Compile Include="GamePlay\PlayerController.cs" />
     <Compile Include="Math\Axis.cs" />
     <Compile Include="Math\Color.cs" />
     <Compile Include="Math\Math.cs" />

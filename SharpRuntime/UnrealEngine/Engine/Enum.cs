@@ -15,7 +15,7 @@ namespace UnrealEngine
         RemovedFromWorld,
         /** When the application is being exited. */
         Quit
-    };
+    }
 
     public enum CollosionEnabled
     {
@@ -41,7 +41,7 @@ namespace UnrealEngine
         CustomPlane,
         /*No constraints.*/
         None
-    };
+    }
 
     public enum RadialImpulseFalloff
     {
@@ -50,7 +50,7 @@ namespace UnrealEngine
         /** Impulse should get linearly weaker the further from origin. */
         Linear,
         MAX,
-    };
+    }
 
     public enum CollisionChannel
     {
@@ -93,16 +93,17 @@ namespace UnrealEngine
 
         OverlapAll_Deprecated,
         MAX,
-    };
+    }
+
     public enum CollisionResponse
     {
         Ignore,
         Overlap,
         Block,
         MAX,
-    };
+    }
 
-    public enum EBoneSpaces
+    public enum BoneSpaces
     {
         /** Set absolute position of bone in world space. */
         WorldSpace,
@@ -110,9 +111,9 @@ namespace UnrealEngine
         ComponentSpace
         /** Set position of bone relative to parent bone. */
         //LocalSpace		UMETA( DisplayName = "Parent Bone Space" ),
-    };
+    }
 
-    public enum EPhysBodyOp
+    public enum PhysBodyOp
     {
         /** Don't do anything. */
         PBO_None,
@@ -121,6 +122,33 @@ namespace UnrealEngine
         /** Disable collision - it will enable collision when unhidden. */
         PBO_Disable,
         PBO_MAX
-    };
+    }
 
+    public enum SplineCoordinateSpace
+    {
+        Local,
+        World
+    }
+
+    public enum PathFollowingReqResult
+    {
+        Failed = 0,
+        AlreadyAtGoal = 1,
+        RequestSuccessful = 2
+    }
+
+    public enum PathFollowingStatus
+    {
+        /** No requests */
+        Idle,
+
+        /** Request with incomplete path, will start after UpdateMove() */
+        Waiting,
+
+        /** Request paused, will continue after ResumeMove() */
+        Paused,
+
+        /** Following path */
+        Moving,
+    }
 }

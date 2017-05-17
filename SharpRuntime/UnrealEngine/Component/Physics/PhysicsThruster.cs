@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UnrealEngine
 {
-    class PhysicsThruster
+    public class PhysicsThruster
     {
     }
 }

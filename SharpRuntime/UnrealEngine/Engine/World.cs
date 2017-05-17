@@ -36,8 +36,7 @@ namespace UnrealEngine
         {
             int index = path.LastIndexOf('/');
             string name = path.Substring(index + 1, path.Length - index - 1);
-            path = string.Format("/Game/{0}.{1}_C", path, name);
-
+            path = string.Format("/Game/{0}.{1}_C", name, name);           
             var handler = _SpwanActor(path, ref trans);
             if (handler.ToInt64() == 0)
             {
@@ -47,7 +46,7 @@ namespace UnrealEngine
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static IntPtr _SpwanActor(string path, ref Transform trans);
+        private extern static IntPtr _SpwanActor(string path, ref Transform trans);        
     }
 
 }

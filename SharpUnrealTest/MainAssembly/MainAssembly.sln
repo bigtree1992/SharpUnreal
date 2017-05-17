@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainAssembly", "MainAssembl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnrealEngine", "..\..\SharpRuntime\UnrealEngine\UnrealEngine.csproj", "{22C0225F-243D-4A6A-B6E0-F14C6433CDF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGen", "..\..\SharpTool\CodeGen\CodeGen.csproj", "{AEA0C5D3-C509-416D-BC26-39888A97AE2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{22C0225F-243D-4A6A-B6E0-F14C6433CDF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22C0225F-243D-4A6A-B6E0-F14C6433CDF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22C0225F-243D-4A6A-B6E0-F14C6433CDF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA0C5D3-C509-416D-BC26-39888A97AE2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA0C5D3-C509-416D-BC26-39888A97AE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA0C5D3-C509-416D-BC26-39888A97AE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA0C5D3-C509-416D-BC26-39888A97AE2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

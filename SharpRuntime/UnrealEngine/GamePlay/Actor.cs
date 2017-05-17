@@ -64,6 +64,15 @@ namespace UnrealEngine
         }
 
         /// <summary>
+        /// 获取脚本上的C#组件
+        /// </summary>
+        /// <returns></returns>
+        public ActorComponent GetMonoComponent()
+        {
+            return _GetMonoComponent(NativeHandler);
+        }
+
+        /// <summary>
         /// 查找Actor上的指定类型的组件
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -107,6 +116,7 @@ namespace UnrealEngine
         public void Destroy()
         {
             _Destroy(NativeHandler);
+            NativeHandler = IntPtr.Zero; 
         }
 
         public string Name
@@ -124,6 +134,8 @@ namespace UnrealEngine
         private extern static IntPtr _GetSceneComponent(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetSceneComponent(IntPtr handler, IntPtr value);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static ActorComponent _GetMonoComponent(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]      
         private extern static IntPtr _GetComponent(IntPtr handler, string type);
         [MethodImpl(MethodImplOptions.InternalCall)]
