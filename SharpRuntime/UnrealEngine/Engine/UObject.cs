@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
@@ -18,10 +19,20 @@ namespace UnrealEngine
         /// </summary>
         public bool IsRooted
         {
-            //ToDo
-            get;
-            set;
+            get
+            {
+                return _GetIsRooted(NativeHandler);
+            }
+            set
+            {
+                _SetIsRooted(NativeHandler, value);
+            }
         }
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static bool _GetIsRooted(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetIsRooted(IntPtr handler, bool value);
     }
 
 }

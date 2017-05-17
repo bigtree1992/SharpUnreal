@@ -51,9 +51,9 @@ namespace UnrealEngine
         /// <summary>
         /// 进行内存垃圾回收 
         /// </summary>
-        public void GC()
+        public static void GC()
         {
-            //ToDo
+            _GC();
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -61,5 +61,8 @@ namespace UnrealEngine
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _LoadTexture(string path);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _GC();
     }
 }

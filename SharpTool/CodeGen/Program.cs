@@ -18,7 +18,9 @@ namespace CodeGen
             var codegen = new CodeGen.CodeGender();
             codegen.Process(filename);
             codegen.PrintAllData();
-            codegen.Generate();
+            codegen.GenerateCS();
+            codegen.GenerateCPP();
+
         }
 
 

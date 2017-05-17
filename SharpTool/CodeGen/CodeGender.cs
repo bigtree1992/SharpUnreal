@@ -37,13 +37,18 @@ namespace CodeGen
 
         private Dictionary<string, string> m_ToCppType = new Dictionary<string, string>
         {
+            { "void","void"},
+            { "int","int"},
+            { "float","float"},
+            { "double","double"},
+            { "bool","mono_bool" },
             { "string" ,"MonoString*" },
             { "Vector" ,"FVector" },
             { "Vector2D" ,"FVector2D" },
             { "Vector4D" ,"FVector4D" },
             { "Quat" ,"FQuat" },
-            { "Rotator" ,"FRoattor" },
-            { "FTransform" ,"FTransform" },
+            { "Rotator" ,"FRotator" },
+            { "Transform" ,"FTransform" },
             { "Plane" ,"FPlane" },
             { "LinearColor" ,"FLinearColor" },
             { "Color" ,"FColor" },
@@ -51,6 +56,28 @@ namespace CodeGen
             { "Actor","AActor*"}
 
         };
+
+        private Dictionary<string, string> m_DefaultValue = new Dictionary<string, string>
+        {
+            { "void",""},
+            { "int","0"},
+            { "float","0.0f"},
+            { "double","0.0"},
+            { "bool","0" },
+            { "string" ,"NULL" },
+            { "Vector" ,"FVector::ZeroVector" },
+            { "Vector2D" ,"FVector2D::ZeroVector" },
+            { "Vector4D" ,"FVector4D::ZeroVector" },
+            { "Quat" ,"FQuat::Identity" },
+            { "Rotator" ,"FRotator::ZeroRotator" },
+            { "Transform" ,"FTransform::Identity" },
+            { "LinearColor" ,"FLinearColor::Black" },
+            { "Color" ,"FColor::Black" },
+            { "Axis" ,"FAxis::FAxis::DefaultAxis" },
+            { "Actor","NULL"}
+
+        };
+
 
         public void Process(string filename)
         {
@@ -205,7 +232,7 @@ namespace CodeGen
 
         }
 
-        public void Generate()
+        public void GenerateCS()
         {
             string name = m_ClassName + "_0.cs";
             if (File.Exists(name))
@@ -219,7 +246,7 @@ namespace CodeGen
             file.WriteLine("");
             file.WriteLine("namespace " + m_NameSpace);
             file.WriteLine("{");
-            file.WriteLine(N(4) + "public " + m_ClassName + " : " + m_BaseClass);
+            file.WriteLine(N(4) + "public class " + m_ClassName + " : " + m_BaseClass);
             file.WriteLine(N(4) + "{");
 
             for (int i = 0; i < m_Propertys.Count; i++)
@@ -316,6 +343,141 @@ namespace CodeGen
             file.WriteLine(N(4) + "}");
             file.WriteLine("}");
             file.Close();
+        }
+
+        //static void UnrealEngine_ActorComponent_SendEventWithInt(UMonoComponent* _this, MonoString* evt, int data)
+        //static void UnrealEngine_ActorComponent_SetActivited(UMonoComponent* _this, bool value)
+        //static mono_bool UnrealEngine_ActorComponent_GetActivited(UMonoComponent* _this)
+        
+        public void GenerateCPP()
+        {
+            string name = m_ClassName + ".cpp";
+            if (File.Exists(name))
+            {
+                File.Delete(name);
+            }
+
+            var file = File.CreateText(name);
+            file.WriteLine();
+
+            for (int i = 0; i < m_Functions.Count; i++)
+            {
+                var fun = m_Functions[i];
+
+                file.Write("static " + CT(fun.RetType) + " " + m_NameSpace + "_");
+                file.Write(m_ClassName + "_" + fun.Name + "(" + CT(m_ClassName) + "* _this");
+                for (int j = 0; j < fun.Params.Count; j++)
+                {
+                    file.Write("," + CT(fun.Params[j].Type) + " " +fun.Params[j].Name);
+                }
+                file.WriteLine(")");
+                file.WriteLine("{");
+                file.WriteLine(N(4) + "if (_this == NULL)");
+                file.WriteLine(N(4) + "{");
+                file.WriteLine(N(8) + string.Format("GLog->Logf(ELogVerbosity::Error, TEXT(\"[{0}] {1} But _this is NULL.\"));",m_ClassName, fun.Name));
+                file.WriteLine(N(8) + string.Format("return {0};",DefualtRet(fun.RetType)));
+                file.WriteLine(N(4) + "}");
+                file.WriteLine("");
+                file.WriteLine("}");
+                file.WriteLine("");
+            }
+
+            for (int i = 0; i < m_Propertys.Count; i++)
+            {
+                var property = m_Propertys[i];
+
+                file.Write("static " + CT(property.Type) + " " + m_NameSpace + "_");
+                file.Write(m_ClassName + "_Get" + property.Name + "(" + CT(m_ClassName) + "* _this");
+                file.WriteLine(")");
+                file.WriteLine("{");
+
+                file.WriteLine(N(4) + "if (_this == NULL)");
+                file.WriteLine(N(4) + "{");
+                file.WriteLine(N(8) + string.Format("GLog->Logf(ELogVerbosity::Error, TEXT(\"[{0}] {1} But _this is NULL.\"));", m_ClassName, "Get" + property.Name));
+                file.WriteLine(N(8) + string.Format("return {0};", DefualtRet(property.Type)));
+                file.WriteLine(N(4) + "}");
+
+                file.WriteLine("");
+                file.WriteLine("}");
+                file.WriteLine("");
+
+                if (property.HasSet)
+                {
+                    file.Write("static void " + m_NameSpace + "_");
+                    file.Write(m_ClassName + "_Set" + property.Name + "(" + CT(m_ClassName) + "* _this," + CT(property.Type));
+                    file.WriteLine(" value)");
+                    file.WriteLine("{");
+                    file.WriteLine(N(4) + "if (_this == NULL)");
+                    file.WriteLine(N(4) + "{");
+                    file.WriteLine(N(8) + string.Format("GLog->Logf(ELogVerbosity::Error, TEXT(\"[{0}] {1} But _this is NULL.\"));", m_ClassName, "Set" + property.Name));
+                    file.WriteLine(N(8) + "return ;");
+                    file.WriteLine(N(4) + "}");
+
+                    file.WriteLine("");
+                    file.WriteLine("}");
+                    file.WriteLine("");
+                }                
+            }
+
+            file.WriteLine();
+
+            ///mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_IsBodyGravityEnabled",
+            //    reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_IsBodyGravityEnabled));
+
+
+            for (int i = 0; i < m_Functions.Count; i++)
+            {
+                var fun = m_Functions[i];
+
+                file.WriteLine("    mono_add_internal_call(\"" + m_NameSpace + "." + m_ClassName + "::_" + fun.Name + "\",");
+                file.WriteLine("        reinterpret_cast<void*>(" + m_NameSpace + "_" + m_ClassName + "_" + fun.Name + "));");
+            }
+
+            for (int i = 0; i < m_Propertys.Count; i++)
+            {
+                var property = m_Propertys[i];
+
+                file.WriteLine("    mono_add_internal_call(\"" + m_NameSpace + "." + m_ClassName + "::_Get" + property.Name + "\",");
+                file.WriteLine("        reinterpret_cast<void*>(" + m_NameSpace + "_" + m_ClassName + "_Get" + property.Name + "));");
+                if (property.HasSet)
+                {
+                    file.WriteLine("    mono_add_internal_call(\"" + m_NameSpace + "." + m_ClassName + "::_Set" + property.Name + "\",");
+                    file.WriteLine("        reinterpret_cast<void*>(" + m_NameSpace + "_" + m_ClassName + "_Set" + property.Name + "));");
+                }
+            }
+            file.WriteLine("");
+            file.Close();
+        }
+        
+        public string DefualtRet(string t)
+        {
+            if (m_DefaultValue.ContainsKey(t))
+            {
+                return m_DefaultValue[t];
+            }
+            else
+            {
+                return "NULL";
+            }
+        }
+
+        public string CT(string type)
+        {
+            if (m_ToCppType.ContainsKey(type))
+            {
+                return m_ToCppType[type];
+            }
+            else
+            {
+                if (type.Contains("Component"))
+                {
+                    return "U" + type;
+                }
+                else {
+                    return "A" + type;
+                }
+                
+            }
         }
 
         private string N(int n)

@@ -151,4 +151,25 @@ namespace UnrealEngine
         /** Following path */
         Moving,
     }
+
+    public enum SplineMeshAxis
+    {
+        X,
+        Y,
+        Z,
+    }
+
+    public enum PlaneConstraintAxisSetting
+    {
+        /** Lock movement to a user-defined axis. */
+        Custom = 0,
+        /** Lock movement in the X axis. */
+        X = 1,
+        /** Lock movement in the Y axis. */
+        Y = 2,
+        /** Lock movement in the Z axis. */
+        Z = 3,
+        /** Use the global physics project setting. */
+        UseGlobalPhysicsSetting = 4
+    }
 }

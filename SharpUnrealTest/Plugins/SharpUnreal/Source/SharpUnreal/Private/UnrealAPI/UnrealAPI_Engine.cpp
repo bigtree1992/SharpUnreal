@@ -187,6 +187,33 @@ static UTexture* UnrealEngine_Resource_LoadTexture(MonoString* path)
 	return texture;
 }
 
+static void UnrealEngine_Resource_GC()
+{
+	if (GWorld.GetReference() == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetWorld When GC."));
+		return ;
+	}
+	GWorld->GetWorld()->ForceGarbageCollection(true);
+}
+
+static mono_bool UnrealEngine_UObject_GetIsRooted(UObject* object)
+{
+	return object->IsRooted();
+}
+
+static void UnrealEngine_UObject_SetIsRooted(UObject* object, mono_bool value)
+{
+	if (value != 0) 
+	{
+		object->AddToRoot();
+	}
+	else {
+		object->RemoveFromRoot();
+	}	
+}
+
+
 
 void UnrealAPI_Engine::RegisterAPI()
 {
@@ -214,6 +241,16 @@ void UnrealAPI_Engine::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_Resource_LoadMaterial));
 	mono_add_internal_call("UnrealEngine.Resource::_LoadTexture",
 		reinterpret_cast<void*>(UnrealEngine_Resource_LoadTexture));
+	mono_add_internal_call("UnrealEngine.Resource::_GC",
+		reinterpret_cast<void*>(UnrealEngine_Resource_GC));
+
+	mono_add_internal_call("UnrealEngine.UObject::_GetIsRooted",
+		reinterpret_cast<void*>(UnrealEngine_UObject_GetIsRooted));
+	mono_add_internal_call("UnrealEngine.UObject::_SetIsRooted",
+		reinterpret_cast<void*>(UnrealEngine_UObject_SetIsRooted));
+
+	
+
 }
 
 

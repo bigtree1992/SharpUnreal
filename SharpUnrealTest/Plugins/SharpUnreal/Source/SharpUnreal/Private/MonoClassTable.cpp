@@ -3,8 +3,11 @@
 #include "MonoClassTable.h"
 
 #include "Components/ApplicationLifecycleComponent.h"
+#include "Components/SplineComponent.h"
 #include "Components/SplineMeshComponent.h"
+#include "Components/InterpToMovementComponent.h"
 #include "Camera/CameraComponent.h"
+
 #include "MonoComponent.h"
 
 static TMap<FName, UClass*> g_ClassTable;
@@ -37,6 +40,14 @@ void MonoClassTable::CreateTable()
 	g_ClassTable.Add(FName(TEXT("StaticMeshComponent")), UStaticMeshComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("TextRenderComponent")), UTextRenderComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("VectorFieldComponent")), UVectorFieldComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("InterpToMovementComponent")), UInterpToMovementComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("MovementComponent")), UMovementComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("NavMovementComponent")), UNavMovementComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("PawnMovementComponent")), UPawnMovementComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("ProjectileMovementComponent")), UProjectileMovementComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("RotatingMovementComponent")), URotatingMovementComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("SplineComponent")), USplineComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("SplineMeshMovementComponent")), USplineMeshComponent::StaticClass());
 
 }
 

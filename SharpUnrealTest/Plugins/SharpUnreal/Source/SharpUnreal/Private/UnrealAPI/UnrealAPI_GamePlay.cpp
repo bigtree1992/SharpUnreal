@@ -1,6 +1,10 @@
 #include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "LevelSequenceActor.h"
+#include "Navigation/PathFollowingComponent.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
+#include "AIController.h"
 
 #include "UnrealAPI_GamePlay.h"
 #include "MonoClassTable.h"
@@ -163,6 +167,487 @@ static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
 	return seq_actor->SequencePlayer;
 }
 
+
+static void UnrealEngine_Pawn_AddMovementInput(APawn* _this, FVector worldDir, float scaleValue, mono_bool force)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] AddMovementInput But _this is NULL."));
+		return ;
+	}
+	_this->AddMovementInput(worldDir, scaleValue, force != 0);
+}
+
+static void UnrealEngine_Pawn_AddControllerPitchInput(APawn* _this, float Val)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] AddControllerPitchInput But _this is NULL."));
+		return;
+	}
+	_this->AddControllerPitchInput(Val);
+}
+
+static void UnrealEngine_Pawn_AddControllerYawInput(APawn* _this, float Val)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] AddControllerYawInput But _this is NULL."));
+		return;
+	}
+	_this->AddControllerYawInput(Val);
+}
+
+static void UnrealEngine_Pawn_AddControllerRollInput(APawn* _this, float Val)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] AddControllerRollInput But _this is NULL."));
+		return;
+	}
+	_this->AddControllerRollInput(Val);
+}
+
+static UPawnMovementComponent* UnrealEngine_Pawn_GetMovementComponent(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] GetMovementComponent But _this is NULL."));
+		return NULL;
+	}
+
+	return _this->GetMovementComponent();
+}
+
+static mono_bool UnrealEngine_Pawn_GetUseCtrlRotationPith(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] GetUseCtrlRotationPith But _this is NULL."));
+		return 0;
+	}
+
+	return _this->bUseControllerRotationPitch;
+}
+
+static void UnrealEngine_Pawn_SetUseCtrlRotationPith(APawn* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] SetUseCtrlRotationPith But _this is NULL."));
+		return;
+	}
+	_this->bUseControllerRotationPitch = value != 0;
+}
+
+static mono_bool UnrealEngine_Pawn_GetUseCtrlRotationYaw(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] GetUseCtrlRotationYaw But _this is NULL."));
+		return 0;
+	}
+	return _this->bUseControllerRotationYaw;
+}
+
+static void UnrealEngine_Pawn_SetUseCtrlRotationYaw(APawn* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] SetUseCtrlRotationYaw But _this is NULL."));
+		return;
+	}
+	_this->bUseControllerRotationYaw = value != 0;
+}
+
+static mono_bool UnrealEngine_Pawn_GetUseCtrlRotationRoll(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] GetUseCtrlRotationRoll But _this is NULL."));
+		return 0;
+	}
+	return _this->bUseControllerRotationRoll;
+}
+
+static void UnrealEngine_Pawn_SetUseCtrlRotationRoll(APawn* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[APawn] SetUseCtrlRotationRoll But _this is NULL."));
+		return;
+	}
+
+	_this->bUseControllerRotationRoll = value != 0;
+}
+
+static mono_bool UnrealEngine_Pawn_GetCanAffectNavigationGeneration(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetCanAffectNavigationGeneration But _this is NULL."));
+		return 0;
+	}
+	return _this->bCanAffectNavigationGeneration;
+}
+
+static void UnrealEngine_Pawn_SetCanAffectNavigationGeneration(APawn* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] SetCanAffectNavigationGeneration But _this is NULL."));
+		return;
+	}
+	_this->bCanAffectNavigationGeneration = value != 0;
+}
+
+static float UnrealEngine_Pawn_GetBaseEyeHeight(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetBaseEyeHeight But _this is NULL."));
+		return 0.0f;
+	}
+	return _this->BaseEyeHeight;
+}
+
+static void UnrealEngine_Pawn_SetBaseEyeHeight(APawn* _this, float value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] SetBaseEyeHeight But _this is NULL."));
+		return;
+	}
+	_this->BaseEyeHeight = value;
+}
+
+static mono_bool UnrealEngine_Pawn_GetIsControlled(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetIsControlled But _this is NULL."));
+		return 0;
+	}
+	return _this->IsControlled();
+}
+
+static AController* UnrealEngine_Pawn_GetController(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetController But _this is NULL."));
+		return NULL;
+	}
+	return _this->GetController();
+}
+
+static FRotator UnrealEngine_Pawn_GetControllerRatator(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetControllerRatator But _this is NULL."));
+		return FRotator::ZeroRotator;
+	}
+
+	return _this->GetControlRotation();
+}
+
+static FVector UnrealEngine_Pawn_GetNavAgentLocatioin(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetNavAgentLocatioin But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->GetNavAgentLocation();
+}
+
+static FRotator UnrealEngine_Pawn_GetBaseAimRotaion(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetBaseAimRotaion But _this is NULL."));
+		return FRotator::ZeroRotator;
+	}
+	return _this->GetBaseAimRotation();
+}
+
+static FVector UnrealEngine_Pawn_GetPendingMovementInputVector(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetPendingMovementInputVector But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->GetPendingMovementInputVector();
+}
+
+static FVector UnrealEngine_Pawn_GetLastMovementInputVector(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetLastMovementInputVector But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->GetLastMovementInputVector();
+}
+
+static FVector UnrealEngine_Pawn_GetConsumeMovementInputVector(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetConsumeMovementInputVector But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->ConsumeMovementInputVector();
+}
+
+static mono_bool UnrealEngine_Pawn_GetIsMoveInputIgnored(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetIsMoveInputIgnored But _this is NULL."));
+		return 0;
+	}
+	return _this->IsMoveInputIgnored();
+}
+
+
+
+static void UnrealEngine_Controller_SetInitialLocationAndRotation(AController* _this, FVector NewLocation, FRotator NewRotation)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SetInitialLocationAndRotation But _this is NULL."));
+		return;
+	}
+	_this->SetInitialLocationAndRotation(NewLocation, NewRotation);
+}
+
+static mono_bool UnrealEngine_Controller_LineOfSightTo(AController* _this, AActor* Other, FVector ViewPoint, mono_bool bAlternateChecks)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] LineOfSightTo But _this is NULL."));
+		return 0;
+	}
+	
+	if (Other == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] LineOfSightTo But Other is NULL."));
+		return 0;
+	}
+
+	return _this->LineOfSightTo(Other, ViewPoint, bAlternateChecks != 0);
+}
+
+static void UnrealEngine_Controller_StopMovement(AController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] StopMovement But _this is NULL."));
+		return;
+	}
+
+	_this->StopMovement();
+}
+
+static FRotator UnrealEngine_Controller_GetControllerRotator(AController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] GetControllerRotator But _this is NULL."));
+		return FRotator::ZeroRotator;
+	}
+
+	return _this->GetControlRotation();
+}
+
+static void UnrealEngine_Controller_SetControllerRotator(AController* _this, FRotator value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SetControllerRotator But _this is NULL."));
+		return;
+	}
+
+	_this->SetControlRotation(value);
+}
+
+
+static mono_bool UnrealEngine_Controller_GetIgnoreMoveInput(AController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] GetIgnoreMoveInput But _this is NULL."));
+		return 0;
+	}
+	return _this->IsMoveInputIgnored();
+}
+
+static void UnrealEngine_Controller_SetIgnoreMoveInput(AController* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SetIgnoreMoveInput But _this is NULL."));
+		return;
+	}
+	_this->SetIgnoreMoveInput ( value != 0);
+}
+
+static mono_bool UnrealEngine_Controller_GetIgnoreLookInput(AController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] GetIgnoreLookInput But _this is NULL."));
+		return 0;
+	}
+	return _this->IsLookInputIgnored() != 0;
+}
+
+static void UnrealEngine_Controller_SetIgnoreLookInput(AController* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SetIgnoreLookInput But _this is NULL."));
+		return;
+	}
+	_this->SetIgnoreLookInput(value != 0);
+}
+
+
+static EPathFollowingRequestResult::Type UnrealEngine_AIController_MoveToActor(AAIController* _this, AActor* actor, float accepanceRadius, mono_bool stopOnOverlap, mono_bool usePathfinding, mono_bool bCanStrafe, mono_bool allowPartialPath)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] MoveToActor But _this is NULL."));
+		return EPathFollowingRequestResult::Type::Failed;
+	}
+
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] MoveToActor But actor is NULL."));
+		return EPathFollowingRequestResult::Type::Failed;
+	}
+
+	return _this->MoveToActor(actor, accepanceRadius, stopOnOverlap !=0, usePathfinding!=0, bCanStrafe!=0, NULL,allowPartialPath != 0);
+}
+
+static EPathFollowingRequestResult::Type UnrealEngine_AIController_MoveToLocation(
+	AAIController* _this, FVector actor, float accepanceRadius, mono_bool stopOnOverlap, mono_bool usePathfinding, 
+	bool bProjectDestinationToNavigation, mono_bool bCanStrafe, mono_bool allowPartialPath)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] MoveToLocation But _this is NULL."));
+		return EPathFollowingRequestResult::Type::Failed;
+	}
+	return _this->MoveToLocation(actor, accepanceRadius, stopOnOverlap!=0, usePathfinding!=0,
+		bProjectDestinationToNavigation!=0,bCanStrafe !=0,NULL,allowPartialPath != 0);
+}
+
+static FVector UnrealEngine_AIController_GetFocalPointOnActor(AAIController* _this, AActor* actor)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetFocalPointOnActor But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetFocalPointOnActor But actor is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->GetFocalPointOnActor(actor);
+}
+
+static void UnrealEngine_AIController_SetMoveBlockDetection(AAIController* _this, mono_bool value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] SetMoveBlockDetection But _this is NULL."));
+		return;
+	}
+	_this->SetMoveBlockDetection(value != 0);
+}
+
+static EPathFollowingStatus::Type UnrealEngine_AIController_GetMoveStatus(AAIController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetMoveStatus But _this is NULL."));
+		return EPathFollowingStatus::Type::Idle;
+	}
+	return _this->GetMoveStatus();
+}
+
+static mono_bool UnrealEngine_AIController_GetHasPartialPath(AAIController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetHasPartialPath But _this is NULL."));
+		return 0;
+	}
+	return _this->HasPartialPath();
+}
+
+static FVector UnrealEngine_AIController_GetImmediateMoveDestination(AAIController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetImmediateMoveDestination But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->GetImmediateMoveDestination();
+}
+
+static FVector UnrealEngine_AIController_GetFocalPoint(AAIController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetFocalPoint But _this is NULL."));
+		return FVector::ZeroVector;
+	}
+	return _this->GetFocalPoint();
+}
+
+static void UnrealEngine_AIController_SetFocalPoint(AAIController* _this, FVector value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] SetFocalPoint But _this is NULL."));
+		return;
+	}
+	return _this->SetFocalPoint(value);
+}
+
+static AActor* UnrealEngine_AIController_GetFocusActor(AAIController* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] GetFocusActor But _this is NULL."));
+		return NULL;
+	}
+	return _this->GetFocusActor();
+}
+
+static void UnrealEngine_AIController_SetFocusActor(AAIController* _this, AActor* value)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] SetFocusActor But _this is NULL."));
+		return;
+	}
+	if (value == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[AIController] SetFocusActor But actor is NULL."));
+		return;
+	}
+	_this->SetFocus(value);
+}
+
+
 void UnrealAPI_GamePlay::RegisterAPI()
 {
 	mono_add_internal_call("UnrealEngine.Actor::_GetHiddenInGame",
@@ -185,4 +670,96 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 
+
+
+	mono_add_internal_call("UnrealEngine.Pawn::_AddMovementInput",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_AddMovementInput));
+	mono_add_internal_call("UnrealEngine.Pawn::_AddControllerPitchInput",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_AddControllerPitchInput));
+	mono_add_internal_call("UnrealEngine.Pawn::_AddControllerYawInput",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_AddControllerYawInput));
+	mono_add_internal_call("UnrealEngine.Pawn::_AddControllerRollInput",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_AddControllerRollInput));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetMovementComponent",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetMovementComponent));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetUseCtrlRotationPith",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetUseCtrlRotationPith));
+	mono_add_internal_call("UnrealEngine.Pawn::_SetUseCtrlRotationPith",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_SetUseCtrlRotationPith));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetUseCtrlRotationYaw",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetUseCtrlRotationYaw));
+	mono_add_internal_call("UnrealEngine.Pawn::_SetUseCtrlRotationYaw",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_SetUseCtrlRotationYaw));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetUseCtrlRotationRoll",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetUseCtrlRotationRoll));
+	mono_add_internal_call("UnrealEngine.Pawn::_SetUseCtrlRotationRoll",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_SetUseCtrlRotationRoll));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetCanAffectNavigationGeneration",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetCanAffectNavigationGeneration));
+	mono_add_internal_call("UnrealEngine.Pawn::_SetCanAffectNavigationGeneration",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_SetCanAffectNavigationGeneration));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetBaseEyeHeight",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetBaseEyeHeight));
+	mono_add_internal_call("UnrealEngine.Pawn::_SetBaseEyeHeight",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_SetBaseEyeHeight));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetIsControlled",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetIsControlled));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetController",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetController));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetControllerRatator",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetControllerRatator));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetNavAgentLocatioin",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetNavAgentLocatioin));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetBaseAimRotaion",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetBaseAimRotaion));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetPendingMovementInputVector",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetPendingMovementInputVector));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetLastMovementInputVector",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetLastMovementInputVector));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetConsumeMovementInputVector",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetConsumeMovementInputVector));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetIsMoveInputIgnored",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetIsMoveInputIgnored));
+
+	mono_add_internal_call("UnrealEngine.Controller::_SetInitialLocationAndRotation",
+		reinterpret_cast<void*>(UnrealEngine_Controller_SetInitialLocationAndRotation));
+	mono_add_internal_call("UnrealEngine.Controller::_LineOfSightTo",
+		reinterpret_cast<void*>(UnrealEngine_Controller_LineOfSightTo));
+	mono_add_internal_call("UnrealEngine.Controller::_StopMovement",
+		reinterpret_cast<void*>(UnrealEngine_Controller_StopMovement));
+	mono_add_internal_call("UnrealEngine.Controller::_GetControllerRotator",
+		reinterpret_cast<void*>(UnrealEngine_Controller_GetControllerRotator));
+	mono_add_internal_call("UnrealEngine.Controller::_SetControllerRotator",
+		reinterpret_cast<void*>(UnrealEngine_Controller_SetControllerRotator));
+	mono_add_internal_call("UnrealEngine.Controller::_GetIgnoreMoveInput",
+		reinterpret_cast<void*>(UnrealEngine_Controller_GetIgnoreMoveInput));
+	mono_add_internal_call("UnrealEngine.Controller::_SetIgnoreMoveInput",
+		reinterpret_cast<void*>(UnrealEngine_Controller_SetIgnoreMoveInput));
+	mono_add_internal_call("UnrealEngine.Controller::_GetIgnoreLookInput",
+		reinterpret_cast<void*>(UnrealEngine_Controller_GetIgnoreLookInput));
+	mono_add_internal_call("UnrealEngine.Controller::_SetIgnoreLookInput",
+		reinterpret_cast<void*>(UnrealEngine_Controller_SetIgnoreLookInput));
+
+	mono_add_internal_call("UnrealEngine.AIController::_MoveToActor",
+		reinterpret_cast<void*>(UnrealEngine_AIController_MoveToActor));
+	mono_add_internal_call("UnrealEngine.AIController::_MoveToLocation",
+		reinterpret_cast<void*>(UnrealEngine_AIController_MoveToLocation));
+	mono_add_internal_call("UnrealEngine.AIController::_GetFocalPointOnActor",
+		reinterpret_cast<void*>(UnrealEngine_AIController_GetFocalPointOnActor));
+	mono_add_internal_call("UnrealEngine.AIController::_SetMoveBlockDetection",
+		reinterpret_cast<void*>(UnrealEngine_AIController_SetMoveBlockDetection));
+	mono_add_internal_call("UnrealEngine.AIController::_GetMoveStatus",
+		reinterpret_cast<void*>(UnrealEngine_AIController_GetMoveStatus));
+	mono_add_internal_call("UnrealEngine.AIController::_GetHasPartialPath",
+		reinterpret_cast<void*>(UnrealEngine_AIController_GetHasPartialPath));
+	mono_add_internal_call("UnrealEngine.AIController::_GetImmediateMoveDestination",
+		reinterpret_cast<void*>(UnrealEngine_AIController_GetImmediateMoveDestination));
+	mono_add_internal_call("UnrealEngine.AIController::_GetFocalPoint",
+		reinterpret_cast<void*>(UnrealEngine_AIController_GetFocalPoint));
+	mono_add_internal_call("UnrealEngine.AIController::_SetFocalPoint",
+		reinterpret_cast<void*>(UnrealEngine_AIController_SetFocalPoint));
+	mono_add_internal_call("UnrealEngine.AIController::_GetFocusActor",
+		reinterpret_cast<void*>(UnrealEngine_AIController_GetFocusActor));
+	mono_add_internal_call("UnrealEngine.AIController::_SetFocusActor",
+		reinterpret_cast<void*>(UnrealEngine_AIController_SetFocusActor));
 }
