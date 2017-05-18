@@ -38,8 +38,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorTest.cs" />
+    <Compile Include="AudioTest.cs" />
+    <Compile Include="BlueprintEventTest.cs" />
+    <Compile Include="EventTest.cs" />
     <Compile Include="HitAndOverlapTest.cs" />
     <Compile Include="InitTest.cs" />
+    <Compile Include="InputTest.cs" />
+    <Compile Include="MovementTest.cs" />
+    <Compile Include="ParticlesTest.cs" />
+    <Compile Include="PathFindTest.cs" />
+    <Compile Include="PhysicsTest.cs" />
+    <Compile Include="PlayAnimTest.cs" />
+    <Compile Include="SequencerTest.cs" />
+    <Compile Include="SplineTest.cs" />
+    <Compile Include="TimerTest.cs" />
+    <Compile Include="UITest.cs" />
     <Compile Include="WorldTest.cs" />
     <Compile Include="MaterialTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -29,7 +29,7 @@ namespace MainAssembly
                 return;
             }
 
-            var m = Resource.LoadMaterial("/Materials/NewMaterial");
+            var m = Resource.LoadMaterial("/Resources/Materials/NewMaterial");
             if (m == null)
             {
                 return;
@@ -41,7 +41,7 @@ namespace MainAssembly
                 return;
             }
 
-            var tex = Resource.LoadTexture("/Textures/Ground4");
+            var tex = Resource.LoadTexture("/Resources/Textures/Ground4");
             if (tex == null)
             {
                 Log.Debug("tex != null.");
@@ -68,7 +68,7 @@ namespace MainAssembly
                 return;
             }
 
-            var m = Resource.LoadMaterial("/Materials/NewMaterial");
+            var m = Resource.LoadMaterial("/Resources/Materials/NewMaterial");
             if (m == null)
             {
                 return;
