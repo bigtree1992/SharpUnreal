@@ -180,7 +180,7 @@ namespace UnrealEngine
             return _GetSocketRotation(NativeHandler,socket);
         }
         
-        bool DoesSocketExist(string socket)
+        public bool DoesSocketExist(string socket)
         {
             return _DoesSocketExist(NativeHandler,socket);
         }

@@ -26,6 +26,10 @@ namespace CodeGen
         internal bool HasSet = false;
     }
 
+    /// <summary>
+    /// 根据手动编写的C#函数声明跟属性声明，
+    /// 生成C#InternalCall声明与CPP绑定InternalCall的代码
+    /// </summary>
     public class CodeGender
     {
         private string m_NameSpace;
@@ -52,7 +56,7 @@ namespace CodeGen
             { "Plane" ,"FPlane" },
             { "LinearColor" ,"FLinearColor" },
             { "Color" ,"FColor" },
-            { "Axis" ,"Axis" },
+            { "Axis" ,"FAxis" },
             { "Actor","AActor*"}
 
         };
@@ -73,9 +77,8 @@ namespace CodeGen
             { "Transform" ,"FTransform::Identity" },
             { "LinearColor" ,"FLinearColor::Black" },
             { "Color" ,"FColor::Black" },
-            { "Axis" ,"FAxis::FAxis::DefaultAxis" },
+            { "Axis" ,"FAxis::DefaultAxis" },
             { "Actor","NULL"}
-
         };
 
 

@@ -6,57 +6,302 @@ namespace UnrealEngine
     /// <summary>
     /// 一个通用的事件类
     /// </summary>
-    public delegate void Callback();
-    public delegate void Callback<T>(T arg1);
-    public delegate void Callback<T, U>(T arg1, U arg2);
-    public delegate void Callback<T, U, V>(T arg1, U arg2, V arg3);
-
-    static public class Event
+    public static class Event
     {
-        #region 内部变量
-        static private Dictionary<string, Delegate> s_EventTable = new Dictionary<string, Delegate>();
-        //event handlers that should never be removed, regardless of calling Cleanup
-        static private List<string> s_PermanentEvents = new List<string>();
-        #endregion
-        
-        #region Helper methods
-        //Marks a certain message as permanent.
-        static public void MarkAsPermanent(string eventType)
+        private static Dictionary<string, Delegate> s_EventTable = new Dictionary<string, Delegate>();
+
+        #region AddListener
+        //No parameters
+        public static void AddListener(string eventType, Action handler)
         {
-            s_PermanentEvents.Add(eventType);
+            OnListenerAdding(eventType, handler);
+            s_EventTable[eventType] = (Action)s_EventTable[eventType] + handler;
         }
 
-        /// <summary>
-        /// 移除所有除了设置为永久事件的事件注册信息
-        /// </summary>
-        static public void Cleanup()
+        //Single parameter
+        public static void AddListener<T>(string eventType, Action<T> handler)
         {
-            List<string> eventsToRemove = new List<string>();
+            OnListenerAdding(eventType, handler);
+            s_EventTable[eventType] = (Action<T>)s_EventTable[eventType] + handler;
+        }
 
-            foreach (KeyValuePair<string, Delegate> pair in s_EventTable)
+        //Two parameters
+        public static void AddListener<T, U>(string eventType, Action<T, U> handler)
+        {
+            OnListenerAdding(eventType, handler);
+            s_EventTable[eventType] = (Action<T, U>)s_EventTable[eventType] + handler;
+        }
+
+        //Three parameters
+        public static void AddListener<T, U, V>(string eventType, Action<T, U, V> handler)
+        {
+            OnListenerAdding(eventType, handler);
+            s_EventTable[eventType] = (Action<T, U, V>)s_EventTable[eventType] + handler;
+        }
+        #endregion
+
+        #region RemoveListener
+        //No parameters
+        public static void RemoveListener(string eventType, Action handler)
+        {
+            OnListenerRemoving(eventType, handler);
+            s_EventTable[eventType] = (Action)s_EventTable[eventType] - handler;
+            OnListenerRemoved(eventType);
+        }
+
+        //Single parameter
+        public static void RemoveListener<T>(string eventType, Action<T> handler)
+        {
+            OnListenerRemoving(eventType, handler);
+            s_EventTable[eventType] = (Action<T>)s_EventTable[eventType] - handler;
+            OnListenerRemoved(eventType);
+        }
+
+        //Two parameters
+        public static void RemoveListener<T, U>(string eventType, Action<T, U> handler)
+        {
+            OnListenerRemoving(eventType, handler);
+            s_EventTable[eventType] = (Action<T, U>)s_EventTable[eventType] - handler;
+            OnListenerRemoved(eventType);
+        }
+
+        //Three parameters
+        public static void RemoveListener<T, U, V>(string eventType, Action<T, U, V> handler)
+        {
+            OnListenerRemoving(eventType, handler);
+            s_EventTable[eventType] = (Action<T, U, V>)s_EventTable[eventType] - handler;
+            OnListenerRemoved(eventType);
+        }
+        #endregion
+
+        #region SendEvent
+        //No parameters
+        public static void Send(string eventType)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(eventType, out d))
             {
-                bool wasFound = false;
+                var callback = d as Action;
 
-                foreach (string message in s_PermanentEvents)
+                if (callback != null)
                 {
-                    if (pair.Key == message)
+                    callback();
+                }
+                else
+                {
+                    throw CreateEventException(eventType);
+                }
+            }
+        }
+
+        //Single parameter
+        public static void Send<T>(string eventType, T arg1)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(eventType, out d))
+            {
+                var callback = d as Action<T>;
+
+                if (callback != null)
+                {
+                    var list = callback.GetInvocationList();
+                    for (int i = 0; i < list.Length; i++)
                     {
-                        wasFound = true;
-                        break;
+                        try
+                        {
+                            var ci = list[i] as Action<T>;
+                            ci(arg1);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error("[Broadcast] Excute A Event(Single) Failed : " + e.Message);
+                        }
                     }
                 }
-
-                if (!wasFound)
-                    eventsToRemove.Add(pair.Key);
-            }
-
-            foreach (string message in eventsToRemove)
-            {
-                s_EventTable.Remove(message);
+                else
+                {
+                    throw CreateEventException(eventType);
+                }
             }
         }
 
-        static public void PrintEventTable()
+        //Two parameters
+        public static void Send<T, U>(string eventType, T arg1, U arg2)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(eventType, out d))
+            {
+                var callback = d as Action<T, U>;
+
+                if (callback != null)
+                {
+                    var list = callback.GetInvocationList();
+                    for (int i = 0; i < list.Length; i++)
+                    {
+                        try
+                        {
+                            var ci = list[i] as Action<T, U>;
+                            ci(arg1, arg2);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error("[Broadcast] Excute A Event(Two) Failed : " + e.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    throw CreateEventException(eventType);
+                }
+            }
+        }
+
+        //Three parameters
+        public static void Send<T, U, V>(string eventType, T arg1, U arg2, V arg3)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(eventType, out d))
+            {
+                var callback = d as Action<T, U, V>;
+
+                if (callback != null)
+                {
+                    var list = callback.GetInvocationList();
+                    for (int i = 0; i < list.Length; i++)
+                    {
+                        try
+                        {
+                            var ci = list[i] as Action<T, U, V>;
+                            ci(arg1, arg2, arg3);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error("[Broadcast] Excute A Event(Three) Failed : " + e.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    throw CreateEventException(eventType);
+                }
+            }
+        }
+        #endregion
+
+        #region AddCallable
+        public static void SetCallable<TResult>(string callableType, Func<TResult> handler)
+        {
+            s_EventTable[callableType] =  handler;
+        }
+
+        public static void SetCallable<T,TResult>(string callableType, Func<T, TResult> handler)
+        {
+            s_EventTable[callableType] =  handler;
+        }
+
+        public static void AddCallable<T, U, TResult>(string callableType, Func<T, U, TResult> handler)
+        {
+            s_EventTable[callableType] = handler;
+        }
+
+        public static void AddCallable<T, U, V, TResult>(string callableType, Func<T, U, V, TResult> handler)
+        {
+            s_EventTable[callableType] = handler;
+        }
+        #endregion
+
+        #region ClearCallable
+        public static void ClearCallable(string callableType)
+        {
+            if (s_EventTable.ContainsKey(callableType))
+            {
+                s_EventTable.Remove(callableType);
+            }            
+        }
+       
+        #endregion
+
+        #region Call
+        public static TResult Call<TResult>(string callableType)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(callableType, out d))
+            {
+                var function = d as Func<TResult>;
+
+                if (function != null)
+                {
+                    return function();
+                }
+                else
+                {
+                    throw CreateCallableException(callableType);
+                }
+            }
+            return default(TResult);
+        }
+
+        public static TResult Call<T, TResult>(string callableType,T t)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(callableType, out d))
+            {
+                var function = d as Func<T , TResult>;
+
+                if (function != null)
+                {
+                    return function(t);
+                }
+                else
+                {
+                    throw CreateCallableException(callableType);
+                }
+            }
+            return default(TResult);
+        }
+
+        public static TResult Call<T, U, TResult>(string callableType, T t, U u)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(callableType, out d))
+            {
+                var function = d as Func<T, U, TResult>;
+
+                if (function != null)
+                {
+                    return function(t,u);
+                }
+                else
+                {
+                    throw CreateCallableException(callableType);
+                }
+            }
+            return default(TResult);
+        }
+
+        public static TResult Call<T, U, V, TResult>(string callableType, T t, U u, V v)
+        {
+            Delegate d;
+            if (s_EventTable.TryGetValue(callableType, out d))
+            {
+                var function = d as Func<T, U, V, TResult>;
+
+                if (function != null)
+                {
+                    return function(t, u, v);
+                }
+                else
+                {
+                    throw CreateCallableException(callableType);
+                }
+            }
+            return default(TResult);
+        }
+        #endregion
+
+        #region Helper methods
+
+        public static void PrintEventTable()
         {
 		    Log.Debug("\t\t\t=== Event PrintEventTable ===");
 
@@ -69,7 +314,7 @@ namespace UnrealEngine
         #endregion
 
         #region Message logging and exception throwing
-        static public void OnListenerAdding(string eventType, Delegate listenerBeingAdded)
+        private static void OnListenerAdding(string eventType, Delegate listenerBeingAdded)
         {
             if (!s_EventTable.ContainsKey(eventType))
             {
@@ -83,9 +328,8 @@ namespace UnrealEngine
             }
         }
 
-        static public void OnListenerRemoving(string eventType, Delegate listenerBeingRemoved)
+        private static void OnListenerRemoving(string eventType, Delegate listenerBeingRemoved)
         {
-
             if (s_EventTable.ContainsKey(eventType))
             {
                 Delegate d = s_EventTable[eventType];
@@ -105,7 +349,7 @@ namespace UnrealEngine
             }
         }
 
-        static public void OnListenerRemoved(string eventType)
+        private static void OnListenerRemoved(string eventType)
         {
             if (s_EventTable[eventType] == null)
             {
@@ -113,217 +357,34 @@ namespace UnrealEngine
             }
         }
 
-        static public void OnBroadcasting(string eventType)
+        private static EventException CreateEventException(string eventType)
         {
-
+            return new EventException(string.Format("[Event] Sending message \"{0}\" but listeners have a different signature.", eventType));
         }
 
-        static public BroadcastException CreateBroadcastSignatureException(string eventType)
+        private static CallableException CreateCallableException(string callableType)
         {
-            return new BroadcastException(string.Format("Broadcasting message \"{0}\" but listeners have a different signature than the broadcaster.", eventType));
+            return new CallableException(string.Format("[Event] Call On \"{0}\" but listener have a different signature.", callableType));
         }
 
-        public class BroadcastException : Exception
+        public class EventException : Exception
         {
-            public BroadcastException(string msg)
+            public EventException(string msg)
             : base(msg)
             {
             }
         }
 
-        public class ListenerException : Exception
+        public class CallableException : Exception
         {
-            public ListenerException(string msg)
+            public CallableException(string msg)
             : base(msg)
             {
             }
         }
+
         #endregion
 
-        #region AddListener
-        //No parameters
-        static public void AddListener(string eventType, Callback handler)
-        {
-            OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Callback)s_EventTable[eventType] + handler;
-        }
 
-        //Single parameter
-        static public void AddListener<T>(string eventType, Callback<T> handler)
-        {
-            OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Callback<T>)s_EventTable[eventType] + handler;
-        }
-
-        //Two parameters
-        static public void AddListener<T, U>(string eventType, Callback<T, U> handler)
-        {
-            OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Callback<T, U>)s_EventTable[eventType] + handler;
-        }
-
-        //Three parameters
-        static public void AddListener<T, U, V>(string eventType, Callback<T, U, V> handler)
-        {
-            OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Callback<T, U, V>)s_EventTable[eventType] + handler;
-        }
-        #endregion
-
-        #region RemoveListener
-        //No parameters
-        static public void RemoveListener(string eventType, Callback handler)
-        {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Callback)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
-        }
-
-        //Single parameter
-        static public void RemoveListener<T>(string eventType, Callback<T> handler)
-        {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Callback<T>)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
-        }
-
-        //Two parameters
-        static public void RemoveListener<T, U>(string eventType, Callback<T, U> handler)
-        {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Callback<T, U>)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
-        }
-
-        //Three parameters
-        static public void RemoveListener<T, U, V>(string eventType, Callback<T, U, V> handler)
-        {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Callback<T, U, V>)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
-        }
-        #endregion
-
-        #region Broadcast
-        //No parameters
-        static public void Broadcast(string eventType)
-        {
-            OnBroadcasting(eventType);
-
-            Delegate d;
-            if (s_EventTable.TryGetValue(eventType, out d))
-            {
-                Callback callback = d as Callback;
-
-                if (callback != null)
-                {
-                    callback();
-                }
-                else
-                {
-                    throw CreateBroadcastSignatureException(eventType);
-                }
-            }
-        }
-
-        //Single parameter
-        static public void Broadcast<T>(string eventType, T arg1)
-        {
-            OnBroadcasting(eventType);
-
-            Delegate d;
-            if (s_EventTable.TryGetValue(eventType, out d))
-            {
-                Callback<T> callback = d as Callback<T>;
-
-                if (callback != null)
-                {
-                    var list = callback.GetInvocationList();
-                    for (int i = 0; i < list.Length; i++)
-                    {
-                        try
-                        {
-                            var ci = list[i] as Callback<T>;
-                            ci(arg1);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Error("[Broadcast] Excute A Event(Single) Failed : " + e.Message);
-                        }
-                    }
-                }
-                else
-                {
-                    throw CreateBroadcastSignatureException(eventType);
-                }
-            }
-        }
-
-        //Two parameters
-        static public void Broadcast<T, U>(string eventType, T arg1, U arg2)
-        {
-            OnBroadcasting(eventType);
-
-            Delegate d;
-            if (s_EventTable.TryGetValue(eventType, out d))
-            {
-                Callback<T, U> callback = d as Callback<T, U>;
-
-                if (callback != null)
-                {
-                    var list = callback.GetInvocationList();
-                    for(int i = 0; i < list.Length; i++)
-                    {
-                        try
-                        {
-                            var ci = list[i] as Callback<T, U>;
-                            ci(arg1, arg2);
-                        }
-                        catch(Exception e)
-                        {
-                            Log.Error("[Broadcast] Excute A Event(Two) Failed : " + e.Message);
-                        }
-                    }                 
-                }
-                else
-                {
-                    throw CreateBroadcastSignatureException(eventType);
-                }
-            }
-        }
-
-        //Three parameters
-        static public void Broadcast<T, U, V>(string eventType, T arg1, U arg2, V arg3)
-        {
-            OnBroadcasting(eventType);
-
-            Delegate d;
-            if (s_EventTable.TryGetValue(eventType, out d))
-            {
-                Callback<T, U, V> callback = d as Callback<T, U, V>;
-
-                if (callback != null)
-                {
-                    var list = callback.GetInvocationList();
-                    for (int i = 0; i < list.Length; i++)
-                    {
-                        try
-                        {
-                            var ci = list[i] as Callback<T, U, V>;
-                            ci(arg1,arg2,arg3);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Error("[Broadcast] Excute A Event(Three) Failed : " + e.Message);
-                        }
-                    }
-                }
-                else
-                {
-                    throw CreateBroadcastSignatureException(eventType);
-                }
-            }
-        }
-        #endregion
     }
 }
