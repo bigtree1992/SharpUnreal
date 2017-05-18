@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnrealEngine;
 
 namespace MainAssembly
 {
     /// <summary>
-    /// Actor有关的测试
+    ///  输入的回调测试，（通过蓝图事件实现）
     /// </summary>
-    public class ActorTest : ActorComponent
+    public class InputTest : ActorComponent
     {
-		
+
     }
 }

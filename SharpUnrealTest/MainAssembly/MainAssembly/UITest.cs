@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnrealEngine;
 
 namespace MainAssembly
 {
     /// <summary>
-    /// Actor有关的测试
+    /// 测试UI相关的交互（通过蓝图事件实现）
     /// </summary>
-    public class ActorTest : ActorComponent
+    public class UITest : ActorComponent
     {
-		
+
     }
 }

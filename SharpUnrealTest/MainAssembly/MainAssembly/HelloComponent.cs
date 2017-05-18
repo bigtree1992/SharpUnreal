@@ -3,6 +3,9 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
+    /// <summary>
+    /// HelloWorld
+    /// </summary>
     public class HelloComponent : ActorComponent
     {
         protected override void BeginPlay()

@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnrealEngine;
 
 namespace MainAssembly
 {
     /// <summary>
-    /// Actor有关的测试
+    /// 测试曲线相关的接口
     /// </summary>
-    public class ActorTest : ActorComponent
+    public class SplineTest : ActorComponent
     {
-		
+
     }
 }

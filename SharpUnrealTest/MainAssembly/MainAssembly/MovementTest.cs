@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnrealEngine;
 
 namespace MainAssembly
 {
     /// <summary>
-    /// Actor有关的测试
+    /// 测试运动组件相关的功能
     /// </summary>
-    public class ActorTest : ActorComponent
+    public class MovementTest : ActorComponent
     {
-		
     }
 }

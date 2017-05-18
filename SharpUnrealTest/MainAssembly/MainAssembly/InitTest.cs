@@ -4,6 +4,9 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
+    /// <summary>
+    /// 测试初始化设置参数相关的接口
+    /// </summary>
     public class InitTest : ActorComponent
     {
         public float TestValue;

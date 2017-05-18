@@ -3,6 +3,9 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
+    /// <summary>
+    /// 测试材质相关的功能
+    /// </summary>
     public class MaterialTest : ActorComponent
     {
         protected override void Initialize()

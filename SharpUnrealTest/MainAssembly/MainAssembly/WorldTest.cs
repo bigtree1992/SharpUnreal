@@ -3,6 +3,9 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
+    /// <summary>
+    /// 测试动态加载蓝图，动态加载场景。
+    /// </summary>
     public class WorldTest : ActorComponent
     {
         protected override void Initialize()

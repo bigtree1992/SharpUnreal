@@ -4,6 +4,9 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
+    /// <summary>
+    /// 测试碰撞跟触发相关的接口
+    /// </summary>
     public class HitAndOverlapTest : ActorComponent 
     {
         protected override void Initialize()
