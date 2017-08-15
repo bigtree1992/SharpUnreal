@@ -94,7 +94,13 @@ public:
 	void OnSequencerPause();
 	UFUNCTION()
 	void OnSequencerStop();
+	#endif
 
+	#if 1
+	UFUNCTION(Server, reliable, WithValidation)
+	void RPCOnServer();
+	UFUNCTION(NetMulticast, reliable)
+	void RPCOnAll();
 	#endif
 
 	_MonoObject * GetMonoObject();

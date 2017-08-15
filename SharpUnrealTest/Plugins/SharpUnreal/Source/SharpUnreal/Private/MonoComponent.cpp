@@ -451,3 +451,18 @@ void UMonoComponent::OnSequencerStop()
 			m_Callback->OnSequencerStop, m_MonoComponent, NULL);
 	}
 }
+
+bool UMonoComponent::RPCOnServer_Validate()
+{
+	return true;
+}
+
+void UMonoComponent::RPCOnServer_Implementation() 
+{
+
+}
+
+void UMonoComponent::RPCOnAll_Implementation()
+{
+
+}

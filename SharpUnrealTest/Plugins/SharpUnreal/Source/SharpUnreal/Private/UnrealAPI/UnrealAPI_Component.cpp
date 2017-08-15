@@ -2864,8 +2864,8 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithString));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEventWithInt",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithInt));
-		mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
-			reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
+	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
+		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
 	#endif
 	
 	#if 1
