@@ -138,6 +138,10 @@ namespace UnrealEngine
             {
                 return _GetLocalScale(NativeHandler);
             }
+            set
+            {
+                _SetLocalScale(NativeHandler, value);
+            }
         }     
 
         public bool SimulatingPhysics

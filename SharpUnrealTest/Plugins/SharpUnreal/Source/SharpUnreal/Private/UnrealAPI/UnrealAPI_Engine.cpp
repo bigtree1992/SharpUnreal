@@ -141,8 +141,9 @@ static AActor* UnrealEngine_World_SpwanActor(MonoString* path, FTransform* trans
 		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetClass When SpwanActor."));
 		return NULL;
 	}
-
-	return GWorld->SpawnActor(Class, trans);
+	FTransform temp_trans;
+	FMemory::Memcpy(&temp_trans, trans, sizeof(FTransform));
+	return GWorld->SpawnActor(Class, &temp_trans);
 }
 
 static UMaterialInterface* UnrealEngine_Resource_LoadMaterial(MonoString* path)

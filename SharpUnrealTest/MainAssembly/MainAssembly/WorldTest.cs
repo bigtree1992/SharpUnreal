@@ -11,6 +11,7 @@ namespace MainAssembly
         protected override void Initialize()
         {
             TestSpawnActor();
+            TestError();
         }
 
         /// <summary>
@@ -19,11 +20,62 @@ namespace MainAssembly
         private void TestSpawnActor()
         {
             var trans = new Transform();
-            var actor = World.SpwanActor("/Actor3_Blueprint", ref trans);
-            var init = actor.GetMonoComponent() as InitTest;
-            //测试初始化组件值，会在Initialize之后调用，BeginPlay之前调用
-            init.TestValue = 100;
+            var actor = World.SpwanActor("Resources/Blueprints/Actor3_blueprint", ref trans);
 
+            var cube = actor.GetComponentByTag<StaticMeshComponent>("Cube");
+            if (cube == null)
+            {
+                Log.Error("[WorldTest] cube is null");
+            }
+            else
+            {
+                cube.Visible = true;
+            }
+
+            var sphere = actor.GetComponentByTag<StaticMeshComponent>("Sphere");
+            if (sphere == null)
+            {
+                Log.Error("[WorldTest] sphere is null");
+            }
+            else
+            {
+            }
+
+            actor.Root.LocalPosition = new Vector(1000, 1000, 1000);
+            actor.Root.LocalScale = new Vector(5, 5, 5);
+            var init = actor.GetMonoComponent() as InitTest;
+            //测试初始化组件值，会在initialize之后调用，beginplay之前调用
+            init.TestValue = 100;
+            init.SendEvent("TestEventInt", 1881);
+            init.SendEvent("TestEventString", "string");
+
+            Log.Error("[WorldTest] actorname:" + actor.Name);
+            //actor.Destroy();
+            TimerTest.DelayInvoke(1.0f, () => {
+                init.SendEvent("TestEventString", "timerstring");
+                sphere.Visible = false;
+
+            });
+        }
+
+        private void TestError()
+        {
+            try
+            {
+                StaticMeshComponent mesh = null;
+                if(mesh == null)
+                {
+                    Log.Error("null");
+                }
+                else
+                {
+                    Log.Error("not null");
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         /// <summary>

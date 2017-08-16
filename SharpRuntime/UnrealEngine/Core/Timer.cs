@@ -8,7 +8,7 @@ namespace UnrealEngine
     /// </summary>
     public class Timer : ActorComponent
     {
-        private struct TimeEvent
+        protected class TimeEvent
         {
             public TimeEvent(float delay, Action callback)
             {
@@ -20,9 +20,9 @@ namespace UnrealEngine
             public Action Callback;
         }
 
-        private static List<TimeEvent> m_Events = new List<TimeEvent>();
+        protected static List<TimeEvent> m_Events = new List<TimeEvent>();
 
-        private static bool s_Init;
+        protected static bool s_Init;
 
         protected override void Initialize()
         {

@@ -48,6 +48,11 @@ void UMonoComponent::InitializeComponent()
 	Super::InitializeComponent();
 	
 	m_MonoComponent = MonoRuntime::Instance()->CreateObject(TCHAR_TO_UTF8(*ComponentName));
+
+	if (m_MonoComponent == NULL) {
+		m_MonoComponent = MonoRuntime::Instance()->CreateObjectFromEngine(TCHAR_TO_UTF8(*ComponentName));
+	}
+
 	if (m_MonoComponent != NULL)
 	{
 		m_Handle = MonoRuntime::Instance()->RetainObject(m_MonoComponent);

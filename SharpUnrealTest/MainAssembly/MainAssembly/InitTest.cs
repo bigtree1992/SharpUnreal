@@ -9,7 +9,7 @@ namespace MainAssembly
     /// </summary>
     public class InitTest : ActorComponent
     {
-        public float TestValue;
+        public int TestValue = 10;
 
         protected override void Initialize()
         {
