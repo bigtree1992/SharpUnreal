@@ -8,10 +8,24 @@ namespace MainAssembly
     /// </summary>
     public class WorldTest : ActorComponent
     {
+        private float timer = 0.0f;
+
         protected override void Initialize()
         {
-            TestSpawnActor();
-            TestError();
+            base.Initialize();
+            CanEverTick = false;
+            Event.AddListener("TestListener", Listener);
+        }
+
+        public void Listener()
+        {
+            Log.Error("[WorldTest] Listener");
+        }
+
+        protected override void Tick(float dt)
+        {
+            timer += dt;
+            Log.Error("[WorldTest] Tick timer" + timer);
         }
 
         /// <summary>
@@ -30,6 +44,7 @@ namespace MainAssembly
             else
             {
                 cube.Visible = true;
+                cube.Activited = false;
             }
 
             var sphere = actor.GetComponentByTag<StaticMeshComponent>("Sphere");
@@ -39,43 +54,33 @@ namespace MainAssembly
             }
             else
             {
+                sphere.Visible = true;
+                sphere.Activited = false;
             }
 
             actor.Root.LocalPosition = new Vector(1000, 1000, 1000);
             actor.Root.LocalScale = new Vector(5, 5, 5);
+            var seq = actor.Sequencer;
+            if(seq == null)
+            {
+                Log.Error("[WorldTest] Sequencer is null");
+            }
+            else
+            {
+                Log.Error("[WorldTest] Sequencer name:" + seq.GetType());
+            }
+
             var init = actor.GetMonoComponent() as InitTest;
+            init.Activited = false;
             //测试初始化组件值，会在initialize之后调用，beginplay之前调用
             init.TestValue = 100;
             init.SendEvent("TestEventInt", 1881);
             init.SendEvent("TestEventString", "string");
 
-            Log.Error("[WorldTest] actorname:" + actor.Name);
             //actor.Destroy();
             TimerTest.DelayInvoke(1.0f, () => {
                 init.SendEvent("TestEventString", "timerstring");
-                sphere.Visible = false;
-
             });
-        }
-
-        private void TestError()
-        {
-            try
-            {
-                StaticMeshComponent mesh = null;
-                if(mesh == null)
-                {
-                    Log.Error("null");
-                }
-                else
-                {
-                    Log.Error("not null");
-                }
-            }
-            catch(Exception e)
-            {
-
-            }
         }
 
         /// <summary>
@@ -83,8 +88,17 @@ namespace MainAssembly
         /// </summary>
         private void TestLoadLevel()
         {
+            Log.Error("[WorldTest] CurrentLevelName:" + World.GetCurrentLevel());
             //要加载的窗口必须 窗口->关卡 菜单中注册
             World.LoadStreamingLevel("SubMain");
+            TimerTest.DelayInvoke(5, () => {
+                TestUnLoadLevel();
+            });
+        }
+
+        private void TestUnLoadLevel()
+        {
+            World.UnLoadStreamingLevel("SubMain");
         }
     }
 }

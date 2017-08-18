@@ -8,6 +8,20 @@ namespace MainAssembly
     /// </summary>
     public class UITest : ActorComponent
     {
+        protected override void Initialize()
+        {
+            base.Initialize();
+            TestUI();
+        }
 
+        private void TestUI()
+        {
+            TimerTest.DelayInvoke(2, () => {
+                this.SendEvent("SetTitle", "奇境森林");
+            });
+            TimerTest.DelayInvoke(4, () => {
+                this.SendEvent("SetContent", "UIContent：奇境森林\r\n奇境森林\r\n奇境森林\r\n奇境森林\r\n奇境森林");
+            });
+        }
     }
 }

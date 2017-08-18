@@ -13,7 +13,9 @@ namespace UnrealEngine
         /// <returns></returns>
         public static Material LoadMaterial(string path)
         {
-            path = "/Game" + path;
+            int index = path.LastIndexOf('/');
+            string name = path.Substring(index + 1, path.Length - index - 1);
+            path = string.Format("/Game/{0}.{1}", path, name);
             var handler = _LoadMaterial(path);
             if (handler.ToInt64() != 0)
             {
@@ -34,7 +36,9 @@ namespace UnrealEngine
         /// <returns></returns>
         public static Texture LoadTexture(string path)
         {
-            path = "/Game" + path;
+            int index = path.LastIndexOf('/');
+            string name = path.Substring(index + 1, path.Length - index - 1);
+            path = string.Format("/Game/{0}.{1}", path, name);
             var handler = _LoadTexture(path);
             if (handler.ToInt64() != 0)
             {
