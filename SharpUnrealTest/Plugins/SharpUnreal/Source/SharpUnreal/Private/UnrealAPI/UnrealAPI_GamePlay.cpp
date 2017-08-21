@@ -167,11 +167,6 @@ static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
 	return seq_actor->SequencePlayer;
 }
 
-static APawn* Unrealengine_Actor_AsPawn(AActor* _this)
-{
-	return CastChecked<APawn>(_this);
-}
-
 static UIntProperty* UnrealEngine_Actor_FindIntProperty(AActor* _this, MonoString* name)
 {	
 	if (_this == NULL)
@@ -405,6 +400,17 @@ static AController* UnrealEngine_Pawn_GetController(APawn* _this)
 		return NULL;
 	}
 	return _this->GetController();
+}
+
+static AAIController* UnrealEngine_Pawn_GetAIController(APawn* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Pawn] GetController But _this is NULL."));
+		return NULL;
+	}
+
+	return Cast<AAIController>(_this->GetController());
 }
 
 static FRotator UnrealEngine_Pawn_GetControllerRatator(APawn* _this)
@@ -734,8 +740,6 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 	
-	mono_add_internal_call("UnrealEngine.Actor::_AsPawn",
-			reinterpret_cast<void*>(Unrealengine_Actor_AsPawn));
 	mono_add_internal_call("UnrealEngine.Actor::_FindIntProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
 	mono_add_internal_call("UnrealEngine.Actor::_FindFloatProperty",
@@ -778,6 +782,8 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_Pawn_GetIsControlled));
 	mono_add_internal_call("UnrealEngine.Pawn::_GetController",
 		reinterpret_cast<void*>(UnrealEngine_Pawn_GetController));
+	mono_add_internal_call("UnrealEngine.Pawn::_GetAIController",
+		reinterpret_cast<void*>(UnrealEngine_Pawn_GetAIController));
 	mono_add_internal_call("UnrealEngine.Pawn::_GetControllerRatator",
 		reinterpret_cast<void*>(UnrealEngine_Pawn_GetControllerRatator));
 	mono_add_internal_call("UnrealEngine.Pawn::_GetNavAgentLocatioin",

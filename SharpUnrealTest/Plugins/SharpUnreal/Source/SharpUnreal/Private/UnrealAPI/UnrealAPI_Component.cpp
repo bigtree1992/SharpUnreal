@@ -68,6 +68,17 @@ static AActor* UnrealEngine_ActorComponent_GetOwner(UActorComponent* _this)
 	return _this->GetOwner();
 }
 
+static APawn* Unrealengine_ActorComponent_GetPawn(UActorComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] GetPawn But _this is NULL."));
+		return NULL;
+	}
+
+	return Cast<APawn>(_this->GetOwner());
+}
+
 static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UActorComponent* _this, mono_bool bTickableWhenPaused)
 {
 	if (_this == NULL)
@@ -2959,6 +2970,8 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SetCanEverTick));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetOwner",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetOwner));
+	mono_add_internal_call("UnrealEngine.ActorComponent::_GetPawn",
+		reinterpret_cast<void*>(Unrealengine_ActorComponent_GetPawn));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_SetTickableWhenPaused",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SetTickableWhenPaused));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_HasTag",

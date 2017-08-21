@@ -8,7 +8,6 @@ namespace MainAssembly
     /// </summary>
     public class MovementTest : MonoComponent
     {
-        private Pawn MyPawn = null;
         protected override void Initialize()
         {
             base.Initialize();
@@ -18,29 +17,26 @@ namespace MainAssembly
 
         private void TestMovement()
         {
-            if(Actor == null)
-            {
-                Log.Error("[MovementTest] Actor is null");
-            }
-            MyPawn = Actor.AsPawn();
-            if (MyPawn == null)
+            if (Pawn == null)
             {
                 Log.Error("[MovementTest] MyPawn is null");
             }
             else
             {
+                Log.Error("[MovementTest] MyPawn is not null");
                 //MyPawn.AddMovementInput(new Vector(0.0f, 0.0f, 1.0f), 1.0f, true);
-                if (!MyPawn.IsControlled)
+                if (!Pawn.IsControlled)
                 {
                     Log.Error("[MovementTest] Pawn is not Controllered");
                 }
-                if (MyPawn.Controller == null)
+                Log.Error("[MovementTest] MyPawn is Controlled");
+                if (Pawn.AIController == null)
                 {
                     Log.Error("[MovementTest] Controller is null");
                 }
                 else
                 {
-                    AIController ai = MyPawn.Controller.AsAIController();
+                    AIController ai = Pawn.AIController;
                     if (ai == null)
                     {
                         Log.Error("[MovementTest] ai is null");
@@ -57,7 +53,7 @@ namespace MainAssembly
         protected override void Tick(float dt)
         {
             base.Tick(dt);
-            MyPawn.AddMovementInput(new Vector(1.0f, 0.0f, 0.0f), 1.0f, true);
+            //MyPawn.AddMovementInput(new Vector(1.0f, 0.0f, 0.0f), 1.0f, true);
         }
     }
 }
