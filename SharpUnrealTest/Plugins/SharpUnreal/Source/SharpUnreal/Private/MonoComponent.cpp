@@ -457,17 +457,22 @@ void UMonoComponent::OnSequencerStop()
 	}
 }
 
-bool UMonoComponent::CallOnServer_Validate()
+bool UMonoComponent::CallOnServer_Validate(int id)
 {
 	return true;
 }
 
-void UMonoComponent::CallOnServer_Implementation() 
+void UMonoComponent::CallOnServer_Implementation(int id) 
 {
 
 }
 
-void UMonoComponent::CallOnAll_Implementation()
+void UMonoComponent::CallOnClient_Implementation(int id)
+{
+
+}
+
+void UMonoComponent::CallOnAll_Implementation(int id)
 {
 
 }

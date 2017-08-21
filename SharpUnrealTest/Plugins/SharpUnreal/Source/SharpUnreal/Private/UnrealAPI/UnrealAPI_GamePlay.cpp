@@ -167,6 +167,11 @@ static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
 	return seq_actor->SequencePlayer;
 }
 
+static APawn* Unrealengine_Actor_AsPawn(AActor* _this)
+{
+	return CastChecked<APawn>(_this);
+}
+
 static UIntProperty* UnrealEngine_Actor_FindIntProperty(AActor* _this, MonoString* name)
 {	
 	if (_this == NULL)
@@ -728,7 +733,9 @@ void UnrealAPI_GamePlay::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.Actor::_GetName",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 
+		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 	
+	mono_add_internal_call("UnrealEngine.Actor::_AsPawn",
+			reinterpret_cast<void*>(Unrealengine_Actor_AsPawn));
 	mono_add_internal_call("UnrealEngine.Actor::_FindIntProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
 	mono_add_internal_call("UnrealEngine.Actor::_FindFloatProperty",
