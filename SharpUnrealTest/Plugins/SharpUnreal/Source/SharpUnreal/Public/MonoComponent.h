@@ -98,9 +98,14 @@ public:
 
 	#if 1
 	UFUNCTION(Server, reliable, WithValidation)
-	void RPCOnServer();
+	void CallOnServer(int id);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClient(int id);
+
 	UFUNCTION(NetMulticast, reliable)
-	void RPCOnAll();
+	void CallOnAll(int id);
+
 	#endif
 
 	_MonoObject * GetMonoObject();

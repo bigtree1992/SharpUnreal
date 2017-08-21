@@ -10,6 +10,7 @@ namespace MainAssembly
     {
         protected override void Initialize()
         {
+            Log.Error("[worldtest] 11");
             TestSpawnActor();
         }
 
@@ -19,11 +20,8 @@ namespace MainAssembly
         private void TestSpawnActor()
         {
             var trans = new Transform();
-            var actor = World.SpwanActor("/Actor3_Blueprint", ref trans);
-            var init = actor.GetMonoComponent() as InitTest;
-            //测试初始化组件值，会在Initialize之后调用，BeginPlay之前调用
-            init.TestValue = 100;
-
+            var actor = World.SpwanActor("Resources/Blueprints/Actor3_blueprint", ref trans);
+              
         }
 
         /// <summary>

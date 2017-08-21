@@ -141,8 +141,9 @@ static AActor* UnrealEngine_World_SpwanActor(MonoString* path, FTransform* trans
 		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetClass When SpwanActor."));
 		return NULL;
 	}
-
-	return GWorld->SpawnActor(Class, trans);
+	FTransform temp_trans;
+	FMemory::Memcpy(&temp_trans, trans, sizeof(FTransform));
+	return GWorld->SpawnActor(Class, &temp_trans);
 }
 
 static UMaterialInterface* UnrealEngine_Resource_LoadMaterial(MonoString* path)
@@ -197,23 +198,6 @@ static void UnrealEngine_Resource_GC()
 	GWorld->GetWorld()->ForceGarbageCollection(true);
 }
 
-static mono_bool UnrealEngine_UObject_GetIsRooted(UObject* object)
-{
-	return object->IsRooted();
-}
-
-static void UnrealEngine_UObject_SetIsRooted(UObject* object, mono_bool value)
-{
-	if (value != 0) 
-	{
-		object->AddToRoot();
-	}
-	else {
-		object->RemoveFromRoot();
-	}	
-}
-
-
 
 void UnrealAPI_Engine::RegisterAPI()
 {
@@ -244,10 +228,6 @@ void UnrealAPI_Engine::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.Resource::_GC",
 		reinterpret_cast<void*>(UnrealEngine_Resource_GC));
 
-	mono_add_internal_call("UnrealEngine.UObject::_GetIsRooted",
-		reinterpret_cast<void*>(UnrealEngine_UObject_GetIsRooted));
-	mono_add_internal_call("UnrealEngine.UObject::_SetIsRooted",
-		reinterpret_cast<void*>(UnrealEngine_UObject_SetIsRooted));
 
 	
 

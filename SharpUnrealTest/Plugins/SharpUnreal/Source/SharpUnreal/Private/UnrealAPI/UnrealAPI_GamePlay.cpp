@@ -167,6 +167,67 @@ static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
 	return seq_actor->SequencePlayer;
 }
 
+static UIntProperty* UnrealEngine_Actor_FindIntProperty(AActor* _this, MonoString* name)
+{	
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindIntProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindIntProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);	
+	UIntProperty* IntProperty = Cast<UIntProperty>(property);
+	
+	return IntProperty;
+}
+
+static UFloatProperty* UnrealEngine_Actor_FindFloatProperty(AActor* _this, MonoString* name)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindFloatProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindFloatProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
+	UFloatProperty* FloatProperty = Cast<UFloatProperty>(property);
+
+	return FloatProperty;
+}
+
+static UStrProperty* UnrealEngine_Actor_FindStringProperty(AActor* _this, MonoString* name)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindStringProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindStringProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
+	UStrProperty* StringProperty = Cast<UStrProperty>(property);
+	return StringProperty;
+}
 
 static void UnrealEngine_Pawn_AddMovementInput(APawn* _this, FVector worldDir, float scaleValue, mono_bool force)
 {
@@ -411,8 +472,6 @@ static mono_bool UnrealEngine_Pawn_GetIsMoveInputIgnored(APawn* _this)
 	}
 	return _this->IsMoveInputIgnored();
 }
-
-
 
 static void UnrealEngine_Controller_SetInitialLocationAndRotation(AController* _this, FVector NewLocation, FRotator NewRotation)
 {
@@ -670,6 +729,12 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 
+	mono_add_internal_call("UnrealEngine.Actor::_FindIntProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
+	mono_add_internal_call("UnrealEngine.Actor::_FindFloatProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
+	mono_add_internal_call("UnrealEngine.Actor::_FindStringProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindStringProperty));
 
 
 	mono_add_internal_call("UnrealEngine.Pawn::_AddMovementInput",

@@ -93,7 +93,6 @@ namespace UnrealEngine
         public Vector Translation;
         [FieldOffset(32)]
         public Vector Scale3D;
-
     }
     [StructLayout(LayoutKind.Explicit, Size = 12)]
     public partial struct Vector

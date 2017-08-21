@@ -6,7 +6,7 @@ namespace UnrealEngine
     /// <summary>
     /// 定时器类，使用前请把脚本挂载到场景中
     /// </summary>
-    public class Timer : ActorComponent
+    public class Timer : MonoComponent
     {
         private struct TimeEvent
         {

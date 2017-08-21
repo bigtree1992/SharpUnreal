@@ -199,12 +199,12 @@ namespace UnrealEngine
             s_EventTable[callableType] =  handler;
         }
 
-        public static void AddCallable<T, U, TResult>(string callableType, Func<T, U, TResult> handler)
+        public static void SetCallable<T, U, TResult>(string callableType, Func<T, U, TResult> handler)
         {
             s_EventTable[callableType] = handler;
         }
 
-        public static void AddCallable<T, U, V, TResult>(string callableType, Func<T, U, V, TResult> handler)
+        public static void SetCallable<T, U, V, TResult>(string callableType, Func<T, U, V, TResult> handler)
         {
             s_EventTable[callableType] = handler;
         }

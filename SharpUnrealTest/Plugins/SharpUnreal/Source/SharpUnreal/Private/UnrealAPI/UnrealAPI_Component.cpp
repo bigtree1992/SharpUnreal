@@ -18,7 +18,7 @@
 #include <mono/metadata/mono-debug.h>
 
 #if 1
-static mono_bool UnrealEngine_ActorComponent_GetActivited(UMonoComponent* _this)
+static mono_bool UnrealEngine_ActorComponent_GetActivited(UActorComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -28,7 +28,7 @@ static mono_bool UnrealEngine_ActorComponent_GetActivited(UMonoComponent* _this)
 	return _this->bIsActive;
 }
 
-static void UnrealEngine_ActorComponent_SetActivited(UMonoComponent* _this, bool value)
+static void UnrealEngine_ActorComponent_SetActivited(UActorComponent* _this, bool value)
 {
 	if (_this == NULL)
 	{
@@ -38,7 +38,7 @@ static void UnrealEngine_ActorComponent_SetActivited(UMonoComponent* _this, bool
 	_this->SetActive(value);
 }
 
-static mono_bool UnrealEngine_ActorComponent_GetCanEverTick(UMonoComponent* _this)
+static mono_bool UnrealEngine_ActorComponent_GetCanEverTick(UActorComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -48,7 +48,7 @@ static mono_bool UnrealEngine_ActorComponent_GetCanEverTick(UMonoComponent* _thi
 	return _this->PrimaryComponentTick.bCanEverTick;
 }
 
-static void UnrealEngine_ActorComponent_SetCanEverTick(UMonoComponent* _this, mono_bool value)
+static void UnrealEngine_ActorComponent_SetCanEverTick(UActorComponent* _this, mono_bool value)
 {
 	if (_this == NULL)
 	{
@@ -58,7 +58,7 @@ static void UnrealEngine_ActorComponent_SetCanEverTick(UMonoComponent* _this, mo
 	_this->PrimaryComponentTick.bCanEverTick = value;
 }
 
-static AActor* UnrealEngine_ActorComponent_GetOwner(UMonoComponent* _this)
+static AActor* UnrealEngine_ActorComponent_GetOwner(UActorComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -68,7 +68,7 @@ static AActor* UnrealEngine_ActorComponent_GetOwner(UMonoComponent* _this)
 	return _this->GetOwner();
 }
 
-static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UMonoComponent* _this, mono_bool bTickableWhenPaused)
+static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UActorComponent* _this, mono_bool bTickableWhenPaused)
 {
 	if (_this == NULL)
 	{
@@ -78,7 +78,7 @@ static void UnrealEngine_ActorComponent_SetTickableWhenPaused(UMonoComponent* _t
 	_this->SetTickableWhenPaused(bTickableWhenPaused != 0);
 }
 
-static mono_bool UnrealEngine_ActorComponent_HasTag(UMonoComponent* _this, MonoString* tag)
+static mono_bool UnrealEngine_ActorComponent_HasTag(UActorComponent* _this, MonoString* tag)
 {
 	if (_this == NULL)
 	{
@@ -94,61 +94,7 @@ static mono_bool UnrealEngine_ActorComponent_HasTag(UMonoComponent* _this, MonoS
 	return _this->ComponentHasTag(tag_name);
 }
 
-static void UnrealEngine_ActorComponent_SendEvent(UMonoComponent* _this, MonoString* evt)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEvent But _this is NULL."));
-		return ;
-	}
-	if (evt == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEvent But evt is NULL."));
-		return ;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
-	_this->OnMonoEvent.Broadcast(evt_name);
-}
-
-static void UnrealEngine_ActorComponent_SendEventWithString(UMonoComponent* _this, MonoString* evt, MonoString* data)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithString But _this is NULL."));
-		return ;
-	}
-	if (evt == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithString But evt is NULL."));
-		return ;
-	}
-	if (data == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithString But data is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
-	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
-	_this->OnMonoEventWithString.Broadcast(evt_name, data_string);
-}
-
-static void UnrealEngine_ActorComponent_SendEventWithInt(UMonoComponent* _this, MonoString* evt, int data)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But _this is NULL."));
-		return ;
-	}
-	if (evt == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But evt is NULL."));
-		return ;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
-	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
-}
-
-static MonoString* UnrealEngine_ActorComponent_GetName(UMonoComponent* _this)
+static MonoString* UnrealEngine_ActorComponent_GetName(UActorComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -158,6 +104,168 @@ static MonoString* UnrealEngine_ActorComponent_GetName(UMonoComponent* _this)
 	
 	MonoString* name = mono_string_from_utf16((mono_unichar2*)*_this->GetName());
 	return name;
+}
+
+static void UnrealEngine_MonoComponent_SendEvent(UMonoComponent* _this, MonoString* evt)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But _this is NULL."));
+		return;
+	}
+	if (evt == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But evt is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	_this->OnMonoEvent.Broadcast(evt_name);
+}
+
+static void UnrealEngine_MonoComponent_SendEventWithString(UMonoComponent* _this, MonoString* evt, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But _this is NULL."));
+		return;
+	}
+	if (evt == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But evt is NULL."));
+		return;
+	}
+	if (data == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But data is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
+	_this->OnMonoEventWithString.Broadcast(evt_name, data_string);
+}
+
+static void UnrealEngine_MonoComponent_SendEventWithInt(UMonoComponent* _this, MonoString* evt, int data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But _this is NULL."));
+		return;
+	}
+	if (evt == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But evt is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
+}
+
+static void UnrealEngine_MonoComponent_CallOnServer(UMonoComponent* _this, MonoString* func)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But _this is NULL."));
+		return;
+	}
+	if (func == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But func is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
+	
+}
+
+static void UnrealEngine_MonoComponent_CallOnServerWithString(UMonoComponent* _this, MonoString* func, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But _this is NULL."));
+		return;
+	}
+	if (func == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But func is NULL."));
+		return;
+	}
+	if (data == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But data is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
+	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
+	
+}
+
+static void UnrealEngine_MonoComponent_CallOnServerWithInt(UMonoComponent* _this, MonoString* func, int data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But _this is NULL."));
+		return;
+	}
+	if (func == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But func is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
+	
+}
+
+static void UnrealEngine_MonoComponent_CallOnAll(UMonoComponent* _this, MonoString* func)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But _this is NULL."));
+		return;
+	}
+	if (func == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But func is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
+
+}
+
+static void UnrealEngine_MonoComponent_CallOnAllWithString(UMonoComponent* _this, MonoString* func, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But _this is NULL."));
+		return;
+	}
+	if (func == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But func is NULL."));
+		return;
+	}
+	if (data == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But data is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
+	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
+
+}
+
+static void UnrealEngine_MonoComponent_CallOnAllWithInt(UMonoComponent* _this, MonoString* func, int data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But _this is NULL."));
+		return;
+	}
+	if (func == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But func is NULL."));
+		return;
+	}
+	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
+
 }
 #endif
 
@@ -773,7 +881,7 @@ static void UnrealEngine_CameraComponent_SetUsePawnControlRotation(UCameraCompon
 #if 1
 
 static UMaterialInterface* UnrealEngine_PrimitiveComponent_GetMaterial(UPrimitiveComponent* _this, int elementIndex)
-{
+{ 
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterial But _this is NULL."));
@@ -2166,8 +2274,6 @@ static void UnrealEngine_SpotLightComponent_SetOuterConeAngle(USpotLightComponen
 #endif
 
 #if 1
-
-
 static void UnrealEngine_MeshComponent_SetScalarParameter(UMeshComponent* _this, MonoString* name, float value)
 {
 	if (_this == NULL)
@@ -2203,7 +2309,6 @@ static void UnrealEngine_MeshComponent_SetVectorParameter(UMeshComponent* _this,
 #endif
 
 #if 1
-
 static void UnrealEngine_ParticleSystemComponent_ActivateSystem(UParticleSystemComponent* _this, mono_bool reset)
 {
 	if (_this == NULL)
@@ -2858,14 +2963,16 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SetTickableWhenPaused));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_HasTag",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_HasTag));
-	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEvent",
-		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEvent));
-	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEventWithString",
-		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithString));
-	mono_add_internal_call("UnrealEngine.ActorComponent::_SendEventWithInt",
-		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SendEventWithInt));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
+	//×¢²áMonoComponentµÄº¯Êý
+	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEvent",
+		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEvent));
+	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithString",
+		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithString));
+	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithInt",
+		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithInt));
+
 	#endif
 	
 	#if 1

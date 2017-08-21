@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-
 namespace UnrealEngine
 {
     public class Actor : UObject
@@ -119,9 +118,57 @@ namespace UnrealEngine
             NativeHandler = IntPtr.Zero; 
         }
 
+        /// <summary>
+        /// 获取Actor名字
+        /// </summary>
         public string Name
         {
             get { return _GetName(NativeHandler); }
+        }
+
+        public IntProperty FindIntProperty(string name)
+        {
+            var handler = _FindIntProperty(NativeHandler, name);
+            if(handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new IntProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
+        }
+
+        public FloatProperty FindFloatProperty(string name)
+        {
+            var handler = _FindFloatProperty(NativeHandler, name);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new FloatProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
+        }
+
+        public StringProperty FindStringProperty(string name)
+        {
+            var handler = _FindIntProperty(NativeHandler, name);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new StringProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -144,5 +191,13 @@ namespace UnrealEngine
         private extern static void _Destroy(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static string _GetName(IntPtr handler);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindIntProperty(IntPtr handler, string name);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindFloatProperty(IntPtr handler, string name);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindStringProperty(IntPtr handler, string name);
+
     }
 }

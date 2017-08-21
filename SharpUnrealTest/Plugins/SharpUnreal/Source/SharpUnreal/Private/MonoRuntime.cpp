@@ -7,6 +7,7 @@
 #include "MonoCallbackTable.h"
 #include "MonoClassTable.h"
 
+#include "UnrealAPI/UnrealAPI_Object.h"
 #include "UnrealAPI/UnrealAPI_Engine.h"
 #include "UnrealAPI/UnrealAPI_Math.h"
 #include "UnrealAPI/UnrealAPI_Component.h"
@@ -77,7 +78,7 @@ void MonoRuntime::DestoryInstance()
 #if !WITH_EDITOR
 		mono_jit_cleanup(s_Instance->m_RootDomain);
 #endif
-		GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] CDestoryInstance."));
+		GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] DestoryInstance."));
 	}
 	else
 	{
@@ -165,6 +166,7 @@ int MonoRuntime::ReloadAssembly()
 	}
 
 	//注册C#调用C++的回调函数
+	UnrealAPI_Object::RegisterAPI();
 	UnrealAPI_Engine::RegisterAPI();
 	UnrealAPI_Math::RegisterAPI();
 	UnrealAPI_Component::RegisterAPI();
@@ -199,10 +201,10 @@ int MonoRuntime::ReloadAssembly()
 		return 1004;
 	}
 
-	MonoClass* base = mono_class_from_name(m_EngineImage, "UnrealEngine", "ActorComponent");
+	MonoClass* base = mono_class_from_name(m_EngineImage, "UnrealEngine", "MonoComponent");
 	if (base == NULL)
 	{
-		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! Not Find ActorComponent."));
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! Not Find MonoComponent."));
 		return 1005;
 	}
 

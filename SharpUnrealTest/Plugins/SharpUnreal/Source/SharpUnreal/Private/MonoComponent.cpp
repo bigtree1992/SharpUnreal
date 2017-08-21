@@ -452,17 +452,17 @@ void UMonoComponent::OnSequencerStop()
 	}
 }
 
-bool UMonoComponent::RPCOnServer_Validate()
+bool UMonoComponent::CallOnServer_Validate()
 {
 	return true;
 }
 
-void UMonoComponent::RPCOnServer_Implementation() 
+void UMonoComponent::CallOnServer_Implementation() 
 {
 
 }
 
-void UMonoComponent::RPCOnAll_Implementation()
+void UMonoComponent::CallOnAll_Implementation()
 {
 
 }
