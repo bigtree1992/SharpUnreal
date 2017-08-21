@@ -6,7 +6,7 @@ namespace MainAssembly
     /// <summary>
     /// 组件生命周期测试
     /// </summary>
-    public class ComponentLifeTest : ActorComponent
+    public class ComponentLifeTest : MonoComponent
     {
         protected override void OnRegister()
         {

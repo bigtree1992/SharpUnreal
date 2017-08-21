@@ -6,7 +6,7 @@ namespace MainAssembly
     /// <summary>
     /// 测试定序器相关的接口
     /// </summary>
-    public class SequencerTest : ActorComponent
+    public class SequencerTest : MonoComponent
     {
 
     }

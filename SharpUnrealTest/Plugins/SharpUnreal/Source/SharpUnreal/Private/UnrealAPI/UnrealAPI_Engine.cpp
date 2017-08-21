@@ -68,9 +68,15 @@ static MonoString* UnrealEngine_World_GetCurrentLevel()
 		ULevel* level = world->GetCurrentLevel();
 		if (level != NULL) 
 		{
+			GLog->Log(ELogVerbosity::Error, TEXT("[World] CurrentLevelName:"));
+			GLog->Log(ELogVerbosity::Error, *level->GetName());
 			const TCHAR* name = *level->GetName();
 			MonoString* ret = mono_string_from_utf16((mono_unichar2*)name);
 			return ret;
+		}
+		else
+		{
+			GLog->Log(ELogVerbosity::Error, TEXT("[World] CurrentLevel is NULL"));
 		}
 	}
 	else {

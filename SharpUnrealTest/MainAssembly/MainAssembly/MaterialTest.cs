@@ -6,10 +6,11 @@ namespace MainAssembly
     /// <summary>
     /// 测试材质相关的功能
     /// </summary>
-    public class MaterialTest : ActorComponent
+    public class MaterialTest : MonoComponent
     {
         protected override void Initialize()
         {
+            TestMaterial();
             TestDynamicMaterial();
         }
 
@@ -21,35 +22,38 @@ namespace MainAssembly
             var mesh = Actor.GetComponent<StaticMeshComponent>();
             if (mesh == null)
             {
-                return;
-            }
-            var mat = mesh.GetMaterial(0);
-            if (mat == null)
-            {
-                return;
+                Log.Error("[MaterialTest] mesh is null");
             }
 
-            var m = Resource.LoadMaterial("/Resources/Materials/NewMaterial");
-            if (m == null)
+            mesh.SetScalarParameter("ChooseType", 0.0f);
+
+            var mat = mesh.GetMaterial(2);
+            if (mat == null)
             {
-                return;
+                Log.Error("[MaterialTest] get mat is null");
+            }
+
+            var m = Resource.LoadMaterial("Resources/UI/选人/Material__72");
+            if(m == null)
+            {
+                Log.Error("[MaterialTest] load mat is null");
             }
 
             var dm = DynamicMaterial.Create(m, Actor);
             if (dm == null)
             {
-                return;
+                Log.Error("[MaterialTest] create DynamicMaterial is null");
             }
 
-            var tex = Resource.LoadTexture("/Resources/Textures/Ground4");
+            var tex = Resource.LoadTexture("Resources/Textures/Ground4");
             if (tex == null)
             {
-                Log.Debug("tex != null.");
+                Log.Error("[MaterialTest] LoadTexture is null");
                 return;
             }
 
-            mesh.SetMaterial(0, dm);
-            dm.SetTextureParameter("MainTex", tex);
+            mesh.SetMaterial(2, dm);
+            dm.SetTextureParameter("Texture", tex);
         }
 
         /// <summary>
@@ -60,18 +64,18 @@ namespace MainAssembly
             var mesh = Actor.GetComponent<StaticMeshComponent>();
             if (mesh == null)
             {
-                return;
+                Log.Error("[MaterialTest] mesh is null");
             }
             var mat = mesh.GetMaterial(0);
             if (mat == null)
             {
-                return;
+                Log.Error("[MaterialTest] mat is null");
             }
 
-            var m = Resource.LoadMaterial("/Resources/Materials/NewMaterial");
+            var m = Resource.LoadMaterial("Resources/UI/选人/Standard_7");
             if (m == null)
             {
-                return;
+                Log.Error("[MaterialTest] load mat is null");
             }
 
             mesh.SetMaterial(0, m);     

@@ -6,6 +6,9 @@ namespace UnrealEngine
 {
     public class AudioComponent : SceneComponent
     {
+        /// <summary>
+        /// 播放音量
+        /// </summary>
         public float VolumeMultiplier
         {
             get
@@ -30,6 +33,9 @@ namespace UnrealEngine
             }
         }      
 
+        /// <summary>
+        /// 播放速率
+        /// </summary>
         public float PitchMultiplier
         {
             get

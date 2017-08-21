@@ -62,6 +62,22 @@ namespace UnrealEngine
             }
         }
 
+        public Pawn AsPawn()
+        {
+            Pawn pawn = this as Pawn;
+            if(pawn != null)
+            {
+                return pawn;
+            }
+            else
+            {
+                pawn = new Pawn();
+                pawn.NativeHandler = this.NativeHandler;
+                return pawn;
+            }
+        }
+        
+
         /// <summary>
         /// 获取脚本上的C#组件
         /// </summary>

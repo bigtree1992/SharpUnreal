@@ -6,8 +6,8 @@ namespace MainAssembly
     /// <summary>
     /// 测试定时器相关的接口
     /// </summary>
-    public class TimerTest : ActorComponent
+    public class TimerTest : Timer
     {
-
+ 
     }
 }

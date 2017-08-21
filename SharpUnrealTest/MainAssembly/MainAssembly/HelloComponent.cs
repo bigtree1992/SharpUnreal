@@ -6,7 +6,7 @@ namespace MainAssembly
     /// <summary>
     /// HelloWorld
     /// </summary>
-    public class HelloComponent : ActorComponent
+    public class HelloComponent : MonoComponent
     {
         protected override void BeginPlay()
         {

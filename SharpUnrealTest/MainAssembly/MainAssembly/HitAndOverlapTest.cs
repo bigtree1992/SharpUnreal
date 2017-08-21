@@ -7,7 +7,7 @@ namespace MainAssembly
     /// <summary>
     /// 测试碰撞跟触发相关的接口
     /// </summary>
-    public class HitAndOverlapTest : ActorComponent 
+    public class HitAndOverlapTest : MonoComponent
     {
         protected override void Initialize()
         {
@@ -17,7 +17,7 @@ namespace MainAssembly
             //设置是否生成重叠事件
             mesh.GenerateOverlapEvents = true;
             //设置是否生成碰撞事件
-            mesh.GeneratesHitEvents = false;
+            mesh.GeneratesHitEvents = true;
 
             //注册碰撞事件
             mesh.RegComponentHit(this);

@@ -14,6 +14,8 @@ class SHARPUNREALTEST_API UTestActorComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTestActorComponent();
+	UPROPERTY(EditAnywhere)
+	int32 transformSize;
 
 protected:
 	// Called when the game starts

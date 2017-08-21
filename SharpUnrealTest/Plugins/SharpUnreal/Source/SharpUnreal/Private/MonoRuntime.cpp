@@ -229,6 +229,12 @@ int MonoRuntime::ReloadAssembly()
 			MonoCallbackTable::CreateClassCallback(klass);
 		}
 	}
+
+	#if WITH_EDITOR			
+	m_ComponentNames.Add(FString(TEXT("Timer")));
+	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] Add Timer"));
+	#endif
+
 	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] ReloadAssembly Complete."));
 	return 0;
 }
