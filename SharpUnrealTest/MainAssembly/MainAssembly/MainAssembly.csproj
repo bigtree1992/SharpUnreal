@@ -49,7 +49,6 @@
     <Compile Include="PathFindTest.cs" />
     <Compile Include="PhysicsTest.cs" />
     <Compile Include="PlayAnimTest.cs" />
-    <Compile Include="ResourceTest.cs" />
     <Compile Include="SequencerTest.cs" />
     <Compile Include="SplineTest.cs" />
     <Compile Include="TimerTest.cs" />
