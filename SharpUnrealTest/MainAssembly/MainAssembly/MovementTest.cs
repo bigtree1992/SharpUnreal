@@ -11,8 +11,13 @@ namespace MainAssembly
         protected override void Initialize()
         {
             base.Initialize();
-            TestMovement();
             //CanEverTick = true;
+        }
+
+        protected override void BeginPlay()
+        {
+            base.BeginPlay();
+            TestMovement();
         }
 
         private void TestMovement()
@@ -23,29 +28,16 @@ namespace MainAssembly
             }
             else
             {
-                Log.Error("[MovementTest] MyPawn is not null");
-                //MyPawn.AddMovementInput(new Vector(0.0f, 0.0f, 1.0f), 1.0f, true);
-                if (!Pawn.IsControlled)
+                Controller con = Pawn.Controller;
+                if (con == null)
                 {
-                    Log.Error("[MovementTest] Pawn is not Controllered");
-                }
-                Log.Error("[MovementTest] MyPawn is Controlled");
-                if (Pawn.AIController == null)
-                {
-                    Log.Error("[MovementTest] Controller is null");
+                    Log.Error("[MovementTest] ai is null");
                 }
                 else
                 {
-                    AIController ai = Pawn.AIController;
-                    if (ai == null)
-                    {
-                        Log.Error("[MovementTest] ai is null");
-                    }
-                    else
-                    {
-                        Log.Error("[MovementTest] ai MoveToLocation");
-                        ai.MoveToLocation(new Vector(4000, 4000, 100), 1.0f, true, true, true, true, true);
-                    }
+                    TimerTest.DelayInvoke(5, () => {
+                        con.SimpleMoveToLocation(new Vector(1000.0f, 0, 0));
+                    });
                 }
             }
         }
@@ -53,7 +45,10 @@ namespace MainAssembly
         protected override void Tick(float dt)
         {
             base.Tick(dt);
-            //MyPawn.AddMovementInput(new Vector(1.0f, 0.0f, 0.0f), 1.0f, true);
+            if (Pawn.IsControlled)
+            {
+                Pawn.AddMovementInput(new Vector(1.0f, 0.0f, 0.0f), 1.0f, true);
+            }
         }
     }
 }

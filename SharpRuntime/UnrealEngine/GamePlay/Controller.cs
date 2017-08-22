@@ -17,6 +17,7 @@ namespace UnrealEngine
             }
         }
 
+
         public AIController AsAIController()
         {
             AIController ai = this as AIController;
@@ -71,6 +72,16 @@ namespace UnrealEngine
             _StopMovement(NativeHandler);
         }
 
+        public void SimpleMoveToActor(Actor goal)
+        {
+            _SimpleMoveToActor(NativeHandler, goal.NativeHandler);
+        }
+
+        public void SimpleMoveToLocation(Vector goal)
+        {
+            _SimpleMoveToLocation(NativeHandler, goal);
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Rotator _GetControllerRotator(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -90,5 +101,9 @@ namespace UnrealEngine
         private extern static bool _LineOfSightTo(IntPtr handler, IntPtr Other, Vector ViewPoint, bool bAlternateChecks);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _StopMovement(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SimpleMoveToLocation(IntPtr handler, Vector goal);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SimpleMoveToActor(IntPtr handler, IntPtr goal);
     }
 }

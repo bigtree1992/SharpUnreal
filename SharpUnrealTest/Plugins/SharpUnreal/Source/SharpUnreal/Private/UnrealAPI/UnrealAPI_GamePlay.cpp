@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
 #include "AIController.h"
+#include "AI/Navigation/NavigationSystem.h"
 
 #include "UnrealAPI_GamePlay.h"
 #include "MonoClassTable.h"
@@ -585,6 +586,29 @@ static void UnrealEngine_Controller_SetIgnoreLookInput(AController* _this, mono_
 	_this->SetIgnoreLookInput(value != 0);
 }
 
+static void UnrealEngine_Controller_SimpleMoveToActor(AController* Controller, AActor* Goal)
+{
+	if (Controller == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SimpleMoveToActor But _this is NULL."));
+	}
+
+	if (Goal == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SimpleMoveToActor But Goal is NULL."));
+	}
+	UNavigationSystem::SimpleMoveToActor(Controller, Goal);
+}
+
+static void UnrealEngine_Controller_SimpleMoveToLocation(AController* Controller, FVector Goal)
+{
+	if (Controller == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SimpleMoveToLocation But _this is NULL."));
+	}
+
+	UNavigationSystem::SimpleMoveToLocation(Controller, Goal);
+}
 
 static EPathFollowingRequestResult::Type UnrealEngine_AIController_MoveToActor(AAIController* _this, AActor* actor, float accepanceRadius, mono_bool stopOnOverlap, mono_bool usePathfinding, mono_bool bCanStrafe, mono_bool allowPartialPath)
 {
@@ -817,6 +841,10 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_Controller_GetIgnoreLookInput));
 	mono_add_internal_call("UnrealEngine.Controller::_SetIgnoreLookInput",
 		reinterpret_cast<void*>(UnrealEngine_Controller_SetIgnoreLookInput));
+	mono_add_internal_call("UnrealEngine.Controller::_SimpleMoveToActor",
+		reinterpret_cast<void*>(UnrealEngine_Controller_SimpleMoveToActor));
+	mono_add_internal_call("UnrealEngine.Controller::_SimpleMoveToLocation",
+		reinterpret_cast<void*>(UnrealEngine_Controller_SimpleMoveToLocation)); 
 
 	mono_add_internal_call("UnrealEngine.AIController::_MoveToActor",
 		reinterpret_cast<void*>(UnrealEngine_AIController_MoveToActor));

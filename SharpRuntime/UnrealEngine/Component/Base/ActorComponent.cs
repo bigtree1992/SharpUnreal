@@ -61,6 +61,24 @@ namespace UnrealEngine
             _SetTickableWhenPaused(NativeHandler, bTickableWhenPaused);
         }
 
+        public Pawn Pawn
+        {
+            get
+            {
+                var handler = _GetPawn(NativeHandler);
+                if (handler.ToInt64() == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    Pawn pawn = new Pawn();
+                    pawn.NativeHandler = handler;
+                    return pawn;
+                }
+            }
+        }
+
         public string Name
         {
             get;
@@ -77,6 +95,8 @@ namespace UnrealEngine
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetOwner(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _GetPawn(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetTickableWhenPaused(IntPtr handle, bool bTickableWhenPaused);
         [MethodImpl(MethodImplOptions.InternalCall)]

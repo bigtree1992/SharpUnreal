@@ -110,6 +110,24 @@ namespace UnrealEngine
                 
             }
         }
+        public AIController AIController
+        {
+            get
+            {
+                var handle = _GetAIController(NativeHandler);
+                if (handle.ToInt64() != 0)
+                {
+                    var ctrl = new AIController();
+                    ctrl.NativeHandler = handle;
+                    return ctrl;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
 
         public Rotator ControllerRatator
         {
@@ -213,6 +231,8 @@ namespace UnrealEngine
         private extern static bool _GetIsControlled(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetController(IntPtr handler);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _GetAIController(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Rotator _GetControllerRatator(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]

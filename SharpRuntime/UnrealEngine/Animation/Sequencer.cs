@@ -11,7 +11,7 @@ namespace UnrealEngine
     {
         public void Play()
         {
-            _Play(NativeHandler);
+            _Sequencer_Play(NativeHandler);
         }
 
 
@@ -94,7 +94,7 @@ namespace UnrealEngine
         #endregion
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _Play(IntPtr handler);
+        private extern static void _Sequencer_Play(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _Pause(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]

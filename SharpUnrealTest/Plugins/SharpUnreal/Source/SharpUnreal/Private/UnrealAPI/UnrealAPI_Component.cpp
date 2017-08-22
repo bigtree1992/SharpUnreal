@@ -2976,7 +2976,7 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SetTickableWhenPaused));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_HasTag",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_HasTag));
-	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
+	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName", 
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
 	//×¢²áMonoComponentµÄº¯Êý
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEvent",
