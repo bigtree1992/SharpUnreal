@@ -17,6 +17,7 @@
 #include "UnrealAPI/UnrealAPI_Rendering.h"
 #include "UnrealAPI/UnrealAPI_Movement.h"
 #include "UnrealAPI/UnrealAPI_Spline.h"
+#include "UnrealAPI/UnrealAPI_Physics.h"
 
 #include <mono/jit/jit.h>
 #include "mono/metadata/metadata.h"
@@ -176,6 +177,7 @@ int MonoRuntime::ReloadAssembly()
 	UnrealAPI_Rendering::RegisterAPI();
 	UnrealAPI_Movement::RegisterAPI();
 	UnrealAPI_Spline::RegisterAPI();
+	UnrealAPI_Physics::RegisterAPI();
 
 
 	//加载逻辑脚本Dll文件
