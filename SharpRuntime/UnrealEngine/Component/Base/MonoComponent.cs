@@ -46,6 +46,28 @@ namespace UnrealEngine
         }
 
         /// <summary>
+        /// 蓝图调用C#脚本的通用事件函数
+        /// </summary>
+        /// <param name="evt"></param>
+        public virtual void OnEventWithInt(string evt,int data)
+        {
+        }
+        /// <summary>
+        /// 蓝图调用C#脚本的通用事件函数
+        /// </summary>
+        /// <param name="evt"></param>
+        public virtual void OnEventWithString(string evt, string data)
+        {
+        }
+        /// <summary>
+        /// 蓝图调用C#脚本的通用事件函数
+        /// </summary>
+        /// <param name="evt"></param>
+        public virtual void OnEventWithVector(string evt, Vector data)
+        {
+        }
+
+        /// <summary>
         /// 发送事件到蓝图
         /// </summary>
         /// <param name="evt"></param>

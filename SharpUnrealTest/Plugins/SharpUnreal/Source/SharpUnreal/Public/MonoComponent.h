@@ -42,6 +42,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
 	void SendEventToMono(const FString& Event);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendEventToMonoWithInt(const FString& Event,int data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendEventToMonoWithString(const FString& Event,const FString& data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendEventToMonoWithVector(const FString& Event,FVector data);
 	#endif
 
 	#if 1 // »Øµ÷º¯Êý

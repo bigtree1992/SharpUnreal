@@ -19,6 +19,9 @@ struct MonoCallback
 	_MonoMethod* EndPlay;
 	_MonoMethod* Tick;
 	_MonoMethod* OnEvent;
+	_MonoMethod* OnEventWithInt;
+	_MonoMethod* OnEventWithString;
+	_MonoMethod* OnEventWithVector;
 	
 	_MonoMethod* OnAppDeactivate;
 	_MonoMethod* OnAppHasReactivated;	
@@ -53,6 +56,9 @@ struct MonoCallback
 		EndPlay = NULL;
 		Tick = NULL;
 		OnEvent = NULL;
+		OnEventWithInt = NULL;
+		OnEventWithString = NULL;
+		OnEventWithVector = NULL;
 
 		OnAppDeactivate = NULL;
 		OnAppHasReactivated = NULL;

@@ -16,10 +16,14 @@
 	"Plugins": [
 		{
 			"Name": "SharpUnreal",
-			"Enabled": false
+			"Enabled": true
 		},
 		{
 			"Name": "OculusVR",
+			"Enabled": false
+		},
+		{
+			"Name": "SteamVR",
 			"Enabled": false
 		}
 	]

@@ -145,6 +145,46 @@ void UMonoComponent::SendEventToMono(const FString& Event)
 	}	
 }
 
+void UMonoComponent::SendEventToMonoWithInt(const FString& Event,int data)
+{
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* e = mono_string_from_utf16((mono_unichar2*)*Event);
+		void *args[2];
+		args[0] = e;
+		args[1] = &data;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnEventWithInt, m_MonoComponent, args);
+	}
+}
+
+void UMonoComponent::SendEventToMonoWithString(const FString& Event,const FString& data)
+{
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* e = mono_string_from_utf16((mono_unichar2*)*Event);
+		MonoString* s = mono_string_from_utf16((mono_unichar2*)*data);
+		void *args[2];
+		args[0] = e;
+		args[1] = s;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnEventWithString, m_MonoComponent, args);
+	}
+}
+
+void UMonoComponent::SendEventToMonoWithVector(const FString& Event, FVector data)
+{
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* e = mono_string_from_utf16((mono_unichar2*)*Event);
+		void *args[2];
+		args[0] = e;
+		args[1] = &data;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnEventWithVector, m_MonoComponent, args);
+	}
+}
+
 void UMonoComponent::OnAppDeactivate()
 {
 	if (m_MonoComponent != NULL)
