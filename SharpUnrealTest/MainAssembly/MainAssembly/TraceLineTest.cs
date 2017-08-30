@@ -23,8 +23,8 @@ namespace MainAssembly
                 Log.Error("[TraceLineTest] Actor.Root is null");
             }
             Vector start = Actor.Root.LocalPosition;
-            Vector end = Actor.Root.Up * -1000;
-            Vector hitpoint = Physics.LineTraceSingleGetPoint(start,end,CollisionChannel.Visibility);
+            Vector end = new Vector(Actor.Root.LocalPosition.X, Actor.Root.LocalPosition.Y, -1000);
+            Vector hitpoint = Physics.LineTraceSingleGetPointWithTag(start,end,CollisionChannel.WorldStatic,"Floor");
             Log.Error("[TraceLineTest] start:" + start + ",end:" + end + ",hitpoint:" + hitpoint);
         }
     }

@@ -16,6 +16,14 @@ namespace UnrealEngine
         }
 
         /// <summary>
+        /// 射线检测
+        /// </summary>
+        public static Vector LineTraceSingleGetPointWithTag(Vector start, Vector end, CollisionChannel channel,string tag)
+        {
+            return _LineTraceSingleGetPointWithTag(start, end, channel,tag);
+        }
+
+        /// <summary>
         /// 球形碰撞检测
         /// </summary>
         public static void SphereTrace()
@@ -25,6 +33,8 @@ namespace UnrealEngine
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Vector _LineTraceSingleGetPoint(Vector start, Vector end, CollisionChannel channel);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Vector _LineTraceSingleGetPointWithTag(Vector start, Vector end, CollisionChannel channel,string tag);
 
     }
 }

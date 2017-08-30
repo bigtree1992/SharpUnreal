@@ -27,9 +27,30 @@ static FVector UnrealEngine_Physics_LineTraceSingleGetPoint(FVector start,FVecto
 	}
 }
 
+static FVector UnrealEngine_Physics_LineTraceSingleGetPointWithTag(FVector start, FVector end, ECollisionChannel channel,MonoString* tag)
+{
+	FHitResult OutHit;
+	if (GWorld->LineTraceSingleByChannel(OutHit, start, end, channel))
+	{
+		FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+		if (OutHit.Actor->ActorHasTag(tag_name)) {
+			return OutHit.Location;
+		}
+		else {
+			return start;
+		}
+	}
+	else
+	{
+		return start;
+	}
+}
+
 
 void UnrealAPI_Physics::RegisterAPI() 
 {
 	mono_add_internal_call("UnrealEngine.Physics::_LineTraceSingleGetPoint",
 		reinterpret_cast<void*>(UnrealEngine_Physics_LineTraceSingleGetPoint));
+	mono_add_internal_call("UnrealEngine.Physics::_LineTraceSingleGetPointWithTag",
+		reinterpret_cast<void*>(UnrealEngine_Physics_LineTraceSingleGetPointWithTag));
 }

@@ -181,6 +181,8 @@ static UTexture* UnrealEngine_Resource_LoadTexture(MonoString* path)
 		return NULL;
 	}
 
+	
+
 	const TCHAR* p = (const TCHAR*)mono_string_to_utf16(path);
 	UTexture* texture = Cast<UTexture>(
 		StaticLoadObject(UTexture::StaticClass(),NULL, p));
@@ -192,6 +194,14 @@ static UTexture* UnrealEngine_Resource_LoadTexture(MonoString* path)
 	}
 
 	return texture;
+}
+
+static MonoString* UnrealEngine_Resource_GetGameConfigDir()
+{
+	FString path = FPaths::GameConfigDir();
+	path = FPaths::ConvertRelativePathToFull(path);
+	MonoString* fullpath = mono_string_from_utf16((mono_unichar2*)*path);
+	return fullpath;
 }
 
 static void UnrealEngine_Resource_GC()
@@ -233,6 +243,8 @@ void UnrealAPI_Engine::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_Resource_LoadTexture));
 	mono_add_internal_call("UnrealEngine.Resource::_GC",
 		reinterpret_cast<void*>(UnrealEngine_Resource_GC));
+	mono_add_internal_call("UnrealEngine.Resource::_GetGameConfigDir",
+		reinterpret_cast<void*>(UnrealEngine_Resource_GetGameConfigDir));
 
 
 	

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configure>
+    <SplineTotalTime>240</SplineTotalTime>
+    <CurrentSpeedLevel>2</CurrentSpeedLevel>
+    <TickTimeRote>0.015</TickTimeRote>
+    <HorseHigth>200</HorseHigth>
+</Configure>
+
+

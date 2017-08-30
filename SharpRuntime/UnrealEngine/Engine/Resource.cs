@@ -52,6 +52,11 @@ namespace UnrealEngine
             }
         }
 
+        public static string GetGameConfigDir()
+        {
+            return _GetGameConfigDir();
+        }
+
         /// <summary>
         /// 进行内存垃圾回收 
         /// </summary>
@@ -68,5 +73,8 @@ namespace UnrealEngine
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _GC();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static string _GetGameConfigDir();
     }
 }
