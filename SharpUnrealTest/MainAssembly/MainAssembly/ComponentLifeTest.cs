@@ -30,9 +30,17 @@ namespace MainAssembly
                 Log.Error("[ComponentLifeTest] False! Hello!");
             }
 
-            Actor.Root.LocalPosition = 
-                Actor.Root.LocalPosition + new Vector(0, 0, 100);
-            
+            //Actor.Root.LocalPosition = 
+            //    Actor.Root.LocalPosition + new Vector(0, 0, 100);
+            //Log.Error("[ComponentLifeTest] Set Vector");
+
+            //Log.Error("[ComponentLifeTest] localQuat:" + Actor.Root.LocalRotation + ",Quat:" + Actor.Root.Rotation);
+            //Log.Error("[ComponentLifeTest] scale:" + Actor.Root.Scale + ",localScale:" + Actor.Root.LocalScale);
+            Actor.Root.LocalRotation = new Rotator(0, 0, 0);
+            //Actor.Root.Rotation = new Quat(0, 0, 0, 0);
+            //Actor.Root.LocalScale = new Vector(0, 0, 0);
+            //Actor.Root.Scale = new Vector(0, 0, 0);
+
             //测试Tick
             //CanEverTick = true;
 

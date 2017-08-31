@@ -120,7 +120,7 @@ namespace UnrealEngine
             }
         }
 
-        public Quat LocalRotation
+        public Rotator LocalRotation
         {
             get
             {
@@ -220,9 +220,9 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetLocalPosition(IntPtr handle, Vector trans);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Quat _GetLocalRotation(IntPtr handle);
+        private extern static Rotator _GetLocalRotation(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetLocalRotation(IntPtr handle, Quat trans);
+        private extern static void _SetLocalRotation(IntPtr handle, Rotator trans);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Vector _GetLocalScale(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]

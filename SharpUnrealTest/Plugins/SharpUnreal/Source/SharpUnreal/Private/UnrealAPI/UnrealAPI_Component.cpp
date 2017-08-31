@@ -440,7 +440,7 @@ static FQuat UnrealEngine_SceneComponent_GetLocalRotation(USceneComponent* _this
 	return FQuat(_this->RelativeRotation);
 }
 
-static void UnrealEngine_SceneComponent_SetLocalRotation(USceneComponent* _this, FQuat rot)
+static void UnrealEngine_SceneComponent_SetLocalRotation(USceneComponent* _this, FRotator rot)
 {
 	if (_this == NULL)
 	{
