@@ -174,7 +174,7 @@ namespace UnrealEngine
 
         public StringProperty FindStringProperty(string name)
         {
-            var handler = _FindIntProperty(NativeHandler, name);
+            var handler = _FindStringProperty(NativeHandler, name);
             if (handler.ToInt64() == 0)
             {
                 return null;

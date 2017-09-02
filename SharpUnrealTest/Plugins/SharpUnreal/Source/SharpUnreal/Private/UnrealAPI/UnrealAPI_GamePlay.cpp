@@ -763,11 +763,14 @@ void UnrealAPI_GamePlay::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.Actor::_GetName",
 		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 	
+		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 
+
 	mono_add_internal_call("UnrealEngine.Actor::_FindIntProperty",
-		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindIntProperty));
+
 	mono_add_internal_call("UnrealEngine.Actor::_FindFloatProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
+
 	mono_add_internal_call("UnrealEngine.Actor::_FindStringProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindStringProperty));
 
