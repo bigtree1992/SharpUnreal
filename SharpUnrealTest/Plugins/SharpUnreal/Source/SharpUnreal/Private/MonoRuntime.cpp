@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "SharpUnreal.h"
 #include "MonoRuntime.h"
+#include "MonoComponent.h"
 #include "MonoCallbackTable.h"
 #include "MonoClassTable.h"
 
@@ -114,6 +115,40 @@ void MonoRuntime::CopyToTarget(const FString& source,const FString &target)
 		{
 			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CopyAssembly Failed: %s,%s."),*target,*source_path);
 		}
+	}
+}
+
+void MonoRuntime::OnBeginPIE(bool bIsSimulating)
+{
+	if (m_EngineImage == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnBeginPIE Failed1"));
+		return;
+	}
+
+	MonoClass* main_class = mono_class_from_name(m_EngineImage, "UnrealEngine", "Editor");
+	if (main_class == NULL) 
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnBeginPIE Failed2"));
+		return;
+	}
+	MonoMethodDesc* entry_point_method_desc = mono_method_desc_new("UnrealEngine.Editor:OnBeginPIE()", true);
+	if (entry_point_method_desc == NULL) 
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnBeginPIE Failed3"));
+		return;
+	}
+
+	MonoMethod* entry_point_method = mono_method_desc_search_in_class(entry_point_method_desc, main_class);
+	mono_method_desc_free(entry_point_method_desc);
+	
+	if (entry_point_method) 
+	{
+		//调用静态方法
+		mono_runtime_invoke(entry_point_method, NULL, NULL, NULL);
+	}
+	else {
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnBeginPIE Failed4"));
 	}
 }
 
@@ -232,9 +267,18 @@ int MonoRuntime::ReloadAssembly()
 		}
 	}
 
+	//处理编辑器中还在的Mono Object
 	#if WITH_EDITOR			
-	m_ComponentNames.Add(FString(TEXT("Timer")));
-	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] Add Timer"));
+	TArray<UMonoComponent*> ComponentCopy = TArray<UMonoComponent*>(m_MonoComponents);
+	m_MonoComponents.Empty();
+	for (UMonoComponent* component : ComponentCopy) 
+	{
+		if (component != NULL) 
+		{
+			component->Reload();
+		}		
+		//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoRuntime] Reload %s."), *component->GetName());
+	}
 	#endif
 
 	GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] ReloadAssembly Complete."));
@@ -313,6 +357,19 @@ void MonoRuntime::SetNativeHandler(_MonoObject* object, void* handler)
 	MonoClass* klass = mono_object_get_class(object);
 	MonoClassField* field = mono_class_get_field_from_name(klass, "m_NativeHandler");
 	mono_field_set_value(object, field, handler);
+}
+
+void MonoRuntime::ResgisterComponent( UMonoComponent* const component) 
+{
+	if (!m_MonoComponents.Contains(component)) 
+	{
+		m_MonoComponents.Add(component);
+	}
+}
+
+void MonoRuntime::UnResgisterComponent( UMonoComponent* const component) 
+{
+	m_MonoComponents.Remove(component);
 }
 
 _MonoMethod* MonoRuntime::FindMethod(_MonoClass* klass, const char* name, int paramCount)

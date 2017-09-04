@@ -72,6 +72,8 @@ void FSharpUnrealEditorModule::ShutdownModule()
 void FSharpUnrealEditorModule::OnBeginPIE(const bool bIsSimulating) 
 {
 	IsEditorRunningGame = true;
+
+	MonoRuntime::Instance()->OnBeginPIE(bIsSimulating);
 }
 
 void FSharpUnrealEditorModule::OnEndPIE(const bool bIsSimulating) 

@@ -3,6 +3,7 @@
 struct _MonoObject;
 struct _MonoMethod;
 struct _MonoClass;
+class UMonoComponent;
 
 /**
 * 管理Mono虚拟机的创建，C# dll加载
@@ -18,6 +19,8 @@ public:
 	static MonoRuntime* Instance();
 	//重新加载主逻辑脚本
 	int ReloadAssembly();
+	//监听编辑器下开始运行的按键
+	void OnBeginPIE(bool bIsSimulating);
 
 	TArray<FString> GetAllMonoComponent();
 	
@@ -28,6 +31,9 @@ public:
 
 	void SetNativeHandler(_MonoObject* object, void* handler);
 
+	void ResgisterComponent( UMonoComponent* const component);
+	void UnResgisterComponent( UMonoComponent* const component);
+
 	_MonoMethod* FindMethod(_MonoClass* klass,const char* name, int paramCount);
 	_MonoMethod* FindMethodByObj(_MonoObject* object, const char* name, int paramCount);
 	_MonoObject* InvokeMethod(_MonoMethod* method, void *obj, void **params);
@@ -35,6 +41,7 @@ public:
 	_MonoClass* FindClassByName(const char* name);
 
 	MonoRuntime();
+
 private:
 	void CopyToTarget(const FString& source, const FString &target);
 private:
@@ -47,4 +54,5 @@ private:
 	struct _MonoImage*		m_EngineImage;
 
 	TArray<FString> m_ComponentNames;
+	TArray<UMonoComponent*> m_MonoComponents;
 };

@@ -10,10 +10,13 @@ UMonoComponent::UMonoComponent()
 	bWantsInitializeComponent = true;	
 	PrimaryComponentTick.bCanEverTick = false;
 	m_MonoComponent = NULL;
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] ctor: %s"),*GetName());
 }
 
 UMonoComponent::~UMonoComponent()
-{}
+{
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] destroy: %s"), *GetName());
+}
 
 _MonoObject* UMonoComponent::GetMonoObject() 
 {
@@ -23,18 +26,22 @@ _MonoObject* UMonoComponent::GetMonoObject()
 void UMonoComponent::OnRegister() 
 {
 	Super::OnRegister();
-	
-	if (m_MonoComponent != NULL) 	
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] OnRegister: %s"), *GetName());
+	if (Reload())
 	{
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->OnRegister, m_MonoComponent, NULL);
+#if WITH_EDITOR
+		MonoRuntime::Instance()->ResgisterComponent(this);
+#endif // WITH_EDITOR
+
 	}
 }
 
 void UMonoComponent::OnUnregister() 
 {
 	Super::OnUnregister();
-	
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] OnUnregister: %s"), *GetName());
 	if (m_MonoComponent != NULL)
 	{
 		MonoRuntime::Instance()->InvokeMethod(
@@ -42,11 +49,19 @@ void UMonoComponent::OnUnregister()
 	}
 }
 
-//初始化脚本的时候根据名字创建Mono对象
-void UMonoComponent::InitializeComponent() 
+bool UMonoComponent::Reload()
 {
-	Super::InitializeComponent();
-	
+	if (m_MonoComponent != NULL) 
+	{
+		MonoRuntime::Instance()->FreeObject(m_Handle);
+		m_MonoComponent = NULL;
+	}
+
+	if (ComponentName.IsEmpty()) 
+	{
+		return false;
+	}
+
 	m_MonoComponent = MonoRuntime::Instance()->CreateObject(TCHAR_TO_UTF8(*ComponentName));
 
 	if (m_MonoComponent == NULL) {
@@ -57,38 +72,49 @@ void UMonoComponent::InitializeComponent()
 	{
 		m_Handle = MonoRuntime::Instance()->RetainObject(m_MonoComponent);
 
-		m_Callback = MonoCallbackTable::GetCallbackByObject(m_MonoComponent);		
+		m_Callback = MonoCallbackTable::GetCallbackByObject(m_MonoComponent);
 		if (m_Callback == NULL)
 		{
 			m_Callback = new MonoCallback();
 			GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Initialize Failed Callback NUL: %s."), *ComponentName);
-			return;
+			return false;
 		}
 
 		//设置Mono对象的本地对象为自己
 		void * _this = this;
 		MonoRuntime::Instance()->SetNativeHandler(m_MonoComponent, &_this);
-		//调用Mono初始化方法
-		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->Initialize, m_MonoComponent, NULL);
 	}
 	else {
 		GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] Initialize Failed : %s."), *ComponentName);
+		return false;
 	}
+
+	return true;
+}
+
+//初始化脚本的时候根据名字创建Mono对象
+void UMonoComponent::InitializeComponent() 
+{
+	Super::InitializeComponent();
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] InitializeComponent: %s"), *GetName());
+	
+	if (m_MonoComponent != NULL)
+	{
+		//调用Mono初始化方法
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->Initialize, m_MonoComponent, NULL);
+	}	
 }
 //销毁Mono对象
 void UMonoComponent::UninitializeComponent() 
 {
 	Super::UninitializeComponent();
-	
+	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] UninitializeComponent:%s"), *GetName());
 	//销毁Mono对象
 	if (m_MonoComponent != NULL) 
 	{
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->Uninitialize, m_MonoComponent, NULL);
-
-		MonoRuntime::Instance()->FreeObject(m_Handle);
-		m_MonoComponent = NULL;
 	}
 }
 
@@ -116,6 +142,20 @@ void UMonoComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->EndPlay, m_MonoComponent, args);
 	}
+}
+
+void UMonoComponent::BeginDestroy() 
+{
+	if (m_MonoComponent != NULL)
+	{
+#if WITH_EDITOR
+		MonoRuntime::Instance()->UnResgisterComponent(this);
+#endif // WITH_EDITOR
+		MonoRuntime::Instance()->FreeObject(m_Handle);
+		m_MonoComponent = NULL;
+	}
+	
+	Super::BeginDestroy();		
 }
 
 void UMonoComponent::TickComponent( 

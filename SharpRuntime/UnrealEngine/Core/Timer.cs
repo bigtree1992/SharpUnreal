@@ -79,5 +79,10 @@ namespace UnrealEngine
             CanEverTick = false;
             s_Init = false;
         }
+
+        internal static void Clear()
+        {
+            m_Events.Clear();
+        }
     }
 }

@@ -38,7 +38,6 @@
     <Compile Include="ActorTest.cs" />
     <Compile Include="AudioTest.cs" />
     <Compile Include="BlueprintEventTest.cs" />
-    <Compile Include="Configure.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="HitAndOverlapTest.cs" />
     <Compile Include="InitTest.cs" />
@@ -48,7 +47,6 @@
     <Compile Include="PathFindTest.cs" />
     <Compile Include="PhysicsTest.cs" />
     <Compile Include="PlayAnimTest.cs" />
-    <Compile Include="ResourceTest.cs" />
     <Compile Include="SequencerTest.cs" />
     <Compile Include="SplineTest.cs" />
     <Compile Include="TimerTest.cs" />
@@ -65,11 +63,6 @@
       <Project>{22c0225f-243d-4a6a-b6e0-f14c6433cdf2}</Project>
       <Name>UnrealEngine</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Configure.xml">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

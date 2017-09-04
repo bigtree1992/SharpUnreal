@@ -80,6 +80,7 @@
     <Compile Include="Core\Event.cs" />
     <Compile Include="Core\FLog.cs" />
     <Compile Include="Core\Timer.cs" />
+    <Compile Include="Engine\Editor.cs" />
     <Compile Include="Engine\Enum.cs" />
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\Resource.cs" />

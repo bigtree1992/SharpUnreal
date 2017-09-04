@@ -18,7 +18,7 @@ private:
 	virtual void CustomizeDetails( IDetailLayoutBuilder& DetailBuilder ) override;
 	
 private:
-	TWeakObjectPtr<class UMonoComponent> m_MonoComponent;	
+	TArray<TWeakObjectPtr<UObject>> ObjectsCustomized;
 	TSharedPtr<SAssetSearchBox> m_SearchBoxPtr;
 	FString m_CommitedComponentName;
 };

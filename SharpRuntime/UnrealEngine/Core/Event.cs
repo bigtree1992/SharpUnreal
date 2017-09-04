@@ -385,6 +385,9 @@ namespace UnrealEngine
 
         #endregion
 
-
+        internal static void Clear()
+        {
+            s_EventTable.Clear();
+        }
     }
 }

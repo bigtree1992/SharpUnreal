@@ -7,25 +7,23 @@
 
 #define LOCTEXT_NAMESPACE "MonoComponentDetails"
 
+
 TSharedRef<IDetailCustomization> FMonoComponentDetails::MakeInstance()
 {
 	return MakeShareable(new FMonoComponentDetails);
 }
 
 void FMonoComponentDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
-{
-	//获取正在编辑的对象的引用
-	TArray<TWeakObjectPtr<UObject>> Objects;
-	DetailBuilder.GetObjectsBeingCustomized(Objects);
-	if (Objects.Num() != 1)
+{	
+	DetailBuilder.GetObjectsBeingCustomized(ObjectsCustomized);
+	if (ObjectsCustomized.Num() == 1 && ObjectsCustomized[0].IsValid())
 	{
-		return;
-	}
+		UMonoComponent* Component = Cast<UMonoComponent>(ObjectsCustomized[0].Get());
 
-	m_MonoComponent = Cast<UMonoComponent>(Objects[0].Get());
-	if (!m_MonoComponent.Get())
-	{
-		return;
+		if (Component == NULL)
+		{
+			return;
+		}
 	}
 	
 	//自定义一个编辑MonoComponent的UI
@@ -62,27 +60,37 @@ void FMonoComponentDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder
 	[
 		widgets
 	];
-
 }
 
 FReply FMonoComponentDetails::OnApplyClicked()
-{
-	//GLog->Log(ELogVerbosity::Error, TEXT("[MonoDetail] OnApplyClicked."));
-	if (m_MonoComponent != NULL)
-	{
-		if (m_CommitedComponentName.Len() > 0) 
-		{
-			//PreEditChange跟PostEditChange保证了编辑完Property之后场景会被设置为已更改状态
-			UProperty* NameProperty = FindField<UProperty>(
-				UMonoComponent::StaticClass(), "ComponentName");
-			m_MonoComponent->PreEditChange(NameProperty);
+{	
+	//获取正在编辑的对象的引用
 
-			//设置脚本名字
-			m_MonoComponent->ComponentName = m_CommitedComponentName;
-			
-			FPropertyChangedEvent PropertyChangedEvent(NameProperty);
-			m_MonoComponent->PostEditChangeProperty(PropertyChangedEvent);
-		}		
+	if (ObjectsCustomized.Num() == 1 &&ObjectsCustomized[0].IsValid())
+	{
+		UMonoComponent* Component = Cast<UMonoComponent>(ObjectsCustomized[0].Get());
+
+		if (Component)
+		{
+			if (m_CommitedComponentName.Len() > 0)
+			{
+				//PreEditChange跟PostEditChange保证了编辑完Property之后场景会被设置为已更改状态
+				UProperty* NameProperty = FindField<UProperty>(
+					UMonoComponent::StaticClass(), "ComponentName");
+
+				if (NameProperty != NULL)
+				{
+					Component->PreEditChange(NameProperty);
+					//设置脚本名字
+					Component->ComponentName = m_CommitedComponentName;
+					FPropertyChangedEvent PropertyChangedEvent(NameProperty);
+					Component->PostEditChangeProperty(PropertyChangedEvent);
+				}
+			}
+		}
+		else {
+			GLog->Log(ELogVerbosity::Error, TEXT("[MonoDetail] Not MonoComponent."));
+		}
 	}
 	else
 	{
