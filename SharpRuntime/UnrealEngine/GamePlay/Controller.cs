@@ -17,22 +17,6 @@ namespace UnrealEngine
             }
         }
 
-
-        public AIController AsAIController()
-        {
-            AIController ai = this as AIController;
-            if(ai == null)
-            {
-                ai = new AIController();
-                ai.NativeHandler = this.NativeHandler;
-                return ai;
-            }
-            else
-            {
-                return ai;
-            }
-        }
-
         public bool IgnoreMoveInput
         {
             get

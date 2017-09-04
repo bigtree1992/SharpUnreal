@@ -23,7 +23,7 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
-static mono_bool Unrealengine_Actor_GetHiddenInGame(AActor* _this)
+static mono_bool UnrealEngine_Actor_GetHiddenInGame(AActor* _this)
 {
 	if (_this == NULL) 
 	{
@@ -33,7 +33,7 @@ static mono_bool Unrealengine_Actor_GetHiddenInGame(AActor* _this)
 	return _this->bHidden;
 }
 
-static void Unrealengine_Actor_SetHiddenInGame(AActor* _this,mono_bool hidden)
+static void UnrealEngine_Actor_SetHiddenInGame(AActor* _this,mono_bool hidden)
 {
 	if (_this == NULL)
 	{
@@ -43,7 +43,7 @@ static void Unrealengine_Actor_SetHiddenInGame(AActor* _this,mono_bool hidden)
 	return _this->SetActorHiddenInGame(hidden != 0);
 }
 
-static USceneComponent* Unrealengine_Actor_GetSceneComponent(AActor* _this)
+static USceneComponent* UnrealEngine_Actor_GetSceneComponent(AActor* _this)
 {
 	if (_this == NULL)
 	{
@@ -53,7 +53,7 @@ static USceneComponent* Unrealengine_Actor_GetSceneComponent(AActor* _this)
 	return _this->GetRootComponent();
 }
 
-static void Unrealengine_Actor_SetSceneComponent(AActor* _this, USceneComponent* root)
+static void UnrealEngine_Actor_SetSceneComponent(AActor* _this, USceneComponent* root)
 {
 	if (_this == NULL) 
 	{
@@ -68,7 +68,7 @@ static void Unrealengine_Actor_SetSceneComponent(AActor* _this, USceneComponent*
 	_this->SetRootComponent(root);
 }
 
-static _MonoObject* Unrealengine_Actor_GetMonoComponent(AActor* _this) 
+static _MonoObject* UnrealEngine_Actor_GetMonoComponent(AActor* _this) 
 {
 	UMonoComponent* comp = (UMonoComponent*)_this->GetComponentByClass(UMonoComponent::StaticClass());
 	if (comp != NULL) 
@@ -78,7 +78,7 @@ static _MonoObject* Unrealengine_Actor_GetMonoComponent(AActor* _this)
 	return NULL;
 }
 
-static UActorComponent* Unrealengine_Actor_GetComponent(AActor* _this, MonoString* type)
+static UActorComponent* UnrealEngine_Actor_GetComponent(AActor* _this, MonoString* type)
 {
 	if (_this == NULL)
 	{
@@ -97,7 +97,7 @@ static UActorComponent* Unrealengine_Actor_GetComponent(AActor* _this, MonoStrin
 	return _this->GetComponentByClass(type_class);
 }
 
-static UActorComponent* Unrealengine_Actor_GetComponentByTag(AActor* _this, MonoString* type,MonoString* tag)
+static UActorComponent* UnrealEngine_Actor_GetComponentByTag(AActor* _this, MonoString* type,MonoString* tag)
 {
 	if (_this == NULL)
 	{
@@ -124,7 +124,7 @@ static UActorComponent* Unrealengine_Actor_GetComponentByTag(AActor* _this, Mono
 	return NULL;
 }
 
-static void Unrealengine_Actor_Destroy(AActor* _this)
+static void UnrealEngine_Actor_Destroy(AActor* _this)
 {
 	if (_this == NULL)
 	{
@@ -134,7 +134,7 @@ static void Unrealengine_Actor_Destroy(AActor* _this)
 	_this->Destroy();
 }
 
-static MonoString* Unrealengine_Actor_GetName(AActor* _this)
+static MonoString* UnrealEngine_Actor_GetName(AActor* _this)
 {
 	if (_this == NULL)
 	{
@@ -144,7 +144,7 @@ static MonoString* Unrealengine_Actor_GetName(AActor* _this)
 	return mono_string_from_utf16((mono_unichar2*)*_this->GetName());
 }
 
-static ULevelSequencePlayer* Unrealengine_Actor_GetSequencer(AActor* _this)
+static ULevelSequencePlayer* UnrealEngine_Actor_GetSequencer(AActor* _this)
 {
 	if (_this == NULL)
 	{
@@ -586,9 +586,9 @@ static void UnrealEngine_Controller_SetIgnoreLookInput(AController* _this, mono_
 	_this->SetIgnoreLookInput(value != 0);
 }
 
-static void UnrealEngine_Controller_SimpleMoveToActor(AController* Controller, AActor* Goal)
+static void UnrealEngine_Controller_SimpleMoveToActor(AController* _this, AActor* Goal)
 {
-	if (Controller == NULL)
+	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SimpleMoveToActor But _this is NULL."));
 	}
@@ -597,17 +597,17 @@ static void UnrealEngine_Controller_SimpleMoveToActor(AController* Controller, A
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SimpleMoveToActor But Goal is NULL."));
 	}
-	UNavigationSystem::SimpleMoveToActor(Controller, Goal);
+	UNavigationSystem::SimpleMoveToActor(_this, Goal);
 }
 
-static void UnrealEngine_Controller_SimpleMoveToLocation(AController* Controller, FVector Goal)
+static void UnrealEngine_Controller_SimpleMoveToLocation(AController* _this, FVector Goal)
 {
-	if (Controller == NULL)
+	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[Controller] SimpleMoveToLocation But _this is NULL."));
 	}
 
-	UNavigationSystem::SimpleMoveToLocation(Controller, Goal);
+	UNavigationSystem::SimpleMoveToLocation(_this, Goal);
 }
 
 static EPathFollowingRequestResult::Type UnrealEngine_AIController_MoveToActor(AAIController* _this, AActor* actor, float accepanceRadius, mono_bool stopOnOverlap, mono_bool usePathfinding, mono_bool bCanStrafe, mono_bool allowPartialPath)
@@ -745,32 +745,30 @@ static void UnrealEngine_AIController_SetFocusActor(AAIController* _this, AActor
 void UnrealAPI_GamePlay::RegisterAPI()
 {
 	mono_add_internal_call("UnrealEngine.Actor::_GetHiddenInGame",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetHiddenInGame));
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetHiddenInGame));
 	mono_add_internal_call("UnrealEngine.Actor::_SetHiddenInGame",
-		reinterpret_cast<void*>(Unrealengine_Actor_SetHiddenInGame));
+		reinterpret_cast<void*>(UnrealEngine_Actor_SetHiddenInGame));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSceneComponent",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetSceneComponent));
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetSceneComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_SetSceneComponent",
-		reinterpret_cast<void*>(Unrealengine_Actor_SetSceneComponent)); 
+		reinterpret_cast<void*>(UnrealEngine_Actor_SetSceneComponent)); 
 	mono_add_internal_call("UnrealEngine.Actor::_GetMonoComponent",
-			reinterpret_cast<void*>(Unrealengine_Actor_GetMonoComponent));
+			reinterpret_cast<void*>(UnrealEngine_Actor_GetMonoComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_GetComponent",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetComponent));
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_GetComponentByTag",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetComponentByTag));
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetComponentByTag));
 	mono_add_internal_call("UnrealEngine.Actor::_Destroy",
-		reinterpret_cast<void*>(Unrealengine_Actor_Destroy));
+		reinterpret_cast<void*>(UnrealEngine_Actor_Destroy));
 	mono_add_internal_call("UnrealEngine.Actor::_GetName",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetName));
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetName));
 	mono_add_internal_call("UnrealEngine.Actor::_GetSequencer",
-		reinterpret_cast<void*>(Unrealengine_Actor_GetSequencer)); 
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetSequencer)); 
 
 	mono_add_internal_call("UnrealEngine.Actor::_FindIntProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindIntProperty));
-
 	mono_add_internal_call("UnrealEngine.Actor::_FindFloatProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
-
 	mono_add_internal_call("UnrealEngine.Actor::_FindStringProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindStringProperty));
 
@@ -872,3 +870,5 @@ void UnrealAPI_GamePlay::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.AIController::_SetFocusActor",
 		reinterpret_cast<void*>(UnrealEngine_AIController_SetFocusActor));
 }
+
+
