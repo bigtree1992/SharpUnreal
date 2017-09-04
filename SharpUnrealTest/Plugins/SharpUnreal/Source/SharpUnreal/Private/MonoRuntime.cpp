@@ -152,6 +152,40 @@ void MonoRuntime::OnBeginPIE(bool bIsSimulating)
 	}
 }
 
+void MonoRuntime::OnEndPIE(bool bIsSimulating)
+{
+	if (m_EngineImage == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnEndPIE Failed1"));
+		return;
+	}
+
+	MonoClass* main_class = mono_class_from_name(m_EngineImage, "UnrealEngine", "Editor");
+	if (main_class == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnEndPIE Failed2"));
+		return;
+	}
+	MonoMethodDesc* entry_point_method_desc = mono_method_desc_new("UnrealEngine.Editor:OnEndPIE()", true);
+	if (entry_point_method_desc == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnEndPIE Failed3"));
+		return;
+	}
+
+	MonoMethod* entry_point_method = mono_method_desc_search_in_class(entry_point_method_desc, main_class);
+	mono_method_desc_free(entry_point_method_desc);
+
+	if (entry_point_method)
+	{
+		//调用静态方法
+		mono_runtime_invoke(entry_point_method, NULL, NULL, NULL);
+	}
+	else {
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] OnEndPIE Failed4"));
+	}
+}
+
 int MonoRuntime::ReloadAssembly()
 {
 	if (m_RootDomain == NULL)

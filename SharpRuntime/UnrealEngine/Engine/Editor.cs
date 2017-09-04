@@ -15,5 +15,11 @@ namespace UnrealEngine
             Event.Clear();
             Timer.Clear();
         }
+
+        public static void OnEndPIE()
+        {
+            Event.Clear();
+            Timer.Clear();
+        }
     }
 }

@@ -19,8 +19,10 @@ public:
 	static MonoRuntime* Instance();
 	//重新加载主逻辑脚本
 	int ReloadAssembly();
-	//监听编辑器下开始运行的按键
+	//监听编辑器下的开始游戏
 	void OnBeginPIE(bool bIsSimulating);
+	//监听编辑器下的结束游戏
+	void OnEndPIE(bool bIsSimulating);
 
 	TArray<FString> GetAllMonoComponent();
 	

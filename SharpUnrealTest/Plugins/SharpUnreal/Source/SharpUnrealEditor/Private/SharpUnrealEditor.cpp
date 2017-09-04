@@ -79,6 +79,7 @@ void FSharpUnrealEditorModule::OnBeginPIE(const bool bIsSimulating)
 void FSharpUnrealEditorModule::OnEndPIE(const bool bIsSimulating) 
 {
 	IsEditorRunningGame = false;
+	MonoRuntime::Instance()->OnEndPIE(bIsSimulating);
 }
 
 void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>& FileChanges)
