@@ -182,57 +182,12 @@ namespace UnrealEngine
 
         #endregion
 
-        #region RPC函数
-        public void CallOnServer(string func)
-        {
-            _CallOnServer(NativeHandler, func);
-        }
-
-        public void CallOnServer(string func,int data)
-        {
-            _CallOnServerWithInt(NativeHandler, func,data);
-        }
-
-        public void CallOnServer(string func, string data)
-        {
-            _CallOnServerWithString(NativeHandler, func, data);
-        }
-
-        public void CallOnAll(string func)
-        {
-            _CallOnAll(NativeHandler, func);
-        }
-
-        public void CallOnAll(string func, int data)
-        {
-            _CallOnAllWithInt(NativeHandler, func, data);
-        }
-
-        public void CallOnAll(string func, string data)
-        {
-            _CallOnAllWithString(NativeHandler, func, data);
-        }
-
-        #endregion
-
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SendEvent(IntPtr handler, string evt);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SendEventWithString(IntPtr handler, string evt, string data);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SendEventWithInt(IntPtr handler, string evt, int data);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _CallOnServer(IntPtr handler, string func);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _CallOnServerWithInt(IntPtr handler, string func, int data);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _CallOnServerWithString(IntPtr handler, string func, string data);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _CallOnAll(IntPtr handler, string func);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _CallOnAllWithInt(IntPtr handler, string func, int data);
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _CallOnAllWithString(IntPtr handler, string func, string data);
+      
     }
 }

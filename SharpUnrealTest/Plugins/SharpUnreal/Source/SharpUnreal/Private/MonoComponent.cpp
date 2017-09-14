@@ -3,6 +3,8 @@
 #include "MonoComponent.h"
 #include "MonoRuntime.h"
 #include "MonoCallbackTable.h"
+#include "NetCallbackTable.h"
+
 #include "mono/metadata/object.h"
 
 UMonoComponent::UMonoComponent()
@@ -544,15 +546,32 @@ bool UMonoComponent::CallOnServer_Validate(int id)
 
 void UMonoComponent::CallOnServer_Implementation(int id) 
 {
+	if (m_MonoComponent == NULL)
+	{
+		return ;
+	}
 
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, NULL);
 }
 
 void UMonoComponent::CallOnClient_Implementation(int id)
 {
-
+	if (m_MonoComponent == NULL)
+	{
+		return ;
+	}
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, NULL);
 }
 
 void UMonoComponent::CallOnAll_Implementation(int id)
 {
+	if (m_MonoComponent == NULL)
+	{
+		return ;
+	}
 
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, NULL);
 }

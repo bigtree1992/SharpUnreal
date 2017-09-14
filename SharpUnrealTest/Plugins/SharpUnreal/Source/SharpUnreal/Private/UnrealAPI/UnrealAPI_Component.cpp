@@ -171,113 +171,39 @@ static void UnrealEngine_MonoComponent_SendEventWithInt(UMonoComponent* _this, M
 	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
 }
 
-static void UnrealEngine_MonoComponent_CallOnServer(UMonoComponent* _this, MonoString* func)
+static void UnrealEngine_NetComponent_CallOnServer(UMonoComponent* _this, int function_id)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServer But _this is NULL."));
 		return;
 	}
-	if (func == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But func is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
-	
+
+	_this->CallOnServer(function_id);
 }
 
-static void UnrealEngine_MonoComponent_CallOnServerWithString(UMonoComponent* _this, MonoString* func, MonoString* data)
+static void UnrealEngine_NetComponent_CallOnClient(UMonoComponent* _this, int function_id)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClient But _this is NULL."));
 		return;
 	}
-	if (func == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But func is NULL."));
-		return;
-	}
-	if (data == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But data is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
-	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
-	
+
+	_this->CallOnClient(function_id);
 }
 
-static void UnrealEngine_MonoComponent_CallOnServerWithInt(UMonoComponent* _this, MonoString* func, int data)
+static void UnrealEngine_NetComponent_CallOnAll(UMonoComponent* _this, int function_id)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAll But _this is NULL."));
 		return;
 	}
-	if (func == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But func is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
-	
+
+	_this->CallOnAll(function_id);
 }
 
-static void UnrealEngine_MonoComponent_CallOnAll(UMonoComponent* _this, MonoString* func)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But _this is NULL."));
-		return;
-	}
-	if (func == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But func is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
-
-}
-
-static void UnrealEngine_MonoComponent_CallOnAllWithString(UMonoComponent* _this, MonoString* func, MonoString* data)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But _this is NULL."));
-		return;
-	}
-	if (func == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But func is NULL."));
-		return;
-	}
-	if (data == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But data is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
-	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
-
-}
-
-static void UnrealEngine_MonoComponent_CallOnAllWithInt(UMonoComponent* _this, MonoString* func, int data)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But _this is NULL."));
-		return;
-	}
-	if (func == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithInt But func is NULL."));
-		return;
-	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(func));
-
-}
 #endif
 
 #if 1
@@ -2985,6 +2911,13 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithString));
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithInt",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithInt));
+	//×¢²áNetComponentµÄº¯Êý
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServer",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServer));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClient",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClient));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAll",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAll));
 
 	#endif
 	

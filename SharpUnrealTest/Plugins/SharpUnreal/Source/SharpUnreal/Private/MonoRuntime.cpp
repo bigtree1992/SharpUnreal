@@ -7,6 +7,7 @@
 #include "MonoComponent.h"
 #include "MonoCallbackTable.h"
 #include "MonoClassTable.h"
+#include "NetCallbackTable.h"
 
 #include "UnrealAPI/UnrealAPI_Object.h"
 #include "UnrealAPI/UnrealAPI_Engine.h"
@@ -205,6 +206,7 @@ int MonoRuntime::ReloadAssembly()
 		mono_domain_set(m_RootDomain, 0);
 		mono_domain_unload(m_ChildDomain);
 		MonoCallbackTable::DestroyAllCallback();
+		NetCallbackTable::DestroyTable();
 	}
 	m_ChildDomain = mono_domain_create_appdomain("SharpUnreal ChildDomain", NULL);
 	mono_domain_set(m_ChildDomain, 0);
@@ -248,7 +250,6 @@ int MonoRuntime::ReloadAssembly()
 	UnrealAPI_Spline::RegisterAPI();
 	UnrealAPI_Physics::RegisterAPI();
 
-
 	//加载逻辑脚本Dll文件
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));
 	if (!m_MainAssembly)
@@ -263,20 +264,27 @@ int MonoRuntime::ReloadAssembly()
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get MainAssembly.dll Image Failed!!"));
 		return 1003;
 	}
+	
+	//创建用于网络回调的Table缓存用于网络回调的方法指针
+	if (!NetCallbackTable::CreateTable(m_EngineImage, m_MainImage)) 
+	{
+		return 1004;
+	}
+
 	//缓存下所有ActorComponent的子类引用
 	m_ComponentNames = TArray<FString>();
 	if (m_RootDomain == NULL || m_ChildDomain == NULL ||
 		m_MainAssembly == NULL || m_MainImage == NULL)
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! MainImage Is Null"));
-		return 1004;
+		return 1005;
 	}
 
 	MonoClass* base = mono_class_from_name(m_EngineImage, "UnrealEngine", "MonoComponent");
 	if (base == NULL)
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! Not Find MonoComponent."));
-		return 1005;
+		return 1006;
 	}
 
 	unsigned length = 0;

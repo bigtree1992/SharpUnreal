@@ -41,6 +41,7 @@
     <Compile Include="Component\Base\AppLifecycleComponent.cs" />
     <Compile Include="Component\Audio\AudioComponent.cs" />
     <Compile Include="Component\Base\MonoComponent.cs" />
+    <Compile Include="Component\Base\NetComponent.cs" />
     <Compile Include="Component\Collision\BoxComponent.cs" />
     <Compile Include="Component\Base\CameraComponent.cs" />
     <Compile Include="Component\Collision\CapsuleComponent.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Core\Data.cs" />
     <Compile Include="Core\Event.cs" />
     <Compile Include="Core\FLog.cs" />
+    <Compile Include="Core\RPC.cs" />
     <Compile Include="Core\Timer.cs" />
     <Compile Include="Engine\Editor.cs" />
     <Compile Include="Engine\Enum.cs" />
