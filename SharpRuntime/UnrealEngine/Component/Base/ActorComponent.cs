@@ -55,6 +55,14 @@ namespace UnrealEngine
         {
             return _HasTag(NativeHandler, tag);
         }
+        public void AddTag(string tag)
+        {
+            _AddTag(NativeHandler, tag);
+        }
+        public void RemoveTag(string tag)
+        {
+            _RemoveTag(NativeHandler, tag);
+        }
 
         public void SetTickableWhenPaused(bool bTickableWhenPaused)
         {
@@ -101,7 +109,11 @@ namespace UnrealEngine
         private extern static void _SetTickableWhenPaused(IntPtr handle, bool bTickableWhenPaused);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _HasTag(IntPtr handle,string tag);
-        
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _AddTag(IntPtr handle, string tag);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RemoveTag(IntPtr handle, string tag);
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static string _GetName(IntPtr handler);
 
