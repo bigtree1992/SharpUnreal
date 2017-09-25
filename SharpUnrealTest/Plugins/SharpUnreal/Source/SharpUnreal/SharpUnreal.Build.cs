@@ -35,7 +35,7 @@ public class SharpUnreal : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"SharpUnreal/Public"
+				"SharpUnreal/Public",
 				// ... add public include paths required here ...
 			}
 			);
@@ -53,6 +53,9 @@ public class SharpUnreal : ModuleRules
 			new string[]
 			{
 				"Core",
+                "OnlineSubsystem",
+                "OnlineSubsystemUtils",
+                "OnlineSubsystemNull",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -71,11 +74,11 @@ public class SharpUnreal : ModuleRules
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
-		
-		
-		DynamicallyLoadedModuleNames.AddRange(
+
+
+        DynamicallyLoadedModuleNames.AddRange(
 			new string[]
-			{
+            {
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);

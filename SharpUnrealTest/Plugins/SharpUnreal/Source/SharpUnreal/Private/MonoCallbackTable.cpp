@@ -67,6 +67,11 @@ void MonoCallbackTable::CreateClassCallback(_MonoClass* klass)
 	m_Callback->OnSequencerPause = MonoRuntime::Instance()->FindMethod(klass, "OnSequencerPause", -1);
 	m_Callback->OnSequencerStop = MonoRuntime::Instance()->FindMethod(klass, "OnSequencerStop", -1);
 
+	m_Callback->OnStartOnlieGameComplete = MonoRuntime::Instance()->FindMethod(klass, "OnStartOnlieGameComplete", 1);
+	m_Callback->OnFindOnlieGameComplete = MonoRuntime::Instance()->FindMethod(klass, "OnFindOnlieGameComplete", 1);
+	m_Callback->OnJoinOnlieGameComplete = MonoRuntime::Instance()->FindMethod(klass, "OnJoinOnlieGameComplete", 1);
+	m_Callback->OnDestroyOnlieGameComplete = MonoRuntime::Instance()->FindMethod(klass, "OnDestroyOnlieGameComplete", 1);
+
 
 	g_CallbackTable.Add(klass,m_Callback);
 

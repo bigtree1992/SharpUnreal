@@ -46,6 +46,11 @@ struct MonoCallback
 	_MonoMethod* OnSequencerPause;
 	_MonoMethod* OnSequencerStop;
 
+	_MonoMethod* OnStartOnlieGameComplete;
+	_MonoMethod* OnFindOnlieGameComplete;
+	_MonoMethod* OnJoinOnlieGameComplete;
+	_MonoMethod* OnDestroyOnlieGameComplete;
+
 	void Clear() 
 	{
 		OnRegister = NULL;
@@ -81,6 +86,11 @@ struct MonoCallback
 		OnSequencerPlay = NULL;
 		OnSequencerPause = NULL;
 		OnSequencerStop = NULL;
+
+		OnStartOnlieGameComplete = NULL;
+		OnFindOnlieGameComplete = NULL;
+		OnJoinOnlieGameComplete = NULL;
+		OnDestroyOnlieGameComplete = NULL;
 	}
 };
 

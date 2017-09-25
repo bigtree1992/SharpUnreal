@@ -105,6 +105,39 @@ static mono_bool UnrealEngine_ActorComponent_HasTag(UActorComponent* _this, Mono
 	return _this->ComponentHasTag(tag_name);
 }
 
+
+static void UnrealEngine_ActorComponent_AddTag(UActorComponent* _this, MonoString* tag)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] AddTag But _this is NULL."));
+		return;
+	}
+	if (tag == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] AddTag But tag is NULL."));
+		return;
+	}
+	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	_this->ComponentTags.Add(tag_name);
+}
+
+static void UnrealEngine_ActorComponent_RemoveTag(UActorComponent* _this, MonoString* tag)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] RemoveTag But _this is NULL."));
+		return;
+	}
+	if (tag == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] RemoveTag But tag is NULL."));
+		return;
+	}
+	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	_this->ComponentTags.Remove(tag_name);
+}
+
 static MonoString* UnrealEngine_ActorComponent_GetName(UActorComponent* _this)
 {
 	if (_this == NULL)
@@ -171,6 +204,28 @@ static void UnrealEngine_MonoComponent_SendEventWithInt(UMonoComponent* _this, M
 	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
 }
 
+static ENetRole UnrealEngine_NetComponent_GetRole(UMonoComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] GetRole But _this is NULL."));
+		return ROLE_None;
+	}
+
+	return _this->GetOwnerRole();
+}
+
+static bool UnrealEngine_NetComponent_IsServer(UMonoComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] IsServer But _this is NULL."));
+		return ROLE_None;
+	}
+
+	return _this->GetOwner()->GetWorld()->IsServer();
+}
+
 static void UnrealEngine_NetComponent_CallOnServer(UMonoComponent* _this, int function_id)
 {
 	if (_this == NULL)
@@ -202,6 +257,105 @@ static void UnrealEngine_NetComponent_CallOnAll(UMonoComponent* _this, int funct
 	}
 
 	_this->CallOnAll(function_id);
+}
+
+static void UnrealEngine_NetComponent_CallOnServerWithFloat(UMonoComponent* _this, int function_id, float data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithFloat But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithFloat(function_id,data);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithFloat(UMonoComponent* _this, int function_id, float data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithFloat But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithFloat(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithFloat(UMonoComponent* _this, int function_id, float data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithFloat But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithFloat(function_id,data);
+}
+
+static void UnrealEngine_NetComponent_CallOnServerWithVector(UMonoComponent* _this, int function_id, FVector data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithVector But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithVector(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithVector(UMonoComponent* _this, int function_id, FVector data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithVector But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithVector(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithVector(UMonoComponent* _this, int function_id, FVector data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithVector But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithVector(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnServerWithRotator(UMonoComponent* _this, int function_id, FRotator data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithRotator But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithRotator(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithRotator(UMonoComponent* _this, int function_id, FRotator data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithRotator But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithRotator(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithRotator(UMonoComponent* _this, int function_id, FRotator data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithRotator But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithRotator(function_id, data);
 }
 
 #endif
@@ -2902,6 +3056,10 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_SetTickableWhenPaused));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_HasTag",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_HasTag));
+	mono_add_internal_call("UnrealEngine.ActorComponent::_AddTag",
+		reinterpret_cast<void*>(UnrealEngine_ActorComponent_AddTag));
+	mono_add_internal_call("UnrealEngine.ActorComponent::_RemoveTag",
+		reinterpret_cast<void*>(UnrealEngine_ActorComponent_RemoveTag));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName", 
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
 	//注册MonoComponent的函数
@@ -2912,12 +3070,38 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithInt",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithInt));
 	//注册NetComponent的函数
+	mono_add_internal_call("UnrealEngine.NetComponent::_GetRole",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_GetRole));
+	mono_add_internal_call("UnrealEngine.NetComponent::_IsServer",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_IsServer));
+
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServer",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServer));
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClient",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClient));
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAll",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAll));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithFloat",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithFloat));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithFloat",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithFloat));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithFloat",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithFloat));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithVector",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithVector));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithVector",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithVector));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithVector",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithVector));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithRotator",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithRotator));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithRotator",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithRotator));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithRotator",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithRotator));
 
 	#endif
 	

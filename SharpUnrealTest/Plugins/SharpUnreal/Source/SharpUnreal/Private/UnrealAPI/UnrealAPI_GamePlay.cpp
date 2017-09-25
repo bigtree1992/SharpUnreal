@@ -23,6 +23,57 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
+
+static mono_bool UnrealEngine_Actor_HasTag(AActor* _this, MonoString* tag)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] HasTag But _this is NULL."));
+		return false;
+	}
+	if (tag == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] HasTag But tag is NULL."));
+		return false;
+	}
+	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	return _this->ActorHasTag(tag_name);
+}
+
+
+static void UnrealEngine_Actor_AddTag(AActor* _this, MonoString* tag)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] AddTag But _this is NULL."));
+		return;
+	}
+	if (tag == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] AddTag But tag is NULL."));
+		return;
+	}
+	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	_this->Tags.Add(tag_name);
+}
+
+
+static void UnrealEngine_Actor_RemoveTag(AActor* _this, MonoString* tag)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] RemoveTag But _this is NULL."));
+		return;
+	}
+	if (tag == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] RemoveTag But tag is NULL."));
+		return;
+	}
+	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	_this->Tags.Remove(tag_name);
+}
+
 static mono_bool UnrealEngine_Actor_GetHiddenInGame(AActor* _this)
 {
 	if (_this == NULL) 
@@ -744,6 +795,13 @@ static void UnrealEngine_AIController_SetFocusActor(AAIController* _this, AActor
 
 void UnrealAPI_GamePlay::RegisterAPI()
 {
+	mono_add_internal_call("UnrealEngine.Actor::_HasTag",
+		reinterpret_cast<void*>(UnrealEngine_Actor_HasTag));
+	mono_add_internal_call("UnrealEngine.Actor::_AddTag",
+		reinterpret_cast<void*>(UnrealEngine_Actor_AddTag));
+	mono_add_internal_call("UnrealEngine.Actor::_RemoveTag",
+		reinterpret_cast<void*>(UnrealEngine_Actor_RemoveTag));
+
 	mono_add_internal_call("UnrealEngine.Actor::_GetHiddenInGame",
 		reinterpret_cast<void*>(UnrealEngine_Actor_GetHiddenInGame));
 	mono_add_internal_call("UnrealEngine.Actor::_SetHiddenInGame",

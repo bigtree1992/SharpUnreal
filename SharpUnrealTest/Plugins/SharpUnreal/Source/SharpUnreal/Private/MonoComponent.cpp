@@ -4,6 +4,9 @@
 #include "MonoRuntime.h"
 #include "MonoCallbackTable.h"
 #include "NetCallbackTable.h"
+#include "Engine/LocalPlayer.h"
+#include "GameFramework/GameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "mono/metadata/object.h"
 
@@ -12,6 +15,12 @@ UMonoComponent::UMonoComponent()
 	bWantsInitializeComponent = true;	
 	PrimaryComponentTick.bCanEverTick = false;
 	m_MonoComponent = NULL;
+
+	OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(this, &UMonoComponent::OnCreateSessionComplete);
+	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UMonoComponent::OnDestroySessionComplete);
+	OnFindSessionsCompleteDelegate = FOnFindSessionsCompleteDelegate::CreateUObject(this, &UMonoComponent::OnFindSessionsComplete);
+	OnJoinSessionCompleteDelegate = FOnJoinSessionCompleteDelegate::CreateUObject(this, &UMonoComponent::OnJoinSessionComplete);
+	OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(this, &UMonoComponent::OnStartOnlineGameComplete);
 	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] ctor: %s"),*GetName());
 }
 
@@ -574,4 +583,422 @@ void UMonoComponent::CallOnAll_Implementation(int id)
 
 	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, NULL);
+}
+
+bool UMonoComponent::CallOnServerWithFloat_Validate(int id, float data)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithFloat_Implementation(int id, float data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithFloat_Implementation(int id, float data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithFloat_Implementation(int id, float data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+bool UMonoComponent::CallOnServerWithVector_Validate(int id, FVector data)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithVector_Implementation(int id, FVector data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithVector_Implementation(int id, FVector data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithVector_Implementation(int id, FVector data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+bool UMonoComponent::CallOnServerWithRotator_Validate(int id, FRotator data)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithRotator_Implementation(int id, FRotator data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithRotator_Implementation(int id, FRotator data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithRotator_Implementation(int id, FRotator data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+
+bool UMonoComponent::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName)
+{
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+
+		if (Sessions.IsValid() && UserId.IsValid())
+		{
+			MySessionSettings = MakeShareable(new FOnlineSessionSettings());
+			MySessionSettings->bIsLANMatch = bIsLAN;
+			MySessionSettings->bUsesPresence = bIsPresence;
+			MySessionSettings->NumPublicConnections = MaxNumPlayers;
+			MySessionSettings->NumPrivateConnections = 0;
+			MySessionSettings->bAllowInvites = true;
+			MySessionSettings->bAllowJoinInProgress = true;
+			MySessionSettings->bShouldAdvertise = true;
+			MySessionSettings->bAllowJoinViaPresence = true;
+			MySessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
+
+			MySessionSettings->Set(SETTING_MAPNAME, mapName, EOnlineDataAdvertisementType::ViaOnlineService);
+			m_MapName = mapName;
+			OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegate);
+			return Sessions->CreateSession(*UserId, SessionName, *MySessionSettings);
+		}
+	}
+	else
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] HostSession But No OnlineSubsytem found!"));
+	}
+
+	return false;
+}
+
+void UMonoComponent::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful)
+{
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid())
+		{
+			Sessions->ClearOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegateHandle);
+			if (bWasSuccessful)
+			{
+				OnStartSessionCompleteDelegateHandle = Sessions->AddOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegate);
+				Sessions->StartSession(SessionName);
+			}
+		}
+
+	}
+}
+
+void UMonoComponent::OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful)
+{
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid())
+		{
+			Sessions->ClearOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegateHandle);
+		}
+	}
+
+	OnMyStartOnlineGameComplete(bWasSuccessful);
+	if (bWasSuccessful)
+	{
+		UGameplayStatics::OpenLevel(GetWorld(), FName(*m_MapName), true, "listen");
+	}
+}
+
+void UMonoComponent::FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence)
+{
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid() && UserId.IsValid())
+		{
+			MySessionSearch = MakeShareable(new FOnlineSessionSearch());
+			MySessionSearch->bIsLanQuery = bIsLAN;
+			MySessionSearch->MaxSearchResults = 20;
+			MySessionSearch->PingBucketSize = 50;
+			if (bIsPresence)
+			{
+				MySessionSearch->QuerySettings.Set(SEARCH_PRESENCE, bIsPresence, EOnlineComparisonOp::Equals);
+			}
+			TSharedRef<FOnlineSessionSearch> SearchSettingsRef = MySessionSearch.ToSharedRef();
+			OnFindSessionsCompleteDelegateHandle = Sessions->AddOnFindSessionsCompleteDelegate_Handle(OnFindSessionsCompleteDelegate);
+			Sessions->FindSessions(*UserId, SearchSettingsRef);
+		}
+	}
+	else
+	{
+		OnFindSessionsComplete(false);
+	}
+}
+
+void UMonoComponent::OnFindSessionsComplete(bool bWasSuccessful)
+{
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid())
+		{
+			Sessions->ClearOnFindSessionsCompleteDelegate_Handle(OnFindSessionsCompleteDelegateHandle);
+		}
+	}
+	OnMyFindOnlineGameComplete(bWasSuccessful);
+}
+
+
+void UMonoComponent::DoJoinSession(TSharedPtr<const FUniqueNetId> UserId)
+{
+	FOnlineSessionSearchResult SearchResult;
+	if (MySessionSearch->SearchResults.Num() > 0)
+	{
+		SearchResult = MySessionSearch->SearchResults[0];
+		JoinSession(UserId, GameSessionName, SearchResult);
+	}
+}
+
+
+bool UMonoComponent::JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult)
+{
+	bool bSuccessful = false;
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid() && UserId.IsValid())
+		{
+			OnJoinSessionCompleteDelegateHandle = Sessions->AddOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegate);
+			bSuccessful = Sessions->JoinSession(*UserId, SessionName, SearchResult);
+		}
+	}
+
+	return bSuccessful;
+}
+
+void UMonoComponent::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+{
+	bool bSuccess = false;
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid())
+		{
+			Sessions->ClearOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegateHandle);
+			APlayerController * const PlayerController = GWorld->GetGameInstance()->GetFirstLocalPlayerController();
+			FString TravelURL;
+			if (PlayerController && Sessions->GetResolvedConnectString(SessionName, TravelURL))
+			{
+				PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
+				bSuccess = true;
+			}
+		}
+	}
+	OnMyJoinOnlineGameComplete(bSuccess);
+}
+
+void UMonoComponent::DestroySession()
+{
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid())
+		{
+			OnDestroySessionCompleteDelegateHandle = Sessions->AddOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegate);
+			Sessions->DestroySession(GameSessionName);
+		}
+	}
+}
+
+void UMonoComponent::OnDestroySessionComplete(FName SessionName, bool bWasSuccessful)
+{
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		if (Sessions.IsValid())
+		{
+			Sessions->ClearOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegateHandle);
+			if (bWasSuccessful)
+			{
+				//TODO open a new map or close the game
+			}
+		}
+	}
+	OnMyDestroyOnlineGameComplete(bWasSuccessful);
+}
+
+void UMonoComponent::DestroySessionAndLeaveGame()
+{
+	DestroySession();
+}
+
+void UMonoComponent::FindOnlineGames()
+{
+	ULocalPlayer* const Player = GWorld->GetGameInstance()->GetFirstGamePlayer();
+	if (Player == nullptr) {
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] FindOnlineGames But GetFirstGamePlayer is null"));
+	}
+
+	FindSessions(Player->GetPreferredUniqueNetId(), true, true);
+}
+
+void UMonoComponent::StartOnlineGame(FString mapName, int32 playerNum)
+{
+	ULocalPlayer* const Player = GWorld->GetGameInstance()->GetFirstGamePlayer();
+	if (Player == nullptr) {
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] StartOnlineGame But GetFirstGamePlayer is null"));
+	}
+	HostSession(Player->GetPreferredUniqueNetId(), GameSessionName, true, true, playerNum, mapName);
+}
+
+void UMonoComponent::JoinOnlineGame()
+{
+	ULocalPlayer* const Player = GWorld->GetGameInstance()->GetFirstGamePlayer();
+	DoJoinSession(Player->GetPreferredUniqueNetId());
+}
+
+int32 UMonoComponent::GetOnlineGamePlayerNum()
+{
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+		FNamedOnlineSession *NamedSession = Sessions->GetNamedSession(GameSessionName);
+		if (NamedSession == nullptr) {
+			return 0;
+		}
+		return (NamedSession->RegisteredPlayers).Num();
+	}
+	return 0;
+}
+
+void UMonoComponent::OnMyStartOnlineGameComplete(bool bSuccess)
+{
+	if (m_MonoComponent != NULL)
+	{
+		void *args[1];
+		args[0] = &bSuccess;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnStartOnlieGameComplete, m_MonoComponent, args);
+	}
+}
+
+void UMonoComponent::OnMyFindOnlineGameComplete(bool bSuccess)
+{
+	if (m_MonoComponent != NULL)
+	{
+		void *args[1];
+		args[0] = &bSuccess;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnFindOnlieGameComplete, m_MonoComponent, args);
+	}
+}
+
+void UMonoComponent::OnMyJoinOnlineGameComplete(bool bSuccess)
+{
+	if (m_MonoComponent != NULL)
+	{
+		void *args[1];
+		args[0] = &bSuccess;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnJoinOnlieGameComplete, m_MonoComponent, args);
+	}
+}
+
+void UMonoComponent::OnMyDestroyOnlineGameComplete(bool bSuccess)
+{
+	if (m_MonoComponent != NULL)
+	{
+		void *args[1];
+		args[0] = &bSuccess;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnDestroyOnlieGameComplete, m_MonoComponent, args);
+	}
 }
