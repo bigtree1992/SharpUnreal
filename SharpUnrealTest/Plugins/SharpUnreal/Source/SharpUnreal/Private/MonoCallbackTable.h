@@ -20,6 +20,7 @@ struct MonoCallback
 	_MonoMethod* Tick;
 	_MonoMethod* OnEvent;
 	_MonoMethod* OnEventWithInt;
+	_MonoMethod* OnEventWithFloat;
 	_MonoMethod* OnEventWithString;
 	_MonoMethod* OnEventWithVector;
 	
@@ -46,6 +47,11 @@ struct MonoCallback
 	_MonoMethod* OnSequencerPause;
 	_MonoMethod* OnSequencerStop;
 
+	_MonoMethod* OnStartOnlieGameComplete;
+	_MonoMethod* OnFindOnlieGameComplete;
+	_MonoMethod* OnJoinOnlieGameComplete;
+	_MonoMethod* OnDestroyOnlieGameComplete;
+
 	void Clear() 
 	{
 		OnRegister = NULL;
@@ -59,6 +65,7 @@ struct MonoCallback
 		OnEventWithInt = NULL;
 		OnEventWithString = NULL;
 		OnEventWithVector = NULL;
+		OnEventWithFloat = NULL;
 
 		OnAppDeactivate = NULL;
 		OnAppHasReactivated = NULL;
@@ -81,6 +88,11 @@ struct MonoCallback
 		OnSequencerPlay = NULL;
 		OnSequencerPause = NULL;
 		OnSequencerStop = NULL;
+
+		OnStartOnlieGameComplete = NULL;
+		OnFindOnlieGameComplete = NULL;
+		OnJoinOnlieGameComplete = NULL;
+		OnDestroyOnlieGameComplete = NULL;
 	}
 };
 

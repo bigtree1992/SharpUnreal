@@ -59,6 +59,12 @@ static void UnrealEngine_Log_Error(MonoString* content)
 	GLog->Logf(ELogVerbosity::Error, *FString(mono_string_to_utf16(content)));
 }
 
+//Print类函数注册
+static void UnrealEngine_Log_Print(MonoString* content)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *FString(mono_string_to_utf16(content)));
+}
+
 //World类函数注册
 static MonoString* UnrealEngine_World_GetCurrentLevel() 
 {	
@@ -214,7 +220,6 @@ static void UnrealEngine_Resource_GC()
 	GWorld->GetWorld()->ForceGarbageCollection(true);
 }
 
-
 void UnrealAPI_Engine::RegisterAPI()
 {
 	mono_trace_set_log_handler(MonoLog, NULL);
@@ -227,6 +232,8 @@ void UnrealAPI_Engine::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_Log_Warning));
 	mono_add_internal_call("UnrealEngine.Log::Error", 
 		reinterpret_cast<void*>(UnrealEngine_Log_Error));
+	mono_add_internal_call("UnrealEngine.Log::Print",
+		reinterpret_cast<void*>(UnrealEngine_Log_Print));
 
 	mono_add_internal_call("UnrealEngine.World::GetCurrentLevel", 
 		reinterpret_cast<void*>(UnrealEngine_World_GetCurrentLevel));

@@ -12,6 +12,8 @@ namespace UnrealEngine
         public extern static void Warning(string content);        
         [MethodImpl(MethodImplOptions.InternalCall)]
         public extern static void Error(string content);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        public extern static void Print(string content);
 
     }
 }

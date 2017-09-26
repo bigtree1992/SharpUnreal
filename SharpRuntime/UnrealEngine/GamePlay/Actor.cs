@@ -13,7 +13,22 @@ namespace UnrealEngine
         {
             NativeHandler = handler;
         }
-        
+
+        public bool HasTag(string tag)
+        {
+            return _HasTag(NativeHandler, tag);
+        }
+
+        public void AddTag(string tag)
+        {
+            _AddTag(NativeHandler, tag);
+        }
+
+        public void RemoveTag(string tag)
+        {
+            _RemoveTag(NativeHandler, tag);
+        }
+
         /// <summary>
         /// 设置跟获取是否隐藏
         /// </summary>
@@ -171,6 +186,12 @@ namespace UnrealEngine
             return property;
         }
 
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static bool _HasTag(IntPtr handler, string tag);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _AddTag(IntPtr handler, string tag);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _RemoveTag(IntPtr handler, string tag);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetSequencer(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]

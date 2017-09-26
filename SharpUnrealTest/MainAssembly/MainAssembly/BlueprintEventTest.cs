@@ -8,6 +8,10 @@ namespace MainAssembly
     /// </summary>
     public class BlueprintEventTest : MonoComponent
     {
-
+        public override void OnEventWithFloat(string evt, float data)
+        {
+            base.OnEventWithFloat(evt, data);
+            Log.Print("[BlueprintEventTest] evt:" + evt + ",data:" + data);
+        }
     }
 }

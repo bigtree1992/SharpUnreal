@@ -172,4 +172,17 @@ namespace UnrealEngine
         /** Use the global physics project setting. */
         UseGlobalPhysicsSetting = 4
     }
+
+    public enum ENetRole
+    {
+        /** No role at all. */
+        ROLE_None,
+        /** Locally simulated proxy of this actor. */
+        ROLE_SimulatedProxy,
+        /** Locally autonomous proxy of this actor. */
+        ROLE_AutonomousProxy,
+        /** Authoritative control over the actor. */
+        ROLE_Authority,
+        ROLE_MAX,
+    };
 }

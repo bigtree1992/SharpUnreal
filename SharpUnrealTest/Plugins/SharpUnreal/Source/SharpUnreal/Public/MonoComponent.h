@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Online.h"
 #include "MonoComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMonoEvent,const FString&,Event);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMonoEventWithString,const FString&,Event,const FString&,Data);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMonoEventWithInt,const FString&,Event,int,Data);
+
 
 struct _MonoObject;
 struct MonoCallback;
@@ -48,6 +50,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
 	void SendEventToMonoWithInt(const FString& Event,int data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendEventToMonoWithFloat(const FString& Event, float data);
 
 	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
 	void SendEventToMonoWithString(const FString& Event,const FString& data);
@@ -118,6 +123,46 @@ public:
 	UFUNCTION(NetMulticast, reliable)
 	void CallOnAll(int id);
 
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithFloat(int id,float data);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithFloat(int id,float data);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithFloat(int id,float data);
+
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithVector(int id, FVector data);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithVector(int id, FVector data);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithVector(int id, FVector data);
+
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithRotator(int id, FRotator data);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithRotator(int id, FRotator data);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithRotator(int id, FRotator data);
+
+	//OnlineSystem Call Function
+	void StartOnlineGame(FString mapName, int32 playerNum);
+	void FindOnlineGames();
+	void JoinOnlineGame();
+	void DestroySessionAndLeaveGame();
+	int32 GetOnlineGamePlayerNum();
+	//OnlineSystem CallBack Function
+	void OnMyStartOnlineGameComplete(bool bSuccess);
+	void OnMyFindOnlineGameComplete(bool bSuccess);
+	void OnMyJoinOnlineGameComplete(bool bSuccess);
+	void OnMyDestroyOnlineGameComplete(bool bSuccess);
+
+
 	#endif
 
 	_MonoObject * GetMonoObject();
@@ -128,6 +173,37 @@ private:
 	
 	_MonoObject * m_MonoComponent;
 	uint32_t m_Handle;
+	FString m_MapName;
 
 	MonoCallback* m_Callback;
+
+protected:
+	TSharedPtr<class FOnlineSessionSettings> MySessionSettings;
+	TSharedPtr<class FOnlineSessionSearch> MySessionSearch;
+
+	FOnCreateSessionCompleteDelegate OnCreateSessionCompleteDelegate;
+	FOnStartSessionCompleteDelegate OnStartSessionCompleteDelegate;
+	FOnFindSessionsCompleteDelegate OnFindSessionsCompleteDelegate;
+	FOnJoinSessionCompleteDelegate OnJoinSessionCompleteDelegate;
+	FOnDestroySessionCompleteDelegate OnDestroySessionCompleteDelegate;
+
+	FDelegateHandle OnCreateSessionCompleteDelegateHandle;
+	FDelegateHandle OnStartSessionCompleteDelegateHandle;
+	FDelegateHandle OnFindSessionsCompleteDelegateHandle;
+	FDelegateHandle OnJoinSessionCompleteDelegateHandle;
+	FDelegateHandle OnDestroySessionCompleteDelegateHandle;
+
+	bool HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName);
+	void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful);
+	void OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful);
+
+	void FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence);
+	void OnFindSessionsComplete(bool bWasSuccessful);
+
+	void DoJoinSession(TSharedPtr<const FUniqueNetId> UserId);
+	bool JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult);
+	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
+
+	void DestroySession();
+	void OnDestroySessionComplete(FName SessionName, bool bWasSuccessful);
 };
