@@ -70,6 +70,7 @@ void MonoRuntime::DestoryInstance()
 			mono_domain_set(s_Instance->m_RootDomain, 0);
 			mono_domain_unload(s_Instance->m_ChildDomain);
 			MonoCallbackTable::DestroyAllCallback();
+			NetCallbackTable::DestroyTable();
 		}
 
 		s_Instance->m_ChildDomain = NULL;
