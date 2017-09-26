@@ -20,6 +20,7 @@ struct MonoCallback
 	_MonoMethod* Tick;
 	_MonoMethod* OnEvent;
 	_MonoMethod* OnEventWithInt;
+	_MonoMethod* OnEventWithFloat;
 	_MonoMethod* OnEventWithString;
 	_MonoMethod* OnEventWithVector;
 	
@@ -64,6 +65,7 @@ struct MonoCallback
 		OnEventWithInt = NULL;
 		OnEventWithString = NULL;
 		OnEventWithVector = NULL;
+		OnEventWithFloat = NULL;
 
 		OnAppDeactivate = NULL;
 		OnAppHasReactivated = NULL;

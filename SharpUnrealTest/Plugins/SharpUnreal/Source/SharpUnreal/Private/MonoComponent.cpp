@@ -209,6 +209,19 @@ void UMonoComponent::SendEventToMonoWithInt(const FString& Event,int data)
 	}
 }
 
+void UMonoComponent::SendEventToMonoWithFloat(const FString& Event, float data)
+{
+	if (m_MonoComponent != NULL)
+	{
+		MonoString* e = mono_string_from_utf16((mono_unichar2*)*Event);
+		void *args[2];
+		args[0] = e;
+		args[1] = &data;
+		MonoRuntime::Instance()->InvokeMethod(
+			m_Callback->OnEventWithFloat, m_MonoComponent, args);
+	}
+}
+
 void UMonoComponent::SendEventToMonoWithString(const FString& Event,const FString& data)
 {
 	if (m_MonoComponent != NULL)

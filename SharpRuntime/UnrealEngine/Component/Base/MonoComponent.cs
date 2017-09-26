@@ -52,6 +52,9 @@ namespace UnrealEngine
         public virtual void OnEventWithInt(string evt,int data)
         {
         }
+        public virtual void OnEventWithFloat(string evt, float data)
+        {
+        }
         /// <summary>
         /// 蓝图调用C#脚本的通用事件函数
         /// </summary>
