@@ -144,6 +144,141 @@ static void UnrealEngine_StringProperty_SetValue(AActor* actor, UStrProperty* pr
 	property->SetPropertyValue(property->ContainerPtrToValuePtr<uint8>(actor), Value);
 }
 
+static FVector UnrealEngine_VectorProperty_GetValue(AActor* actor, UStructProperty* property)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[VectorProperty] GetValue But actor is NULL."));
+		return FVector::ZeroVector;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[VectorProperty] GetValue But property is NULL."));
+		return FVector::ZeroVector;
+	}
+
+	return *property->ContainerPtrToValuePtr<FVector>(property);
+}
+
+static void UnrealEngine_VectorProperty_SetValue(AActor* actor, UStructProperty* property, FVector value)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[VectorProperty] GetValue But actor is NULL."));
+		return;
+	}
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[VectorProperty] GetValue But property is NULL."));
+		return;
+	}
+
+	*property->ContainerPtrToValuePtr<FVector>(property) = value;
+}
+
+static FQuat UnrealEngine_QuatProperty_GetValue(AActor* actor, UStructProperty* property)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[QuatProperty] GetValue But actor is NULL."));
+		return FQuat::Identity;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[QuatProperty] GetValue But property is NULL."));
+		return FQuat::Identity;
+	}
+
+	return *property->ContainerPtrToValuePtr<FQuat>(property);
+}
+
+static void UnrealEngine_QuatProperty_SetValue(AActor* actor, UStructProperty* property, FQuat value)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[QuatProperty] GetValue But actor is NULL."));
+		return;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[QuatProperty] GetValue But property is NULL."));
+		return;
+	}
+
+	*property->ContainerPtrToValuePtr<FQuat>(property) = value;
+}
+
+static FRotator UnrealEngine_RotatorProperty_GetValue(AActor* actor, UStructProperty* property)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[RotatorProperty] GetValue But actor is NULL."));
+		return FRotator::ZeroRotator;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[RotatorProperty] GetValue But property is NULL."));
+		return FRotator::ZeroRotator;
+	}
+
+	return *property->ContainerPtrToValuePtr<FRotator>(property);
+}
+
+static void UnrealEngine_RotatorProperty_SetValue(AActor* actor, UStructProperty* property, FRotator value)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[RotatorProperty] GetValue But actor is NULL."));
+		return;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[RotatorProperty] GetValue But property is NULL."));
+		return;
+	}
+
+	*property->ContainerPtrToValuePtr<FRotator>(property) = value;
+}
+
+static FTransform UnrealEngine_TransformProperty_GetValue(AActor* actor, UStructProperty* property)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TransformProperty] GetValue But actor is NULL."));
+		return FTransform::Identity;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TransformProperty] GetValue But property is NULL."));
+		return FTransform::Identity;
+	}
+
+	return *property->ContainerPtrToValuePtr<FTransform>(property);
+}
+
+static void UnrealEngine_TransformProperty_SetValue(AActor* actor, UStructProperty* property, FTransform value)
+{
+	if (actor == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TransformProperty] GetValue But actor is NULL."));
+		return;
+	}
+
+	if (property == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[TransformProperty] GetValue But property is NULL."));
+		return;
+	}
+
+	*property->ContainerPtrToValuePtr<FTransform>(property) = value;
+}
+
 void UnrealAPI_Object::RegisterAPI()
 {
 	mono_add_internal_call("UnrealEngine.UObject::_GetIsRooted",
@@ -165,6 +300,26 @@ void UnrealAPI_Object::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_StringProperty_GetValue));
 	mono_add_internal_call("UnrealEngine.StringProperty::_SetValue",
 		reinterpret_cast<void*>(UnrealEngine_StringProperty_SetValue));
+
+	mono_add_internal_call("UnrealEngine.VectorProperty::_GetValue",
+		reinterpret_cast<void*>(UnrealEngine_VectorProperty_GetValue));
+	mono_add_internal_call("UnrealEngine.VectorProperty::_SetValue",
+		reinterpret_cast<void*>(UnrealEngine_VectorProperty_SetValue));
+
+	mono_add_internal_call("UnrealEngine.QuatProperty::_GetValue",
+		reinterpret_cast<void*>(UnrealEngine_QuatProperty_GetValue));
+	mono_add_internal_call("UnrealEngine.QuatProperty::_SetValue",
+		reinterpret_cast<void*>(UnrealEngine_QuatProperty_SetValue));
+
+	mono_add_internal_call("UnrealEngine.RotatorProperty::_GetValue",
+		reinterpret_cast<void*>(UnrealEngine_RotatorProperty_GetValue));
+	mono_add_internal_call("UnrealEngine.RotatorProperty::_SetValue",
+		reinterpret_cast<void*>(UnrealEngine_RotatorProperty_SetValue));
+	
+	mono_add_internal_call("UnrealEngine.TransformProperty::_GetValue",
+		reinterpret_cast<void*>(UnrealEngine_TransformProperty_GetValue));
+	mono_add_internal_call("UnrealEngine.TransformProperty::_SetValue",
+		reinterpret_cast<void*>(UnrealEngine_TransformProperty_SetValue));
 
 }
 

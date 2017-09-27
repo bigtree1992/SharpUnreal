@@ -281,6 +281,90 @@ static UStrProperty* UnrealEngine_Actor_FindStringProperty(AActor* _this, MonoSt
 	return StringProperty;
 }
 
+static UStructProperty* UnrealEngine_Actor_FindVectorProperty(AActor* _this, MonoString* name)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
+	UStructProperty* VectorProperty = Cast<UStructProperty>(property);
+
+	return VectorProperty;
+}
+
+static UStructProperty* UnrealEngine_Actor_FindRotatorProperty(AActor* _this, MonoString* name)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
+	UStructProperty* RotatorProperty = Cast<UStructProperty>(property);
+
+	return RotatorProperty;
+}
+
+static UStructProperty* UnrealEngine_Actor_FindQuatProperty(AActor* _this, MonoString* name)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
+	UStructProperty* QuatProperty = Cast<UStructProperty>(property);
+
+	return QuatProperty;
+}
+
+static UStructProperty* UnrealEngine_Actor_FindTransformProperty(AActor* _this, MonoString* name)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		return NULL;
+	}
+
+	if (name == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		return NULL;
+	}
+
+	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
+	UStructProperty* TransformProperty = Cast<UStructProperty>(property);
+
+	return TransformProperty;
+}
+
 static void UnrealEngine_Pawn_AddMovementInput(APawn* _this, FVector worldDir, float scaleValue, mono_bool force)
 {
 	if (_this == NULL)
@@ -829,6 +913,14 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindFloatProperty));
 	mono_add_internal_call("UnrealEngine.Actor::_FindStringProperty",
 		reinterpret_cast<void*>(UnrealEngine_Actor_FindStringProperty));
+	mono_add_internal_call("UnrealEngine.Actor::_FindVectorProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindVectorProperty));
+	mono_add_internal_call("UnrealEngine.Actor::_FindRotatorProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindRotatorProperty));
+	mono_add_internal_call("UnrealEngine.Actor::_FindQuatProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindQuatProperty));
+	mono_add_internal_call("UnrealEngine.Actor::_FindTransformProperty",
+		reinterpret_cast<void*>(UnrealEngine_Actor_FindTransformProperty));
 
 
 	mono_add_internal_call("UnrealEngine.Pawn::_AddMovementInput",
