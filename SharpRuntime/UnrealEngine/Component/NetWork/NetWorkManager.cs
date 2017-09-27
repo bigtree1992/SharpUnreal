@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace UnrealEngine
 {
-    public class NetWorkBehavior: MonoComponent
+    public class NetWorkManager: MonoComponent
     {
         #region CallBack
 

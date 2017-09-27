@@ -53,7 +53,7 @@
     <Compile Include="Component\Movement\InterpToMovementComponent.cs" />
     <Compile Include="Component\Movement\NavMovementComponent.cs" />
     <Compile Include="Component\Movement\PawnMovementComponent.cs" />
-    <Compile Include="Component\NetWork\NetWorkBehavior.cs" />
+    <Compile Include="Component\NetWork\NetWorkManager.cs" />
     <Compile Include="Component\Physics\DestructibleComponent.cs" />
     <Compile Include="Component\Physics\PhysicsConstraint.cs" />
     <Compile Include="Component\Physics\PhysicsHandleComponent.cs" />
