@@ -15,7 +15,7 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
-static void UnrealEngine_NetWorkBehavior_StartOnlineGame(UMonoComponent* _this, MonoString* mapName, int32 playerNum)
+static void UnrealEngine_NetWorkManager_StartOnlineGame(UMonoComponent* _this, MonoString* mapName, int32 playerNum)
 {
 	if (_this == NULL)
 	{
@@ -33,7 +33,7 @@ static void UnrealEngine_NetWorkBehavior_StartOnlineGame(UMonoComponent* _this, 
 	_this->StartOnlineGame(map_name, playerNum);
 }
 
-static void UnrealEngine_NetWorkBehavior_FindOnlineGame(UMonoComponent* _this)
+static void UnrealEngine_NetWorkManager_FindOnlineGame(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -44,7 +44,7 @@ static void UnrealEngine_NetWorkBehavior_FindOnlineGame(UMonoComponent* _this)
 	_this->FindOnlineGames();
 }
 
-static void UnrealEngine_NetWorkBehavior_JoinOnlineGame(UMonoComponent* _this)
+static void UnrealEngine_NetWorkManager_JoinOnlineGame(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -55,7 +55,7 @@ static void UnrealEngine_NetWorkBehavior_JoinOnlineGame(UMonoComponent* _this)
 	_this->JoinOnlineGame();
 }
 
-static void UnrealEngine_NetWorkBehavior_DestroySessionAndLeaveGame(UMonoComponent* _this)
+static void UnrealEngine_NetWorkManager_DestroySessionAndLeaveGame(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -66,7 +66,7 @@ static void UnrealEngine_NetWorkBehavior_DestroySessionAndLeaveGame(UMonoCompone
 	_this->DestroySessionAndLeaveGame();
 }
 
-static int32 UnrealEngine_NetWorkBehavior_GetOnlineGamePlayerNum(UMonoComponent* _this)
+static int32 UnrealEngine_NetWorkManager_GetOnlineGamePlayerNum(UMonoComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -79,15 +79,15 @@ static int32 UnrealEngine_NetWorkBehavior_GetOnlineGamePlayerNum(UMonoComponent*
 
 void UnrealAPI_NetWork::RegisterAPI() 
 {
-	mono_add_internal_call("UnrealEngine.NetWorkBehavior::_StartOnlineGame",
-		reinterpret_cast<void*>(UnrealEngine_NetWorkBehavior_StartOnlineGame));
-	mono_add_internal_call("UnrealEngine.NetWorkBehavior::_FindOnlineGame",
-		reinterpret_cast<void*>(UnrealEngine_NetWorkBehavior_FindOnlineGame));
-	mono_add_internal_call("UnrealEngine.NetWorkBehavior::_JoinOnlineGame",
-		reinterpret_cast<void*>(UnrealEngine_NetWorkBehavior_JoinOnlineGame));
-	mono_add_internal_call("UnrealEngine.NetWorkBehavior::_DestroySessionAndLeaveGame",
-		reinterpret_cast<void*>(UnrealEngine_NetWorkBehavior_DestroySessionAndLeaveGame));
-	mono_add_internal_call("UnrealEngine.NetWorkBehavior::_GetOnlineGamePlayerNum",
-		reinterpret_cast<void*>(UnrealEngine_NetWorkBehavior_GetOnlineGamePlayerNum));
+	mono_add_internal_call("UnrealEngine.NetWorkManager::_StartOnlineGame",
+		reinterpret_cast<void*>(UnrealEngine_NetWorkManager_StartOnlineGame));
+	mono_add_internal_call("UnrealEngine.NetWorkManager::_FindOnlineGame",
+		reinterpret_cast<void*>(UnrealEngine_NetWorkManager_FindOnlineGame));
+	mono_add_internal_call("UnrealEngine.NetWorkManager::_JoinOnlineGame",
+		reinterpret_cast<void*>(UnrealEngine_NetWorkManager_JoinOnlineGame));
+	mono_add_internal_call("UnrealEngine.NetWorkManager::_DestroySessionAndLeaveGame",
+		reinterpret_cast<void*>(UnrealEngine_NetWorkManager_DestroySessionAndLeaveGame));
+	mono_add_internal_call("UnrealEngine.NetWorkManager::_GetOnlineGamePlayerNum",
+		reinterpret_cast<void*>(UnrealEngine_NetWorkManager_GetOnlineGamePlayerNum));
 
 }

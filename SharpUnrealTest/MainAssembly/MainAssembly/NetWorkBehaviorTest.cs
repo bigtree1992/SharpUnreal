@@ -3,7 +3,7 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
-    public class NetWorkBehaviorTest: NetWorkBehavior
+    public class NetWorkBehaviorTest: NetWorkManager
     {
         protected override void BeginPlay()
         {

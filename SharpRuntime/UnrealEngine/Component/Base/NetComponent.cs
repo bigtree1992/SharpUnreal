@@ -97,7 +97,7 @@ namespace UnrealEngine
             _CallOnClientWithRotator(NativeHandler, fid, data);
         }
 
-        public void CallOnAllWithRotatorr(int fid, Rotator data)
+        public void CallOnAllWithRotator(int fid, Rotator data)
         {
             if (!IsServer())
             {

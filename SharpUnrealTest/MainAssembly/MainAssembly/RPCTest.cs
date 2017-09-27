@@ -37,7 +37,7 @@ namespace MainAssembly
                     break;
                 case "all":
                     if (IsSelf())
-                        CallOnAllWithRotatorr(3, new Rotator(1, 1, 3));
+                        CallOnAllWithRotator(3, new Rotator(1, 1, 3));
                     break;
             }
         }
