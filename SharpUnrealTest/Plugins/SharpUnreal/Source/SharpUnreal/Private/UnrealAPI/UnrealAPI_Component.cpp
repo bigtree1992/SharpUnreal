@@ -440,6 +440,26 @@ static void UnrealEngine_SceneComponent_SetScale(USceneComponent* _this, FVector
 	}
 }
 
+static void UnrealEngine_SceneComponent_AddLocalOffset(USceneComponent* _this, FVector vector)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AddLocalOffset But _this is NULL."));
+		return;
+	}
+	_this->AddLocalOffset(vector);
+}
+
+static void UnrealEngine_SceneComponent_AddLocalRotation(USceneComponent* _this, FRotator rot)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AddLocalRotation But _this is NULL."));
+		return;
+	}
+	_this->AddLocalRotation(rot);
+}
+
 static FVector UnrealEngine_SceneComponent_GetForward(USceneComponent* _this)
 {
 	if (_this == NULL)
@@ -510,14 +530,14 @@ static void UnrealEngine_SceneComponent_SetLocalPosition(USceneComponent* _this,
 	_this->SetRelativeLocation(pos);
 }
 
-static FQuat UnrealEngine_SceneComponent_GetLocalRotation(USceneComponent* _this)
+static FRotator UnrealEngine_SceneComponent_GetLocalRotation(USceneComponent* _this)
 {
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetLocalRotation But _this is NULL."));
-		return FQuat::Identity;
+		return FRotator::ZeroRotator;
 	}
-	return FQuat(_this->RelativeRotation);
+	return _this->RelativeRotation;
 }
 
 static void UnrealEngine_SceneComponent_SetLocalRotation(USceneComponent* _this, FRotator rot)
@@ -3123,6 +3143,10 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetScale));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetScale",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetScale));
+	mono_add_internal_call("UnrealEngine.SceneComponent::_AddLocalOffset",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalOffset));
+	mono_add_internal_call("UnrealEngine.SceneComponent::_AddLocalRotation",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalRotation));
 	
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetForward",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetForward));
