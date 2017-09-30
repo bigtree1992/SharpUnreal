@@ -306,13 +306,13 @@ static UStructProperty* UnrealEngine_Actor_FindRotatorProperty(AActor* _this, Mo
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindRotatorProperty But _this is NULL."));
 		return NULL;
 	}
 
 	if (name == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindRotatorProperty But name is NULL."));
 		return NULL;
 	}
 
@@ -327,13 +327,13 @@ static UStructProperty* UnrealEngine_Actor_FindQuatProperty(AActor* _this, MonoS
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindQuatProperty But _this is NULL."));
 		return NULL;
 	}
 
 	if (name == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindQuatProperty But name is NULL."));
 		return NULL;
 	}
 
@@ -348,13 +348,13 @@ static UStructProperty* UnrealEngine_Actor_FindTransformProperty(AActor* _this, 
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindTransformProperty But _this is NULL."));
 		return NULL;
 	}
 
 	if (name == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindVectorProperty But name is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] FindTransformProperty But name is NULL."));
 		return NULL;
 	}
 

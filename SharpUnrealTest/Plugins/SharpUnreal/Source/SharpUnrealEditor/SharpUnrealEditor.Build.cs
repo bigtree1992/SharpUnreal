@@ -10,7 +10,7 @@ public class SharpUnrealEditor : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "ThirdPart")); }
     }
 
-    private void BuildWithMono(TargetInfo Target)
+    private void BuildWithMono(ReadOnlyTargetRules Target) 
     {
         switch (Target.Platform)
         {
@@ -28,10 +28,9 @@ public class SharpUnrealEditor : ModuleRules
                 throw new BuildException("SharpUnreal current not supported on platform '{0}'", Target.Platform.ToString());
         }
     }
-    public SharpUnrealEditor(TargetInfo Target)
+    public SharpUnrealEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
-		
-		PublicIncludePaths.AddRange(
+        PublicIncludePaths.AddRange(
 			new string[] {
 				"SharpUnrealEditor/Public"
 				// ... add public include paths required here ...

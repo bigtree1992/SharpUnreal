@@ -8,22 +8,42 @@ namespace MainAssembly
     /// </summary>
     public class InputTest : MonoComponent
     {
-        public override void OnEventWithInt(string evt, int data)
+        const int Axis_Horizantal = 0;
+        const int Axis_Vertical = 1;
+
+        private InputComponent m_Input;
+
+        protected override void Initialize()
         {
-            base.OnEventWithInt(evt, data);
-            Log.Error("evt:" + evt + ",data:" + data);
+            base.Initialize();
+            CanEverTick = true;
         }
 
-        public override void OnEventWithString(string evt, string data)
+        protected override void BeginPlay()
         {
-            base.OnEventWithString(evt, data);
-            Log.Error("evt:" + evt + ",data:" + data);
+            base.BeginPlay();
+            Log.Debug("[BeginPlay] " + typeof(InputComponent).Name);
+
+            m_Input = Actor.GetComponent<InputComponent>();
+            Log.Debug("[A] " + m_Input.NativeHandler.ToInt64());
+
+            m_Input.BindAxis("Horizantal", Axis_Horizantal);
+            m_Input.BindAxis("Vertical", Axis_Vertical);
+
         }
 
-        public override void OnEventWithVector(string evt, Vector data)
+        protected override void Tick(float dt)
         {
-            base.OnEventWithVector(evt, data);
-            Log.Error("evt:" + evt + ",data:" + data);
+            base.Tick(dt);
+
+            if(m_Input != null)
+            {
+                Log.Debug("[Vertical] AxisValue : " + m_Input.GetAxisValue(Axis_Vertical));
+                Log.Debug("[Horizantal] AxisValue : " + m_Input.GetAxisValue(Axis_Horizantal));
+            }
+            else
+            {
+            }
         }
     }
 }

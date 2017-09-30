@@ -5,16 +5,15 @@ using System.Collections.Generic;
 
 public class SharpUnrealTestTarget : TargetRules
 {
-	public SharpUnrealTestTarget(TargetInfo Target)
-	{
+	public SharpUnrealTestTarget(TargetInfo Target) : base(Target)
+    {
 		Type = TargetType.Game;
-	}
 
-	//
-	// TargetRules interface.
-	//
+        ExtraModuleNames.Add("SharpUnrealTest");
 
-	public override void SetupBinaries(
+    }
+
+/*	public override void SetupBinaries(
 		TargetInfo Target,
 		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
 		ref List<string> OutExtraModuleNames
@@ -22,4 +21,5 @@ public class SharpUnrealTestTarget : TargetRules
 	{
 		OutExtraModuleNames.AddRange( new string[] { "SharpUnrealTest" } );
 	}
+*/
 }
