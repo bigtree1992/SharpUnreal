@@ -3102,8 +3102,6 @@ static float UnrealEngine_InputComponent_GetAxisValue(UInputComponent* _this,int
 	return _this->GetAxisValue(g_InputAxis[index]);
 }
 
-#endif
-
 void UnrealAPI_Component::RegisterAPI()
 {
 #if 1
