@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+ï»¿#include "SharpUnrealPrivatePCH.h"
 #include "Delegate.h"
 #include "MonoComponent.h"
 #include "MonoRuntime.h"
@@ -91,7 +91,7 @@ bool UMonoComponent::Reload()
 			return false;
 		}
 
-		//ÉèÖÃMono¶ÔÏóµÄ±¾µØ¶ÔÏóÎª×Ô¼º
+		//è®¾ç½®Monoå¯¹è±¡çš„æœ¬åœ°å¯¹è±¡ä¸ºè‡ªå·±
 		void * _this = this;
 		MonoRuntime::Instance()->SetNativeHandler(m_MonoComponent, &_this);
 	}
@@ -103,7 +103,7 @@ bool UMonoComponent::Reload()
 	return true;
 }
 
-//³õÊ¼»¯½Å±¾µÄÊ±ºò¸ù¾ÝÃû×Ö´´½¨Mono¶ÔÏó
+//åˆå§‹åŒ–è„šæœ¬çš„æ—¶å€™æ ¹æ®åå­—åˆ›å»ºMonoå¯¹è±¡
 void UMonoComponent::InitializeComponent() 
 {
 	Super::InitializeComponent();
@@ -111,17 +111,17 @@ void UMonoComponent::InitializeComponent()
 	
 	if (m_MonoComponent != NULL)
 	{
-		//µ÷ÓÃMono³õÊ¼»¯·½·¨
+		//è°ƒç”¨Monoåˆå§‹åŒ–æ–¹æ³•
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->Initialize, m_MonoComponent, NULL);
 	}	
 }
-//Ïú»ÙMono¶ÔÏó
+//é”€æ¯Monoå¯¹è±¡
 void UMonoComponent::UninitializeComponent() 
 {
 	Super::UninitializeComponent();
 	//GLog->Logf(ELogVerbosity::Log, TEXT("[MonoComponent] UninitializeComponent:%s"), *GetName());
-	//Ïú»ÙMono¶ÔÏó
+	//é”€æ¯Monoå¯¹è±¡
 	if (m_MonoComponent != NULL) 
 	{
 		MonoRuntime::Instance()->InvokeMethod(
@@ -300,7 +300,7 @@ void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 {
 	if (m_MonoComponent != NULL)
 	{
-		//²ÎÊý1 ×Ô¼ºµÄ×é¼þ
+		//å‚æ•°1 è‡ªå·±çš„ç»„ä»¶
 		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(self, &HitComponent);
 		if (self == NULL)
@@ -309,7 +309,7 @@ void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 			return;
 		}
 
-		//²ÎÊý2 Åö×²×é¼þ
+		//å‚æ•°2 ç¢°æ’žç»„ä»¶
 		MonoObject* other = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
 		if (other == NULL)
@@ -317,7 +317,7 @@ void UMonoComponent::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
-		//²ÎÊý3 ×÷ÓÃµã
+		//å‚æ•°3 ä½œç”¨ç‚¹
 		FVector impact = Hit.ImpactPoint;
 
 		void *args[3];
@@ -335,7 +335,7 @@ void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComp
 {
 	if (m_MonoComponent != NULL)
 	{
-		//²ÎÊý1 ×Ô¼ºµÄ×é¼þ
+		//å‚æ•°1 è‡ªå·±çš„ç»„ä»¶
 		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(self, &OverlappedComponent);
 		if (self == NULL)
@@ -343,7 +343,7 @@ void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComp
 			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
-		//²ÎÊý2 ´¥·¢×é¼þ
+		//å‚æ•°2 è§¦å‘ç»„ä»¶
 		MonoObject* other = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
 		if (other == NULL)
@@ -351,7 +351,7 @@ void UMonoComponent::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComp
 			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
-		//²ÎÊý2 ×÷ÓÃµã
+		//å‚æ•°2 ä½œç”¨ç‚¹
 		FVector impact = SweepResult.ImpactPoint;
 
 		void *args[3];
@@ -369,7 +369,7 @@ void UMonoComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedCompon
 {
 	if (m_MonoComponent != NULL)
 	{
-		//²ÎÊý1 ×Ô¼ºµÄ×é¼þ
+		//å‚æ•°1 è‡ªå·±çš„ç»„ä»¶
 		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(self, &OverlappedComponent);
 		if (self == NULL)
@@ -377,7 +377,7 @@ void UMonoComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedCompon
 			GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] Create PrimitiveComponent Failed. %s "), *ComponentName);
 			return;
 		}
-		//²ÎÊý2 ´¥·¢×é¼þ
+		//å‚æ•°2 è§¦å‘ç»„ä»¶
 		MonoObject* other = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(other, &OtherComp);
 		if (other == NULL)
@@ -399,7 +399,7 @@ void UMonoComponent::OnComponentWake(UPrimitiveComponent* WakingComponent, FName
 {
 	if (m_MonoComponent != NULL)
 	{
-		//²ÎÊý1 ×Ô¼ºµÄ×é¼þ
+		//å‚æ•°1 è‡ªå·±çš„ç»„ä»¶
 		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(self, &WakingComponent);
 		if (self == NULL)
@@ -422,7 +422,7 @@ void UMonoComponent::OnComponentSleep(UPrimitiveComponent* SleepingComponent, FN
 {
 	if (m_MonoComponent != NULL)
 	{
-		//²ÎÊý1 ×Ô¼ºµÄ×é¼þ
+		//å‚æ•°1 è‡ªå·±çš„ç»„ä»¶
 		MonoObject* self = MonoRuntime::Instance()->CreateObjectFromEngine("PrimitiveComponent");
 		MonoRuntime::Instance()->SetNativeHandler(self, &SleepingComponent);
 		if (self == NULL)

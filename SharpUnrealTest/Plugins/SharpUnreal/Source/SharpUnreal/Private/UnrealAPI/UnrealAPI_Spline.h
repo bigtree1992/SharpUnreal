@@ -1,9 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 /**
-* µ¼³ö¶ÔÓ¦UnrealEngine.dllÖÐSplineÎÄ¼þ¼ÐÖÐµÄAPI
+* å¯¼å‡ºå¯¹åº”UnrealEngine.dllä¸­Splineæ–‡ä»¶å¤¹ä¸­çš„API
 */
 class UnrealAPI_Spline
 {

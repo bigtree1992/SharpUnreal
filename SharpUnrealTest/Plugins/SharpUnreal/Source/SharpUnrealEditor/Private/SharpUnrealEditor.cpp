@@ -1,4 +1,4 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+ï»¿// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
 #include "SharpUnrealEditorPrivatePCH.h"
 #include "IDirectoryWatcher.h"
@@ -12,14 +12,14 @@ void FSharpUnrealEditorModule::StartupModule()
 {
 	GLog->Logf(ELogVerbosity::Log,TEXT("[SharpUnrealEditor] StartupModule."));
 	
-	//×¢²áMonoComponentµÄ×Ô¶¨ÒåEditor
+	//æ³¨å†ŒMonoComponentçš„è‡ªå®šä¹‰Editor
 	auto& PropertyModule =
 		FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 
 	PropertyModule.RegisterCustomClassLayout(FName("MonoComponent"),
 		FOnGetDetailCustomizationInstance::CreateStatic(&FMonoComponentDetails::MakeInstance));
 	PropertyModule.NotifyCustomizationModuleChanged();
-	//×¢²á¼àÌıdllÎÄ¼ş¼ĞµÄ±ä»¯
+	//æ³¨å†Œç›‘å¬dllæ–‡ä»¶å¤¹çš„å˜åŒ–
 	auto& DirWatcherModule =
 		FModuleManager::LoadModuleChecked<FDirectoryWatcherModule>("DirectoryWatcher");
 	auto DirWatcher = DirWatcherModule.Get();
@@ -97,11 +97,11 @@ void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>&
 			auto time = IFileManager::Get().GetTimeStamp(*MainAssemblyPath);
 			auto delta = time - LastAssemblyMotifyTimeStamp;
 			LastAssemblyMotifyTimeStamp = time;
-			//Èç¹û´úÂë¸üĞÂÁË¶øÇÒ±à¼­Æ÷Ã»ÓĞÔÙÔËĞĞµÄ»°
+			//å¦‚æœä»£ç æ›´æ–°äº†è€Œä¸”ç¼–è¾‘å™¨æ²¡æœ‰å†è¿è¡Œçš„è¯
 			if (delta.GetSeconds() > 1 && !IsEditorRunningGame)
 			{				
 				//GLog->Logf(TEXT("[SharpUnrealEditor] FileChanged %s , %d"), *Filename;
-				//ÔÚÕâÀï¿ÉÒÔ½øĞĞMonoµÄdllÖØĞÂ¼ÓÔØÁË
+				//åœ¨è¿™é‡Œå¯ä»¥è¿›è¡ŒMonoçš„dllé‡æ–°åŠ è½½äº†
 				auto& SharpUnreal =
 					FModuleManager::LoadModuleChecked<FSharpUnrealModule>("SharpUnreal");
 				

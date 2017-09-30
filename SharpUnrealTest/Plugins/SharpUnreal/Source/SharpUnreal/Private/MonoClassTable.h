@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 struct _MonoClass;
 /**
- * ±£´æÁËMonoClass¸úUClassµÄ¶ÔÓ¦¹ØÏµ
+ * ä¿å­˜äº†MonoClassè·ŸUClassçš„å¯¹åº”å…³ç³»
  */
 class MonoClassTable
 {

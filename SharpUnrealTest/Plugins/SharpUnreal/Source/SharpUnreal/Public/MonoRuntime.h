@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 struct _MonoObject;
 struct _MonoMethod;
@@ -6,22 +6,22 @@ struct _MonoClass;
 class UMonoComponent;
 
 /**
-* ¹ÜÀíMonoĞéÄâ»úµÄ´´½¨£¬C# dll¼ÓÔØ
+* ç®¡ç†Monoè™šæ‹Ÿæœºçš„åˆ›å»ºï¼ŒC# dllåŠ è½½
 */
 class SHARPUNREAL_API MonoRuntime
 {
 public:
-	//´´½¨Ò»¸öÈ«¾ÖMonoÔËĞĞÊ±
+	//åˆ›å»ºä¸€ä¸ªå…¨å±€Monoè¿è¡Œæ—¶
 	static int CreateInstance();
-	//Ïú»ÙÈ«¾ÖMonoÔËĞĞÊ±
+	//é”€æ¯å…¨å±€Monoè¿è¡Œæ—¶
 	static void DestoryInstance();
-	//»ñÈ¡MonoÔËĞĞÊ±µÄµ¥Àı
+	//è·å–Monoè¿è¡Œæ—¶çš„å•ä¾‹
 	static MonoRuntime* Instance();
-	//ÖØĞÂ¼ÓÔØÖ÷Âß¼­½Å±¾
+	//é‡æ–°åŠ è½½ä¸»é€»è¾‘è„šæœ¬
 	int ReloadAssembly();
-	//¼àÌı±à¼­Æ÷ÏÂµÄ¿ªÊ¼ÓÎÏ·
+	//ç›‘å¬ç¼–è¾‘å™¨ä¸‹çš„å¼€å§‹æ¸¸æˆ
 	void OnBeginPIE(bool bIsSimulating);
-	//¼àÌı±à¼­Æ÷ÏÂµÄ½áÊøÓÎÏ·
+	//ç›‘å¬ç¼–è¾‘å™¨ä¸‹çš„ç»“æŸæ¸¸æˆ
 	void OnEndPIE(bool bIsSimulating);
 
 	TArray<FString> GetAllMonoComponent();

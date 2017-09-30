@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
 /**
- * ÍøÂçÏà¹ØµÄ½Ó¿Ú
+ * ç½‘ç»œç›¸å…³çš„æ¥å£
  */
 class UnrealAPI_NetWork
 {

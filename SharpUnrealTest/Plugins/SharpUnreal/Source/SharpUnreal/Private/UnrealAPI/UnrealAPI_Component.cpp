@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+ï»¿#include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "UnrealAPI_Component.h"
 #include "MonoComponent.h"
@@ -1039,7 +1039,7 @@ static void UnrealEngine_PrimitiveComponent_SetMaterialByName(UPrimitiveComponen
 	_this->SetMaterialByName(name, material);
 }
 
-//ToDo: »¹Ã»ÓĞÊµÏÖ Ó¦¸Ã»»µ½MeshComponent
+//ToDo: è¿˜æ²¡æœ‰å®ç° åº”è¯¥æ¢åˆ°MeshComponent
 static int UnrealEngine_PrimitiveComponent_GetMaterialIndex(UPrimitiveComponent* _this, MonoString* slotName)
 {
 	if (_this == NULL)
@@ -1056,7 +1056,7 @@ static int UnrealEngine_PrimitiveComponent_GetMaterialIndex(UPrimitiveComponent*
 
 	return 0;
 }
-//ToDo: »¹Ã»ÓĞÊµÏÖ Ó¦¸Ã»»µ½MeshComponent
+//ToDo: è¿˜æ²¡æœ‰å®ç° åº”è¯¥æ¢åˆ°MeshComponent
 static mono_bool UnrealEngine_PrimitiveComponent_IsMaterialSlotNameValid(UPrimitiveComponent* _this, MonoString* slotName)
 {
 	if (_this == NULL)
@@ -3105,7 +3105,7 @@ static float UnrealEngine_InputComponent_GetAxisValue(UInputComponent* _this,int
 void UnrealAPI_Component::RegisterAPI()
 {
 #if 1
-	//×¢²áActorComponentµÄº¯Êı
+	//æ³¨å†ŒActorComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetActivited",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetActivited));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_SetActivited",
@@ -3128,14 +3128,14 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_RemoveTag));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
-	//×¢²áMonoComponentµÄº¯Êı
+	//æ³¨å†ŒMonoComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEvent",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEvent));
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithString",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithString));
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithInt",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithInt));
-	//×¢²áNetComponentµÄº¯Êı
+	//æ³¨å†ŒNetComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.NetComponent::_GetRole",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_GetRole));
 	mono_add_internal_call("UnrealEngine.NetComponent::_IsServer",
@@ -3172,7 +3172,7 @@ void UnrealAPI_Component::RegisterAPI()
 #endif
 
 #if 1
-	//×¢²áSceneComponentµÄº¯Êı
+	//æ³¨å†ŒSceneComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetTransform",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetTransform));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetTransform",
@@ -3243,7 +3243,7 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetHiddenInGame));
 #endif
 #if 1
-	//×¢²áAppLifecycleComponentµÄ»Øµ÷
+	//æ³¨å†ŒAppLifecycleComponentçš„å›è°ƒ
 	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppDeactivate",
 		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppDeactivate));
 	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppHasReactivated",
@@ -3257,7 +3257,7 @@ void UnrealAPI_Component::RegisterAPI()
 #endif
 
 #if 1
-	//×¢²áCameraComponentµÄº¯Êı
+	//æ³¨å†ŒCameraComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.CameraComponent::_GetFieldOfView",
 		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetFieldOfView));
 	mono_add_internal_call("UnrealEngine.CameraComponent::_SetFieldOfView",

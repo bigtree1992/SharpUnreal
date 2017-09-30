@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "SharpFunctionLibrary.generated.h"
 
 /**
- * Ö÷ÒªÓÃÓÚÊµÏÖC#ÓëÀ¶Í¼µÄÏà»¥Í¨Ñ¶
+ * ä¸»è¦ç”¨äºå®ç°C#ä¸è“å›¾çš„ç›¸äº’é€šè®¯
  */
 UCLASS(ClassGroup = (SharpUnreal), meta = (BlueprintSpawnableComponent))
 class SHARPUNREAL_API USharpFunctionLibrary : public UBlueprintFunctionLibrary
