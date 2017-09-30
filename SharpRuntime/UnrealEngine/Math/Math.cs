@@ -14,39 +14,39 @@
         public const float INV_PI = (0.31830988618f);
         public const float HALF_PI = (1.57079632679f);
 
-        
+
         // Magic numbers for numerical precision.
-        public const float DELTA	=		(0.00001f);
+        public const float DELTA = (0.00001f);
 
         /**
          * Lengths of normalized vectors (These are half their maximum values
          * to assure that dot products with normalized vectors don't overflow).
          */
-        public const float FLOAT_NORMAL_THRESH	=			(0.0001f);
+        public const float FLOAT_NORMAL_THRESH = (0.0001f);
 
         //
         // Magic numbers for numerical precision.
         //
-        public const float THRESH_POINT_ON_PLANE=			(0.10f);		/* Thickness of plane for front/back/inside test */
-        public const float THRESH_POINT_ON_SIDE	=		(0.20f);		/* Thickness of polygon side's side-plane for point-inside/outside/on side test */
-        public const float THRESH_POINTS_ARE_SAME	=		(0.00002f);	/* Two points are same if within this distance */
-        public const float THRESH_POINTS_ARE_NEAR	=		(0.015f);	/* Two points are near if within this distance and can be combined if imprecise math is ok */
-        public const float THRESH_NORMALS_ARE_SAME	=		(0.00002f);	/* Two normal points are same if within this distance */
-													        /* Making this too large results in incorrect CSG classification and disaster */
-        public const float THRESH_VECTORS_ARE_NEAR	=		(0.0004f);	/* Two vectors are near if within this distance and can be combined if imprecise math is ok */
-													        /* Making this too large results in lighting problems due to inaccurate texture coordinates */
-        public const float THRESH_SPLIT_POLY_WITH_PLANE=	(0.25f);		/* A plane splits a polygon in half */
-        public const float THRESH_SPLIT_POLY_PRECISELY=		(0.01f);		/* A plane exactly splits a polygon */
-        public const float THRESH_ZERO_NORM_SQUARED	=	(0.0001f);	/* Size of a unit normal that is considered "zero", squared */
-        public const float THRESH_NORMALS_ARE_PARALLEL	=	(0.999845f);	/* Two unit vectors are parallel if abs(A dot B) is greater than or equal to this. This is roughly cosine(1.0 degrees). */
-        public const float THRESH_NORMALS_ARE_ORTHOGONAL=	(0.017455f);	/* Two unit vectors are orthogonal (perpendicular) if abs(A dot B) is less than or equal this. This is roughly cosine(89.0 degrees). */
+        public const float THRESH_POINT_ON_PLANE = (0.10f);		/* Thickness of plane for front/back/inside test */
+        public const float THRESH_POINT_ON_SIDE = (0.20f);		/* Thickness of polygon side's side-plane for point-inside/outside/on side test */
+        public const float THRESH_POINTS_ARE_SAME = (0.00002f);	/* Two points are same if within this distance */
+        public const float THRESH_POINTS_ARE_NEAR = (0.015f);	/* Two points are near if within this distance and can be combined if imprecise math is ok */
+        public const float THRESH_NORMALS_ARE_SAME = (0.00002f);    /* Two normal points are same if within this distance */
+                                                                    /* Making this too large results in incorrect CSG classification and disaster */
+        public const float THRESH_VECTORS_ARE_NEAR = (0.0004f); /* Two vectors are near if within this distance and can be combined if imprecise math is ok */
+                                                                /* Making this too large results in lighting problems due to inaccurate texture coordinates */
+        public const float THRESH_SPLIT_POLY_WITH_PLANE = (0.25f);		/* A plane splits a polygon in half */
+        public const float THRESH_SPLIT_POLY_PRECISELY = (0.01f);		/* A plane exactly splits a polygon */
+        public const float THRESH_ZERO_NORM_SQUARED = (0.0001f);	/* Size of a unit normal that is considered "zero", squared */
+        public const float THRESH_NORMALS_ARE_PARALLEL = (0.999845f);	/* Two unit vectors are parallel if abs(A dot B) is greater than or equal to this. This is roughly cosine(1.0 degrees). */
+        public const float THRESH_NORMALS_ARE_ORTHOGONAL = (0.017455f);	/* Two unit vectors are orthogonal (perpendicular) if abs(A dot B) is less than or equal this. This is roughly cosine(89.0 degrees). */
 
         /** Allowed error for a normalized vector (against squared magnitude) */
-        public const float THRESH_VECTOR_NORMALIZED	=	(0.01f);		
+        public const float THRESH_VECTOR_NORMALIZED = (0.01f);
         /** Allowed error for a normalized quaternion (against squared magnitude) */
-        public const float THRESH_QUAT_NORMALIZED = (0.01f);		
+        public const float THRESH_QUAT_NORMALIZED = (0.01f);
     }
-    public class Math 
+    public class Math
     {
         /**
             * Computes the sine and cosine of a scalar float.
@@ -106,6 +106,11 @@
             return A + (B - A) * V;
         }
 
+        public static float Lerp(float A, float B, float V)
+        {
+            return A + (B - A) * V;
+        }
+
         public static float Clamp(float A, float min, float max)
         {
             return System.Math.Min(System.Math.Max(A, min), max);
@@ -120,7 +125,7 @@
             return System.Math.Max(A, B);
         }
 
-        public static float Min(float A,float B)
+        public static float Min(float A, float B)
         {
             return System.Math.Min(A, B);
         }
@@ -132,6 +137,56 @@
         public static float Sign(float A)
         {
             return System.Math.Sign(A);
+        }
+
+        public static float Abs(float A)
+        {
+            if (A >= 0)
+            {
+                return A;
+            }
+            else
+            {
+                return A * (-1);
+            }
+        }
+
+        public static float FInterpTo(float Current, float Target, float DeltaTime, float InterpSpeed)
+        {
+            if (InterpSpeed <= 0f)
+            {
+                return Target;
+            }
+
+            float Dist = Target - Current;
+
+            if (System.Math.Sqrt(Dist) < Const.SMALL_NUMBER)
+            {
+                return Target;
+            }
+
+            float DeltaMove = Dist * Clamp(DeltaTime * InterpSpeed, 0f, 1f);
+
+            return Current + DeltaMove;
+        }
+
+        public static Vector VInterpTo(Vector Current, Vector Target, float DeltaTime, float InterpSpeed)
+        {
+            if (InterpSpeed <= 0f)
+            {
+                return Target;
+            }
+
+            Vector Dist = Target - Current;
+
+            if (Dist.SizeSquared() < Const.KINDA_SMALL_NUMBER)
+            {
+                return Target;
+            }
+
+            Vector DeltaMove = Dist * Clamp(DeltaTime * InterpSpeed, 0f, 1f);
+
+            return Current + DeltaMove;
         }
     }
 }

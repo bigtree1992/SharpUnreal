@@ -5,11 +5,11 @@ namespace UnrealEngine
 {
     public class NetComponent : MonoComponent
     {
-        public bool IsSelf()
+        public bool IsSelf(bool isServerPlayer)
         {
             if (IsServer())
             {
-                return GetRole() == ENetRole.ROLE_Authority;
+                return (GetRole() == ENetRole.ROLE_Authority) && (isServerPlayer);
             }
             else
             {

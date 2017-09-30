@@ -145,7 +145,7 @@ static MonoString* UnrealEngine_ActorComponent_GetName(UActorComponent* _this)
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] GetName But _this is NULL."));
 		return NULL;
 	}
-
+	
 	MonoString* name = mono_string_from_utf16((mono_unichar2*)*_this->GetName());
 	return name;
 }
@@ -266,7 +266,6 @@ static void UnrealEngine_NetComponent_CallOnServerWithFloat(UMonoComponent* _thi
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithFloat But _this is NULL."));
 		return;
 	}
-
 	_this->CallOnServerWithFloat(function_id, data);
 }
 
@@ -436,8 +435,29 @@ static void UnrealEngine_SceneComponent_SetScale(USceneComponent* _this, FVector
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetScale But _this is NULL."));
+
 		return;
 	}
+}
+
+static void UnrealEngine_SceneComponent_AddLocalOffset(USceneComponent* _this, FVector vector)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AddLocalOffset But _this is NULL."));
+		return;
+	}
+	_this->AddLocalOffset(vector);
+}
+
+static void UnrealEngine_SceneComponent_AddLocalRotation(USceneComponent* _this, FRotator rot)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AddLocalRotation But _this is NULL."));
+		return;
+	}
+	_this->AddLocalRotation(rot);
 }
 
 static FVector UnrealEngine_SceneComponent_GetForward(USceneComponent* _this)
@@ -510,14 +530,15 @@ static void UnrealEngine_SceneComponent_SetLocalPosition(USceneComponent* _this,
 	_this->SetRelativeLocation(pos);
 }
 
-static FQuat UnrealEngine_SceneComponent_GetLocalRotation(USceneComponent* _this)
+static FRotator UnrealEngine_SceneComponent_GetLocalRotation(USceneComponent* _this)
 {
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetLocalRotation But _this is NULL."));
-		return FQuat::Identity;
+		return FRotator::ZeroRotator;
 	}
-	return FQuat(_this->RelativeRotation);
+
+	return _this->RelativeRotation;
 }
 
 static void UnrealEngine_SceneComponent_SetLocalRotation(USceneComponent* _this, FRotator rot)
@@ -3035,8 +3056,6 @@ static void UnrealEngine_TextRenderComponent_SetWorldSize(UTextRenderComponent* 
 
 #endif
 
-#if 1
-
 static FName g_InputAxis[16];
 
 static void UnrealEngine_InputComponent_BindAxis(UInputComponent* _this, MonoString* axis, int index)
@@ -3172,7 +3191,10 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetScale));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetScale",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetScale));
-
+	mono_add_internal_call("UnrealEngine.SceneComponent::_AddLocalOffset",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalOffset));
+	mono_add_internal_call("UnrealEngine.SceneComponent::_AddLocalRotation",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalRotation));	
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetForward",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetForward));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetRight",
@@ -3222,7 +3244,6 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetHiddenInGame",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetHiddenInGame));
 #endif
-
 #if 1
 	//×¢²áAppLifecycleComponentµÄ»Øµ÷
 	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppDeactivate",

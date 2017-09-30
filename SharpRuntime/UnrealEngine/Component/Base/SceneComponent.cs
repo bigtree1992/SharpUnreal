@@ -72,6 +72,16 @@ namespace UnrealEngine
             }
         }
 
+        public void AddLocalOffset(Vector vector)
+        {
+            _AddLocalOffset(NativeHandler, vector);
+        }
+
+        public void AddLocalRotation(Rotator rot)
+        {
+            _AddLocalRotation(NativeHandler, rot);
+        }
+
         public Vector Forward
         {
             get
@@ -205,6 +215,11 @@ namespace UnrealEngine
         private extern static Vector _GetScale(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetScale(IntPtr handle, Vector trans);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _AddLocalRotation(IntPtr handle, Rotator rot);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _AddLocalOffset(IntPtr handle, Vector vector);
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Vector _GetForward(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]
