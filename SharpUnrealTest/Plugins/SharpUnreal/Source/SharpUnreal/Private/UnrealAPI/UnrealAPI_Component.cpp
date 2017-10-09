@@ -580,7 +580,7 @@ static mono_bool UnrealEngine_SceneComponent_GetSimulatingPhysics(USceneComponen
 	return _this->IsSimulatingPhysics();
 }
 
-static void UnrealEngine_SceneComponent_AttachTo(USceneComponent* _this, USceneComponent* parent, MonoString* socket)
+static void UnrealEngine_SceneComponent_AttachTo(USceneComponent* _this, USceneComponent* parent)
 {
 	if (_this == NULL)
 	{
@@ -592,16 +592,32 @@ static void UnrealEngine_SceneComponent_AttachTo(USceneComponent* _this, USceneC
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachTo But parent is NULL."));
 		return;
 	}
+
+	_this->AttachToComponent(parent, FAttachmentTransformRules::KeepRelativeTransform);
+}
+
+static void UnrealEngine_SceneComponent_AttachToSocket(USceneComponent* _this, USceneComponent* parent, MonoString* socket)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachToSocket But _this is NULL."));
+		return;
+	}
+	if (parent == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachToSocket But parent is NULL."));
+		return;
+	}
 	if (socket == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachTo But socket is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachToSocket But socket is NULL."));
 		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
-	_this->AttachToComponent(parent, FAttachmentTransformRules::KeepRelativeTransform,name);
+	_this->AttachToComponent(parent, FAttachmentTransformRules::KeepRelativeTransform, name);
 }
 
-static void UnrealEngine_SceneComponent_SnapTo(USceneComponent* _this, USceneComponent* parent, MonoString* socket)
+static void UnrealEngine_SceneComponent_SnapTo(USceneComponent* _this, USceneComponent* parent)
 {
 	if (_this == NULL)
 	{
@@ -613,9 +629,24 @@ static void UnrealEngine_SceneComponent_SnapTo(USceneComponent* _this, USceneCom
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapTo But parent is NULL."));
 		return;
 	}
+	_this->SnapTo(parent);
+}
+
+static void UnrealEngine_SceneComponent_SnapToSocket(USceneComponent* _this, USceneComponent* parent, MonoString* socket)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapToSocket But _this is NULL."));
+		return;
+	}
+	if (parent == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapToSocket But parent is NULL."));
+		return;
+	}
 	if (socket == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapTo But socket is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapToSocket But socket is NULL."));
 		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
@@ -3174,6 +3205,8 @@ void UnrealAPI_Component::RegisterAPI()
 
 	mono_add_internal_call("UnrealEngine.SceneComponent::_AttachTo",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AttachTo));
+	mono_add_internal_call("UnrealEngine.SceneComponent::_AttachToSocket",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AttachToSocket));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SnapTo",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SnapTo));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_Detach",

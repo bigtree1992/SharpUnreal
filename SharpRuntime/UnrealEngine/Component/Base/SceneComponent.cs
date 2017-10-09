@@ -159,16 +159,26 @@ namespace UnrealEngine
             get { return _GetSimulatingPhysics(NativeHandler); }
         }
         
-        public void AttachTo(SceneComponent parent, string socket)
+        public void AttachTo(SceneComponent parent)
         {
-            _AttachTo(NativeHandler,parent,socket);
+            _AttachTo(NativeHandler,parent.NativeHandler);
         }       
 
-        public void SnapTo(SceneComponent parent, string socket)
+        public void SnapTo(SceneComponent parent)
         {
-            _SnapTo(NativeHandler, parent, socket);
+            _SnapTo(NativeHandler, parent.NativeHandler);
         }
-        
+
+        public void AttachToSocket(SceneComponent parent, string socket)
+        {
+            _AttachToSocket(NativeHandler, parent.NativeHandler, socket);
+        }
+
+        public void SnapToSocket(SceneComponent parent, string socket)
+        {
+            _SnapToSocket(NativeHandler, parent.NativeHandler, socket);
+        }
+
         public void Detach()
         {
             _Detach(NativeHandler);
@@ -245,9 +255,13 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _GetSimulatingPhysics(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _AttachTo(IntPtr handle, SceneComponent parent, string socket);
+        private extern static void _AttachTo(IntPtr handle, IntPtr parent);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SnapTo(IntPtr handle, SceneComponent parent, string socket);
+        private extern static void _SnapTo(IntPtr handle, IntPtr parent);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _AttachToSocket(IntPtr handle, IntPtr parent, string socket);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SnapToSocket(IntPtr handle, IntPtr parent, string socket);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _Detach(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]

@@ -30,13 +30,13 @@ namespace MainAssembly
             switch (evt)
             {
                 case "server":
-                    if(IsSelf())
+                    //if(IsSelf())
                         CallOnServerWithRotator(2, new Rotator(1, 1, 1));
                     break;
                 case "client":
                     break;
                 case "all":
-                    if (IsSelf())
+                    //if (IsSelf())
                         CallOnAllWithRotator(3, new Rotator(1, 1, 3));
                     break;
             }
