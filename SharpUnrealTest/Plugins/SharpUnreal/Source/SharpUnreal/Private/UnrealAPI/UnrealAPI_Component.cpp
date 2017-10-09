@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+ï»¿#include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "UnrealAPI_Component.h"
 #include "MonoComponent.h"
@@ -266,8 +266,7 @@ static void UnrealEngine_NetComponent_CallOnServerWithFloat(UMonoComponent* _thi
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithFloat But _this is NULL."));
 		return;
 	}
-
-	_this->CallOnServerWithFloat(function_id,data);
+	_this->CallOnServerWithFloat(function_id, data);
 }
 
 static void UnrealEngine_NetComponent_CallOnClientWithFloat(UMonoComponent* _this, int function_id, float data)
@@ -289,7 +288,7 @@ static void UnrealEngine_NetComponent_CallOnAllWithFloat(UMonoComponent* _this, 
 		return;
 	}
 
-	_this->CallOnAllWithFloat(function_id,data);
+	_this->CallOnAllWithFloat(function_id, data);
 }
 
 static void UnrealEngine_NetComponent_CallOnServerWithVector(UMonoComponent* _this, int function_id, FVector data)
@@ -416,7 +415,7 @@ static void UnrealEngine_SceneComponent_SetRotation(USceneComponent* _this, FQua
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetRotation But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetWorldRotation(rot);
 }
@@ -436,7 +435,8 @@ static void UnrealEngine_SceneComponent_SetScale(USceneComponent* _this, FVector
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetScale But _this is NULL."));
-		return ;
+
+		return;
 	}
 }
 
@@ -505,7 +505,7 @@ static void UnrealEngine_SceneComponent_SetLocalTransform(USceneComponent* _this
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetLocalTransform But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetRelativeTransform(trans);
 }
@@ -525,7 +525,7 @@ static void UnrealEngine_SceneComponent_SetLocalPosition(USceneComponent* _this,
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetLocalPosition But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetRelativeLocation(pos);
 }
@@ -537,6 +537,7 @@ static FRotator UnrealEngine_SceneComponent_GetLocalRotation(USceneComponent* _t
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetLocalRotation But _this is NULL."));
 		return FRotator::ZeroRotator;
 	}
+
 	return _this->RelativeRotation;
 }
 
@@ -545,7 +546,7 @@ static void UnrealEngine_SceneComponent_SetLocalRotation(USceneComponent* _this,
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetLocalRotation But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetRelativeRotation(rot);
 }
@@ -555,7 +556,7 @@ static FVector UnrealEngine_SceneComponent_GetLocalScale(USceneComponent* _this)
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetLocalScale But _this is NULL."));
-		return FVector(1,1,1);
+		return FVector(1, 1, 1);
 	}
 	return _this->RelativeScale3D;
 }
@@ -565,7 +566,7 @@ static void UnrealEngine_SceneComponent_SetLocalScale(USceneComponent* _this, FV
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetLocalScale But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetRelativeScale3D(scale);
 }
@@ -585,7 +586,7 @@ static void UnrealEngine_SceneComponent_AttachTo(USceneComponent* _this, USceneC
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachTo But _this is NULL."));
-		return ;
+		return;
 	}
 	if (parent == NULL)
 	{
@@ -658,7 +659,7 @@ static void UnrealEngine_SceneComponent_Detach(USceneComponent* _this)
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] Detach But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 }
@@ -773,7 +774,7 @@ static void UnrealEngine_SceneComponent_SetHiddenInGame(USceneComponent* _this, 
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetHiddenInGame But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetHiddenInGame(value != 0);
 }
@@ -786,7 +787,7 @@ static void UnrealEngine_AppLifecycleComponent_RegAppDeactivate(UApplicationLife
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[AppLifecycleComponent] RegAppDeactivate But _this is NULL."));
-		return ;
+		return;
 	}
 
 	FScriptDelegate del;
@@ -844,7 +845,7 @@ static void UnrealEngine_AppLifecycleComponent_RegAppWillTerminate(UApplicationL
 
 #if 1
 
-static float UnrealEngine_CameraComponent_GetFieldOfView(UCameraComponent* _this) 
+static float UnrealEngine_CameraComponent_GetFieldOfView(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -859,7 +860,7 @@ static void UnrealEngine_CameraComponent_SetFieldOfView(UCameraComponent* _this,
 	_this->SetFieldOfView(FieldOfView);
 }
 
-static float UnrealEngine_CameraComponent_GetOrthoWidth(UCameraComponent* _this) 
+static float UnrealEngine_CameraComponent_GetOrthoWidth(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -869,17 +870,17 @@ static float UnrealEngine_CameraComponent_GetOrthoWidth(UCameraComponent* _this)
 	return _this->OrthoWidth;
 }
 
-static void UnrealEngine_CameraComponent_SetOrthoWidth(UCameraComponent* _this, float value) 
+static void UnrealEngine_CameraComponent_SetOrthoWidth(UCameraComponent* _this, float value)
 {
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[CameraComponent] SetOrthoWidth But _this is NULL."));
-		return ;
+		return;
 	}
 	_this->SetOrthoWidth(value);
 }
 
-static float UnrealEngine_CameraComponent_GetOrthoNearClipPlane(UCameraComponent* _this) 
+static float UnrealEngine_CameraComponent_GetOrthoNearClipPlane(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -889,7 +890,7 @@ static float UnrealEngine_CameraComponent_GetOrthoNearClipPlane(UCameraComponent
 	return _this->OrthoNearClipPlane;
 }
 
-static void UnrealEngine_CameraComponent_SetOrthoNearClipPlane(UCameraComponent* _this, float value) 
+static void UnrealEngine_CameraComponent_SetOrthoNearClipPlane(UCameraComponent* _this, float value)
 {
 	if (_this == NULL)
 	{
@@ -899,7 +900,7 @@ static void UnrealEngine_CameraComponent_SetOrthoNearClipPlane(UCameraComponent*
 	_this->SetOrthoNearClipPlane(value);
 }
 
-static float UnrealEngine_CameraComponent_GetOrthoFarClipPlane(UCameraComponent* _this) 
+static float UnrealEngine_CameraComponent_GetOrthoFarClipPlane(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -909,7 +910,7 @@ static float UnrealEngine_CameraComponent_GetOrthoFarClipPlane(UCameraComponent*
 	return _this->OrthoFarClipPlane;
 }
 
-static void UnrealEngine_CameraComponent_SetOrthoFarClipPlane(UCameraComponent* _this, float value) 
+static void UnrealEngine_CameraComponent_SetOrthoFarClipPlane(UCameraComponent* _this, float value)
 {
 	if (_this == NULL)
 	{
@@ -919,7 +920,7 @@ static void UnrealEngine_CameraComponent_SetOrthoFarClipPlane(UCameraComponent* 
 	_this->SetOrthoFarClipPlane(value);
 }
 
-static float UnrealEngine_CameraComponent_GetAspectRatio(UCameraComponent* _this) 
+static float UnrealEngine_CameraComponent_GetAspectRatio(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -929,7 +930,7 @@ static float UnrealEngine_CameraComponent_GetAspectRatio(UCameraComponent* _this
 	return _this->AspectRatio;
 }
 
-static void UnrealEngine_CameraComponent_SetAspectRatio(UCameraComponent* _this, float value) 
+static void UnrealEngine_CameraComponent_SetAspectRatio(UCameraComponent* _this, float value)
 {
 	if (_this == NULL)
 	{
@@ -939,7 +940,7 @@ static void UnrealEngine_CameraComponent_SetAspectRatio(UCameraComponent* _this,
 	_this->SetAspectRatio(value);
 }
 
-static bool UnrealEngine_CameraComponent_GetConstrainAspectRatio(UCameraComponent* _this) 
+static bool UnrealEngine_CameraComponent_GetConstrainAspectRatio(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -949,7 +950,7 @@ static bool UnrealEngine_CameraComponent_GetConstrainAspectRatio(UCameraComponen
 	return _this->bConstrainAspectRatio;
 }
 
-static void UnrealEngine_CameraComponent_SetConstrainAspectRatio(UCameraComponent* _this, bool value) 
+static void UnrealEngine_CameraComponent_SetConstrainAspectRatio(UCameraComponent* _this, bool value)
 {
 	if (_this == NULL)
 	{
@@ -959,7 +960,7 @@ static void UnrealEngine_CameraComponent_SetConstrainAspectRatio(UCameraComponen
 	_this->SetConstraintAspectRatio(value);
 }
 
-static bool UnrealEngine_CameraComponent_GetUseFieldOfViewForLOD(UCameraComponent* _this) 
+static bool UnrealEngine_CameraComponent_GetUseFieldOfViewForLOD(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -969,7 +970,7 @@ static bool UnrealEngine_CameraComponent_GetUseFieldOfViewForLOD(UCameraComponen
 	return _this->bUseFieldOfViewForLOD;
 }
 
-static void UnrealEngine_CameraComponent_SetUseFieldOfViewForLOD(UCameraComponent* _this, bool value) 
+static void UnrealEngine_CameraComponent_SetUseFieldOfViewForLOD(UCameraComponent* _this, bool value)
 {
 	if (_this == NULL)
 	{
@@ -979,7 +980,7 @@ static void UnrealEngine_CameraComponent_SetUseFieldOfViewForLOD(UCameraComponen
 	_this->SetUseFieldOfViewForLOD(value);
 }
 
-static bool UnrealEngine_CameraComponent_GetLockToHmd(UCameraComponent* _this) 
+static bool UnrealEngine_CameraComponent_GetLockToHmd(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -989,7 +990,7 @@ static bool UnrealEngine_CameraComponent_GetLockToHmd(UCameraComponent* _this)
 	return _this->bLockToHmd;
 }
 
-static void UnrealEngine_CameraComponent_SetLockToHmd(UCameraComponent* _this, bool value) 
+static void UnrealEngine_CameraComponent_SetLockToHmd(UCameraComponent* _this, bool value)
 {
 	if (_this == NULL)
 	{
@@ -999,7 +1000,7 @@ static void UnrealEngine_CameraComponent_SetLockToHmd(UCameraComponent* _this, b
 	_this->bLockToHmd = value;
 }
 
-static bool UnrealEngine_CameraComponent_GetUsePawnControlRotation(UCameraComponent* _this) 
+static bool UnrealEngine_CameraComponent_GetUsePawnControlRotation(UCameraComponent* _this)
 {
 	if (_this == NULL)
 	{
@@ -1009,7 +1010,7 @@ static bool UnrealEngine_CameraComponent_GetUsePawnControlRotation(UCameraCompon
 	return _this->bUsePawnControlRotation;
 }
 
-static void UnrealEngine_CameraComponent_SetUsePawnControlRotation(UCameraComponent* _this, bool value) 
+static void UnrealEngine_CameraComponent_SetUsePawnControlRotation(UCameraComponent* _this, bool value)
 {
 	if (_this == NULL)
 	{
@@ -1023,13 +1024,13 @@ static void UnrealEngine_CameraComponent_SetUsePawnControlRotation(UCameraCompon
 #if 1
 
 static UMaterialInterface* UnrealEngine_PrimitiveComponent_GetMaterial(UPrimitiveComponent* _this, int elementIndex)
-{ 
+{
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterial But _this is NULL."));
 		return NULL;
 	}
-	
+
 	return _this->GetMaterial(elementIndex);
 }
 
@@ -1066,10 +1067,10 @@ static void UnrealEngine_PrimitiveComponent_SetMaterialByName(UPrimitiveComponen
 		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(slotName));
-	_this->SetMaterialByName(name,material);
+	_this->SetMaterialByName(name, material);
 }
 
-//ToDo: »¹Ã»ÓÐÊµÏÖ Ó¦¸Ã»»µ½MeshComponent
+//ToDo: è¿˜æ²¡æœ‰å®žçŽ° åº”è¯¥æ¢åˆ°MeshComponent
 static int UnrealEngine_PrimitiveComponent_GetMaterialIndex(UPrimitiveComponent* _this, MonoString* slotName)
 {
 	if (_this == NULL)
@@ -1083,10 +1084,10 @@ static int UnrealEngine_PrimitiveComponent_GetMaterialIndex(UPrimitiveComponent*
 		return 0;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(slotName));
-	
+
 	return 0;
 }
-//ToDo: »¹Ã»ÓÐÊµÏÖ Ó¦¸Ã»»µ½MeshComponent
+//ToDo: è¿˜æ²¡æœ‰å®žçŽ° åº”è¯¥æ¢åˆ°MeshComponent
 static mono_bool UnrealEngine_PrimitiveComponent_IsMaterialSlotNameValid(UPrimitiveComponent* _this, MonoString* slotName)
 {
 	if (_this == NULL)
@@ -1114,7 +1115,7 @@ static UMaterialInstanceDynamic* UnrealEngine_PrimitiveComponent_CreateDynamicMa
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] CreateDynamicMaterial But source is NULL."));
 		return NULL;
 	}
-	
+
 	return _this->CreateDynamicMaterialInstance(elementIndex, source);
 }
 
@@ -1211,7 +1212,7 @@ static mono_bool UnrealEngine_PrimitiveComponent_GetGenerateOverlapEvents(UPrimi
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetGenerateOverlapEvents But _this is NULL."));
 		return false;
 	}
-	
+
 	return _this->bGenerateOverlapEvents;
 }
 
@@ -1323,7 +1324,7 @@ static void UnrealEngine_PrimitiveComponent_AddImpulse(UPrimitiveComponent* _thi
 		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	_this->AddImpulse(Impulse,name,bVelChange != 0);
+	_this->AddImpulse(Impulse, name, bVelChange != 0);
 }
 
 static void UnrealEngine_PrimitiveComponent_AddImpulseAtLocation(UPrimitiveComponent* _this, FVector Impulse, FVector Location, MonoString* BoneName)
@@ -1440,7 +1441,7 @@ static FVector UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocityAtPoint(U
 		return FVector::ZeroVector;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	return _this->GetPhysicsLinearVelocityAtPoint(Point,name);
+	return _this->GetPhysicsLinearVelocityAtPoint(Point, name);
 }
 
 static void UnrealEngine_PrimitiveComponent_SetAllPhysicsLinearVelocity(UPrimitiveComponent* _this, FVector NewVel, mono_bool bAddToCurrent)
@@ -1523,12 +1524,12 @@ static void UnrealEngine_PrimitiveComponent_SetCenterOfMass(UPrimitiveComponent*
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCenterOfMass But _this is NULL."));
-		return ;
+		return;
 	}
 	if (BoneName == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCenterOfMass But BoneName is NULL."));
-		return ;
+		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
 	_this->SetCenterOfMass(CenterOfMassOffset, name);
@@ -1643,7 +1644,7 @@ static void UnrealEngine_PrimitiveComponent_SetMassScale(UPrimitiveComponent* _t
 		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	_this->SetMassScale(name,InMassScale);
+	_this->SetMassScale(name, InMassScale);
 }
 
 static float UnrealEngine_PrimitiveComponent_GetMassScale(UPrimitiveComponent* _this, MonoString* BoneName)
@@ -1727,7 +1728,7 @@ static FVector UnrealEngine_PrimitiveComponent_SetScaleByMomentOfInertia(UPrimit
 		return FVector::ZeroVector;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	return _this->ScaleByMomentOfInertia(InputVector,name);
+	return _this->ScaleByMomentOfInertia(InputVector, name);
 }
 
 static void UnrealEngine_PrimitiveComponent_SetCollisionResponseToChannel(UPrimitiveComponent* _this, ECollisionChannel Channel, ECollisionResponse NewResponse)
@@ -1779,7 +1780,7 @@ static FVector UnrealEngine_BoxComponent_GetShapeScale(UBoxComponent* _this)
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[BoxComponent] GetShapeScale But _this is NULL."));
-		return FVector(1,1,1);
+		return FVector(1, 1, 1);
 	}
 	return _this->ComponentToWorld.GetScale3D();
 }
@@ -2429,7 +2430,7 @@ static void UnrealEngine_MeshComponent_SetScalarParameter(UMeshComponent* _this,
 		return;
 	}
 	FName n = FName((TCHAR*)mono_string_to_utf16(name));
-	_this->SetScalarParameterValueOnMaterials(n,value);
+	_this->SetScalarParameterValueOnMaterials(n, value);
 }
 
 static void UnrealEngine_MeshComponent_SetVectorParameter(UMeshComponent* _this, MonoString* name, FVector value)
@@ -2837,7 +2838,7 @@ static MonoString* UnrealEngine_SkinnedMeshComponent_GetParentBone(USkinnedMeshC
 		return NULL;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	MonoString* ret = mono_string_from_utf16((mono_unichar2*) _this->GetParentBone(name).GetPlainWIDEString());
+	MonoString* ret = mono_string_from_utf16((mono_unichar2*)_this->GetParentBone(name).GetPlainWIDEString());
 	return ret;
 }
 
@@ -2858,7 +2859,7 @@ static FTransform UnrealEngine_SkinnedMeshComponent_GetBoneTransform0(USkinnedMe
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneTransform But _this is NULL."));
 		return FTransform::Identity;
 	}
-	return _this->GetBoneTransform(BoneIndex,LocalToWorld);
+	return _this->GetBoneTransform(BoneIndex, LocalToWorld);
 }
 
 static FTransform UnrealEngine_SkinnedMeshComponent_GetBoneTransform1(USkinnedMeshComponent* _this, int BoneIndex)
@@ -2884,7 +2885,7 @@ static FQuat UnrealEngine_SkinnedMeshComponent_GetBoneQuaternion(USkinnedMeshCom
 		return FQuat::Identity;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	return _this->GetBoneQuaternion(name,space);
+	return _this->GetBoneQuaternion(name, space);
 }
 
 static FVector UnrealEngine_SkinnedMeshComponent_GetBoneLocation(USkinnedMeshComponent* _this, MonoString* BoneName, EBoneSpaces::Type Space)
@@ -2900,7 +2901,7 @@ static FVector UnrealEngine_SkinnedMeshComponent_GetBoneLocation(USkinnedMeshCom
 		return FVector::ZeroVector;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
-	return _this->GetBoneLocation(name,Space);
+	return _this->GetBoneLocation(name, Space);
 }
 
 static void UnrealEngine_SkinnedMeshComponent_HideBoneByName(USkinnedMeshComponent* _this, MonoString* BoneName, EPhysBodyOp PhysBodyOption)
@@ -2954,7 +2955,6 @@ static mono_bool UnrealEngine_SkinnedMeshComponent_IsBoneHiddenByName(USkinnedMe
 #endif
 
 #if 1
-
 static MonoString* UnrealEngine_TextRenderComponent_GetText(UTextRenderComponent* _this)
 {
 	if (_this == NULL)
@@ -3022,7 +3022,7 @@ static void UnrealEngine_TextRenderComponent_SetSourceLength(UTextRenderComponen
 		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetSourceLength But _this is NULL."));
 		return;
 	}
-	
+
 }
 
 static float UnrealEngine_TextRenderComponent_GetXScale(UTextRenderComponent* _this)
@@ -3087,10 +3087,56 @@ static void UnrealEngine_TextRenderComponent_SetWorldSize(UTextRenderComponent* 
 
 #endif
 
-void UnrealAPI_Component::RegisterAPI() 
+static FName g_InputAxis[16];
+
+static void UnrealEngine_InputComponent_BindAxis(UInputComponent* _this, MonoString* axis, int index)
 {
-	#if 1
-	//×¢²áActorComponentµÄº¯Êý
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InputComponent] BindAxis But _this is NULL."));
+		return;
+	}
+
+	if (axis == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InputComponent] BindAxis But axis is NULL."));
+		return;
+	}
+
+	if (index < 0 || index > 15) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InputComponent] BindAxis But Index Invalid : %d"),index);
+		return;
+	}
+
+	FName a = FName((TCHAR*)mono_string_to_utf16(axis));
+	
+	g_InputAxis[index] = a;
+	
+	_this->BindAxis(a);
+}
+
+static float UnrealEngine_InputComponent_GetAxisValue(UInputComponent* _this,int index)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InputComponent] GetAxisValue But _this is NULL."));
+		return false;
+	}
+
+	if (index < 0 || index > 15)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[InputComponent] GetAxisValue But Index Invalid : %d"), index);
+		return 0;
+	}
+
+	return _this->GetAxisValue(g_InputAxis[index]);
+}
+
+void UnrealAPI_Component::RegisterAPI()
+{
+#if 1
+	//æ³¨å†ŒActorComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.ActorComponent::_GetActivited",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetActivited));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_SetActivited",
@@ -3111,16 +3157,16 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_AddTag));
 	mono_add_internal_call("UnrealEngine.ActorComponent::_RemoveTag",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_RemoveTag));
-	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName", 
+	mono_add_internal_call("UnrealEngine.ActorComponent::_GetName",
 		reinterpret_cast<void*>(UnrealEngine_ActorComponent_GetName));
-	//×¢²áMonoComponentµÄº¯Êý
+	//æ³¨å†ŒMonoComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEvent",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEvent));
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithString",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithString));
 	mono_add_internal_call("UnrealEngine.MonoComponent::_SendEventWithInt",
 		reinterpret_cast<void*>(UnrealEngine_MonoComponent_SendEventWithInt));
-	//×¢²áNetComponentµÄº¯Êý
+	//æ³¨å†ŒNetComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.NetComponent::_GetRole",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_GetRole));
 	mono_add_internal_call("UnrealEngine.NetComponent::_IsServer",
@@ -3154,10 +3200,10 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithRotator",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithRotator));
 
-	#endif
-	
-	#if 1
-	//×¢²áSceneComponentµÄº¯Êý
+#endif
+
+#if 1
+	//æ³¨å†ŒSceneComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetTransform",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetTransform));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetTransform",
@@ -3177,8 +3223,7 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SceneComponent::_AddLocalOffset",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalOffset));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_AddLocalRotation",
-		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalRotation));
-	
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_AddLocalRotation));	
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetForward",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetForward));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetRight",
@@ -3229,10 +3274,9 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetHiddenInGame));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetHiddenInGame",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetHiddenInGame));
-	#endif
-	
-	#if 1
-	//×¢²áAppLifecycleComponentµÄ»Øµ÷
+#endif
+#if 1
+	//æ³¨å†ŒAppLifecycleComponentçš„å›žè°ƒ
 	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppDeactivate",
 		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppDeactivate));
 	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppHasReactivated",
@@ -3243,10 +3287,10 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppHasEnteredForeground));
 	mono_add_internal_call("UnrealEngine.AppLifecycleComponent::_RegAppWillTerminate",
 		reinterpret_cast<void*>(UnrealEngine_AppLifecycleComponent_RegAppWillTerminate));
-	#endif
+#endif
 
-	#if 1
-	//×¢²áCameraComponentµÄº¯Êý
+#if 1
+	//æ³¨å†ŒCameraComponentçš„å‡½æ•°
 	mono_add_internal_call("UnrealEngine.CameraComponent::_GetFieldOfView",
 		reinterpret_cast<void*>(UnrealEngine_CameraComponent_GetFieldOfView));
 	mono_add_internal_call("UnrealEngine.CameraComponent::_SetFieldOfView",
@@ -3284,9 +3328,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.CameraComponent::_SetUsePawnControlRotation",
 		reinterpret_cast<void*>(UnrealEngine_CameraComponent_SetUsePawnControlRotation));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetMaterial",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetMaterial));
@@ -3313,7 +3357,7 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_GetGenerateOverlapEvents",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_GetGenerateOverlapEvents));
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetGenerateOverlapEvents",
-		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetGenerateOverlapEvents)); 
+		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetGenerateOverlapEvents));
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetSimulatePhysics",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetSimulatePhysics));
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetGeneratesHitEvents",
@@ -3393,9 +3437,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.PrimitiveComponent::_SetAngularDamping1",
 		reinterpret_cast<void*>(UnrealEngine_PrimitiveComponent_SetAngularDamping1));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.BoxComponent::_GetBoxExtent",
 		reinterpret_cast<void*>(UnrealEngine_BoxComponent_GetBoxExtent));
@@ -3404,9 +3448,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.BoxComponent::_GetShapeScale",
 		reinterpret_cast<void*>(UnrealEngine_BoxComponent_GetShapeScale));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.CapsuleComponent::_GetCapsuleHalfHeight",
 		reinterpret_cast<void*>(UnrealEngune_CapsuleComponent_GetCapsuleHalfHeight));
@@ -3419,18 +3463,18 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.CapsuleComponent::_GetShapeScale",
 		reinterpret_cast<void*>(UnrealEngine_CapsuleComponent_GetShapeScale));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.ShapeComponent::_GetShapeColor",
 		reinterpret_cast<void*>(UnrealEngine_ShapeComponent_GetShapeColor));
 	mono_add_internal_call("UnrealEngine.ShapeComponent::_SetShapeColor",
 		reinterpret_cast<void*>(UnrealEngine_ShapeComponent_SetShapeColor));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.SphereComponent::_GetSphereRadius",
 		reinterpret_cast<void*>(UnrealEngine_SphereComponent_GetSphereRadius));
@@ -3439,9 +3483,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SphereComponent::_GetShapeScale",
 		reinterpret_cast<void*>(UnrealEngine_SphereComponent_GetShapeScale));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_GetDynamicShadowDistanceMovableLight",
 		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_GetDynamicShadowDistanceMovableLight));
@@ -3480,9 +3524,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.DirectionalLightComponent::_SetLightShaftOverrideDirection",
 		reinterpret_cast<void*>(UnrealEngine_DirectionalLightComponent_SetLightShaftOverrideDirection));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.LightComponent::_GetIntensity",
 		reinterpret_cast<void*>(UnrealEngine_LightComponent_GetIntensity));
@@ -3525,9 +3569,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.LightComponent::_SetBloomTint",
 		reinterpret_cast<void*>(UnrealEngine_LightComponent_SetBloomTint));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.PointLightComponent::_GetAttenuationRadius",
 		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_GetAttenuationRadius));
@@ -3546,9 +3590,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.PointLightComponent::_SetSourceLength",
 		reinterpret_cast<void*>(UnrealEngine_PointLightComponent_SetSourceLength));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.SpotLightComponent::_GetInnerConeAngle",
 		reinterpret_cast<void*>(UnrealEngine_SpotLightComponent_GetInnerConeAngle));
@@ -3559,18 +3603,18 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SpotLightComponent::_SetOuterConeAngle",
 		reinterpret_cast<void*>(UnrealEngine_SpotLightComponent_SetOuterConeAngle));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.MeshComponent::_SetScalarParameter",
 		reinterpret_cast<void*>(UnrealEngine_MeshComponent_SetScalarParameter));
 	mono_add_internal_call("UnrealEngine.MeshComponent::_SetVectorParameter",
 		reinterpret_cast<void*>(UnrealEngine_MeshComponent_SetVectorParameter));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_ActivateSystem",
 		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_ActivateSystem));
@@ -3601,9 +3645,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.ParticleSystemComponent::_RegSystemFinished",
 		reinterpret_cast<void*>(UnrealEngine_ParticleSystemComponent_RegSystemFinished));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_GetGlobalAnimRateScale",
 		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_GetGlobalAnimRateScale));
@@ -3624,9 +3668,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SkeletalMeshComponent::_IsBodyGravityEnabled",
 		reinterpret_cast<void*>(UnrealEngine_SkeletalMeshComponent_IsBodyGravityEnabled));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_GetBoneIndex",
 		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_GetBoneIndex));
@@ -3653,9 +3697,9 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.SkinnedMeshComponent::_IsBoneHiddenByName",
 		reinterpret_cast<void*>(UnrealEngine_SkinnedMeshComponent_IsBoneHiddenByName));
 
-	#endif
+#endif
 
-	#if 1
+#if 1
 
 	mono_add_internal_call("UnrealEngine.TextRenderComponent::_GetText",
 		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_GetText));
@@ -3682,5 +3726,12 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.TextRenderComponent::_SetWorldSize",
 		reinterpret_cast<void*>(UnrealEngine_TextRenderComponent_SetWorldSize));
 
-	#endif
+#endif
+
+#if 1
+	mono_add_internal_call("UnrealEngine.InputComponent::_BindAxis",
+		reinterpret_cast<void*>(UnrealEngine_InputComponent_BindAxis));
+	mono_add_internal_call("UnrealEngine.InputComponent::_GetAxisValue",
+		reinterpret_cast<void*>(UnrealEngine_InputComponent_GetAxisValue));
+#endif
 }

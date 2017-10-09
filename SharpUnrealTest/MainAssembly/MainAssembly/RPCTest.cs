@@ -5,19 +5,23 @@ namespace MainAssembly
 {
     class RPCTest: NetComponent
     {
-        [RPC(1)]
+        const int Func_ClientRPC = 1;
+        const int Func_ServerRPC = 2;
+        const int Func_AllRPC = 3;
+
+        [RPC(Func_ClientRPC)]
         void ClientRPC(Rotator data)
         {
             SendEvent("ClientRPC" + data.Yaw + data.Pitch + data.Roll);
         }
 
-        [RPC(2)]
+        [RPC(Func_ServerRPC)]
         void ServerRPC(Rotator data)
         {
             SendEvent("ServerRPC" + +data.Yaw + data.Pitch + data.Roll);
         }
 
-        [RPC(3)]
+        [RPC(Func_AllRPC)]
         void AllRPC(Rotator data)
         {
             SendEvent("AllRPC" + +data.Yaw + data.Pitch + data.Roll);
@@ -30,14 +34,12 @@ namespace MainAssembly
             switch (evt)
             {
                 case "server":
-                    //if(IsSelf())
-                        CallOnServerWithRotator(2, new Rotator(1, 1, 1));
+                    CallOnServerWithRotator(2, new Rotator(1, 1, 1));
                     break;
                 case "client":
                     break;
                 case "all":
-                    //if (IsSelf())
-                        CallOnAllWithRotator(3, new Rotator(1, 1, 3));
+                    CallOnAllWithRotator(3, new Rotator(1, 1, 3));
                     break;
             }
         }

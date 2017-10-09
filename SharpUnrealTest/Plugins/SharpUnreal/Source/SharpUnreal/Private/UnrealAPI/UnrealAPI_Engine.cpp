@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+ï»¿#include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "UnrealAPI_Engine.h"
 
@@ -14,7 +14,7 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
-//ÈÕÖ¾»Øµ÷
+//æ—¥å¿—å›žè°ƒ
 extern "C" static void MonoPrintf(const char *string, mono_bool is_stdout)
 {
 	GLog->Logf(ELogVerbosity::Error, TEXT("%s"), ANSI_TO_TCHAR(string));
@@ -43,7 +43,7 @@ extern "C" static void MonoLog(const char *log_domain, const char *log_level, co
 	}
 }
 
-//LogÀàº¯Êý×¢²á
+//Logç±»å‡½æ•°æ³¨å†Œ
 static void UnrealEngine_Log_Debug(MonoString* content)
 {
 	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_to_utf16(content)));
@@ -59,13 +59,13 @@ static void UnrealEngine_Log_Error(MonoString* content)
 	GLog->Logf(ELogVerbosity::Error, *FString(mono_string_to_utf16(content)));
 }
 
-//PrintÀàº¯Êý×¢²á
+//Printç±»å‡½æ•°æ³¨å†Œ
 static void UnrealEngine_Log_Print(MonoString* content)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *FString(mono_string_to_utf16(content)));
 }
 
-//WorldÀàº¯Êý×¢²á
+//Worldç±»å‡½æ•°æ³¨å†Œ
 static MonoString* UnrealEngine_World_GetCurrentLevel() 
 {	
 	UWorld* world = GWorld.GetReference();

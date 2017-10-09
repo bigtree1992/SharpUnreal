@@ -1,4 +1,4 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+ï»¿// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
 #include "SharpUnrealEditorPrivatePCH.h"
 #include "MonoComponentDetails.h"
@@ -26,7 +26,7 @@ void FMonoComponentDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder
 		}
 	}
 	
-	//×Ô¶¨ÒåÒ»¸ö±à¼­MonoComponentµÄUI
+	//è‡ªå®šä¹‰ä¸€ä¸ªç¼–è¾‘MonoComponentçš„UI
 	auto widgets = SNew(SHorizontalBox);
 	widgets->AddSlot().FillWidth(8.0f)
 		.Padding(2.0f, 1.0f)
@@ -64,7 +64,7 @@ void FMonoComponentDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder
 
 FReply FMonoComponentDetails::OnApplyClicked()
 {	
-	//»ñÈ¡ÕıÔÚ±à¼­µÄ¶ÔÏóµÄÒıÓÃ
+	//è·å–æ­£åœ¨ç¼–è¾‘çš„å¯¹è±¡çš„å¼•ç”¨
 
 	if (ObjectsCustomized.Num() == 1 &&ObjectsCustomized[0].IsValid())
 	{
@@ -74,14 +74,14 @@ FReply FMonoComponentDetails::OnApplyClicked()
 		{
 			if (m_CommitedComponentName.Len() > 0)
 			{
-				//PreEditChange¸úPostEditChange±£Ö¤ÁË±à¼­ÍêPropertyÖ®ºó³¡¾°»á±»ÉèÖÃÎªÒÑ¸ü¸Ä×´Ì¬
+				//PreEditChangeè·ŸPostEditChangeä¿è¯äº†ç¼–è¾‘å®ŒPropertyä¹‹ååœºæ™¯ä¼šè¢«è®¾ç½®ä¸ºå·²æ›´æ”¹çŠ¶æ€
 				UProperty* NameProperty = FindField<UProperty>(
 					UMonoComponent::StaticClass(), "ComponentName");
 
 				if (NameProperty != NULL)
 				{
 					Component->PreEditChange(NameProperty);
-					//ÉèÖÃ½Å±¾Ãû×Ö
+					//è®¾ç½®è„šæœ¬åå­—
 					Component->ComponentName = m_CommitedComponentName;
 					FPropertyChangedEvent PropertyChangedEvent(NameProperty);
 					Component->PostEditChangeProperty(PropertyChangedEvent);
@@ -110,7 +110,7 @@ void FMonoComponentDetails::OnTextCommitted(const FText& InSearchText, ETextComm
 	m_CommitedComponentName = InSearchText.ToString();
 }
 
-//¸ù¾İMonoRuntime»ñÈ¡DllÖĞ¼Ì³ĞÓÚActorComponentµÄÀàµÄÁĞ±í
+//æ ¹æ®MonoRuntimeè·å–Dllä¸­ç»§æ‰¿äºActorComponentçš„ç±»çš„åˆ—è¡¨
 TArray<FString> FMonoComponentDetails::OnPossibleSuggestions() const
 {
 	return MonoRuntime::Instance()->GetAllMonoComponent();

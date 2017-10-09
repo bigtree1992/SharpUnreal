@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+ï»¿#include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "UnrealAPI_Math.h"
 #include "CoreUObject.h"
@@ -262,10 +262,10 @@ static  void UnrealEngine_Matrix_Mirror(FMatrix* This, int32 MirrorAxis, int32 F
 
 void UnrealAPI_Math::RegisterAPI() 
 {
-	//×¢²áFVector
+	//æ³¨å†ŒFVector
 	mono_add_internal_call("UnrealEngine.Vector::RotateAngleAxis", 
 		(const void*)UnrealEngine_Vector_RotateAngleAxis);
-	//×¢²áFRotator
+	//æ³¨å†ŒFRotator
 	mono_add_internal_call("UnrealEngine.Rotator::Vector", 
 		(const void*)UnrealEngine_Rotator_Vector);
 	mono_add_internal_call("UnrealEngine.Rotator::Quaternion", 
@@ -274,14 +274,14 @@ void UnrealAPI_Math::RegisterAPI()
 		(const void*)UnrealEngine_Rotator_RotateVector);
 	mono_add_internal_call("UnrealEngine.Rotator::UnrotateVector", 
 		(const void*)UnrealEngine_Rotator_UnrotateVector);
-	//×¢²áFQuat
+	//æ³¨å†ŒFQuat
 	mono_add_internal_call("UnrealEngine.Quat::Multiply", 
 		(const void*)UnrealEngine_Quat_Multiply);
 	mono_add_internal_call("UnrealEngine.Quat::MakeFromMatrix", 
 		(const void*)UnrealEngine_Quat_MakeFromMatrix);
 	mono_add_internal_call("UnrealEngine.Quat::Rotator", 
 		(const void*)UnrealEngine_Quat_Rotator);
-	//×¢²áFTransform
+	//æ³¨å†ŒFTransform
 	mono_add_internal_call("UnrealEngine.Transform::ToMatrixWithScale", 
 		(const void*)UnrealEngine_Transform_ToMatrixWithScale);
 	mono_add_internal_call("UnrealEngine.Transform::ToMatrixNoScale", 
@@ -302,7 +302,7 @@ void UnrealAPI_Math::RegisterAPI()
 		(const void*)UnrealEngine_Transform_TransformFVector4NoScale);
 	mono_add_internal_call("UnrealEngine.Transform::Multiply",
 		(const void*)UnrealEngine_Transform_Multiply);
-	//×¢²áFMatrix
+	//æ³¨å†ŒFMatrix
 	mono_add_internal_call("UnrealEngine.Matrix::Multiply", 
 		(const void*)UnrealEngine_Matrix_Multiply);
 	mono_add_internal_call("UnrealEngine.Matrix::TransformFVector4", 

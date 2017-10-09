@@ -1,4 +1,4 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+﻿// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 using UnrealBuildTool;
 using System;
 using System.IO;
@@ -11,7 +11,7 @@ public class SharpUnreal : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "ThirdPart")); }
     }
 
-    private void BuildWithMono(TargetInfo Target)
+    private void BuildWithMono(ReadOnlyTargetRules Target)
     {
         switch (Target.Platform)
         {
@@ -30,10 +30,9 @@ public class SharpUnreal : ModuleRules
         }
     }
 
-	public SharpUnreal(TargetInfo Target)
-	{
-		
-		PublicIncludePaths.AddRange(
+	public SharpUnreal(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PublicIncludePaths.AddRange(
 			new string[] {
 				"SharpUnreal/Public",
 				// ... add public include paths required here ...
@@ -70,7 +69,8 @@ public class SharpUnreal : ModuleRules
 				"SlateCore",
                 "LevelSequence",
                 "MovieScene",
-                "AIModule"
+                "AIModule",
+                "InputCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

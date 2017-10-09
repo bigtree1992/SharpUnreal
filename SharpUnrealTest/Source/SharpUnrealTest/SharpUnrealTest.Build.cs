@@ -4,9 +4,9 @@ using UnrealBuildTool;
 
 public class SharpUnrealTest : ModuleRules
 {
-	public SharpUnrealTest(TargetInfo Target)
-	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+	public SharpUnrealTest(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 

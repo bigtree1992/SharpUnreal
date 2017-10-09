@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
 /**
-* µ¼³ö¶ÔÓ¦UnrealEngine.dllÖÐObjectÏà¹ØµÄAPI
+* å¯¼å‡ºå¯¹åº”UnrealEngine.dllä¸­Objectç›¸å…³çš„API
 */
 class UnrealAPI_Object
 {

@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+﻿#include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "MonoClassTable.h"
 
@@ -48,6 +48,7 @@ void MonoClassTable::CreateTable()
 	g_ClassTable.Add(FName(TEXT("RotatingMovementComponent")), URotatingMovementComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("SplineComponent")), USplineComponent::StaticClass());
 	g_ClassTable.Add(FName(TEXT("SplineMeshMovementComponent")), USplineMeshComponent::StaticClass());
+	g_ClassTable.Add(FName(TEXT("InputComponent")), UInputComponent::StaticClass());
 
 }
 

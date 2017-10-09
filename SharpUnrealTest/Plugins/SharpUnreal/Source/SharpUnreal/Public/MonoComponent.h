@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Online.h"
 #include "MonoComponent.generated.h"
@@ -19,7 +19,7 @@ class SHARPUNREAL_API UMonoComponent : public UActorComponent
 public:	
 	UMonoComponent();
 	virtual ~UMonoComponent();
-	#if 1 //ÉúÃüÖÜÆÚº¯Êı
+	#if 1 //ç”Ÿå‘½å‘¨æœŸå‡½æ•°
 	virtual void OnRegister() override;
 	virtual void OnUnregister() override;
 	virtual void InitializeComponent() override;
@@ -35,7 +35,7 @@ public:
 	
 	bool Reload();
 	
-	#if 1 //ÊÂ¼ş´¦Àí
+	#if 1 //äº‹ä»¶å¤„ç†
 	UPROPERTY(BlueprintAssignable, Category = "SharpUnreal")
 	FOnMonoEvent OnMonoEvent;
 
@@ -61,7 +61,7 @@ public:
 	void SendEventToMonoWithVector(const FString& Event,FVector data);
 	#endif
 
-	#if 1 // »Øµ÷º¯Êı
+	#if 1 // å›è°ƒå‡½æ•°
 	UFUNCTION()
 	void OnAppDeactivate();
 	UFUNCTION()

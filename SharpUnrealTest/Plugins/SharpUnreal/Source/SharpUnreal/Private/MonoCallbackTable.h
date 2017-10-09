@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -7,7 +7,7 @@ struct _MonoClass;
 struct _MonoObject;
 
 /*
-* ±£´æÁËÒ»¸öMonoCallµÄ»Øµ÷ÒıÓÃ
+* ä¿å­˜äº†ä¸€ä¸ªMonoCallçš„å›è°ƒå¼•ç”¨
 */
 struct MonoCallback 
 {
@@ -97,17 +97,17 @@ struct MonoCallback
 };
 
 /**
-* ±£´æÁËMonoClass¸úCallbackµÄ¶ÔÓ¦¹ØÏµ
+* ä¿å­˜äº†MonoClassè·ŸCallbackçš„å¯¹åº”å…³ç³»
 */
 class MonoCallbackTable
 {
 public:
-	//³õÊ¼»¯Ò»¸öÀàµÄ»Øµ÷º¯Êı
+	//åˆå§‹åŒ–ä¸€ä¸ªç±»çš„å›è°ƒå‡½æ•°
 	static void CreateClassCallback(_MonoClass* klass);
-	//Ïú»ÙËùÓĞµÄ»Øµ÷
+	//é”€æ¯æ‰€æœ‰çš„å›è°ƒ
 	static void DestroyAllCallback();
-	//¸ù¾İMonoCalss»ñÈ¡¶ÔÓ¦µÄCallback
+	//æ ¹æ®MonoCalssè·å–å¯¹åº”çš„Callback
 	static MonoCallback* GetCallbackByClass(_MonoClass* klass);
-	//¸ù¾İMonoObject»ñÈ¡¶ÔÓ¦µÄCallback
+	//æ ¹æ®MonoObjectè·å–å¯¹åº”çš„Callback
 	static MonoCallback* GetCallbackByObject(_MonoObject* obj);
 };

@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "SharpFunctionLibrary.generated.h"
 
 /**
- * Ö÷ÒªÓÃÓÚÊµÏÖC#ÓëÀ¶Í¼µÄÏà»¥Í¨Ñ¶
+ * ä¸»è¦ç”¨äºå®ç°C#ä¸è“å›¾çš„ç›¸äº’é€šè®¯
  */
 UCLASS(ClassGroup = (SharpUnreal), meta = (BlueprintSpawnableComponent))
 class SHARPUNREAL_API USharpFunctionLibrary : public UBlueprintFunctionLibrary
@@ -16,4 +16,28 @@ public:
 	UFUNCTION(BlueprintCallable,Category="SharpUnreal")
 	static void SendStringEvent(FString evt, FString data);
 	
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static void SendIntEvent(FString evt, int data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static void SendFloatEvent(FString evt, float data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static void SetStringData(FString key, FString data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static void SetIntData(FString key, int data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static void SetFloatData(FString key, float data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static FString GetStringData(FString key);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static int GetIntData(FString key);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	static float GetFloatData(FString key);
+
 };

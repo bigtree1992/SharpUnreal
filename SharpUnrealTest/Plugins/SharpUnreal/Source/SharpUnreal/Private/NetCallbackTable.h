@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 struct _MonoClass;
 struct _MonoImage;
 struct _MonoMethod;
 
 /**
-* ±£´æÁËMonoClass¸úUClassµÄ¶ÔÓ¦¹ØÏµ
+* ä¿å­˜äº†MonoClassè·ŸUClassçš„å¯¹åº”å…³ç³»
 */
 class NetCallbackTable
 {

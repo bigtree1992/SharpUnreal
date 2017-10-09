@@ -1,9 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 /**
-* µ¼³ö¶ÔÓ¦UnrealEngine.dllÖÐPhysicsÎÄ¼þ¼ÐÖÐµÄAPI
+* å¯¼å‡ºå¯¹åº”UnrealEngine.dllä¸­Physicsæ–‡ä»¶å¤¹ä¸­çš„API
 */
 class UnrealAPI_Physics
 {

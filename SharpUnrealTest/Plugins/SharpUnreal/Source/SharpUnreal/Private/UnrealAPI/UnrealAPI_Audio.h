@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 /**
-* µ¼³ö¶ÔÓ¦UnrealEngine.dllÖÐAudioÎÄ¼þ¼ÐÖÐµÄAPI
+* å¯¼å‡ºå¯¹åº”UnrealEngine.dllä¸­Audioæ–‡ä»¶å¤¹ä¸­çš„API
 */
 class UnrealAPI_Audio
 {

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SharpUnrealPrivatePCH.h"
 #include "Engine.h"
@@ -41,9 +41,9 @@ int MonoRuntime::CreateInstance()
 	if (s_Instance == NULL)
 	{
 		s_Instance = new MonoRuntime();
-		//ÉèÖÃÔËĞĞÊ±»·¾³¿âµÄÂ·¾¶
+		//è®¾ç½®è¿è¡Œæ—¶ç¯å¢ƒåº“çš„è·¯å¾„
 		mono_set_assemblies_path(TCHAR_TO_ANSI(*runtime));
-		//´´½¨monoĞéÄâ»ú»·¾³
+		//åˆ›å»ºmonoè™šæ‹Ÿæœºç¯å¢ƒ
 		s_Instance->m_RootDomain = mono_jit_init_version("SharpUnreal RootDomain", "v4.0.30319");
 		GLog->Log(ELogVerbosity::Log, TEXT("[MonoRuntime] RootDomain Created."));
 	}
@@ -67,7 +67,7 @@ void MonoRuntime::DestoryInstance()
 	{
 		if (s_Instance->m_ChildDomain != NULL)
 		{
-			//unloadÖ®Ç°±ØĞëÇĞ»»µ½¸ùdomain
+			//unloadä¹‹å‰å¿…é¡»åˆ‡æ¢åˆ°æ ¹domain
 			mono_domain_set(s_Instance->m_RootDomain, 0);
 			mono_domain_unload(s_Instance->m_ChildDomain);
 			MonoCallbackTable::DestroyAllCallback();
@@ -147,7 +147,7 @@ void MonoRuntime::OnBeginPIE(bool bIsSimulating)
 	
 	if (entry_point_method) 
 	{
-		//µ÷ÓÃ¾²Ì¬·½·¨
+		//è°ƒç”¨é™æ€æ–¹æ³•
 		mono_runtime_invoke(entry_point_method, NULL, NULL, NULL);
 	}
 	else {
@@ -181,7 +181,7 @@ void MonoRuntime::OnEndPIE(bool bIsSimulating)
 
 	if (entry_point_method)
 	{
-		//µ÷ÓÃ¾²Ì¬·½·¨
+		//è°ƒç”¨é™æ€æ–¹æ³•
 		mono_runtime_invoke(entry_point_method, NULL, NULL, NULL);
 	}
 	else {
@@ -204,7 +204,7 @@ int MonoRuntime::ReloadAssembly()
 
 	if (m_ChildDomain != NULL)
 	{
-		//unloadÖ®Ç°±ØĞëÇĞ»»µ½¸ùdomain
+		//unloadä¹‹å‰å¿…é¡»åˆ‡æ¢åˆ°æ ¹domain
 		mono_domain_set(m_RootDomain, 0);
 		mono_domain_unload(m_ChildDomain);
 		MonoCallbackTable::DestroyAllCallback();
@@ -214,7 +214,7 @@ int MonoRuntime::ReloadAssembly()
 	mono_domain_set(m_ChildDomain, 0);
 
 #if WITH_EDITOR
-	//¸´ÖÆ²¢¸²¸ÇÎÄ¼ş
+	//å¤åˆ¶å¹¶è¦†ç›–æ–‡ä»¶
 	CopyToTarget(TEXT("MainAssembly.dll"), assembly_path);
 	CopyToTarget(TEXT("UnrealEngine.dll"), engine_path);
 #endif
@@ -224,14 +224,14 @@ int MonoRuntime::ReloadAssembly()
 		return 1001;
 	}
 
-	//¼ÓÔØÒıÇæ½Å±¾DllÎÄ¼ş
+	//åŠ è½½å¼•æ“è„šæœ¬Dllæ–‡ä»¶
 	m_EngineAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*engine_path));
 	if (!m_EngineAssembly)
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Can Not Load Assembly:UnrealEngine.dll."));
 		return 1002;
 	}
-	//¸ù¾İ¼ÓÔØµÄÒıÇædll»ñÈ¡¾µÏñ
+	//æ ¹æ®åŠ è½½çš„å¼•æ“dllè·å–é•œåƒ
 	m_EngineImage = mono_assembly_get_image(m_EngineAssembly);
 	if (m_EngineImage == NULL)
 	{
@@ -239,7 +239,7 @@ int MonoRuntime::ReloadAssembly()
 		return 1003;
 	}
 
-	//×¢²áC#µ÷ÓÃC++µÄ»Øµ÷º¯Êı
+	//æ³¨å†ŒC#è°ƒç”¨C++çš„å›è°ƒå‡½æ•°
 	UnrealAPI_Object::RegisterAPI();
 	UnrealAPI_Engine::RegisterAPI();
 	UnrealAPI_Math::RegisterAPI();
@@ -253,14 +253,14 @@ int MonoRuntime::ReloadAssembly()
 	UnrealAPI_Physics::RegisterAPI();
 	UnrealAPI_NetWork::RegisterAPI();
 
-	//¼ÓÔØÂß¼­½Å±¾DllÎÄ¼ş
+	//åŠ è½½é€»è¾‘è„šæœ¬Dllæ–‡ä»¶
 	m_MainAssembly = mono_domain_assembly_open(mono_domain_get(), TCHAR_TO_ANSI(*assembly_path));
 	if (!m_MainAssembly)
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Can Not Load Assembly:MainAssembly.dll."));
 		return 1002;
 	}
-	//¸ù¾İ¼ÓÔØµÄÂß¼­dll»ñÈ¡¾µÏñ
+	//æ ¹æ®åŠ è½½çš„é€»è¾‘dllè·å–é•œåƒ
 	m_MainImage = mono_assembly_get_image(m_MainAssembly);
 	if (m_MainImage == NULL)
 	{
@@ -268,13 +268,13 @@ int MonoRuntime::ReloadAssembly()
 		return 1003;
 	}
 	
-	//´´½¨ÓÃÓÚÍøÂç»Øµ÷µÄTable»º´æÓÃÓÚÍøÂç»Øµ÷µÄ·½·¨Ö¸Õë
+	//åˆ›å»ºç”¨äºç½‘ç»œå›è°ƒçš„Tableç¼“å­˜ç”¨äºç½‘ç»œå›è°ƒçš„æ–¹æ³•æŒ‡é’ˆ
 	if (!NetCallbackTable::CreateTable(m_EngineImage, m_MainImage)) 
 	{
 		return 1004;
 	}
 
-	//»º´æÏÂËùÓĞActorComponentµÄ×ÓÀàÒıÓÃ
+	//ç¼“å­˜ä¸‹æ‰€æœ‰ActorComponentçš„å­ç±»å¼•ç”¨
 	m_ComponentNames = TArray<FString>();
 	if (m_RootDomain == NULL || m_ChildDomain == NULL ||
 		m_MainAssembly == NULL || m_MainImage == NULL)
@@ -307,12 +307,12 @@ int MonoRuntime::ReloadAssembly()
 			#if WITH_EDITOR			
 			m_ComponentNames.Add(FString(name));
 			#endif
-			//³õÊ¼»¯´´½¨ÀàµÄ»Øµ÷º¯Êı
+			//åˆå§‹åŒ–åˆ›å»ºç±»çš„å›è°ƒå‡½æ•°
 			MonoCallbackTable::CreateClassCallback(klass);
 		}
 	}
 
-	//´¦Àí±à¼­Æ÷ÖĞ»¹ÔÚµÄMono Object
+	//å¤„ç†ç¼–è¾‘å™¨ä¸­è¿˜åœ¨çš„Mono Object
 	#if WITH_EDITOR			
 	TArray<UMonoComponent*> ComponentCopy = TArray<UMonoComponent*>(m_MonoComponents);
 	m_MonoComponents.Empty();

@@ -1,4 +1,4 @@
-#include "SharpUnrealPrivatePCH.h"
+﻿#include "SharpUnrealPrivatePCH.h"
 #include "SharpUnreal.h"
 #include "MonoCallbackTable.h"
 #include "MonoRuntime.h"
