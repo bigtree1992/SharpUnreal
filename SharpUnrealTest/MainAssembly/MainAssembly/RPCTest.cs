@@ -34,14 +34,12 @@ namespace MainAssembly
             switch (evt)
             {
                 case "server":
-                    if(IsSelf())
-                        CallOnServerWithRotator(Func_ServerRPC, new Rotator(1, 1, 1));
+                    CallOnServerWithRotator(2, new Rotator(1, 1, 1));
                     break;
                 case "client":
                     break;
                 case "all":
-                    if (IsSelf())
-                        CallOnAllWithRotator(Func_AllRPC, new Rotator(1, 1, 3));
+                    CallOnAllWithRotator(3, new Rotator(1, 1, 3));
                     break;
             }
         }

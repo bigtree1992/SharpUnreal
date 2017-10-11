@@ -9,6 +9,8 @@ namespace MainAssembly
     /// </summary>
     public class ActorTest : MonoComponent
     {
+        private StaticMeshComponent m_Root;
+        private StaticMeshComponent m_Child;
 
         protected override void Initialize()
         {
@@ -37,11 +39,21 @@ namespace MainAssembly
         protected override void BeginPlay()
         {
             base.BeginPlay();
-            Actor.Root.AddLocalOffset(new Vector(5, 5, 5));
-            Actor.Root.AddLocalRotation(new Rotator(5,5,5));
+            m_Root = Actor.GetComponentByTag<StaticMeshComponent>("root");
+            m_Child = Actor.GetComponentByTag<StaticMeshComponent>("child");
+            if(m_Root == null)
+            {
+                Log.Print("root is null");
+                return;
+            }
+            if (m_Child == null)
+            {
+                Log.Print("child is null");
+                return;
+            }
 
-            Log.Print("LocalRotation:" + Actor.Root.LocalRotation.Pitch + Actor.Root.LocalRotation.Yaw + Actor.Root.LocalRotation.Roll);
-            Actor.Root.LocalRotation = new Rotator(5, 5, 5);
+            m_Child.AttachTo(m_Root);
+            //m_Child.AttachToSocket(m_Root, "Socket");
         }
 
     }
