@@ -169,15 +169,12 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MonoComponent)
 	FString ComponentName;
-private:
-	
+protected:	
 	_MonoObject * m_MonoComponent;
 	uint32_t m_Handle;
-	FString m_MapName;
-
 	MonoCallback* m_Callback;
-
 protected:
+	FString m_MapName;
 	TSharedPtr<class FOnlineSessionSettings> MySessionSettings;
 	TSharedPtr<class FOnlineSessionSearch> MySessionSearch;
 
