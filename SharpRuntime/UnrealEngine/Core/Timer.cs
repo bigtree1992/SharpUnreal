@@ -24,6 +24,8 @@ namespace UnrealEngine
 
         protected static bool s_Init;
 
+        internal static TweenManager m_TweenManager = new TweenManager();
+
         protected override void Initialize()
         {
             CanEverTick = true;
@@ -44,10 +46,7 @@ namespace UnrealEngine
 
                 try
                 {
-                    if (evt.Callback != null)
-                    {
-                        evt.Callback();
-                    }
+                    evt.Callback();
                 }
                 catch (Exception e)
                 {
@@ -57,6 +56,8 @@ namespace UnrealEngine
                 m_Events.RemoveAt(i);
                 i--;
             }
+
+            m_TweenManager.Tick(dt);
         }
 
         public static void DelayInvoke(float delay, Action callback)
@@ -83,6 +84,7 @@ namespace UnrealEngine
         internal static void Clear()
         {
             m_Events.Clear();
+            m_TweenManager.Clear();
         }
     }
 }

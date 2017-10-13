@@ -88,6 +88,16 @@
             return (float)System.Math.Sqrt(X * X + Y * Y);
         }
 
+        /**
+            * Get the squared length of this vector.
+            *
+            * @return The squared length of this vector.
+        */
+        public float SizeSquared()
+        {
+            return X * X + Y * Y;
+        }
+
         public float magnitude
         {
             get

@@ -44,7 +44,7 @@
     <Compile Include="InitTest.cs" />
     <Compile Include="InputTest.cs" />
     <Compile Include="MovementTest.cs" />
-    <Compile Include="NetWorkBehaviorTest.cs" />
+    <Compile Include="NetWorkTest.cs" />
     <Compile Include="ParticlesTest.cs" />
     <Compile Include="PathFindTest.cs" />
     <Compile Include="PhysicsTest.cs" />
@@ -55,6 +55,7 @@
     <Compile Include="TagTest.cs" />
     <Compile Include="TimerTest.cs" />
     <Compile Include="TraceLineTest.cs" />
+    <Compile Include="TweenTest.cs" />
     <Compile Include="UITest.cs" />
     <Compile Include="WorldTest.cs" />
     <Compile Include="MaterialTest.cs" />

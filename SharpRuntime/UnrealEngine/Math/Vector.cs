@@ -264,8 +264,6 @@ namespace UnrealEngine
                 }
             }
         }
-
-
         
 	    /**
 	     * Set the values of the vector directly.

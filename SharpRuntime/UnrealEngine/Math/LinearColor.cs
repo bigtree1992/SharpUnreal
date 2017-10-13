@@ -19,6 +19,7 @@
             B = (InB);
             A = (InA);
         }
+
         public LinearColor(Color Color)
         {
             R = Color.R / 255.0f;
@@ -103,5 +104,14 @@
                 ColorA.A * InvScalar
                 );
         }
+
+        public static float Dist( LinearColor V1, LinearColor V2 )
+	    {
+		    return (float)System.Math.Sqrt( 
+                    (V2.R-V1.R) * (V2.R - V1.R) + 
+                    (V2.G-V1.G) * (V2.G - V1.G) + 
+                    (V2.B-V1.B) * (V2.B - V1.B) + 
+                    (V2.A-V1.A) * (V2.A - V1.A));
+	    }
     }
 }
