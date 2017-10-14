@@ -3,7 +3,7 @@ using UnrealEngine;
 
 namespace MainAssembly
 {
-    public class NetWorkBehaviorTest: NetWorkManager
+    public class NetWorkTest: NetWorkManager
     {
         protected override void BeginPlay()
         {
@@ -28,41 +28,42 @@ namespace MainAssembly
         protected override void EndPlay(EndPlayReason reason)
         {
             base.EndPlay(reason);
-            Log.Error("[NetWorkBehaviorTest] EndPlay");
+            Log.Error("[NetWorkTest] EndPlay");
         }
 
         public override void OnAppWillTerminate()
         {
             base.OnAppWillTerminate();
-            Log.Error("[NetWorkBehaviorTest] OnAppWillTerminate");
+            Log.Error("[NetWorkTest] OnAppWillTerminate");
         }
 
-        public override void OnStartOnlieGameComplete(bool bSuccess)
+        protected override void OnStartOnlieGameComplete(bool bSuccess)
         {
             base.OnStartOnlieGameComplete(bSuccess);
-            Log.Error("[NetWorkBehaviorTest] OnStartOnlieGameComplete:" + bSuccess);
+            Log.Error("[NetWorkTest] OnStartOnlieGameComplete:" + bSuccess);
         }
 
-        public override void OnFindOnlieGameComplete(bool bSuccess)
+        protected override void OnFindOnlieGameComplete(bool bSuccess)
         {
             base.OnFindOnlieGameComplete(bSuccess);
-            Log.Error("[NetWorkBehaviorTest] OnFindOnlieGameComplete:" + bSuccess);
+            Log.Error("[NetWorkTest] OnFindOnlieGameComplete:" + bSuccess);
+
             if (bSuccess)
             {
                 JoinOnlineGame();
             }
         }
 
-        public override void OnJoinOnlieGameComplete(bool bSuccess)
+        protected override void OnJoinOnlieGameComplete(bool bSuccess)
         {
             base.OnJoinOnlieGameComplete(bSuccess);
-            Log.Error("[NetWorkBehaviorTest] OnJoinOnlieGameComplete:" + bSuccess);
+            Log.Error("[NetWorkTest] OnJoinOnlieGameComplete:" + bSuccess);
         }
 
-        public override void OnDestroyOnlieGameComplete(bool bSuccess)
+        protected override void OnDestroyOnlieGameComplete(bool bSuccess)
         {
             base.OnDestroyOnlieGameComplete(bSuccess);
-            Log.Error("[NetWorkBehaviorTest] OnDestroyOnlieGameComplete:" + bSuccess);
+            Log.Error("[NetWorkTest] OnDestroyOnlieGameComplete:" + bSuccess);
         }
     }
 }

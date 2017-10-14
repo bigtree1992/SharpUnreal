@@ -158,7 +158,7 @@ static FVector UnrealEngine_VectorProperty_GetValue(AActor* actor, UStructProper
 		return FVector::ZeroVector;
 	}
 
-	return *property->ContainerPtrToValuePtr<FVector>(property);
+	return *property->ContainerPtrToValuePtr<FVector>(actor);
 }
 
 static void UnrealEngine_VectorProperty_SetValue(AActor* actor, UStructProperty* property, FVector value)
@@ -174,7 +174,7 @@ static void UnrealEngine_VectorProperty_SetValue(AActor* actor, UStructProperty*
 		return;
 	}
 
-	*property->ContainerPtrToValuePtr<FVector>(property) = value;
+	*property->ContainerPtrToValuePtr<FVector>(actor) = value;
 }
 
 static FQuat UnrealEngine_QuatProperty_GetValue(AActor* actor, UStructProperty* property)
@@ -191,7 +191,7 @@ static FQuat UnrealEngine_QuatProperty_GetValue(AActor* actor, UStructProperty* 
 		return FQuat::Identity;
 	}
 
-	return *property->ContainerPtrToValuePtr<FQuat>(property);
+	return *property->ContainerPtrToValuePtr<FQuat>(actor);
 }
 
 static void UnrealEngine_QuatProperty_SetValue(AActor* actor, UStructProperty* property, FQuat value)
@@ -208,7 +208,7 @@ static void UnrealEngine_QuatProperty_SetValue(AActor* actor, UStructProperty* p
 		return;
 	}
 
-	*property->ContainerPtrToValuePtr<FQuat>(property) = value;
+	*property->ContainerPtrToValuePtr<FQuat>(actor) = value;
 }
 
 static FRotator UnrealEngine_RotatorProperty_GetValue(AActor* actor, UStructProperty* property)
@@ -225,7 +225,7 @@ static FRotator UnrealEngine_RotatorProperty_GetValue(AActor* actor, UStructProp
 		return FRotator::ZeroRotator;
 	}
 
-	return *property->ContainerPtrToValuePtr<FRotator>(property);
+	return *property->ContainerPtrToValuePtr<FRotator>(actor);
 }
 
 static void UnrealEngine_RotatorProperty_SetValue(AActor* actor, UStructProperty* property, FRotator value)
@@ -242,7 +242,7 @@ static void UnrealEngine_RotatorProperty_SetValue(AActor* actor, UStructProperty
 		return;
 	}
 
-	*property->ContainerPtrToValuePtr<FRotator>(property) = value;
+	*property->ContainerPtrToValuePtr<FRotator>(actor) = value;
 }
 
 static FTransform UnrealEngine_TransformProperty_GetValue(AActor* actor, UStructProperty* property)
@@ -259,7 +259,7 @@ static FTransform UnrealEngine_TransformProperty_GetValue(AActor* actor, UStruct
 		return FTransform::Identity;
 	}
 
-	return *property->ContainerPtrToValuePtr<FTransform>(property);
+	return *property->ContainerPtrToValuePtr<FTransform>(actor);
 }
 
 static void UnrealEngine_TransformProperty_SetValue(AActor* actor, UStructProperty* property, FTransform value)
@@ -276,7 +276,7 @@ static void UnrealEngine_TransformProperty_SetValue(AActor* actor, UStructProper
 		return;
 	}
 
-	*property->ContainerPtrToValuePtr<FTransform>(property) = value;
+	*property->ContainerPtrToValuePtr<FTransform>(actor) = value;
 }
 
 void UnrealAPI_Object::RegisterAPI()

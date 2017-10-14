@@ -734,116 +734,140 @@ void UMonoComponent::CallOnAllWithRotator_Implementation(int id, FRotator data)
 bool UMonoComponent::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName)
 {
 	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
-	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-
-		if (Sessions.IsValid() && UserId.IsValid())
-		{
-			MySessionSettings = MakeShareable(new FOnlineSessionSettings());
-			MySessionSettings->bIsLANMatch = bIsLAN;
-			MySessionSettings->bUsesPresence = bIsPresence;
-			MySessionSettings->NumPublicConnections = MaxNumPlayers;
-			MySessionSettings->NumPrivateConnections = 0;
-			MySessionSettings->bAllowInvites = true;
-			MySessionSettings->bAllowJoinInProgress = true;
-			MySessionSettings->bShouldAdvertise = true;
-			MySessionSettings->bAllowJoinViaPresence = true;
-			MySessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
-
-			MySessionSettings->Set(SETTING_MAPNAME, mapName, EOnlineDataAdvertisementType::ViaOnlineService);
-			m_MapName = mapName;
-			OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegate);
-			return Sessions->CreateSession(*UserId, SessionName, *MySessionSettings);
-		}
-	}
-	else
+	if (OnlineSub == NULL) 
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] HostSession But No OnlineSubsytem found!"));
+		return false;
+	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+
+	if (!Sessions.IsValid() || !UserId.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] HostSession Session Or UserId Invalid!"));
+		return false;
 	}
 
-	return false;
+	MySessionSettings = MakeShareable(new FOnlineSessionSettings());
+	MySessionSettings->bIsLANMatch = bIsLAN;
+	MySessionSettings->bUsesPresence = bIsPresence;
+	MySessionSettings->NumPublicConnections = MaxNumPlayers;
+	MySessionSettings->NumPrivateConnections = 0;
+	MySessionSettings->bAllowInvites = true;
+	MySessionSettings->bAllowJoinInProgress = true;
+	MySessionSettings->bShouldAdvertise = true;
+	MySessionSettings->bAllowJoinViaPresence = true;
+	MySessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
+
+	MySessionSettings->Set(SETTING_MAPNAME, mapName, EOnlineDataAdvertisementType::ViaOnlineService);
+	m_MapName = mapName;
+	OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegate);
+	return Sessions->CreateSession(*UserId, SessionName, *MySessionSettings);
 }
 
 void UMonoComponent::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful)
 {
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid())
-		{
-			Sessions->ClearOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegateHandle);
-			if (bWasSuccessful)
-			{
-				OnStartSessionCompleteDelegateHandle = Sessions->AddOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegate);
-				Sessions->StartSession(SessionName);
-			}
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnCreateSessionComplete But No OnlineSubsytem found!"));
+		return ;
+	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
 
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnCreateSessionComplete Session Invalid!"));
+		return ;
+	}
+
+	Sessions->ClearOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegateHandle);
+	if (bWasSuccessful)
+	{
+		OnStartSessionCompleteDelegateHandle = Sessions->AddOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegate);
+		Sessions->StartSession(SessionName);
+	}
+	else {
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnCreateSessionComplete bWasSuccessful = false!"));
 	}
 }
 
 void UMonoComponent::OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful)
 {
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid())
-		{
-			Sessions->ClearOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegateHandle);
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnStartOnlineGameComplete But No OnlineSubsytem found!"));
+		return;
 	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnStartOnlineGameComplete Session Invalid!"));
+		return;
+	}
+
+	Sessions->ClearOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegateHandle);
 
 	OnMyStartOnlineGameComplete(bWasSuccessful);
 	if (bWasSuccessful)
 	{
 		UGameplayStatics::OpenLevel(GetWorld(), FName(*m_MapName), true, "listen");
 	}
+	
 }
 
 void UMonoComponent::FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence)
 {
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid() && UserId.IsValid())
-		{
-			MySessionSearch = MakeShareable(new FOnlineSessionSearch());
-			MySessionSearch->bIsLanQuery = bIsLAN;
-			MySessionSearch->MaxSearchResults = 20;
-			MySessionSearch->PingBucketSize = 50;
-			if (bIsPresence)
-			{
-				MySessionSearch->QuerySettings.Set(SEARCH_PRESENCE, bIsPresence, EOnlineComparisonOp::Equals);
-			}
-			TSharedRef<FOnlineSessionSearch> SearchSettingsRef = MySessionSearch.ToSharedRef();
-			OnFindSessionsCompleteDelegateHandle = Sessions->AddOnFindSessionsCompleteDelegate_Handle(OnFindSessionsCompleteDelegate);
-			Sessions->FindSessions(*UserId, SearchSettingsRef);
-		}
-	}
-	else
-	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] FindSessions But No OnlineSubsytem found!"));
 		OnFindSessionsComplete(false);
+		return;
 	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+
+	if (!Sessions.IsValid() || ! UserId.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] FindSessions Session Or UserID Invalid!"));
+		OnFindSessionsComplete(false);
+		return;
+	}
+
+	MySessionSearch = MakeShareable(new FOnlineSessionSearch());
+	MySessionSearch->bIsLanQuery = bIsLAN;
+	MySessionSearch->MaxSearchResults = 20;
+	MySessionSearch->PingBucketSize = 50;
+	if (bIsPresence)
+	{
+		MySessionSearch->QuerySettings.Set(SEARCH_PRESENCE, bIsPresence, EOnlineComparisonOp::Equals);
+	}
+	TSharedRef<FOnlineSessionSearch> SearchSettingsRef = MySessionSearch.ToSharedRef();
+	OnFindSessionsCompleteDelegateHandle = Sessions->AddOnFindSessionsCompleteDelegate_Handle(OnFindSessionsCompleteDelegate);
+	Sessions->FindSessions(*UserId, SearchSettingsRef);
 }
 
 void UMonoComponent::OnFindSessionsComplete(bool bWasSuccessful)
 {
 	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid())
-		{
-			Sessions->ClearOnFindSessionsCompleteDelegate_Handle(OnFindSessionsCompleteDelegateHandle);
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnFindSessionsComplete But No OnlineSubsytem found!"));
+		OnMyFindOnlineGameComplete(false);
+		return;
 	}
-	OnMyFindOnlineGameComplete(bWasSuccessful);
-}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnFindSessionsComplete Session Invalid!"));
+		OnMyFindOnlineGameComplete(false);
+		return;
+	}
 
+	Sessions->ClearOnFindSessionsCompleteDelegate_Handle(OnFindSessionsCompleteDelegateHandle);
+	OnMyFindOnlineGameComplete(bWasSuccessful);	
+}
 
 void UMonoComponent::DoJoinSession(TSharedPtr<const FUniqueNetId> UserId)
 {
@@ -853,77 +877,106 @@ void UMonoComponent::DoJoinSession(TSharedPtr<const FUniqueNetId> UserId)
 		SearchResult = MySessionSearch->SearchResults[0];
 		JoinSession(UserId, GameSessionName, SearchResult);
 	}
+	else {
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] DoJoinSession SearchResults Num = 0."));
+	}
 }
 
-
 bool UMonoComponent::JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult)
-{
-	bool bSuccessful = false;
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+{	
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid() && UserId.IsValid())
-		{
-			OnJoinSessionCompleteDelegateHandle = Sessions->AddOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegate);
-			bSuccessful = Sessions->JoinSession(*UserId, SessionName, SearchResult);
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] JoinSession But No OnlineSubsytem found!"));
+		return false;
 	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+	if (!Sessions.IsValid() || !UserId.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] JoinSession Session Or UserId Invalid!"));
+		return false;
+	}
+
+	bool bSuccessful = false;
+	OnJoinSessionCompleteDelegateHandle = Sessions->AddOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegate);
+	bSuccessful = Sessions->JoinSession(*UserId, SessionName, SearchResult);
 
 	return bSuccessful;
 }
 
 void UMonoComponent::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
-	bool bSuccess = false;
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid())
-		{
-			Sessions->ClearOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegateHandle);
-			APlayerController * const PlayerController = GWorld->GetGameInstance()->GetFirstLocalPlayerController();
-			FString TravelURL;
-			if (PlayerController && Sessions->GetResolvedConnectString(SessionName, TravelURL))
-			{
-				PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
-				bSuccess = true;
-			}
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnJoinSessionComplete But No OnlineSubsytem found!"));
+		OnMyJoinOnlineGameComplete(false);
+		return;
+	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnJoinSessionComplete Session Invalid!"));
+		OnMyJoinOnlineGameComplete(false);
+		return;
+	}
+
+	bool bSuccess = false;
+	Sessions->ClearOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegateHandle);
+	APlayerController * const PlayerController = GWorld->GetGameInstance()->GetFirstLocalPlayerController();
+	FString TravelURL;
+	
+	if (PlayerController && Sessions->GetResolvedConnectString(SessionName, TravelURL))
+	{
+		PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
+		bSuccess = true;
 	}
 	OnMyJoinOnlineGameComplete(bSuccess);
 }
 
 void UMonoComponent::DestroySession()
 {
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid())
-		{
-			OnDestroySessionCompleteDelegateHandle = Sessions->AddOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegate);
-			Sessions->DestroySession(GameSessionName);
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] DestroySession But No OnlineSubsytem found!"));
+		return;
 	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] DestroySession Session Invalid!"));
+		return;
+	}
+
+	OnDestroySessionCompleteDelegateHandle = Sessions->AddOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegate);
+	Sessions->DestroySession(GameSessionName);
 }
 
 void UMonoComponent::OnDestroySessionComplete(FName SessionName, bool bWasSuccessful)
 {
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		if (Sessions.IsValid())
-		{
-			Sessions->ClearOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegateHandle);
-			if (bWasSuccessful)
-			{
-				//TODO open a new map or close the game
-			}
-		}
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnDestroySessionComplete But No OnlineSubsytem found!"));
+		OnMyDestroyOnlineGameComplete(false);
+		return;
 	}
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] OnDestroySessionComplete Session Invalid!"));
+		OnMyDestroyOnlineGameComplete(false);
+		return;
+	}
+
+	Sessions->ClearOnDestroySessionCompleteDelegate_Handle(OnDestroySessionCompleteDelegateHandle);
+	
+	//if (bWasSuccessful)
+	{
+		//TODO open a new map or close the game
+	}
+
 	OnMyDestroyOnlineGameComplete(bWasSuccessful);
 }
 
@@ -935,8 +988,10 @@ void UMonoComponent::DestroySessionAndLeaveGame()
 void UMonoComponent::FindOnlineGames()
 {
 	ULocalPlayer* const Player = GWorld->GetGameInstance()->GetFirstGamePlayer();
-	if (Player == nullptr) {
+	if (Player == nullptr) 
+	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] FindOnlineGames But GetFirstGamePlayer is null"));
+		return;
 	}
 
 	FindSessions(Player->GetPreferredUniqueNetId(), true, true);
@@ -945,8 +1000,10 @@ void UMonoComponent::FindOnlineGames()
 void UMonoComponent::StartOnlineGame(FString mapName, int32 playerNum)
 {
 	ULocalPlayer* const Player = GWorld->GetGameInstance()->GetFirstGamePlayer();
-	if (Player == nullptr) {
+	if (Player == nullptr) 
+	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] StartOnlineGame But GetFirstGamePlayer is null"));
+		return;
 	}
 	HostSession(Player->GetPreferredUniqueNetId(), GameSessionName, true, true, playerNum, mapName);
 }
@@ -954,64 +1011,86 @@ void UMonoComponent::StartOnlineGame(FString mapName, int32 playerNum)
 void UMonoComponent::JoinOnlineGame()
 {
 	ULocalPlayer* const Player = GWorld->GetGameInstance()->GetFirstGamePlayer();
+	if (Player == nullptr)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] JoinOnlineGame But GetFirstGamePlayer is null"));
+		return;
+	}
 	DoJoinSession(Player->GetPreferredUniqueNetId());
 }
 
 int32 UMonoComponent::GetOnlineGamePlayerNum()
 {
-	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub == NULL)
 	{
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-		FNamedOnlineSession *NamedSession = Sessions->GetNamedSession(GameSessionName);
-		if (NamedSession == nullptr) {
-			return 0;
-		}
-		return (NamedSession->RegisteredPlayers).Num();
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] GetOnlineGamePlayerNum But No OnlineSubsytem found!"));
+		return 0;
 	}
-	return 0;
+	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+	if (!Sessions.IsValid())
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] GetOnlineGamePlayerNum Session Invalid!"));
+		return 0;
+	}
+
+	FNamedOnlineSession *NamedSession = Sessions->GetNamedSession(GameSessionName);
+	if (NamedSession == NULL) {
+		return 0;
+	}
+	return (NamedSession->RegisteredPlayers).Num();
 }
 
 void UMonoComponent::OnMyStartOnlineGameComplete(bool bSuccess)
 {
-	if (m_MonoComponent != NULL)
+	if (m_MonoComponent == NULL)
 	{
-		void *args[1];
-		args[0] = &bSuccess;
-		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->OnStartOnlieGameComplete, m_MonoComponent, args);
+		return;
 	}
+
+	void *args[1];
+	args[0] = &bSuccess;
+	MonoRuntime::Instance()->InvokeMethod(
+		m_Callback->OnStartOnlieGameComplete, m_MonoComponent, args);
+
 }
 
 void UMonoComponent::OnMyFindOnlineGameComplete(bool bSuccess)
 {
-	if (m_MonoComponent != NULL)
+	if (m_MonoComponent == NULL)
 	{
-		void *args[1];
-		args[0] = &bSuccess;
-		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->OnFindOnlieGameComplete, m_MonoComponent, args);
+		return;
 	}
+
+	void *args[1];
+	args[0] = &bSuccess;
+	MonoRuntime::Instance()->InvokeMethod(
+		m_Callback->OnFindOnlieGameComplete, m_MonoComponent, args);
 }
 
 void UMonoComponent::OnMyJoinOnlineGameComplete(bool bSuccess)
 {
 	if (m_MonoComponent != NULL)
 	{
-		void *args[1];
-		args[0] = &bSuccess;
-		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->OnJoinOnlieGameComplete, m_MonoComponent, args);
+		return;
 	}
+
+	void *args[1];
+	args[0] = &bSuccess;
+	MonoRuntime::Instance()->InvokeMethod(
+		m_Callback->OnJoinOnlieGameComplete, m_MonoComponent, args);
 }
 
 void UMonoComponent::OnMyDestroyOnlineGameComplete(bool bSuccess)
 {
 	if (m_MonoComponent != NULL)
 	{
-		void *args[1];
-		args[0] = &bSuccess;
-		MonoRuntime::Instance()->InvokeMethod(
-			m_Callback->OnDestroyOnlieGameComplete, m_MonoComponent, args);
+		return;
 	}
+
+	void *args[1];
+	args[0] = &bSuccess;
+	MonoRuntime::Instance()->InvokeMethod(
+		m_Callback->OnDestroyOnlieGameComplete, m_MonoComponent, args);
 }
+

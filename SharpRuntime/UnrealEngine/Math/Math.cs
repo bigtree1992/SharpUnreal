@@ -136,6 +136,7 @@ namespace UnrealEngine
         {
             return System.Math.Sign(A);
         }
+
         public static float Sign(float A)
         {
             return System.Math.Sign(A);
@@ -172,6 +173,23 @@ namespace UnrealEngine
             return Current + DeltaMove;
         }
 
+        public static Vector2D Vector2DInterpTo( Vector2D Current, Vector2D Target, float DeltaTime, float InterpSpeed )
+        {
+	        if( InterpSpeed <= 0f )
+	        {
+		        return Target;
+	        }
+
+            var Dist = Target - Current;
+	        if( Dist.SizeSquared() < Const.KINDA_SMALL_NUMBER)
+	        {
+		        return Target;
+	        }
+
+            var DeltaMove = Dist * Clamp(DeltaTime * InterpSpeed, 0f, 1f);
+	        return Current + DeltaMove;
+        }
+
         public static Vector VInterpTo(Vector Current, Vector Target, float DeltaTime, float InterpSpeed)
         {
             if (InterpSpeed <= 0f)
@@ -179,61 +197,67 @@ namespace UnrealEngine
                 return Target;
             }
 
-            Vector Dist = Target - Current;
+            var Dist = Target - Current;
 
             if (Dist.SizeSquared() < Const.KINDA_SMALL_NUMBER)
             {
                 return Target;
             }
 
-            Vector DeltaMove = Dist * Clamp(DeltaTime * InterpSpeed, 0f, 1f);
+            var DeltaMove = Dist * Clamp(DeltaTime * InterpSpeed, 0f, 1f);
 
             return Current + DeltaMove;
         }
-        public static Rotator RInterpTo(Rotator Current, Rotator Target, float DeltaTime, float InterpSpeed)
-        {
-            if (DeltaTime == 0f || Current == Target)
-            {
-                return Current;
-            }
 
-            if (InterpSpeed <= 0f)
-            {
-                return Target;
-            }
+        public static Rotator RInterpTo(Rotator Current,Rotator Target, float DeltaTime, float InterpSpeed)
+        {
+	        // if DeltaTime is 0, do not perform any interpolation (Location was already calculated for that frame)
+	        if( DeltaTime == 0f || Current == Target )
+	        {
+		        return Current;
+	        }
+
+	        // If no interp speed, jump to target value
+	        if( InterpSpeed <= 0f )
+	        {
+		        return Target;
+	        }
 
             float DeltaInterpSpeed = InterpSpeed * DeltaTime;
 
-            Rotator Delta = (Target - Current).GetNormalized();
-
-            Rotator DeltaMove = Delta * Clamp(DeltaInterpSpeed, 0f, 1f);
-
-            return (Current + DeltaMove).GetNormalized();
+            var Delta = (Target - Current).GetNormalized();
+	
+	        // If steps are too small, just return Target and assume we have reached our destination.
+	        if (Delta.IsNearlyZero(Const.KINDA_SMALL_NUMBER))
+	        {
+		        return Target;
+	        }
+	        // Delta Move, Clamp so we do not over shoot.
+	        var DeltaMove = Delta * Clamp(DeltaInterpSpeed, 0f, 1f);
+	        return (Current + DeltaMove).GetNormalized();
         }
 
-        public static float RandomInRange(float MinValue, float MaxValue)
+        public static LinearColor CInterpTo(LinearColor Current, LinearColor Target, float DeltaTime, float InterpSpeed)
         {
-            if (MinValue == MaxValue)
-            {
-                return MinValue;
-            }
+	        // If no interp speed, jump to target value
+	        if (InterpSpeed <= 0f)
+	        {
+		        return Target;
+	        }
 
-            float Dist = MaxValue - MinValue;
+            // Difference between colors
+            float Dist = LinearColor.Dist(Target, Current);
 
-            if (System.Math.Sqrt(Dist) < Const.SMALL_NUMBER)
-            {
-                return MinValue;
-            }
+	        // If distance is too small, just set the desired color
+	        if (Dist < Const.KINDA_SMALL_NUMBER)
+	        {
+		        return Target;
+	        }
 
-            int iSeed = 10;
-            Random ra = new Random(10);
-            long tick = DateTime.Now.Ticks;
-            Random ran = new Random((int)(tick & 0xffffffffL) | (int)(tick >> 32));
-            var temp = ran.Next(0, 100);
+            // Delta change, Clamp so we do not over shoot.
+            var DeltaMove = (Target - Current) * Math.Clamp(DeltaTime * InterpSpeed, 0f, 1f);
 
-            float DeltaMove = Dist * Clamp(((float)temp / 100), 0f, 1f);
-
-            return MinValue + DeltaMove;
+	        return Current + DeltaMove;
         }
     }
 }

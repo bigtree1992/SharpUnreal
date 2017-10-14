@@ -7,41 +7,37 @@ namespace UnrealEngine
     {
         #region CallBack
 
-        public virtual void OnStartOnlieGameComplete(bool bSuccess)
-        {
-        }
-        public virtual void OnFindOnlieGameComplete(bool bSuccess)
-        {
-        }
-        public virtual void OnJoinOnlieGameComplete(bool bSuccess)
-        {
-        }
-        public virtual void OnDestroyOnlieGameComplete(bool bSuccess)
-        {
-        }
+        protected virtual void OnStartOnlieGameComplete(bool bSuccess) {}
+
+        protected virtual void OnFindOnlieGameComplete(bool bSuccess) {}
+
+        protected virtual void OnJoinOnlieGameComplete(bool bSuccess) {}
+
+        protected virtual void OnDestroyOnlieGameComplete(bool bSuccess) {}
+
         #endregion
 
-        public void StartOnlineGame(string mapName, int playerNum)
+        protected void StartOnlineGame(string mapName, int playerNum)
         {
             _StartOnlineGame(NativeHandler,mapName, playerNum);
         }
 
-        public void FindOnlineGame()
+        protected void FindOnlineGame()
         {
             _FindOnlineGame(NativeHandler);
         }
 
-        public void JoinOnlineGame()
+        protected void JoinOnlineGame()
         {
             _JoinOnlineGame(NativeHandler);
         }
 
-        public void DestroySessionAndLeaveGame()
+        protected void DestroySessionAndLeaveGame()
         {
             _DestroySessionAndLeaveGame(NativeHandler);
         }
 
-        public int GetOnlineGamePlayerNum()
+        protected int GetOnlineGamePlayerNum()
         {
             return _GetOnlineGamePlayerNum(NativeHandler);
         }

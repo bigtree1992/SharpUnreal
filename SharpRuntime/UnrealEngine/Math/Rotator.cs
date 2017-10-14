@@ -101,8 +101,12 @@ namespace UnrealEngine
         {
             return Equals((Rotator)obj);
         }
+
         public override int GetHashCode()
-        { return base.GetHashCode(); }
+        {
+            return base.GetHashCode();
+        }
+
         /**
 	    * Adds to each component of the rotator.
 	    *
@@ -126,6 +130,13 @@ namespace UnrealEngine
 	    public Rotator GetInverse()
         {
             return Quaternion().Inverse().Rotator();
+        }
+
+        public bool IsNearlyZero(float Tolerance)
+        {
+            return Math.Abs(NormalizeAxis(Pitch)) <= Tolerance && 
+                   Math.Abs(NormalizeAxis(Yaw)) <= Tolerance && 
+                   Math.Abs(NormalizeAxis(Roll)) <= Tolerance;
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -286,7 +297,6 @@ namespace UnrealEngine
         {
             return new Rotator(Euler.Y, Euler.Z, Euler.X);
         }
-
 
         public static readonly Rotator ZeroRotator = new Rotator();
     }

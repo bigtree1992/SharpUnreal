@@ -252,3 +252,5 @@ SharpUnrealTest/Plugins/SharpUnreal/Intermediate
 /SharpUnrealTest/MainAssembly/MainAssembly/obj
 /SharpUnrealTest/BuildLibs/MainAssembly.dll
 /SharpUnrealTest/BuildLibs/UnrealEngine.dll
+/SharpUnrealTest/RuntimeLibs/mono/4.5/UnrealEngine.dll
+/SharpUnrealTest/RuntimeLibs/mono/4.5/MainAssembly.dll

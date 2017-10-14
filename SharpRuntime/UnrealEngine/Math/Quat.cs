@@ -6,8 +6,6 @@ namespace UnrealEngine
     {
         public readonly static Quat Identity = new Quat(0, 0, 0, 1);
 
-        //public FQuat() { X = 0; Y = 0; Z = 0; W = 0; }
-
         public Quat(EForceInit init) { X = 0; Y = 0; Z = 0; W = init == EForceInit.ForceInitToZero ? 0 : 1; }
 
         public Quat(float InX, float InY, float InZ, float InW)
@@ -30,10 +28,12 @@ namespace UnrealEngine
         {
             this = MakeFromMatrix(M);
         }
+
         public Quat(Rotator R)
         {
             this = R.Quaternion();
         }
+
         public Quat(Vector Axis, float AngleRad)
         {
             float half_a = 0.5f * AngleRad;
@@ -86,8 +86,12 @@ namespace UnrealEngine
             return (System.Math.Abs(X - Q.X) <= Tolerance && System.Math.Abs(Y - Q.Y) <= Tolerance && System.Math.Abs(Z - Q.Z) <= Tolerance && System.Math.Abs(W - Q.W) <= Tolerance)
         || (System.Math.Abs(X + Q.X) <= Tolerance && System.Math.Abs(Y + Q.Y) <= Tolerance && System.Math.Abs(Z + Q.Z) <= Tolerance && System.Math.Abs(W + Q.W) <= Tolerance);
         }
+
         public override int GetHashCode()
-        { return base.GetHashCode(); }
+        {
+            return base.GetHashCode();
+        }
+        
         /**
          * Checks whether this Quaternion is an Identity Quaternion.
          * Assumes Quaternion tested is normalized.
@@ -101,6 +105,7 @@ namespace UnrealEngine
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         extern static Quat Multiply(ref Quat _this,ref Quat Other);
+        
         /**
          * Gets the result of multiplying this by another quaternion (this * Q).
          *
@@ -150,9 +155,7 @@ namespace UnrealEngine
             A.Y *= Scale;
             A.Z *= Scale;
             A.W *= Scale;
-
-            //DiagnosticCheckNaN();
-
+            //DiagnosticCheckNaN();        
             return A;
         }
 

@@ -84,6 +84,8 @@
     <Compile Include="Core\FLog.cs" />
     <Compile Include="Core\RPC.cs" />
     <Compile Include="Core\Timer.cs" />
+    <Compile Include="Tween\EaseType.cs" />
+    <Compile Include="Tween\TweenTask.cs" />
     <Compile Include="Engine\Editor.cs" />
     <Compile Include="Engine\Enum.cs" />
     <Compile Include="Engine\Log.cs" />
@@ -118,6 +120,8 @@
     <Compile Include="Rendering\Material.cs" />
     <Compile Include="Animation\Sequencer.cs" />
     <Compile Include="Rendering\Texture.cs" />
+    <Compile Include="Tween\TweenFuntion.cs" />
+    <Compile Include="Tween\TweenManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

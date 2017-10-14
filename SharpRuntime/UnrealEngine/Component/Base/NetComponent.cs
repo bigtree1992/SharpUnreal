@@ -22,7 +22,7 @@ namespace UnrealEngine
             return _IsServer(NativeHandler);
         }
 
-        private ENetRole GetRole()
+        public ENetRole GetRole()
         {
             return _GetRole(NativeHandler);
         }

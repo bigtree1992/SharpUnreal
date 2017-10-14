@@ -186,6 +186,66 @@ namespace UnrealEngine
             return property;
         }
 
+        public VectorProperty FindVectorProperty(string name)
+        {
+            var handler = _FindVectorProperty(NativeHandler, name);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new VectorProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
+        }
+
+        public RotatorProperty FindRotatorProperty(string name)
+        {
+            var handler = _FindRotatorProperty(NativeHandler, name);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new RotatorProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
+        }
+
+        public QuatProperty FindQuatProperty(string name)
+        {
+            var handler = _FindQuatProperty(NativeHandler, name);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new QuatProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
+        }
+
+        public TransformProperty FindTransformProperty(string name)
+        {
+            var handler = _FindTransformProperty(NativeHandler, name);
+            if (handler.ToInt64() == 0)
+            {
+                return null;
+            }
+
+            var property = new TransformProperty();
+            property.NativeHandler = handler;
+            property.ActorHandler = NativeHandler;
+
+            return property;
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static bool _HasTag(IntPtr handler, string tag);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -220,5 +280,13 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _FindStringProperty(IntPtr handler, string name);
 
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindVectorProperty(IntPtr handler, string name);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindRotatorProperty(IntPtr handler, string name);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindQuatProperty(IntPtr handler, string name);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static IntPtr _FindTransformProperty(IntPtr handler, string name);
     }
 }
