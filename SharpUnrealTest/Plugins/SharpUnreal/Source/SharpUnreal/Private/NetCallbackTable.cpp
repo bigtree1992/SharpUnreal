@@ -74,6 +74,15 @@ bool NetCallbackTable::CreateTable(_MonoImage* engine, _MonoImage* main)
 					continue;
 				}
 
+				if (mono_object_get_class(attr_object) != rpc_klass) 
+				{
+					continue;
+				}
+				
+				
+				//GLog->Logf(ELogVerbosity::Warning,
+				//	TEXT("[MonoRuntime] NetCallbackTable A Net Method : %s"), ANSI_TO_TCHAR(mono_method_get_name(method)));
+
 				int id;
 				MonoObject* id_object = mono_property_get_value(property, attr_object, NULL, NULL);
 				if (id_object == NULL)
@@ -88,9 +97,9 @@ bool NetCallbackTable::CreateTable(_MonoImage* engine, _MonoImage* main)
 				}
 				else
 				{
-
-					GLog->Logf(ELogVerbosity::Warning, TEXT("[MonoRuntime] NetCallbackTable::CreateTable Find A Repeated Net Id(%d)Function In Method %s.")
-						, id, mono_method_get_name(method));
+					GLog->Logf(ELogVerbosity::Warning, 
+						TEXT("[MonoRuntime] NetCallbackTable::CreateTable Find A Repeated Net Id(%d) Function In Method (%s).")
+						, id, ANSI_TO_TCHAR(mono_method_get_name(method)));
 				}
 			}
 		}
