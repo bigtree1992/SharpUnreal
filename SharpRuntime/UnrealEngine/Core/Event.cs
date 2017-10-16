@@ -15,28 +15,36 @@ namespace UnrealEngine
         public static void AddListener(string eventType, Action handler)
         {
             OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Action)s_EventTable[eventType] + handler;
+            var action = (Action)s_EventTable[eventType];
+            action -= handler;
+            s_EventTable[eventType] = action + handler;
         }
 
         //Single parameter
         public static void AddListener<T>(string eventType, Action<T> handler)
         {
             OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Action<T>)s_EventTable[eventType] + handler;
+            var action = (Action<T>)s_EventTable[eventType];
+            action -= handler;
+            s_EventTable[eventType] = action + handler;
         }
 
         //Two parameters
         public static void AddListener<T, U>(string eventType, Action<T, U> handler)
         {
             OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Action<T, U>)s_EventTable[eventType] + handler;
+            var action = (Action<T, U>)s_EventTable[eventType];
+            action -= handler;
+            s_EventTable[eventType] = action + handler;
         }
 
         //Three parameters
         public static void AddListener<T, U, V>(string eventType, Action<T, U, V> handler)
         {
             OnListenerAdding(eventType, handler);
-            s_EventTable[eventType] = (Action<T, U, V>)s_EventTable[eventType] + handler;
+            var action = (Action<T, U, V>)s_EventTable[eventType];
+            action -= handler;
+            s_EventTable[eventType] = action + handler;
         }
         #endregion
 
