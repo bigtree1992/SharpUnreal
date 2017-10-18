@@ -14,6 +14,22 @@ namespace UnrealEngine
             NativeHandler = handler;
         }
 
+        public virtual void UnRegister()
+        {
+            NativeHandler = IntPtr.Zero;
+            if (m_Root != null)
+            {
+                m_Root.NativeHandler = IntPtr.Zero;
+                m_Root = null;
+            }
+
+            if (m_Sequencer != null)
+            {
+                m_Sequencer.NativeHandler = IntPtr.Zero;
+                m_Sequencer = null;
+            }
+        }
+
         public bool HasTag(string tag)
         {
             return _HasTag(NativeHandler, tag);
@@ -64,6 +80,7 @@ namespace UnrealEngine
             set { _SetSceneComponent(NativeHandler, value.NativeHandler); }
         }
 
+        private Sequencer m_Sequencer;
         /// <summary>
         /// 获取这个Actor上的Sequencer
         /// </summary>
@@ -71,12 +88,20 @@ namespace UnrealEngine
         {
             get
             {
-                var sequencer = new Sequencer();
-                sequencer.NativeHandler = _GetSequencer(NativeHandler);
-                return sequencer;
+                if (m_Sequencer == null)
+                {
+                    var handler = _GetSequencer(NativeHandler);
+                    if (handler.ToInt64() == 0)
+                    {
+                        return null;
+                    }
+                    m_Sequencer = new Sequencer();
+                    m_Sequencer.NativeHandler = handler;
+                }
+                return m_Sequencer;
             }
         }
-        
+
         /// <summary>
         /// 获取脚本上的C#组件
         /// </summary>
@@ -91,10 +116,10 @@ namespace UnrealEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetComponent<T>() where T : ActorComponent , new()
+        public T GetComponent<T>() where T : ActorComponent, new()
         {
             IntPtr handler = _GetComponent(NativeHandler, typeof(T).Name);
-            
+
             if (handler.ToInt64() == 0)
             {
                 return null;
@@ -123,14 +148,14 @@ namespace UnrealEngine
             ret.NativeHandler = handler;
             return ret;
         }
-        
+
         /// <summary>
         /// 销毁这个Actor
         /// </summary>
         public void Destroy()
         {
             _Destroy(NativeHandler);
-            NativeHandler = IntPtr.Zero; 
+            NativeHandler = IntPtr.Zero;
         }
 
         /// <summary>
@@ -144,7 +169,7 @@ namespace UnrealEngine
         public IntProperty FindIntProperty(string name)
         {
             var handler = _FindIntProperty(NativeHandler, name);
-            if(handler.ToInt64() == 0)
+            if (handler.ToInt64() == 0)
             {
                 return null;
             }
@@ -264,7 +289,7 @@ namespace UnrealEngine
         private extern static void _SetSceneComponent(IntPtr handler, IntPtr value);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static ActorComponent _GetMonoComponent(IntPtr handler);
-        [MethodImpl(MethodImplOptions.InternalCall)]      
+        [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetComponent(IntPtr handler, string type);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetComponentByTag(IntPtr handler, string type, string tag);

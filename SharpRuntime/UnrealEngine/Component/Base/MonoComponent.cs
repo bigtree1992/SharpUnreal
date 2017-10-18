@@ -13,6 +13,12 @@ namespace UnrealEngine
 
         protected virtual void OnUnregister()
         {
+            NativeHandler = IntPtr.Zero;
+            if (m_Owner != null)
+            {
+                m_Owner.UnRegister();
+                m_Owner = null;
+            }
         }
 
         protected virtual void Initialize()
@@ -49,7 +55,7 @@ namespace UnrealEngine
         /// 蓝图调用C#脚本的通用事件函数
         /// </summary>
         /// <param name="evt"></param>
-        public virtual void OnEventWithInt(string evt,int data)
+        public virtual void OnEventWithInt(string evt, int data)
         {
         }
         public virtual void OnEventWithFloat(string evt, float data)
@@ -123,15 +129,15 @@ namespace UnrealEngine
         {
         }
 
-        public virtual void OnComponentHit(PrimitiveComponent self, PrimitiveComponent comp, Vector impact)
+        public virtual void OnComponentHit(PrimitiveComponent self, PrimitiveComponent other, Vector impact)
         {
         }
 
-        public virtual void OnComponentBeginOverlap(PrimitiveComponent self, PrimitiveComponent comp, Vector impact)
+        public virtual void OnComponentBeginOverlap(PrimitiveComponent self, PrimitiveComponent other, Vector impact)
         {
         }
 
-        public virtual void OnComponentEndOverlap(PrimitiveComponent self, PrimitiveComponent comp)
+        public virtual void OnComponentEndOverlap(PrimitiveComponent self, PrimitiveComponent other)
         {
         }
 
@@ -191,6 +197,6 @@ namespace UnrealEngine
         private extern static void _SendEventWithString(IntPtr handler, string evt, string data);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SendEventWithInt(IntPtr handler, string evt, int data);
-      
+
     }
 }
