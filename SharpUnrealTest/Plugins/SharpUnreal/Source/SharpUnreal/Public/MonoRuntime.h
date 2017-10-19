@@ -32,6 +32,7 @@ public:
 	void FreeObject(uint32_t handle);
 
 	void SetNativeHandler(_MonoObject* object, void* handler);
+	void ClearNativeHandler(_MonoObject* object);
 
 	void ResgisterComponent( UMonoComponent* const component);
 	void UnResgisterComponent( UMonoComponent* const component);
@@ -54,7 +55,8 @@ private:
 	
 	struct _MonoAssembly*	m_EngineAssembly;
 	struct _MonoImage*		m_EngineImage;
-
+	struct _MonoClass*      m_UObjectClass;
+	struct _MonoClassField* m_NativeHandlerField;
 	TArray<FString> m_ComponentNames;
 	TArray<UMonoComponent*> m_MonoComponents;
 };

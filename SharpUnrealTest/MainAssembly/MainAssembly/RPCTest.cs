@@ -29,12 +29,12 @@ namespace MainAssembly
         {
             base.Initialize();
 
-            //1 选取Index
-
+            //选取Index
             //都是服务器最先登陆进来，所以服务器的ID一直为0
             //其他客户端登陆进来后会顺序分配ID
             //ID第一次生成了之后都是保存到服务器的，客户端自己不知道，
-            //需要进行一次查询，查询的时候可以发送一条指令，参数使用本地配置的玩家名字或者配置的标记号作为区分
+            //需要进行一次查询，查询的时候可以发送一条指令，
+            //参数使用本地配置的玩家名字或者配置的标记号作为区分
 
             for(int i = 0; i < 3; i++)
             {
@@ -51,21 +51,20 @@ namespace MainAssembly
                 break;
             }
 
-            CanEverTick = true;
-
             if (m_Index != -1)
             {
                 Log.Debug(m_Index + " : " + GetRole().ToString());
             }
-
-            //2 同步的插值目标初始的时候必须要设置为当前的值
+            //同步的插值目标初始的时候必须要设置为当前的值
             m_Rot.Value = Actor.Root.LocalRotation;
+            CanEverTick = true;
         }
 
         protected override void EndPlay(EndPlayReason reason)
         {
             base.EndPlay(reason);
 
+            //因为静态变量在编辑器下重复运行，所以需要清理
             Flags[0] = false;
             Flags[1] = false;
             Flags[2] = false;
@@ -80,14 +79,13 @@ namespace MainAssembly
         [RPC(Func_AllRPC)]
         void AllRPC(Rotator data)
         {
-            //Log.Print("AllRPC" + data.Yaw + data.Pitch + data.Roll);
             Actor.Root.AddLocalOffset(new Vector(0, 0, 5));
         }
 
         protected override void Tick(float dt)
         {
             base.Tick(dt);
-            //5分两次判断，如果是客户端 那么是模拟的就是使用别人的值
+            // 分两次判断，如果是客户端 那么是模拟的就是使用别人的值
             // 如果是在服务器，就根据本地配置的ID进行判断是不是自己，如果不是自己的话，也要用别人的值
 
             // 这个代表服务器端的用户的Index一直为0
@@ -97,7 +95,7 @@ namespace MainAssembly
             if (GetRole() == ENetRole.ROLE_SimulatedProxy || 
                 (GetRole() == ENetRole.ROLE_Authority && m_Index != ServerPlayerIndex))
             {
-                ProcessInterTo(m_Rot.Value);
+                ProcessInterpTo(m_Rot.Value);
             }
         }
 
@@ -105,7 +103,7 @@ namespace MainAssembly
         [RPC(Func_ProcessRotate)]
         void ServerProcessRotate(Rotator data)
         {
-            //4 服务端被调用后需要设置同步变量才能通知模拟端
+            //服务端被调用后需要设置同步变量才能通知模拟端
             // 广播给模拟端的是处理完的绝对值
             m_Rot.Value = data;
         }
@@ -117,10 +115,7 @@ namespace MainAssembly
             switch (evt)
             {
                 case "server":
-                    CallOnServerWithRotator(Func_ServerRPC, new Rotator(0, 10, 0));
-                    break;
-                case "all":
-                    CallOnAllWithRotator(Func_AllRPC, new Rotator(1, 1, 3));
+                    CallOnServerWithRotator(Func_ServerRPC, new Rotator(0, 10, 0));                
                     break;
                 case "f":
                     // 3 Pawn在处理输入的时候 要本地自己处理，
@@ -135,7 +130,7 @@ namespace MainAssembly
         /// 处理插值到目标
         /// </summary>
         /// <param name="rotator"></param>
-        private void ProcessInterTo(Rotator rotator)
+        private void ProcessInterpTo(Rotator rotator)
         {
             Actor.Root.LocalRotation = rotator;
         }
