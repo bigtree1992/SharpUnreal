@@ -5,22 +5,75 @@ namespace UnrealEngine
 {
     public class Pawn : Actor
     {
+        public override void UnRegister()
+        {
+            base.UnRegister();
+            if (m_PawnMovementComponent != null)
+            {
+                m_PawnMovementComponent.NativeHandler = IntPtr.Zero;
+                m_PawnMovementComponent = null;
+            }
+
+            if (m_Controller != null)
+            {
+                m_Controller.NativeHandler = IntPtr.Zero;
+                m_Controller = null;
+            }
+        }
+
+        private PawnMovementComponent m_PawnMovementComponent;
         public PawnMovementComponent MovementComponent
         {
             get
             {
-                var handle = _GetMovementComponent(NativeHandler);
-                if (handle.ToInt64() != 0)
+                if (m_PawnMovementComponent == null)
                 {
-                    var comp = new PawnMovementComponent();
-                    comp.NativeHandler = handle;
-                    return comp;
+                    var handle = _GetMovementComponent(NativeHandler);
+                    if (handle.ToInt64() == 0)
+                    {
+                        return null;
+                    }
+                    m_PawnMovementComponent = new PawnMovementComponent();
+                    m_PawnMovementComponent.NativeHandler = handle;
                 }
-                else
+                return m_PawnMovementComponent;
+            }
+        }
+
+        private Controller m_Controller;
+        public Controller Controller
+        {
+            get
+            {
+                if (m_Controller == null)
                 {
-                    return null;
+                    var handle = _GetController(NativeHandler);
+                    if (handle.ToInt64() == 0)
+                    {
+                        return null;
+                    }
+                    m_Controller = new Controller();
+                    m_Controller.NativeHandler = handle;
                 }
-                
+                return m_Controller;
+            }
+        }
+
+        public AIController AIController
+        {
+            get
+            {
+                if (m_Controller == null || m_Controller.GetType() != typeof(AIController))
+                {
+                    var handle = _GetAIController(NativeHandler);
+                    if (handle.ToInt64() == 0)
+                    {
+                        return null;
+                    }
+                    m_Controller = new AIController();
+                    m_Controller.NativeHandler = handle;
+                }
+                return m_Controller as AIController;
             }
         }
 
@@ -89,43 +142,6 @@ namespace UnrealEngine
             get
             {
                 return _GetIsControlled(NativeHandler);
-            }
-        }
-
-        public Controller Controller
-        {
-            get
-            {
-                var handle = _GetController(NativeHandler);
-                if (handle.ToInt64() != 0)
-                {
-                    var ctrl = new Controller();
-                    ctrl.NativeHandler = handle;
-                    return ctrl;
-                }
-                else
-                {
-                    return null;
-                }
-                
-            }
-        }
-        public AIController AIController
-        {
-            get
-            {
-                var handle = _GetAIController(NativeHandler);
-                if (handle.ToInt64() != 0)
-                {
-                    var ctrl = new AIController();
-                    ctrl.NativeHandler = handle;
-                    return ctrl;
-                }
-                else
-                {
-                    return null;
-                }
-
             }
         }
 

@@ -28,7 +28,7 @@ namespace UnrealEngine
             set { _SetCanEverTick(NativeHandler,value);}
         }
 
-        private Actor m_Owner;
+        protected Actor m_Owner;
         public Actor Actor
         {
             get
@@ -68,28 +68,31 @@ namespace UnrealEngine
         {
             _SetTickableWhenPaused(NativeHandler, bTickableWhenPaused);
         }
-
+        
         public Pawn Pawn
         {
             get
             {
-                var handler = _GetPawn(NativeHandler);
-                if (handler.ToInt64() == 0)
+                if(m_Owner == null || m_Owner.GetType() != typeof(Pawn) )
                 {
-                    return null;
+                    var handler = _GetPawn(NativeHandler);
+                    if (handler.ToInt64() == 0)
+                    {
+                        return null;
+                    }
+                    m_Owner = new Pawn();
+                    m_Owner.NativeHandler = handler;
                 }
-                else
-                {
-                    Pawn pawn = new Pawn();
-                    pawn.NativeHandler = handler;
-                    return pawn;
-                }
+                return m_Owner as Pawn;
             }
         }
 
         public string Name
         {
-            get;
+            get
+            {
+                return _GetName(NativeHandler);
+            }
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
