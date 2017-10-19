@@ -58,7 +58,7 @@ void UMonoComponent::OnUnregister()
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->OnUnregister, m_MonoComponent, NULL);
 
-		MonoRuntime::Instance()->ClearNativeHandler(m_MonoComponent);
+		//MonoRuntime::Instance()->ClearNativeHandler(m_MonoComponent);
 	}
 }
 
