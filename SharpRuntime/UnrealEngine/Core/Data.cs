@@ -83,5 +83,15 @@ namespace UnrealEngine
         {
             ms_QDict[key] = value;
         }
+
+        public static void Clear()
+        {
+            ms_SDict.Clear();
+            ms_IDict.Clear();
+            ms_FDict.Clear();
+            ms_VDict.Clear();
+            ms_RDict.Clear();
+            ms_QDict.Clear();
+        }
     }
 }

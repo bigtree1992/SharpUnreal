@@ -107,6 +107,66 @@ namespace UnrealEngine
             _CallOnAllWithRotator(NativeHandler, fid, data);
         }
 
+        public void CallOnServerWithRR(int fid, Rotator data,Rotator data2)
+        {
+            _CallOnServerWithRR(NativeHandler, fid, data,data2);
+        }
+
+        private void CallOnClientWithRR(int fid, Rotator data,Rotator data2)
+        {
+            _CallOnClientWithRR(NativeHandler, fid, data,data2);
+        }
+
+        public void CallOnAllWithRR(int fid, Rotator data,Rotator data2)
+        {
+            if (!IsServer())
+            {
+                Log.Error("[NetComponent] CallOnAllWithRR can't call on client!");
+                return;
+            }
+            _CallOnAllWithRR(NativeHandler, fid, data,data2);
+        }
+
+        public void CallOnServerWithVR(int fid, Vector data, Rotator data2)
+        {
+            _CallOnServerWithVR(NativeHandler, fid, data, data2);
+        }
+
+        private void CallOnClientWithVR(int fid, Vector data, Rotator data2)
+        {
+            _CallOnClientWithVR(NativeHandler, fid, data, data2);
+        }
+
+        public void CallOnAllWithVR(int fid, Vector data, Rotator data2)
+        {
+            if (!IsServer())
+            {
+                Log.Error("[NetComponent] CallOnAllWithVR can't call on client!");
+                return;
+            }
+            _CallOnAllWithVR(NativeHandler, fid, data, data2);
+        }
+
+        public void CallOnServerWithVV(int fid, Vector data, Vector data2)
+        {
+            _CallOnServerWithVV(NativeHandler, fid, data, data2);
+        }
+
+        private void CallOnClientWithVV(int fid, Vector data, Vector data2)
+        {
+            _CallOnClientWithVV(NativeHandler, fid, data, data2);
+        }
+
+        public void CallOnAllWithVV(int fid, Vector data, Vector data2)
+        {
+            if (!IsServer())
+            {
+                Log.Error("[NetComponent] CallOnAllWithRR can't call on client!");
+                return;
+            }
+            _CallOnAllWithVV(NativeHandler, fid, data, data2);
+        }
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static ENetRole _GetRole(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -140,5 +200,26 @@ namespace UnrealEngine
         private extern static void _CallOnClientWithRotator(IntPtr handler, int fid, Rotator data);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _CallOnAllWithRotator(IntPtr handler, int fid, Rotator data);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnServerWithRR(IntPtr handler, int fid, Rotator data, Rotator data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnClientWithRR(IntPtr handler, int fid, Rotator data, Rotator data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnAllWithRR(IntPtr handler, int fid, Rotator data, Rotator data2);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnServerWithVR(IntPtr handler, int fid, Vector data, Rotator data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnClientWithVR(IntPtr handler, int fid, Vector data, Rotator data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnAllWithVR(IntPtr handler, int fid, Vector data, Rotator data2);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnServerWithVV(IntPtr handler, int fid, Vector data, Vector data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnClientWithVV(IntPtr handler, int fid, Vector data, Vector data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnAllWithVV(IntPtr handler, int fid, Vector data, Vector data2);
     }
 }

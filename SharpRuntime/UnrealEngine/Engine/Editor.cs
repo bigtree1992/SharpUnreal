@@ -14,12 +14,14 @@ namespace UnrealEngine
             //清空静态变量中保存的上一次运行的注册对象，防止残留的野指针被调用导致编辑器崩溃
             Event.Clear();
             Timer.Clear();
+            Data.Clear();
         }
 
         public static void OnEndPIE()
         {
             Event.Clear();
             Timer.Clear();
+            Data.Clear();
         }
     }
 }
