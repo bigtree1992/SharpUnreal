@@ -79,7 +79,8 @@ void MonoRuntime::DestoryInstance()
 		s_Instance->m_MainImage = NULL;
 		s_Instance->m_MainAssembly = NULL;
 		s_Instance->m_EngineAssembly = NULL;
-
+		s_Instance->m_UObjectClass = NULL;
+		s_Instance->m_NativeHandlerField = NULL;
 #if !WITH_EDITOR
 		mono_jit_cleanup(s_Instance->m_RootDomain);
 #endif
@@ -283,13 +284,26 @@ int MonoRuntime::ReloadAssembly()
 		return 1005;
 	}
 
+	m_UObjectClass = mono_class_from_name(m_EngineImage, "UnrealEngine", "UObject");
+	if (m_UObjectClass == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get UObject Class Failed!"));
+		return 1007;
+	}
+	m_NativeHandlerField = mono_class_get_field_from_name(m_UObjectClass, "m_NativeHandler");
+	if(m_NativeHandlerField == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get m_NativeHandlerField Class Failed!"));
+		return 1008;
+	}
+
 	MonoClass* base = mono_class_from_name(m_EngineImage, "UnrealEngine", "MonoComponent");
 	if (base == NULL)
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[MonoRuntime] Get ComponentNames Failed! Not Find MonoComponent."));
-		return 1006;
+		return 1009;
 	}
-
+	
 	unsigned length = 0;
 	int rows = mono_image_get_table_rows(m_MainImage, MONO_TABLE_TYPEDEF);
 	for (int i = 1; i < rows; ++i)
@@ -339,21 +353,21 @@ _MonoObject* MonoRuntime::CreateObject(const char * name)
 {
 	if (m_MainAssembly == NULL) 
 	{
-		GLog->Logf(ELogVerbosity::Error,TEXT("[MonoRuntime] MainAssembly Is Null When CreateObject %s"),name);
+		GLog->Logf(ELogVerbosity::Error,TEXT("[MonoRuntime] MainAssembly Is Null When CreateObject %s"), ANSI_TO_TCHAR(name));
 		return NULL;
 	}
 
 	MonoClass* klass = mono_class_from_name(m_MainImage, "MainAssembly", name);
 	if (klass == NULL) 
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObject But Can't Find %s "), name);
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObject But Can't Find %s "), ANSI_TO_TCHAR(name));
 		return NULL;
 	}
 
 	MonoObject* obj = mono_object_new(mono_domain_get(), klass);
 	if (obj == NULL) 
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObject Failed %s "), name);
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObject Failed %s "), ANSI_TO_TCHAR(name));
 		return NULL;
 	}
 	mono_runtime_object_init(obj);
@@ -365,21 +379,21 @@ _MonoObject* MonoRuntime::CreateObjectFromEngine(const char * name)
 {
 	if (m_EngineAssembly == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] m_EngineAssembly Is Null When CreateObjectFromEngine %s"), name);
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] m_EngineAssembly Is Null When CreateObjectFromEngine %s"), ANSI_TO_TCHAR(name));
 		return NULL;
 	}
 
 	MonoClass* klass = mono_class_from_name(m_EngineImage, "UnrealEngine", name);
 	if (klass == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObjectFromEngine But Can't Find %s "), name);
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObjectFromEngine But Can't Find %s "), ANSI_TO_TCHAR(name));
 		return NULL;
 	}
 
 	MonoObject* obj = mono_object_new(mono_domain_get(), klass);
 	if (obj == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObjectFromEngine Failed %s "), name);
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoRuntime] CreateObjectFromEngine Failed %s "), ANSI_TO_TCHAR(name));
 		return NULL;
 	}
 	mono_runtime_object_init(obj);
@@ -399,9 +413,52 @@ void MonoRuntime::FreeObject(uint32_t handle)
 
 void MonoRuntime::SetNativeHandler(_MonoObject* object, void* handler)
 {
+	if (m_NativeHandlerField == NULL) 
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SetNativeHandler] m_NativeHandlerField Is Null."));
+		return;
+	}
+	mono_field_set_value(object, m_NativeHandlerField, handler);
+}
+
+void MonoRuntime::ClearNativeHandler(_MonoObject* object)
+{	
+	if (m_NativeHandlerField == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SetNativeHandler] m_NativeHandlerField Is Null."));
+		return;
+	}
+
+	int* v = NULL;
+	mono_field_set_value(object, m_NativeHandlerField, &v);
+	
 	MonoClass* klass = mono_object_get_class(object);
-	MonoClassField* field = mono_class_get_field_from_name(klass, "m_NativeHandler");
-	mono_field_set_value(object, field, handler);
+	while (klass != m_UObjectClass)
+	{
+		void* iter = NULL;
+		MonoClassField* field = NULL;
+
+		while (true)
+		{
+			field = mono_class_get_fields(klass, &iter);
+			if (field == NULL) 
+			{
+				break;
+			}
+			//判断是否是静态
+			if (mono_field_get_flags(field) & 0x10)
+			{
+				continue;
+			}
+			MonoObject* field_value = NULL;
+			mono_field_get_value(object, field, &field_value);
+			if (field_value != NULL && mono_object_isinst(field_value, m_UObjectClass))
+			{
+				ClearNativeHandler(field_value);
+			}
+		}
+		klass = mono_class_get_parent(klass);
+	}
 }
 
 void MonoRuntime::ResgisterComponent( UMonoComponent* const component) 
@@ -469,6 +526,8 @@ MonoRuntime::MonoRuntime()
 	, m_MainImage(NULL)
 	, m_EngineAssembly(NULL)
 	, m_EngineImage(NULL)
+	, m_UObjectClass(NULL)
+	, m_NativeHandlerField(NULL)
 {}
 
 
