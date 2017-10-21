@@ -59,6 +59,11 @@ void UMonoComponent::OnUnregister()
 			m_Callback->OnUnregister, m_MonoComponent, NULL);
 
 		//MonoRuntime::Instance()->ClearNativeHandler(m_MonoComponent);
+#if WITH_EDITOR
+		MonoRuntime::Instance()->UnResgisterComponent(this);
+#endif // WITH_EDITOR
+		MonoRuntime::Instance()->FreeObject(m_Handle);
+		m_MonoComponent = NULL;
 	}
 }
 
@@ -161,11 +166,7 @@ void UMonoComponent::BeginDestroy()
 {
 	if (m_MonoComponent != NULL)
 	{
-#if WITH_EDITOR
-		MonoRuntime::Instance()->UnResgisterComponent(this);
-#endif // WITH_EDITOR
-		MonoRuntime::Instance()->FreeObject(m_Handle);
-		m_MonoComponent = NULL;
+
 	}
 	
 	Super::BeginDestroy();		
