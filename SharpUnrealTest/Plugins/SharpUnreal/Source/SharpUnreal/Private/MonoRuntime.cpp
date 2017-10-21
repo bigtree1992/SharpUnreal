@@ -1,8 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "SharpUnrealPrivatePCH.h"
-//#include "Engine.h"
-#include "SharpUnreal.h"
+﻿#include "SharpUnrealPrivatePCH.h"
 #include "MonoRuntime.h"
 #include "MonoComponent.h"
 #include "MonoCallbackTable.h"
@@ -21,6 +17,9 @@
 #include "UnrealAPI/UnrealAPI_Spline.h"
 #include "UnrealAPI/UnrealAPI_Physics.h"
 #include "UnrealAPI/UnrealAPI_Network.h"
+
+#include "SharpUnreal.h"
+#include "CoreUObject.h"
 
 #include <mono/jit/jit.h>
 #include "mono/metadata/metadata.h"

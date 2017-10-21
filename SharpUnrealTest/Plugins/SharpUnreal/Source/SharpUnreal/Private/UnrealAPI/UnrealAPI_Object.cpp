@@ -1,5 +1,4 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
 #include "UnrealAPI_Object.h"
 
 #include <mono/jit/jit.h>

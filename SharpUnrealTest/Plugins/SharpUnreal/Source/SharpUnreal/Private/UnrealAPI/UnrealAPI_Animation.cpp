@@ -1,5 +1,4 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
 #include "UnrealAPI_Animation.h"
 #include "MonoComponent.h"
 #include "LevelSequenceActor.h"

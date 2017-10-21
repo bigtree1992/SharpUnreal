@@ -7,7 +7,6 @@
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Components/ActorComponent.h"
 
 #include "mono/metadata/object.h"
 

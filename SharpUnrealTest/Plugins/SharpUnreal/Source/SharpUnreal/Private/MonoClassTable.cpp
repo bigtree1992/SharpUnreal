@@ -1,5 +1,4 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
 #include "MonoClassTable.h"
 
 #include "Components/ApplicationLifecycleComponent.h"
