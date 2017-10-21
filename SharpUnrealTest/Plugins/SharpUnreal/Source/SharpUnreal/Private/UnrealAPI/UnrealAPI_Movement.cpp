@@ -4,6 +4,10 @@
 #include "UnrealAPI_Movement.h"
 #include "GameFramework/MovementComponent.h"
 #include "Components/InterpToMovementComponent.h"
+#include "GameFrameWork/NavMovementComponent.h"
+#include "GameFrameWork/PawnMovementComponent.h"
+#include "GameFrameWork/ProjectileMovementComponent.h"
+#include "GameFrameWork/RotatingMovementComponent.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>
@@ -228,25 +232,6 @@ static float UnrealEngine_MovementComponent_GetMaxSpeed(UMovementComponent* _thi
 	return _this->GetMaxSpeed();
 }
 
-static float UnrealEngine_MovementComponent_GetMaxSpeedModifier(UMovementComponent* _this)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MovementComponent] GetMaxSpeedModifier But _this is NULL."));
-		return 0.0f;
-	}
-	return _this->GetMaxSpeedModifier();
-}
-
-static float UnrealEngine_MovementComponent_GetModifiedMaxSpeed(UMovementComponent* _this)
-{
-	if (_this == NULL)
-	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MovementComponent] GetModifiedMaxSpeed But _this is NULL."));
-		return 0.0f;
-	}
-	return _this->GetMaxSpeedModifier();
-}
 #endif
 
 #if 1 //NavMovementComponent
@@ -987,10 +972,10 @@ void UnrealAPI_Movement::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_MovementComponent_GetGravityZ));
 	mono_add_internal_call("UnrealEngine.MovementComponent::_GetMaxSpeed",
 		reinterpret_cast<void*>(UnrealEngine_MovementComponent_GetMaxSpeed));
-	mono_add_internal_call("UnrealEngine.MovementComponent::_GetMaxSpeedModifier",
-		reinterpret_cast<void*>(UnrealEngine_MovementComponent_GetMaxSpeedModifier));
-	mono_add_internal_call("UnrealEngine.MovementComponent::_GetModifiedMaxSpeed",
-		reinterpret_cast<void*>(UnrealEngine_MovementComponent_GetModifiedMaxSpeed));
+	//mono_add_internal_call("UnrealEngine.MovementComponent::_GetMaxSpeedModifier",
+	//	reinterpret_cast<void*>(UnrealEngine_MovementComponent_GetMaxSpeedModifier));
+	//mono_add_internal_call("UnrealEngine.MovementComponent::_GetModifiedMaxSpeed",
+	//	reinterpret_cast<void*>(UnrealEngine_MovementComponent_GetModifiedMaxSpeed));
 	mono_add_internal_call("UnrealEngine.NavMovementComponent::_StopActiveMovement",
 		reinterpret_cast<void*>(UnrealEngine_NavMovementComponent_StopActiveMovement));
 	mono_add_internal_call("UnrealEngine.NavMovementComponent::_StopMovementKeepPathing",

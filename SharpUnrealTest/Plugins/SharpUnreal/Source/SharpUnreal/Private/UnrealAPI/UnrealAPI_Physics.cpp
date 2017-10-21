@@ -2,6 +2,9 @@
 #include "SharpUnreal.h"
 #include "UnrealAPI_Physics.h"
 
+#include "Engine/EngineBaseTypes.h"
+#include "Engine/World.h"
+
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>
 #include <mono/metadata/assembly.h>
