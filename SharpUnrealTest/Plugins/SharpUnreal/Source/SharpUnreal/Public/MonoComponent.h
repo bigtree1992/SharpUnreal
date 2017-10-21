@@ -150,6 +150,33 @@ public:
 	UFUNCTION(NetMulticast, reliable)
 	void CallOnAllWithRotator(int id, FRotator data);
 
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithRR(int id, FRotator data, FRotator data2);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithRR(int id, FRotator data, FRotator data2);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithRR(int id, FRotator data, FRotator data2);
+
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithVV(int id, FVector data, FVector data2);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithVV(int id, FVector data, FVector data2);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithVV(int id, FVector data, FVector data2);
+
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithVR(int id, FVector data, FRotator data2);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithVR(int id, FVector data, FRotator data2);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithVR(int id, FVector data, FRotator data2);
+
 	//OnlineSystem Call Function
 	void StartOnlineGame(FString mapName, int32 playerNum);
 	void FindOnlineGames();

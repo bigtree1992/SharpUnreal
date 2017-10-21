@@ -357,6 +357,105 @@ static void UnrealEngine_NetComponent_CallOnAllWithRotator(UMonoComponent* _this
 	_this->CallOnAllWithRotator(function_id, data);
 }
 
+static void UnrealEngine_NetComponent_CallOnServerWithRR(UMonoComponent* _this, int function_id, FRotator data, FRotator data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithRR But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithRR(function_id, data,data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithRR(UMonoComponent* _this, int function_id, FRotator data, FRotator data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithRR But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithRR(function_id, data,data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithRR(UMonoComponent* _this, int function_id, FRotator data, FRotator data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithRR But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithRR(function_id, data,data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnServerWithVR(UMonoComponent* _this, int function_id, FVector data, FRotator data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithVR But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithVR(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithVR(UMonoComponent* _this, int function_id, FVector data, FRotator data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithVR But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithVR(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithVR(UMonoComponent* _this, int function_id, FVector data, FRotator data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithVR But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithVR(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnServerWithVV(UMonoComponent* _this, int function_id, FVector data, FVector data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithVV But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithVV(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithVV(UMonoComponent* _this, int function_id, FVector data, FVector data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithVV But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithVV(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithVV(UMonoComponent* _this, int function_id, FVector data, FVector data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithVV But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithVV(function_id, data, data2);
+}
+
 #endif
 
 #if 1
@@ -3199,6 +3298,27 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithRotator));
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithRotator",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithRotator));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithRR",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithRR));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithRR",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithRR));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithRR",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithRR));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithVR",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithVR));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithVR",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithVR));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithVR",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithVR));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithVV",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithVV));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithVV",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithVV));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithVV",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithVV));
 
 #endif
 

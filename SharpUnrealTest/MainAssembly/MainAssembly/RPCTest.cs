@@ -71,15 +71,16 @@ namespace MainAssembly
         }
 
         [RPC(Func_ServerRPC)]
-        void ServerRPC(Rotator data)
+        void ServerRPC(Vector pos, Rotator data)
         {
-            CallOnAllWithRotator(Func_AllRPC, data);
+            CallOnAllWithVR(Func_AllRPC,pos, data);
         }
 
         [RPC(Func_AllRPC)]
-        void AllRPC(Rotator data)
+        void AllRPC(Vector pos, Rotator data)
         {
             Actor.Root.AddLocalOffset(new Vector(0, 0, 5));
+            Actor.Root.AddLocalOffset(new Vector(0, 0, 100));
         }
 
         protected override void Tick(float dt)
@@ -115,7 +116,7 @@ namespace MainAssembly
             switch (evt)
             {
                 case "server":
-                    CallOnServerWithRotator(Func_ServerRPC, new Rotator(0, 10, 0));                
+                    CallOnServerWithVR(Func_ServerRPC, new Vector(0,0,100), new Rotator(0, 10, 0));                
                     break;
                 case "f":
                     // 3 Pawn在处理输入的时候 要本地自己处理，

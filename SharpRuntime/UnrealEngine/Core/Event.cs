@@ -52,33 +52,61 @@ namespace UnrealEngine
         //No parameters
         public static void RemoveListener(string eventType, Action handler)
         {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Action)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
+            try
+            {
+                OnListenerRemoving(eventType, handler);
+                s_EventTable[eventType] = (Action)s_EventTable[eventType] - handler;
+                OnListenerRemoved(eventType);
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         //Single parameter
         public static void RemoveListener<T>(string eventType, Action<T> handler)
         {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Action<T>)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
-        }
+            try
+            {
+                OnListenerRemoving(eventType, handler);
+                s_EventTable[eventType] = (Action<T>)s_EventTable[eventType] - handler;
+                OnListenerRemoved(eventType);
+            }
+            catch(Exception e)
+            {
+
+            }
+}
 
         //Two parameters
         public static void RemoveListener<T, U>(string eventType, Action<T, U> handler)
         {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Action<T, U>)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
+            try
+            {
+                OnListenerRemoving(eventType, handler);
+                s_EventTable[eventType] = (Action<T, U>)s_EventTable[eventType] - handler;
+                OnListenerRemoved(eventType);
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         //Three parameters
         public static void RemoveListener<T, U, V>(string eventType, Action<T, U, V> handler)
         {
-            OnListenerRemoving(eventType, handler);
-            s_EventTable[eventType] = (Action<T, U, V>)s_EventTable[eventType] - handler;
-            OnListenerRemoved(eventType);
+            try
+            {
+                OnListenerRemoving(eventType, handler);
+                s_EventTable[eventType] = (Action<T, U, V>)s_EventTable[eventType] - handler;
+                OnListenerRemoved(eventType);
+            }
+            catch(Exception e)
+            {
+
+            }
         }
         #endregion
 

@@ -58,7 +58,7 @@ void UMonoComponent::OnUnregister()
 		MonoRuntime::Instance()->InvokeMethod(
 			m_Callback->OnUnregister, m_MonoComponent, NULL);
 
-		MonoRuntime::Instance()->ClearNativeHandler(m_MonoComponent);
+		//MonoRuntime::Instance()->ClearNativeHandler(m_MonoComponent);
 	}
 }
 
@@ -732,6 +732,146 @@ void UMonoComponent::CallOnAllWithRotator_Implementation(int id, FRotator data)
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
 }
 
+bool UMonoComponent::CallOnServerWithRR_Validate(int id, FRotator data, FRotator data2)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithRR_Implementation(int id, FRotator data, FRotator data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithRR_Implementation(int id, FRotator data, FRotator data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithRR_Implementation(int id, FRotator data, FRotator data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+bool UMonoComponent::CallOnServerWithVR_Validate(int id, FVector data, FRotator data2)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithVR_Implementation(int id, FVector data, FRotator data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithVR_Implementation(int id, FVector data, FRotator data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithVR_Implementation(int id, FVector data, FRotator data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+bool UMonoComponent::CallOnServerWithVV_Validate(int id, FVector data, FVector data2)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithVV_Implementation(int id, FVector data, FVector data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithVV_Implementation(int id, FVector data, FVector data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithVV_Implementation(int id, FVector data, FVector data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
 
 bool UMonoComponent::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName)
 {

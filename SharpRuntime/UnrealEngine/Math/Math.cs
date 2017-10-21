@@ -1,4 +1,6 @@
-﻿namespace UnrealEngine
+﻿using System;
+
+namespace UnrealEngine
 {
     public struct Const
     {
@@ -256,6 +258,31 @@
             var DeltaMove = (Target - Current) * Math.Clamp(DeltaTime * InterpSpeed, 0f, 1f);
 
 	        return Current + DeltaMove;
+        }
+
+        public static float RandomInRange(float MinValue, float MaxValue)
+        {
+            if (MinValue == MaxValue)
+            {
+                return MinValue;
+            }
+
+            float Dist = MaxValue - MinValue;
+
+            if (System.Math.Sqrt(Dist) < Const.SMALL_NUMBER)
+            {
+                return MinValue;
+            }
+
+            int iSeed = 10;
+            Random ra = new Random(iSeed);
+            long tick = DateTime.Now.Ticks;
+            Random ran = new Random((int)(tick & 0xffffffffL) | (int)(tick >> 32));
+            var temp = ran.Next(0, 100);
+
+            float DeltaMove = Dist * Clamp(((float)temp / 100), 0f, 1f);
+
+            return MinValue + DeltaMove;
         }
     }
 }
