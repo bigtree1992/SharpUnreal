@@ -8,28 +8,11 @@ namespace MainAssembly
     /// </summary>
     public class ComponentLifeTest : MonoComponent
     {
+        QuatProperty m_Quat;
         protected override void OnRegister()
         {
             Log.Error("[ComponentLifeTest] OnRegister");
-        }
-
-        protected override void OnUnregister()
-        {
-            Log.Error("[ComponentLifeTest] OnUnregister");
-        }
-
-        protected override void Initialize()
-        {
-            Log.Error("[ComponentLifeTest] Initialize");
-            if (Actor.Root.HasTag("Hello"))
-            {
-                Log.Error("[ComponentLifeTest] True! Hello!");
-            }
-            else
-            {
-                Log.Error("[ComponentLifeTest] False! Hello!");
-            }
-
+            m_Quat = Actor.FindQuatProperty("TestQuat");
 
             var testint = Actor.FindIntProperty("TestInt");
             var TestString = Actor.FindStringProperty("TestString");
@@ -60,6 +43,27 @@ namespace MainAssembly
             {
                 Log.Error(TestFloat.Value.ToString());
             }
+        }
+
+        protected override void OnUnregister()
+        {
+            Log.Error("[ComponentLifeTest] OnUnregister");
+        }
+
+        protected override void Initialize()
+        {
+            Log.Error("[ComponentLifeTest] Initialize");
+            if (Actor.Root.HasTag("Hello"))
+            {
+                Log.Error("[ComponentLifeTest] True! Hello!");
+            }
+            else
+            {
+                Log.Error("[ComponentLifeTest] False! Hello!");
+            }
+
+
+            
 
             //Actor.Root.LocalPosition = 
             //    Actor.Root.LocalPosition + new Vector(0, 0, 100);
@@ -95,6 +99,14 @@ namespace MainAssembly
         protected override void BeginPlay()
         {
             Log.Error("[ComponentLifeTest] [BeginPlay] ");
+            if (m_Quat != null)
+            {
+                Log.Debug("[TestQuat] = " + m_Quat.Value.ToString());
+
+                m_Quat.Value = new Quat(1,1,1,1);
+                Log.Debug("[TestQuat] = " + m_Quat.Value.ToString());
+            }
+
         }
 
         protected override void EndPlay(EndPlayReason reason)

@@ -207,8 +207,13 @@ static void UnrealEngine_QuatProperty_SetValue(AActor* actor, UStructProperty* p
 		GLog->Logf(ELogVerbosity::Error, TEXT("[QuatProperty] GetValue But property is NULL."));
 		return;
 	}
-
-	*property->ContainerPtrToValuePtr<FQuat>(actor) = value;
+	FQuat& PropertyValue = *property->ContainerPtrToValuePtr<FQuat>(actor);	
+	PropertyValue.X = value.X;
+	PropertyValue.Y = value.Y;
+	PropertyValue.Z = value.Z;
+	PropertyValue.W = value.W;
+	//below code will crash
+	//*property->ContainerPtrToValuePtr<FQuat>(actor,0) = value;
 }
 
 static FRotator UnrealEngine_RotatorProperty_GetValue(AActor* actor, UStructProperty* property)

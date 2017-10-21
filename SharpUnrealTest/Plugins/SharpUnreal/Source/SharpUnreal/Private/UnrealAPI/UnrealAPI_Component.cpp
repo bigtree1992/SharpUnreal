@@ -630,7 +630,7 @@ static void UnrealEngine_SceneComponent_SnapTo(USceneComponent* _this, USceneCom
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapTo But parent is NULL."));
 		return;
 	}
-	_this->SnapTo(parent);
+	_this->AttachToComponent(parent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 }
 
 static void UnrealEngine_SceneComponent_SnapToSocket(USceneComponent* _this, USceneComponent* parent, MonoString* socket)
@@ -651,7 +651,7 @@ static void UnrealEngine_SceneComponent_SnapToSocket(USceneComponent* _this, USc
 		return;
 	}
 	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
-	_this->SnapTo(parent, name);
+	_this->AttachToComponent(parent, FAttachmentTransformRules::SnapToTargetNotIncludingScale, name);
 }
 
 static void UnrealEngine_SceneComponent_Detach(USceneComponent* _this)
@@ -1782,7 +1782,7 @@ static FVector UnrealEngine_BoxComponent_GetShapeScale(UBoxComponent* _this)
 		GLog->Logf(ELogVerbosity::Error, TEXT("[BoxComponent] GetShapeScale But _this is NULL."));
 		return FVector(1, 1, 1);
 	}
-	return _this->ComponentToWorld.GetScale3D();
+	return _this->GetComponentTransform().GetScale3D();
 }
 
 #endif
@@ -2978,9 +2978,9 @@ static void UnrealEngine_TextRenderComponent_SetText(UTextRenderComponent* _this
 		GLog->Logf(ELogVerbosity::Error, TEXT("[TextRenderComponent] SetText But value is NULL."));
 		return;
 	}
-	FText val = FText();
-	val.FromString(FString((TCHAR*)mono_string_to_utf16(value)));
-	_this->SetText(val);
+
+	FString str = FString((TCHAR*)mono_string_to_utf16(value));
+	_this->K2_SetText(FText::FromString(str));
 }
 
 static FColor UnrealEngine_TextRenderComponent_GetColor(UTextRenderComponent* _this)
