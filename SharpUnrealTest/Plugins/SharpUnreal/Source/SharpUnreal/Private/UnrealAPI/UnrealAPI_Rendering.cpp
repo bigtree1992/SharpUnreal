@@ -1,8 +1,8 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
+﻿#include "SharpUnrealPrivatePCH.h"
 #include "UnrealAPI_Rendering.h"
+
+#include "Materials/MaterialInterface.h"
+#include "Materials/MaterialInstanceDynamic.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>

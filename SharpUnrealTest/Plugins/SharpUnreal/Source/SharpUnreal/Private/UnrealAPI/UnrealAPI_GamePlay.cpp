@@ -1,5 +1,4 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
 #include "LevelSequenceActor.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "GameFramework/Actor.h"

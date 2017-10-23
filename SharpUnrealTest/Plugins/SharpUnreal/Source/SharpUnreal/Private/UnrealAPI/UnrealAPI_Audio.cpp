@@ -1,7 +1,8 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
 #include "UnrealAPI_Audio.h"
 #include "MonoComponent.h"
+
+#include "Components/AudioComponent.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>

@@ -1,6 +1,10 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "SharpUnreal.h"
 #include "UnrealAPI_Engine.h"
+
+#include "Engine/Engine.h"
+#include "Kismet/GameplayStatics.h"
+#include "Materials/MaterialInterface.h"
+#include "Engine/Texture.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/metadata.h>

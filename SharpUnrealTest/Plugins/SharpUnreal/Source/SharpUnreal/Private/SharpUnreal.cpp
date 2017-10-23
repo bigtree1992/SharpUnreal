@@ -1,6 +1,7 @@
 ﻿// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
 #include "SharpUnrealPrivatePCH.h"
+#include "SharpUnreal.h"
 #include "MonoRuntime.h"
 
 #define LOCTEXT_NAMESPACE "FSharpUnrealModule"
