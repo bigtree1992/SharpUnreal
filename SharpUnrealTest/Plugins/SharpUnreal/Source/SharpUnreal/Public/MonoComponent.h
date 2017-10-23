@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Components/ActorComponent.h"
 #include "Online.h"
 #include "MonoComponent.generated.h"
 
