@@ -87,6 +87,16 @@ namespace UnrealEngine
             }
         }
 
+        public void Clear()
+        {
+            NativeHandler = IntPtr.Zero;
+            if (m_Owner != null)
+            {
+                m_Owner.UnRegister();
+                m_Owner = null;
+            }
+        }
+
         public string Name
         {
             get

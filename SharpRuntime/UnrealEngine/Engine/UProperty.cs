@@ -6,6 +6,12 @@ namespace UnrealEngine
 {
     public class Property : UObject
     {
+        public virtual void Clear()
+        {
+            ActorHandler = IntPtr.Zero;
+            NativeHandler = IntPtr.Zero;
+        }
+
         public IntPtr ActorHandler
         {
             get;

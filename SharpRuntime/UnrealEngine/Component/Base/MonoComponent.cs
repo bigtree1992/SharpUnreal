@@ -13,12 +13,7 @@ namespace UnrealEngine
 
         protected virtual void OnUnregister()
         {
-            NativeHandler = IntPtr.Zero;
-            if (m_Owner != null)
-            {
-                m_Owner.UnRegister();
-                m_Owner = null;
-            }
+            Clear();
         }
 
         protected virtual void Initialize()
