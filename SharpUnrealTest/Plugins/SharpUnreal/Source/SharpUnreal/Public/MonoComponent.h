@@ -177,6 +177,24 @@ public:
 	UFUNCTION(Client, reliable)
 	void CallOnClientWithVR(int id, FVector data, FRotator data2);
 
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithQuat(int id, FQuat data);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithQuat(int id, FQuat data);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithQuat(int id, FQuat data);
+
+	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithVQ(int id, FVector data, FQuat data2);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithVQ(int id, FVector data, FQuat data2);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithVQ(int id, FVector data, FQuat data2);
+
 	//OnlineSystem Call Function
 	void StartOnlineGame(FString mapName, int32 playerNum);
 	void FindOnlineGames();

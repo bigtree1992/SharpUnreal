@@ -456,6 +456,72 @@ static void UnrealEngine_NetComponent_CallOnAllWithVV(UMonoComponent* _this, int
 	_this->CallOnAllWithVV(function_id, data, data2);
 }
 
+static void UnrealEngine_NetComponent_CallOnServerWithQuat(UMonoComponent* _this, int function_id, FQuat data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithQuat But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithQuat(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithQuat(UMonoComponent* _this, int function_id, FQuat data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithQuat But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithQuat(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithQuat(UMonoComponent* _this, int function_id, FQuat data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithQuat But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithQuat(function_id, data);
+}
+
+static void UnrealEngine_NetComponent_CallOnServerWithVQ(UMonoComponent* _this, int function_id, FVector data, FQuat data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithVQ But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnServerWithVQ(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithVQ(UMonoComponent* _this, int function_id, FVector data, FQuat data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithVQ But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnClientWithVQ(function_id, data, data2);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithVQ(UMonoComponent* _this, int function_id, FVector data, FQuat data2)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithVQ But _this is NULL."));
+		return;
+	}
+
+	_this->CallOnAllWithVQ(function_id, data, data2);
+}
+
 #endif
 
 #if 1
@@ -3320,6 +3386,19 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithVV",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithVV));
 
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithVQ",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithVQ));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithVQ",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithVQ));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithVQ",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithVQ));
+
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithQuat",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithQuat));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithQuat",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithQuat));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithQuat",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithQuat));
 #endif
 
 #if 1

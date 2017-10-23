@@ -29,6 +29,7 @@ namespace MainAssembly
         {
             base.Initialize();
 
+
             //选取Index
             //都是服务器最先登陆进来，所以服务器的ID一直为0
             //其他客户端登陆进来后会顺序分配ID
@@ -71,16 +72,22 @@ namespace MainAssembly
         }
 
         [RPC(Func_ServerRPC)]
-        void ServerRPC(Vector pos, Rotator data)
+        void ServerRPC(Vector pos, Quat data)
         {
-            CallOnAllWithVR(Func_AllRPC,pos, data);
+            CallOnAllWithVQ(Func_AllRPC,pos, data);
         }
 
         [RPC(Func_AllRPC)]
-        void AllRPC(Vector pos, Rotator data)
+        void AllRPC(Vector pos, Quat data)
         {
             Actor.Root.AddLocalOffset(new Vector(0, 0, 5));
             Actor.Root.AddLocalOffset(new Vector(0, 0, 100));
+        }
+
+        [RPC(5)]
+        void TestQuat(Quat quat)
+        {
+            Log.Print(quat.ToString());
         }
 
         protected override void Tick(float dt)
@@ -116,7 +123,9 @@ namespace MainAssembly
             switch (evt)
             {
                 case "server":
-                    CallOnServerWithVR(Func_ServerRPC, new Vector(0,0,100), new Rotator(0, 10, 0));                
+                    CallOnServerWithQuat(5, new Quat(100, 100, 100, 100));
+                    CallOnServerWithVQ(Func_ServerRPC, new Vector(0, 0, 100), new Quat(0, 10, 0, 0));
+
                     break;
                 case "f":
                     // 3 Pawn在处理输入的时候 要本地自己处理，

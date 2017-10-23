@@ -260,6 +260,35 @@ namespace UnrealEngine
 	        return Current + DeltaMove;
         }
 
+        public static Quat QInterpTo(Quat Current, Quat Target, float DeltaTime, float InterpSpeed)
+        {
+            // if DeltaTime is 0, do not perform any interpolation (Location was already calculated for that frame)
+            if (DeltaTime == 0f || Current == Target)
+            {
+                return Current;
+            }
+
+            // If no interp speed, jump to target value
+            if (InterpSpeed <= 0f)
+            {
+                return Target;
+            }
+
+            float DeltaInterpSpeed = InterpSpeed * DeltaTime;
+
+            var Delta = (Target - Current).GetNormalized();
+
+
+            // If steps are too small, just return Target and assume we have reached our destination.
+            if (Delta.SizeSquared() < Const.KINDA_SMALL_NUMBER)
+            {
+                return Target;
+            }
+            // Delta Move, Clamp so we do not over shoot.
+            var DeltaMove = Delta * Clamp(DeltaInterpSpeed, 0f, 1f);
+            return (Current + DeltaMove).GetNormalized();
+        }
+
         public static float RandomInRange(float MinValue, float MaxValue)
         {
             if (MinValue == MaxValue)

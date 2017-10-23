@@ -107,6 +107,26 @@ namespace UnrealEngine
             _CallOnAllWithRotator(NativeHandler, fid, data);
         }
 
+        public void CallOnServerWithQuat(int fid, Quat data)
+        {
+            _CallOnServerWithQuat(NativeHandler, fid, data);
+        }
+
+        private void CallOnClientWithQuat(int fid, Quat data)
+        {
+            _CallOnClientWithQuat(NativeHandler, fid, data);
+        }
+
+        public void CallOnAllWithQuat(int fid, Quat data)
+        {
+            if (!IsServer())
+            {
+                Log.Error("[NetComponent] CallOnAllWithQuat can't call on client!");
+                return;
+            }
+            _CallOnAllWithQuat(NativeHandler, fid, data);
+        }
+
         public void CallOnServerWithRR(int fid, Rotator data,Rotator data2)
         {
             _CallOnServerWithRR(NativeHandler, fid, data,data2);
@@ -161,10 +181,30 @@ namespace UnrealEngine
         {
             if (!IsServer())
             {
-                Log.Error("[NetComponent] CallOnAllWithRR can't call on client!");
+                Log.Error("[NetComponent] CallOnAllWithVV can't call on client!");
                 return;
             }
             _CallOnAllWithVV(NativeHandler, fid, data, data2);
+        }
+
+        public void CallOnServerWithVQ(int fid, Vector data, Quat data2)
+        {
+            _CallOnServerWithVQ(NativeHandler, fid, data, data2);
+        }
+
+        private void CallOnClientWithVQ(int fid, Vector data, Quat data2)
+        {
+            _CallOnClientWithVQ(NativeHandler, fid, data, data2);
+        }
+
+        public void CallOnAllWithVQ(int fid, Vector data, Quat data2)
+        {
+            if (!IsServer())
+            {
+                Log.Error("[NetComponent] CallOnAllWithVQ can't call on client!");
+                return;
+            }
+            _CallOnAllWithVQ(NativeHandler, fid, data, data2);
         }
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -221,5 +261,17 @@ namespace UnrealEngine
         private extern static void _CallOnClientWithVV(IntPtr handler, int fid, Vector data, Vector data2);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _CallOnAllWithVV(IntPtr handler, int fid, Vector data, Vector data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnServerWithVQ(IntPtr handler, int fid, Vector data, Quat data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnClientWithVQ(IntPtr handler, int fid, Vector data, Quat data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnAllWithVQ(IntPtr handler, int fid, Vector data, Quat data2);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnServerWithQuat(IntPtr handler, int fid, Quat data);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnClientWithQuat(IntPtr handler, int fid, Quat data);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _CallOnAllWithQuat(IntPtr handler, int fid, Quat data);
     }
 }
