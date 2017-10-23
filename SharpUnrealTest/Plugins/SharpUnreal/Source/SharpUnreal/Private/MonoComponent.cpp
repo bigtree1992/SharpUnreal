@@ -874,6 +874,98 @@ void UMonoComponent::CallOnAllWithVV_Implementation(int id, FVector data, FVecto
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
 }
 
+bool UMonoComponent::CallOnServerWithQuat_Validate(int id, FQuat data)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithQuat_Implementation(int id, FQuat data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithQuat_Implementation(int id, FQuat data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithQuat_Implementation(int id, FQuat data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	args[0] = &data;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+bool UMonoComponent::CallOnServerWithVQ_Validate(int id, FVector data, FQuat data2)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithVQ_Implementation(int id, FVector data, FQuat data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithVQ_Implementation(int id, FVector data, FQuat data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithVQ_Implementation(int id, FVector data, FQuat data2)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[2];
+	args[0] = &data;
+	args[1] = &data2;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+
 bool UMonoComponent::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName)
 {
 	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();

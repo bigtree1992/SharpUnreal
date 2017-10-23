@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "CoreUObject.h"
+
 struct _MonoMethod;
 struct _MonoClass;
 struct _MonoObject;

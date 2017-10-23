@@ -5,6 +5,8 @@ struct _MonoMethod;
 struct _MonoClass;
 class UMonoComponent;
 
+#include "CoreUObject.h"
+
 /**
 * 管理Mono虚拟机的创建，C# dll加载
 */

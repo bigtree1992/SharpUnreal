@@ -151,25 +151,38 @@ namespace UnrealEngine
         {
             return Vector(ref this);
         }
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        extern static Quat Quaternion(ref Rotator _this);
+        
 	    /**
 	     * Get Rotation as a quaternion.
 	     *
 	     * @return Rotation as a quaternion.
 	     */
-	    public Quat Quaternion()
+
+        public Quat Quaternion()
         {
-            return Quaternion(ref this);
+            const float DEG_TO_RAD = Const.PI / (180.0f);
+            const float DIVIDE_BY_2 = DEG_TO_RAD / 2.0f;
+            float SP, SY, SR;
+            float CP, CY, CR;
+
+            Math.SinCos(out SP, out CP, Pitch * DIVIDE_BY_2);
+            Math.SinCos(out SY, out CY, Yaw * DIVIDE_BY_2);
+            Math.SinCos(out SR, out CR, Roll * DIVIDE_BY_2);
+
+            Quat RotationQuat;
+            RotationQuat.X = CR * SP * SY - SR * CP * CY;
+            RotationQuat.Y = -CR * SP * CY - SR * CP * SY;
+            RotationQuat.Z = CR * CP * SY - SR * SP * CY;
+            RotationQuat.W = CR * CP * CY + SR * SP * SY;
+            return RotationQuat;
         }
 
-	    /**
+        /**
 	     * Convert a Rotator into floating-point Euler angles (in degrees). Rotator now stored in degrees.
 	     *
 	     * @return Rotation as a Euler angle vector.
 	     */
-	    public Vector Euler()
+        public Vector Euler()
         {
             return new Vector( Roll, Pitch, Yaw );
         }
