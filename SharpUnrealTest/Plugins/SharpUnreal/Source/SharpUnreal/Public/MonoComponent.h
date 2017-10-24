@@ -134,6 +134,15 @@ public:
 	void CallOnAllWithFloat(int id,float data);
 
 	UFUNCTION(Server, reliable, WithValidation)
+	void CallOnServerWithString(int id, FString &data);
+
+	UFUNCTION(Client, reliable)
+	void CallOnClientWithString(int id, FString &data);
+
+	UFUNCTION(NetMulticast, reliable)
+	void CallOnAllWithString(int id, FString &data);
+
+	UFUNCTION(Server, reliable, WithValidation)
 	void CallOnServerWithVector(int id, FVector data);
 
 	UFUNCTION(Client, reliable)

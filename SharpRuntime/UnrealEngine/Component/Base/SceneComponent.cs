@@ -48,7 +48,7 @@ namespace UnrealEngine
             }
         }
 
-        public Quat Rotation
+        public Rotator Rotation
         {
             get
             {
@@ -57,6 +57,18 @@ namespace UnrealEngine
             set
             {
                 _SetRotation(NativeHandler, value);
+            }
+        }
+
+        public Quat RotationQ
+        {
+            get
+            {
+                return _GetRotationQ(NativeHandler);
+            }
+            set
+            {
+                _SetRotationQ(NativeHandler, value);
             }
         }
 
@@ -141,7 +153,7 @@ namespace UnrealEngine
                 _SetLocalRotation(NativeHandler, value);
             }
         }
-        
+
         public Vector LocalScale
         {
             get
@@ -209,6 +221,7 @@ namespace UnrealEngine
             return _DoesSocketExist(NativeHandler,socket);
         }
 
+
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Transform _GetTransform(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -218,9 +231,13 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static void _SetPosition(IntPtr handle, Vector trans);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static Quat _GetRotation(IntPtr handle);
+        private extern static Rotator _GetRotation(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern static void _SetRotation(IntPtr handle, Quat trans);
+        private extern static void _SetRotation(IntPtr handle, Rotator trans);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static Quat _GetRotationQ(IntPtr handle);
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static void _SetRotationQ(IntPtr handle, Quat trans);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static Vector _GetScale(IntPtr handle);
         [MethodImpl(MethodImplOptions.InternalCall)]

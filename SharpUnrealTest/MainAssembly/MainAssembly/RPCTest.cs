@@ -45,7 +45,7 @@ namespace MainAssembly
                 }
 
                 Actor.Root.Position = Postions[i];
-                Actor.Root.Rotation = Rotators[i].Quaternion();
+                Actor.Root.Rotation = Rotators[i];
 
                 Flags[i] = true;
                 m_Index = i;

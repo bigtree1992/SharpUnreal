@@ -290,6 +290,41 @@ static void UnrealEngine_NetComponent_CallOnAllWithFloat(UMonoComponent* _this, 
 	_this->CallOnAllWithFloat(function_id, data);
 }
 
+static void UnrealEngine_NetComponent_CallOnServerWithString(UMonoComponent* _this, int function_id, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnServerWithFloat But _this is NULL."));
+		return;
+	}
+	FString fdata = FString((TCHAR*)mono_string_to_utf16(data));
+	_this->CallOnServerWithString(function_id, fdata);
+}
+
+static void UnrealEngine_NetComponent_CallOnClientWithString(UMonoComponent* _this, int function_id, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnClientWithFloat But _this is NULL."));
+		return;
+	}
+
+	FString fdata = FString((TCHAR*)mono_string_to_utf16(data));
+	_this->CallOnClientWithString(function_id, fdata);
+}
+
+static void UnrealEngine_NetComponent_CallOnAllWithString(UMonoComponent* _this, int function_id, MonoString* data)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] CallOnAllWithFloat But _this is NULL."));
+		return;
+	}
+
+	FString fdata = FString((TCHAR*)mono_string_to_utf16(data));
+	_this->CallOnAllWithString(function_id, fdata);
+}
+
 static void UnrealEngine_NetComponent_CallOnServerWithVector(UMonoComponent* _this, int function_id, FVector data)
 {
 	if (_this == NULL)
@@ -564,21 +599,41 @@ static void UnrealEngine_SceneComponent_SetPosition(USceneComponent* _this, FVec
 	_this->SetWorldLocation(pos);
 }
 
-static FQuat UnrealEngine_SceneComponent_GetRotation(USceneComponent* _this)
+static FRotator UnrealEngine_SceneComponent_GetRotation(USceneComponent* _this)
 {
 	if (_this == NULL)
 	{
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetRotation But _this is NULL."));
+		return FRotator::ZeroRotator;
+	}
+	return _this->GetComponentRotation();
+}
+
+static void UnrealEngine_SceneComponent_SetRotation(USceneComponent* _this, FRotator rot)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetRotation But _this is NULL."));
+		return;
+	}
+	_this->SetWorldRotation(rot);
+}
+
+static FQuat UnrealEngine_SceneComponent_GetRotationQ(USceneComponent* _this)
+{
+	if (_this == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetRotationQ But _this is NULL."));
 		return FQuat::Identity;
 	}
 	return _this->GetComponentQuat();
 }
 
-static void UnrealEngine_SceneComponent_SetRotation(USceneComponent* _this, FQuat rot)
+static void UnrealEngine_SceneComponent_SetRotationQ(USceneComponent* _this, FQuat rot)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetRotation But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SetRotationQ But _this is NULL."));
 		return;
 	}
 	_this->SetWorldRotation(rot);
@@ -3350,6 +3405,13 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithFloat",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithFloat));
 
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithString",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithString));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithString",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnClientWithString));
+	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithString",
+		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithString));
+
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnServerWithVector",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnServerWithVector));
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnClientWithVector",
@@ -3414,6 +3476,10 @@ void UnrealAPI_Component::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetRotation));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetRotation",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetRotation));
+	mono_add_internal_call("UnrealEngine.SceneComponent::_GetRotationQ",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetRotationQ));
+	mono_add_internal_call("UnrealEngine.SceneComponent::_SetRotationQ",
+		reinterpret_cast<void*>(UnrealEngine_SceneComponent_SetRotationQ)); 
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetScale",
 		reinterpret_cast<void*>(UnrealEngine_SceneComponent_GetScale));
 	mono_add_internal_call("UnrealEngine.SceneComponent::_SetScale",

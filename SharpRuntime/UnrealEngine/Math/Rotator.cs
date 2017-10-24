@@ -311,6 +311,11 @@ namespace UnrealEngine
             return new Rotator(Euler.Y, Euler.Z, Euler.X);
         }
 
+        public override string ToString()
+        {
+            return string.Format("Roll={0} Pitch={1} Yaw={2}", Roll, Pitch, Yaw);
+        }
+
         public static readonly Rotator ZeroRotator = new Rotator();
     }
 }
