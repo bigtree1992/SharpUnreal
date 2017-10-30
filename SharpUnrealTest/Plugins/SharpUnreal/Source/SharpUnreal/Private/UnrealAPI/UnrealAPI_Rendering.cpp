@@ -48,7 +48,7 @@ static float UnrealEngine_DynamicMaterial_GetScalarParameter(UMaterialInstanceDy
 		return 0.0f;
 	}
 
-	FName fname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName fname = FName((TCHAR*)mono_string_chars(name));
 	
 	float fresult = 0.0f;
 	if (!_this->GetScalarParameterValue(fname,fresult)) 
@@ -71,7 +71,7 @@ static void UnrealEngine_DynamicMaterial_SetScalarParameter(UMaterialInstanceDyn
 		GLog->Logf(ELogVerbosity::Error, TEXT("[DynamicMaterial] _SetScalarParameter But name is NULL."));
 	}
 
-	FName fname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName fname = FName((TCHAR*)mono_string_chars(name));
 	_this->SetScalarParameterValue(fname, value);
 }
 
@@ -89,7 +89,7 @@ static FLinearColor UnrealEngine_DynamicMaterial_GetVectorParameter(UMaterialIns
 		return FLinearColor::Black;
 	}
 
-	FName fname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName fname = FName((TCHAR*)mono_string_chars(name));
 	FLinearColor result;
 	if (!_this->GetVectorParameterValue(fname, result)) 
 	{
@@ -110,7 +110,7 @@ static void UnrealEngine_DynamicMaterial_SetVectorParameter(UMaterialInstanceDyn
 		GLog->Logf(ELogVerbosity::Error, TEXT("[DynamicMaterial] _SetVectorParameter But name is NULL."));
 		return;
 	}
-	FName fname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName fname = FName((TCHAR*)mono_string_chars(name));
 	_this->SetVectorParameterValue(fname, value);
 }
 
@@ -128,7 +128,7 @@ static UTexture* UnrealEngine_DynamicMaterial_GetTextureParameter(UMaterialInsta
 		return NULL;
 	}
 
-	FName fname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName fname = FName((TCHAR*)mono_string_chars(name));
 	UTexture* result;
 	if (!_this->GetTextureParameterValue(fname, result)) 
 	{
@@ -157,7 +157,7 @@ static void UnrealEngine_DynamicMaterial_SetTextureParameter(UMaterialInstanceDy
 		return;
 	}
 
-	FName fname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName fname = FName((TCHAR*)mono_string_chars(name));
 	_this->SetTextureParameterValue(fname, texture);
 }
 

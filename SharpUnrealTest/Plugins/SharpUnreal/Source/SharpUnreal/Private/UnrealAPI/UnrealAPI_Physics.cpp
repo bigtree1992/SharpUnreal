@@ -34,7 +34,7 @@ static FVector UnrealEngine_Physics_LineTraceSingleGetPointWithTag(FVector start
 	FHitResult OutHit;
 	if (GWorld->LineTraceSingleByChannel(OutHit, start, end, channel))
 	{
-		FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+		FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 		if (OutHit.Actor->ActorHasTag(tag_name)) {
 			return OutHit.Location;
 		}

@@ -30,7 +30,7 @@ static void UnrealEngine_NetWorkManager_StartOnlineGame(UMonoComponent* _this, M
 		return;
 	}
 
-	FString map_name = FString((TCHAR*)mono_string_to_utf16(mapName));
+	FString map_name = FString((TCHAR*)mono_string_chars(mapName));
 	_this->StartOnlineGame(map_name, playerNum);
 }
 

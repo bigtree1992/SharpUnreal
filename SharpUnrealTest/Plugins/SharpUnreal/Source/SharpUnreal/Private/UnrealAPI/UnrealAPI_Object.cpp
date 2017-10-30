@@ -138,7 +138,7 @@ static void UnrealEngine_StringProperty_SetValue(AActor* actor, UStrProperty* pr
 		return;
 	}
 
-	FString Value = FString((TCHAR*)mono_string_to_utf16(value));
+	FString Value = FString((TCHAR*)mono_string_chars(value));
 	property->InitializeValue_InContainer(actor);
 	property->SetPropertyValue(property->ContainerPtrToValuePtr<uint8>(actor), Value);
 }

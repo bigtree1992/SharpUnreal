@@ -100,7 +100,7 @@ static mono_bool UnrealEngine_ActorComponent_HasTag(UActorComponent* _this, Mono
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] HasTag But tag is NULL."));
 		return false;
 	}
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 	return _this->ComponentHasTag(tag_name);
 }
 
@@ -117,7 +117,7 @@ static void UnrealEngine_ActorComponent_AddTag(UActorComponent* _this, MonoStrin
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] AddTag But tag is NULL."));
 		return;
 	}
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 	_this->ComponentTags.Add(tag_name);
 }
 
@@ -133,7 +133,7 @@ static void UnrealEngine_ActorComponent_RemoveTag(UActorComponent* _this, MonoSt
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] RemoveTag But tag is NULL."));
 		return;
 	}
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 	_this->ComponentTags.Remove(tag_name);
 }
 
@@ -161,7 +161,7 @@ static void UnrealEngine_MonoComponent_SendEvent(UMonoComponent* _this, MonoStri
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEvent But evt is NULL."));
 		return;
 	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	FString evt_name = FString((TCHAR*)mono_string_chars(evt));
 	_this->OnMonoEvent.Broadcast(evt_name);
 }
 
@@ -182,8 +182,8 @@ static void UnrealEngine_MonoComponent_SendEventWithString(UMonoComponent* _this
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] SendEventWithString But data is NULL."));
 		return;
 	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
-	FString data_string = FString((TCHAR*)mono_string_to_utf16(data));
+	FString evt_name = FString((TCHAR*)mono_string_chars(evt));
+	FString data_string = FString((TCHAR*)mono_string_chars(data));
 	_this->OnMonoEventWithString.Broadcast(evt_name, data_string);
 }
 
@@ -199,7 +199,7 @@ static void UnrealEngine_MonoComponent_SendEventWithInt(UMonoComponent* _this, M
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ActorComponent] SendEventWithInt But evt is NULL."));
 		return;
 	}
-	FString evt_name = FString((TCHAR*)mono_string_to_utf16(evt));
+	FString evt_name = FString((TCHAR*)mono_string_chars(evt));
 	_this->OnMonoEventWithInt.Broadcast(evt_name, data);
 }
 
@@ -778,7 +778,7 @@ static void UnrealEngine_SceneComponent_AttachToSocket(USceneComponent* _this, U
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] AttachToSocket But socket is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
+	FName name = FName((TCHAR*)mono_string_chars(socket));
 	_this->AttachToComponent(parent, FAttachmentTransformRules::KeepRelativeTransform, name);
 }
 
@@ -814,7 +814,7 @@ static void UnrealEngine_SceneComponent_SnapToSocket(USceneComponent* _this, USc
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] SnapToSocket But socket is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
+	FName name = FName((TCHAR*)mono_string_chars(socket));
 	_this->AttachToComponent(parent, FAttachmentTransformRules::SnapToTargetNotIncludingScale, name);
 }
 
@@ -851,7 +851,7 @@ static FTransform UnrealEngine_SceneComponent_GetSocketTransform(USceneComponent
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetSocketTransform But socket is NULL."));
 		return FTransform::Identity;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
+	FName name = FName((TCHAR*)mono_string_chars(socket));
 	return _this->GetSocketTransform(name);
 }
 
@@ -867,7 +867,7 @@ static FVector UnrealEngine_SceneComponent_GetSocketLocation(USceneComponent* _t
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetSocketLocation But socket is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
+	FName name = FName((TCHAR*)mono_string_chars(socket));
 	return _this->GetSocketLocation(name);
 }
 
@@ -883,7 +883,7 @@ static FQuat UnrealEngine_SceneComponent_GetSocketRotation(USceneComponent* _thi
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetSocketRotation But socket is NULL."));
 		return FQuat::Identity;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
+	FName name = FName((TCHAR*)mono_string_chars(socket));
 	return FQuat(_this->GetSocketRotation(name));
 }
 
@@ -899,7 +899,7 @@ static mono_bool UnrealEngine_SceneComponent_DoesSocketExist(USceneComponent* _t
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SceneComponent] GetSocketTransform But socket is NULL."));
 		return false;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(socket));
+	FName name = FName((TCHAR*)mono_string_chars(socket));
 	return _this->DoesSocketExist(name);
 }
 
@@ -1230,7 +1230,7 @@ static void UnrealEngine_PrimitiveComponent_SetMaterialByName(UPrimitiveComponen
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMaterialByName But material is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(slotName));
+	FName name = FName((TCHAR*)mono_string_chars(slotName));
 	_this->SetMaterialByName(name, material);
 }
 
@@ -1247,7 +1247,7 @@ static int UnrealEngine_PrimitiveComponent_GetMaterialIndex(UPrimitiveComponent*
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMaterialIndex But slotName is NULL."));
 		return 0;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(slotName));
+	FName name = FName((TCHAR*)mono_string_chars(slotName));
 
 	return 0;
 }
@@ -1487,7 +1487,7 @@ static void UnrealEngine_PrimitiveComponent_AddImpulse(UPrimitiveComponent* _thi
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddImpulse But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->AddImpulse(Impulse, name, bVelChange != 0);
 }
 
@@ -1503,7 +1503,7 @@ static void UnrealEngine_PrimitiveComponent_AddImpulseAtLocation(UPrimitiveCompo
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddImpulseAtLocation But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->AddImpulseAtLocation(Impulse, Location, name);
 }
 
@@ -1529,7 +1529,7 @@ static void UnrealEngine_PrimitiveComponent_AddForceAtLocation(UPrimitiveCompone
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddForceAtLocation But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->AddForceAtLocation(Force, Location, name);
 }
 
@@ -1555,7 +1555,7 @@ static void UnrealEngine_PrimitiveComponent_AddTorque(UPrimitiveComponent* _this
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] AddTorque But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->AddTorque(Torque, name, bAccelChange != 0);
 }
 
@@ -1571,7 +1571,7 @@ static void UnrealEngine_PrimitiveComponent_SetPhysicsLinearVelocity(UPrimitiveC
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsLinearVelocity But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetPhysicsAngularVelocity(NewVel, bAddToCurrent != 0, name);
 }
 
@@ -1587,7 +1587,7 @@ static FVector UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocity(UPrimiti
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsLinearVelocity But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 
 	return _this->GetPhysicsLinearVelocity(name);
 }
@@ -1604,7 +1604,7 @@ static FVector UnrealEngine_PrimitiveComponent_GetPhysicsLinearVelocityAtPoint(U
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsLinearVelocityAtPoint But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetPhysicsLinearVelocityAtPoint(Point, name);
 }
 
@@ -1630,7 +1630,7 @@ static void UnrealEngine_PrimitiveComponent_SetPhysicsAngularVelocity(UPrimitive
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsAngularVelocity But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetAllPhysicsAngularVelocity(NewAngVel, bAddToCurrent != 0);
 }
 
@@ -1646,7 +1646,7 @@ static void UnrealEngine_PrimitiveComponent_SetPhysicsMaxAngularVelocity(UPrimit
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetPhysicsMaxAngularVelocity But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetPhysicsMaxAngularVelocity(NewMaxAngVel, bAddToCurrent != 0);
 }
 
@@ -1662,7 +1662,7 @@ static FVector UnrealEngine_PrimitiveComponent_GetPhysicsAngularVelocity(UPrimit
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetPhysicsAngularVelocity But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 
 	return _this->GetPhysicsAngularVelocity(name);
 }
@@ -1679,7 +1679,7 @@ static FVector UnrealEngine_PrimitiveComponent_GetCenterOfMass(UPrimitiveCompone
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetCenterOfMass But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetCenterOfMass(name);
 }
 
@@ -1695,7 +1695,7 @@ static void UnrealEngine_PrimitiveComponent_SetCenterOfMass(UPrimitiveComponent*
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetCenterOfMass But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetCenterOfMass(CenterOfMassOffset, name);
 }
 
@@ -1716,7 +1716,7 @@ static float UnrealEngine_PrimitiveComponent_GetClosestPointOnCollision(UPrimiti
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetClosestPointOnCollision But BoneName is NULL."));
 		return 0.0f;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	FVector p;
 	float ret = _this->GetClosestPointOnCollision(Point, p, name);
 	OutPointOnBody->X = p.X;
@@ -1807,7 +1807,7 @@ static void UnrealEngine_PrimitiveComponent_SetMassScale(UPrimitiveComponent* _t
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMassScale But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetMassScale(name, InMassScale);
 }
 
@@ -1823,7 +1823,7 @@ static float UnrealEngine_PrimitiveComponent_GetMassScale(UPrimitiveComponent* _
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetMassScale But BoneName is NULL."));
 		return 0.0f;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetMassScale(name);
 }
 
@@ -1849,7 +1849,7 @@ static void UnrealEngine_PrimitiveComponent_SetMassOverrideInKg(UPrimitiveCompon
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetMassOverrideInKg But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetMassOverrideInKg(name, MassInKg, bOverrideMass != 0);
 }
 
@@ -1875,7 +1875,7 @@ static FVector UnrealEngine_PrimitiveComponent_GetInertiaTensor(UPrimitiveCompon
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] GetInertiaTensor But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetInertiaTensor(name);
 }
 
@@ -1891,7 +1891,7 @@ static FVector UnrealEngine_PrimitiveComponent_SetScaleByMomentOfInertia(UPrimit
 		GLog->Logf(ELogVerbosity::Error, TEXT("[PrimitiveComponent] SetScaleByMomentOfInertia But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->ScaleByMomentOfInertia(InputVector, name);
 }
 
@@ -2593,7 +2593,7 @@ static void UnrealEngine_MeshComponent_SetScalarParameter(UMeshComponent* _this,
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MeshComponent] SetScalarParameter But name is NULL."));
 		return;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(name));
+	FName n = FName((TCHAR*)mono_string_chars(name));
 	_this->SetScalarParameterValueOnMaterials(n, value);
 }
 
@@ -2609,7 +2609,7 @@ static void UnrealEngine_MeshComponent_SetVectorParameter(UMeshComponent* _this,
 		GLog->Logf(ELogVerbosity::Error, TEXT("[MeshComponent] SetVectorParameter But name is NULL."));
 		return;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(name));
+	FName n = FName((TCHAR*)mono_string_chars(name));
 	_this->SetVectorParameterValueOnMaterials(n, value);
 }
 
@@ -2658,7 +2658,7 @@ static void UnrealEngine_ParticleSystemComponent_SetFloatParameter(UParticleSyst
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetFloatParameter But ParameterName is NULL."));
 		return;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(ParameterName));
+	FName n = FName((TCHAR*)mono_string_chars(ParameterName));
 	_this->SetFloatParameter(n, Param);
 }
 
@@ -2674,7 +2674,7 @@ static void UnrealEngine_ParticleSystemComponent_SetVectorParameter(UParticleSys
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetVectorParameter But ParameterName is NULL."));
 		return;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(ParameterName));
+	FName n = FName((TCHAR*)mono_string_chars(ParameterName));
 	_this->SetVectorParameter(n, Param);
 }
 
@@ -2690,7 +2690,7 @@ static void UnrealEngine_ParticleSystemComponent_SetColorParameter(UParticleSyst
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] SetColorParameter But ParameterName is NULL."));
 		return;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(ParameterName));
+	FName n = FName((TCHAR*)mono_string_chars(ParameterName));
 	_this->SetColorParameter(n, Param);
 }
 
@@ -2706,7 +2706,7 @@ static float UnrealEngine_ParticleSystemComponent_GetFloatParameter(UParticleSys
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetFloatParameter But ParameterName is NULL."));
 		return 0.0f;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(ParameterName));
+	FName n = FName((TCHAR*)mono_string_chars(ParameterName));
 	float ret;
 	_this->GetFloatParameter(n, ret);
 	return ret;
@@ -2724,7 +2724,7 @@ static FVector UnrealEngine_ParticleSystemComponent_GetVectorParameter(UParticle
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetVectorParameter But ParameterName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(ParameterName));
+	FName n = FName((TCHAR*)mono_string_chars(ParameterName));
 	FVector ret;
 	_this->GetVectorParameter(n, ret);
 	return ret;
@@ -2742,7 +2742,7 @@ static FLinearColor UnrealEngine_ParticleSystemComponent_GetColorParameter(UPart
 		GLog->Logf(ELogVerbosity::Error, TEXT("[ParticleSystemComponent] GetColorParameter But ParameterName is NULL."));
 		return FLinearColor::White;
 	}
-	FName n = FName((TCHAR*)mono_string_to_utf16(ParameterName));
+	FName n = FName((TCHAR*)mono_string_chars(ParameterName));
 	FLinearColor ret;
 	_this->GetColorParameter(n, ret);
 	return ret;
@@ -2920,7 +2920,7 @@ static void UnrealEngine_SkeletalMeshComponent_SetEnableBodyGravity(USkeletalMes
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] SetEnableBodyGravity But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->SetEnableBodyGravity(bEnableGravity != 0, name);
 }
 
@@ -2936,7 +2936,7 @@ static bool UnrealEngine_SkeletalMeshComponent_IsBodyGravityEnabled(USkeletalMes
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkeletalMeshComponent] IsBodyGravityEnabled But BoneName is NULL."));
 		return false;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 
 	return _this->IsBodyGravityEnabled(name);
 }
@@ -2957,7 +2957,7 @@ static int UnrealEngine_SkinnedMeshComponent_GetBoneIndex(USkinnedMeshComponent*
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneIndex But BoneName is NULL."));
 		return NULL;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetBoneIndex(name);
 }
 
@@ -2984,7 +2984,7 @@ static MonoString* UnrealEngine_SkinnedMeshComponent_GetSocketBoneName(USkinnedM
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetSocketBoneName But InSocketName is NULL."));
 		return NULL;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(InSocketName));
+	FName name = FName((TCHAR*)mono_string_chars(InSocketName));
 	MonoString* ret = mono_string_from_utf16((mono_unichar2*)_this->GetSocketBoneName(name).GetPlainWIDEString());
 	return ret;
 }
@@ -3001,7 +3001,7 @@ static MonoString* UnrealEngine_SkinnedMeshComponent_GetParentBone(USkinnedMeshC
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetParentBone But BoneName is NULL."));
 		return NULL;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	MonoString* ret = mono_string_from_utf16((mono_unichar2*)_this->GetParentBone(name).GetPlainWIDEString());
 	return ret;
 }
@@ -3048,7 +3048,7 @@ static FQuat UnrealEngine_SkinnedMeshComponent_GetBoneQuaternion(USkinnedMeshCom
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneQuaternion But BoneName is NULL."));
 		return FQuat::Identity;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetBoneQuaternion(name, space);
 }
 
@@ -3064,7 +3064,7 @@ static FVector UnrealEngine_SkinnedMeshComponent_GetBoneLocation(USkinnedMeshCom
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] GetBoneLocation But BoneName is NULL."));
 		return FVector::ZeroVector;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->GetBoneLocation(name, Space);
 }
 
@@ -3080,7 +3080,7 @@ static void UnrealEngine_SkinnedMeshComponent_HideBoneByName(USkinnedMeshCompone
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] HideBoneByName But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->HideBoneByName(name, PhysBodyOption);
 }
 
@@ -3096,7 +3096,7 @@ static void UnrealEngine_SkinnedMeshComponent_UnHideBoneByName(USkinnedMeshCompo
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] UnHideBoneByName But BoneName is NULL."));
 		return;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	_this->UnHideBoneByName(name);
 }
 
@@ -3112,7 +3112,7 @@ static mono_bool UnrealEngine_SkinnedMeshComponent_IsBoneHiddenByName(USkinnedMe
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SkinnedMeshComponent] IsBoneHiddenByName But BoneName is NULL."));
 		return false;
 	}
-	FName name = FName((TCHAR*)mono_string_to_utf16(BoneName));
+	FName name = FName((TCHAR*)mono_string_chars(BoneName));
 	return _this->IsBoneHiddenByName(name);
 }
 
@@ -3143,7 +3143,7 @@ static void UnrealEngine_TextRenderComponent_SetText(UTextRenderComponent* _this
 		return;
 	}
 
-	FString str = FString((TCHAR*)mono_string_to_utf16(value));
+	FString str = FString((TCHAR*)mono_string_chars(value));
 	_this->K2_SetText(FText::FromString(str));
 }
 
@@ -3273,7 +3273,7 @@ static void UnrealEngine_InputComponent_BindAxis(UInputComponent* _this, MonoStr
 		return;
 	}
 
-	FName a = FName((TCHAR*)mono_string_to_utf16(axis));
+	FName a = FName((TCHAR*)mono_string_chars(axis));
 	
 	g_InputAxis[index] = a;
 	
@@ -3399,7 +3399,7 @@ void UnrealAPI_Component::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.NetComponent::_CallOnAllWithQuat",
 		reinterpret_cast<void*>(UnrealEngine_NetComponent_CallOnAllWithQuat));
 #endif
-
+	
 #if 1
 	//注册SceneComponent的函数
 	mono_add_internal_call("UnrealEngine.SceneComponent::_GetTransform",

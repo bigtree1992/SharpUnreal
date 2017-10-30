@@ -50,23 +50,23 @@ extern "C" static void MonoLog(const char *log_domain, const char *log_level, co
 //Log类函数注册
 static void UnrealEngine_Log_Debug(MonoString* content)
 {
-	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_to_utf16(content)));
+	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_chars(content)));
 }
 
 static void UnrealEngine_Log_Warning(MonoString* content)
 {
-	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_to_utf16(content)));
+	GLog->Logf(ELogVerbosity::Log, *FString(mono_string_chars(content)));
 }
 
 static void UnrealEngine_Log_Error(MonoString* content)
 {
-	GLog->Logf(ELogVerbosity::Error, *FString(mono_string_to_utf16(content)));
+	GLog->Logf(ELogVerbosity::Error, *FString(mono_string_chars(content)));
 }
 
 //Print类函数注册
 static void UnrealEngine_Log_Print(MonoString* content)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *FString(mono_string_to_utf16(content)));
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *FString(mono_string_chars(content)));
 }
 
 //World类函数注册
@@ -106,7 +106,7 @@ static void UnrealEngine_World_LoadStreamingLevel(MonoString* name)
 	UWorld* World = GWorld.GetReference();
 	if (World != NULL)
 	{
-		FName LevelName((const TCHAR*)mono_string_to_utf16(name));
+		FName LevelName((const TCHAR*)mono_string_chars(name));
 		FLatentActionInfo LatentInfo;
 		UGameplayStatics::LoadStreamLevel(World, LevelName,true,false,LatentInfo);
 
@@ -127,7 +127,7 @@ static void UnrealEngine_World_UnLoadStreamingLevel(MonoString* name)
 	UWorld* World = GWorld.GetReference();
 	if (World != NULL)
 	{
-		FName LevelName((const TCHAR*)mono_string_to_utf16(name));
+		FName LevelName((const TCHAR*)mono_string_chars(name));
 		FLatentActionInfo LatentInfo;
 		UGameplayStatics::UnloadStreamLevel(World, LevelName, LatentInfo);
 	}
@@ -151,7 +151,7 @@ static AActor* UnrealEngine_World_SpwanActor(MonoString* path, FTransform* trans
 	}
 	
 	UClass* Class = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), 
-		NULL, (const TCHAR*)mono_string_to_utf16(path)));
+		NULL, (const TCHAR*)mono_string_chars(path)));
 	if (Class == NULL) 
 	{
 		GLog->Log(ELogVerbosity::Error, TEXT("[World] Can't GetClass When SpwanActor."));
@@ -170,7 +170,7 @@ static UMaterialInterface* UnrealEngine_Resource_LoadMaterial(MonoString* path)
 		return NULL;
 	}
 
-	const TCHAR* p = (const TCHAR*)mono_string_to_utf16(path);
+	const TCHAR* p = (const TCHAR*)mono_string_chars(path);
 	UMaterialInterface* mat = Cast<UMaterialInterface>(
 		StaticLoadObject(UMaterialInterface::StaticClass(), 
 			NULL,p));
@@ -191,9 +191,7 @@ static UTexture* UnrealEngine_Resource_LoadTexture(MonoString* path)
 		return NULL;
 	}
 
-	
-
-	const TCHAR* p = (const TCHAR*)mono_string_to_utf16(path);
+	const TCHAR* p = (const TCHAR*)mono_string_chars(path);
 	UTexture* texture = Cast<UTexture>(
 		StaticLoadObject(UTexture::StaticClass(),NULL, p));
 	

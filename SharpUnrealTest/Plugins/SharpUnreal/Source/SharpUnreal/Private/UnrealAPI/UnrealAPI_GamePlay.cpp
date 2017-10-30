@@ -35,7 +35,7 @@ static mono_bool UnrealEngine_Actor_HasTag(AActor* _this, MonoString* tag)
 		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] HasTag But tag is NULL."));
 		return false;
 	}
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 	return _this->ActorHasTag(tag_name);
 }
 
@@ -52,7 +52,7 @@ static void UnrealEngine_Actor_AddTag(AActor* _this, MonoString* tag)
 		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] AddTag But tag is NULL."));
 		return;
 	}
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 	_this->Tags.Add(tag_name);
 }
 
@@ -69,7 +69,7 @@ static void UnrealEngine_Actor_RemoveTag(AActor* _this, MonoString* tag)
 		GLog->Logf(ELogVerbosity::Error, TEXT("[Actor] RemoveTag But tag is NULL."));
 		return;
 	}
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
 	_this->Tags.Remove(tag_name);
 }
 
@@ -136,7 +136,7 @@ static UActorComponent* UnrealEngine_Actor_GetComponent(AActor* _this, MonoStrin
 		return NULL;
 	}
 
-	FName type_name = FName((TCHAR*)mono_string_to_utf16(type));
+	FName type_name = FName((TCHAR*)mono_string_chars(type));
 	UClass* type_class = MonoClassTable::GetUClassFromName(type_name);
 	if (type_class == NULL) 
 	{
@@ -155,8 +155,8 @@ static UActorComponent* UnrealEngine_Actor_GetComponentByTag(AActor* _this, Mono
 		return NULL;
 	}
 
-	FName tag_name = FName((TCHAR*)mono_string_to_utf16(tag));
-	FName type_name = FName((TCHAR*)mono_string_to_utf16(type));
+	FName tag_name = FName((TCHAR*)mono_string_chars(tag));
+	FName type_name = FName((TCHAR*)mono_string_chars(type));
 	UClass* type_class = MonoClassTable::GetUClassFromName(type_name);
 	
 	auto components = _this->GetComponentsByTag(UActorComponent::StaticClass(), tag_name);
@@ -232,7 +232,7 @@ static UIntProperty* UnrealEngine_Actor_FindIntProperty(AActor* _this, MonoStrin
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);	
 	UIntProperty* IntProperty = Cast<UIntProperty>(property);
 	
@@ -253,7 +253,7 @@ static UFloatProperty* UnrealEngine_Actor_FindFloatProperty(AActor* _this, MonoS
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
 	UFloatProperty* FloatProperty = Cast<UFloatProperty>(property);
 
@@ -274,7 +274,7 @@ static UStrProperty* UnrealEngine_Actor_FindStringProperty(AActor* _this, MonoSt
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
 	UStrProperty* StringProperty = Cast<UStrProperty>(property);
 	return StringProperty;
@@ -294,7 +294,7 @@ static UStructProperty* UnrealEngine_Actor_FindVectorProperty(AActor* _this, Mon
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
 	UStructProperty* VectorProperty = Cast<UStructProperty>(property);
 
@@ -315,7 +315,7 @@ static UStructProperty* UnrealEngine_Actor_FindRotatorProperty(AActor* _this, Mo
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
 	UStructProperty* RotatorProperty = Cast<UStructProperty>(property);
 
@@ -336,7 +336,7 @@ static UStructProperty* UnrealEngine_Actor_FindQuatProperty(AActor* _this, MonoS
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
 	UStructProperty* QuatProperty = Cast<UStructProperty>(property);
 
@@ -357,7 +357,7 @@ static UStructProperty* UnrealEngine_Actor_FindTransformProperty(AActor* _this, 
 		return NULL;
 	}
 
-	FName pname = FName((TCHAR*)mono_string_to_utf16(name));
+	FName pname = FName((TCHAR*)mono_string_chars(name));
 	UProperty* property = _this->GetClass()->FindPropertyByName(pname);
 	UStructProperty* TransformProperty = Cast<UStructProperty>(property);
 
