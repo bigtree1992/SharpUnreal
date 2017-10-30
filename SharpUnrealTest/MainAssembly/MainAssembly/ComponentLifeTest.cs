@@ -9,10 +9,12 @@ namespace MainAssembly
     public class ComponentLifeTest : MonoComponent
     {
         QuatProperty m_Quat;
+        RotatorProperty m_Rot;
         protected override void OnRegister()
         {
             Log.Error("[ComponentLifeTest] OnRegister");
             m_Quat = Actor.FindQuatProperty("TestQuat");
+            m_Rot = Actor.FindRotatorProperty("TestRot");
 
             var testint = Actor.FindIntProperty("TestInt");
             var TestString = Actor.FindStringProperty("TestString");
@@ -61,7 +63,7 @@ namespace MainAssembly
             {
                 Log.Error("[ComponentLifeTest] False! Hello!");
             }
-
+            CanEverTick = true;
 
             
 
@@ -93,7 +95,13 @@ namespace MainAssembly
 
         protected override void Tick(float dt)
         {
-            Log.Error("[ComponentLifeTest] Tick ");
+            //m_Rot.Value += new Rotator(1, 1, 1);
+            m_Quat.Value += new Quat(0.01f, 0.01f, 0.01f, 0);
+            //Log.Print("m_Quat:" + m_Quat.Value.ToString());
+            //Actor.Root.Rotation = UnrealEngine.Math.RInterpTo(Actor.Root.Rotation, m_Rot.Value, dt, 1);
+            //Actor.Root.Rotation = m_Rot.Value;
+            Actor.Root.RotationQ = m_Quat.Value;
+            //Actor.Root.SetRotationTest(m_Rot.Value);
         }
 
         protected override void BeginPlay()

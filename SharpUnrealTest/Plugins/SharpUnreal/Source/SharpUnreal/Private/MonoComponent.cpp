@@ -645,6 +645,53 @@ void UMonoComponent::CallOnAllWithFloat_Implementation(int id, float data)
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
 }
 
+bool UMonoComponent::CallOnServerWithString_Validate(int id, FString &data)
+{
+	return true;
+}
+
+void UMonoComponent::CallOnServerWithString_Implementation(int id, FString &data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	MonoString* e = mono_string_from_utf16((mono_unichar2*)*data);
+	args[0] = e;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnClientWithString_Implementation(int id, FString &data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	MonoString* e = mono_string_from_utf16((mono_unichar2*)*data);
+	args[0] = e;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
+void UMonoComponent::CallOnAllWithString_Implementation(int id, FString &data)
+{
+	if (m_MonoComponent == NULL)
+	{
+		return;
+	}
+
+	void *args[1];
+	MonoString* e = mono_string_from_utf16((mono_unichar2*)*data);
+	args[0] = e;
+	MonoMethod* method = NetCallbackTable::GetMethod(mono_object_get_class(m_MonoComponent), id);
+	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
+}
+
 bool UMonoComponent::CallOnServerWithVector_Validate(int id, FVector data)
 {
 	return true;

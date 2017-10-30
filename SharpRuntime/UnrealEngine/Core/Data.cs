@@ -15,12 +15,21 @@ namespace UnrealEngine
         public static int GetInt(string key)
         {
             int result = 0;
+            if (ms_IDict.ContainsKey(key) == false)
+            {
+                return 0;
+            }
             ms_IDict.TryGetValue(key, out result);
             return result;
         }
 
         public static void SetInt(string key,int value)
         {
+            if (ms_IDict.ContainsKey(key) == false)
+            {
+                ms_IDict.Add(key, value);
+                return;
+            }
             ms_IDict[key] = value;
         }
 
