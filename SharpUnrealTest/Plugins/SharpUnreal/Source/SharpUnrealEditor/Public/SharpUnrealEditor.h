@@ -20,13 +20,15 @@ private:
 	/** Called when UnrealEd exits Play In Editor mode. */
 	void OnEndPIE(const bool bIsSimulating);
 
-	void OnBinaryDirChanged(const TArray<FFileChangeData>& InFileChanges);
+	//监控BuildLibs文件夹，进行动态热更新C#代码
+	void OnRuntimeDllChanged(const TArray<FFileChangeData>& InFileChanges);
+	FDelegateHandle OnDllChangedHandle;
 
-	FDelegateHandle OnBinaryDirChangedDelegateHandle;
+	//监控StageBuilds文件夹，进行自动复制打包后需要的运行时库文件
+	void OnStageBuildsChanged(const TArray<FFileChangeData>& InFileChanges);
+	FDelegateHandle OnStageBuildsHandle;
 
 	FDateTime LastAssemblyMotifyTimeStamp;
-
 	bool IsEditorRunningGame;
-
 	FString MainAssemblyPath;
 };

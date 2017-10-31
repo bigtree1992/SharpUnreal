@@ -7,6 +7,9 @@
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Components/AudioComponent.h"
 
 #include "mono/metadata/object.h"
 
@@ -645,12 +648,12 @@ void UMonoComponent::CallOnAllWithFloat_Implementation(int id, float data)
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
 }
 
-bool UMonoComponent::CallOnServerWithString_Validate(int id, FString &data)
+bool UMonoComponent::CallOnServerWithString_Validate(int id, const FString& data)
 {
 	return true;
 }
 
-void UMonoComponent::CallOnServerWithString_Implementation(int id, FString &data)
+void UMonoComponent::CallOnServerWithString_Implementation(int id, const FString& data)
 {
 	if (m_MonoComponent == NULL)
 	{
@@ -664,7 +667,7 @@ void UMonoComponent::CallOnServerWithString_Implementation(int id, FString &data
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
 }
 
-void UMonoComponent::CallOnClientWithString_Implementation(int id, FString &data)
+void UMonoComponent::CallOnClientWithString_Implementation(int id, const FString& data)
 {
 	if (m_MonoComponent == NULL)
 	{
@@ -678,7 +681,7 @@ void UMonoComponent::CallOnClientWithString_Implementation(int id, FString &data
 	MonoRuntime::Instance()->InvokeMethod(method, m_MonoComponent, args);
 }
 
-void UMonoComponent::CallOnAllWithString_Implementation(int id, FString &data)
+void UMonoComponent::CallOnAllWithString_Implementation(int id, const FString& data)
 {
 	if (m_MonoComponent == NULL)
 	{

@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Delegates/DelegateCombinations.h"
 #include "Components/ActorComponent.h"
 #include "Online.h"
 #include "MonoComponent.generated.h"
@@ -134,13 +135,13 @@ public:
 	void CallOnAllWithFloat(int id,float data);
 
 	UFUNCTION(Server, reliable, WithValidation)
-	void CallOnServerWithString(int id, FString &data);
+	void CallOnServerWithString(int id, const FString& data);
 
 	UFUNCTION(Client, reliable)
-	void CallOnClientWithString(int id, FString &data);
+	void CallOnClientWithString(int id, const FString& data);
 
 	UFUNCTION(NetMulticast, reliable)
-	void CallOnAllWithString(int id, FString &data);
+	void CallOnAllWithString(int id, const FString& data);
 
 	UFUNCTION(Server, reliable, WithValidation)
 	void CallOnServerWithVector(int id, FVector data);

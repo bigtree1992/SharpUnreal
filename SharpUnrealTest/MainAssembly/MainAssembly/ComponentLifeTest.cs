@@ -49,6 +49,13 @@ namespace MainAssembly
 
         protected override void OnUnregister()
         {
+            base.OnUnregister();
+            m_Quat.Clear();
+            m_Quat = null;
+
+            m_Rot.Clear();
+            m_Rot = null;
+
             Log.Error("[ComponentLifeTest] OnUnregister");
         }
 

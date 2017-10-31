@@ -3,8 +3,12 @@
 #include "SharpUnrealEditorPrivatePCH.h"
 #include "IDirectoryWatcher.h"
 #include "DirectoryWatcherModule.h"
+#include "Settings/ProjectPackagingSettings.h"
+
 #include "MonoComponentDetails.h"
 #include "SharpUnreal.h"
+#include "Editor.h"
+#include "MonoRuntime.h"
 
 #define LOCTEXT_NAMESPACE "FSharpUnrealEditorModule"
 
@@ -23,6 +27,8 @@ void FSharpUnrealEditorModule::StartupModule()
 	auto& DirWatcherModule =
 		FModuleManager::LoadModuleChecked<FDirectoryWatcherModule>("DirectoryWatcher");
 	auto DirWatcher = DirWatcherModule.Get();
+	auto& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+	
 	if (DirWatcher)
 	{
 		FString build = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("BuildLibs"));
@@ -31,9 +37,24 @@ void FSharpUnrealEditorModule::StartupModule()
 		MainAssemblyPath = build / TEXT("MainAssembly.dll");
 
 		DirWatcher->RegisterDirectoryChangedCallback_Handle(
-			build, IDirectoryWatcher::FDirectoryChanged::CreateRaw(this, &FSharpUnrealEditorModule::OnBinaryDirChanged),
-			OnBinaryDirChangedDelegateHandle
-		);
+			build, IDirectoryWatcher::FDirectoryChanged::CreateRaw(this, &FSharpUnrealEditorModule::OnRuntimeDllChanged),
+			OnDllChangedHandle);
+
+		FString Saved = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("Saved") ); // TEXT("StagedBuilds")
+		if (!PlatformFile.DirectoryExists(*Saved)) 
+		{
+			PlatformFile.CreateDirectory(*Saved);
+		}
+
+		FString StageBuilds = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("Saved")/ TEXT("StagedBuilds"));
+		if (!PlatformFile.DirectoryExists(*StageBuilds))
+		{
+			PlatformFile.CreateDirectory(*StageBuilds);
+		}
+
+		DirWatcher->RegisterDirectoryChangedCallback_Handle(
+			StageBuilds, IDirectoryWatcher::FDirectoryChanged::CreateRaw(this, &FSharpUnrealEditorModule::OnStageBuildsChanged),
+			OnStageBuildsHandle);
 	}
 	else {
 		GLog->Logf(ELogVerbosity::Error, TEXT("[SharpUnrealEditor] DirWatcher is null."));
@@ -60,9 +81,10 @@ void FSharpUnrealEditorModule::ShutdownModule()
 	if (DirWatcher)
 	{		
 		FString build = FPaths::Combine(FPaths::GameDir(), TEXT("BuildLibs"));
-		DirWatcher->UnregisterDirectoryChangedCallback_Handle(
-			build, OnBinaryDirChangedDelegateHandle
-		);
+		DirWatcher->UnregisterDirectoryChangedCallback_Handle(build, OnDllChangedHandle);
+
+		FString StageBuilds = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("Saved") / TEXT("StagedBuilds"));
+		DirWatcher->UnregisterDirectoryChangedCallback_Handle(StageBuilds, OnStageBuildsHandle);
 	}
 	else {
 		GLog->Logf(TEXT("[SharpUnrealEditor] DirWatcher is null."));
@@ -82,7 +104,7 @@ void FSharpUnrealEditorModule::OnEndPIE(const bool bIsSimulating)
 	MonoRuntime::Instance()->OnEndPIE(bIsSimulating);
 }
 
-void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>& FileChanges)
+void FSharpUnrealEditorModule::OnRuntimeDllChanged(const TArray<FFileChangeData>& FileChanges)
 {
 	for (auto& FileChange : FileChanges)
 	{
@@ -112,6 +134,102 @@ void FSharpUnrealEditorModule::OnBinaryDirChanged(const TArray<FFileChangeData>&
 		
 	}
 }
+
+void FSharpUnrealEditorModule::OnStageBuildsChanged(const TArray<FFileChangeData>& InFileChanges) 
+{
+	auto* PackagingSettings =
+	Cast<UProjectPackagingSettings>(UProjectPackagingSettings::StaticClass()->GetDefaultObject());
+	if (!PackagingSettings)
+	{
+		return;
+	}
+
+	FString& Staging = PackagingSettings->StagingDirectory.Path;
+
+	if (Staging.Len() == 0)
+	{
+		return;
+	}
+
+	auto& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+
+	for (auto& FileChange : InFileChanges)
+	{
+		if (FileChange.Action != FFileChangeData::FCA_Modified)
+		{
+			continue;
+		}
+
+		const FString path =
+			FPaths::ConvertRelativePathToFull(FileChange.Filename);
+
+		if (!path.EndsWith(TEXT("Binaries/Win64")))
+		{
+			continue;
+		}
+
+		int32 index = path.Find(TEXT("WindowsNoEditor"));
+		if (index == -1)
+		{
+			continue;
+		}
+
+		FString Target = FPaths::ConvertRelativePathToFull(Staging);
+		if (!PlatformFile.DirectoryExists(*Target))
+		{
+			return;
+		}
+
+		FString TargetWindowNoEditor = Target / TEXT("WindowsNoEditor");
+		if (!PlatformFile.DirectoryExists(*TargetWindowNoEditor))
+		{
+			PlatformFile.CreateDirectory(*TargetWindowNoEditor);
+		}
+
+		FString Game = path.Right(path.Len() - index - 16);
+		Game.RemoveFromEnd(TEXT("/Binaries/Win64"));
+		
+		FString TargetGame = TargetWindowNoEditor / Game;
+		if (!PlatformFile.DirectoryExists(*TargetGame))
+		{
+			PlatformFile.CreateDirectory(*TargetGame);
+		}
+		FString TargetBinaries = TargetGame / TEXT("Binaries");
+		if (!PlatformFile.DirectoryExists(*TargetBinaries))
+		{
+			PlatformFile.CreateDirectory(*TargetBinaries);
+		}
+		FString TargetWin64 = TargetBinaries / TEXT("Win64");
+		if (!PlatformFile.DirectoryExists(*TargetWin64))
+		{
+			PlatformFile.CreateDirectory(*TargetWin64);
+		}
+
+		FString TargetDll = TargetWin64 / TEXT("mono-2.0-sgen.dll");
+		FString SourceBin = FPaths::ConvertRelativePathToFull(
+			FPaths::GameDir() / TEXT("Binaries") / TEXT("Win64") / TEXT("mono-2.0-sgen.dll"));
+		if (PlatformFile.FileExists(*SourceBin) && !PlatformFile.FileExists(*TargetDll))
+		{
+			PlatformFile.CopyFile(*TargetDll, *SourceBin);
+		}
+
+		FString TargetDlls = TargetGame / TEXT("RuntimeLibs");
+		FString SourceDlls = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("RuntimeLibs"));
+		if (PlatformFile.DirectoryExists(*TargetDlls))
+		{
+			if (!PlatformFile.DeleteDirectoryRecursively(*TargetDlls))
+			{
+				GLog->Logf(ELogVerbosity::Error, TEXT("[PostBuild] Delete %s Directory Failed."), *TargetDlls);
+			}
+		}
+
+		if (!PlatformFile.CopyDirectoryTree(*TargetDlls, *SourceDlls,true))
+		{
+			GLog->Logf(ELogVerbosity::Error, TEXT("[PostBuild] CopyDirectoryTree Failed : %s -> %s"), *SourceDlls, *TargetDlls);
+		}
+	}
+}
+
 #undef LOCTEXT_NAMESPACE
 	
 IMPLEMENT_MODULE(FSharpUnrealEditorModule, SharpUnrealEditor)
