@@ -45,6 +45,11 @@ void MonoCallbackTable::CreateClassCallback(_MonoClass* klass)
 	m_Callback->OnEventWithFloat = MonoRuntime::Instance()->FindMethod(klass, "OnEventWithFloat", 2);
 	m_Callback->OnEventWithString = MonoRuntime::Instance()->FindMethod(klass, "OnEventWithString", 2);
 	m_Callback->OnEventWithVector = MonoRuntime::Instance()->FindMethod(klass, "OnEventWithVector", 2);
+	m_Callback->OnIntEvent = MonoRuntime::Instance()->FindMethod(klass, "OnIntEvent", 1);
+	m_Callback->OnIntEventWithInt = MonoRuntime::Instance()->FindMethod(klass, "OnIntEventWithInt", 2);
+	m_Callback->OnIntEventWithFloat = MonoRuntime::Instance()->FindMethod(klass, "OnIntEventWithFloat", 2);
+	m_Callback->OnIntEventWithString = MonoRuntime::Instance()->FindMethod(klass, "OnIntEventWithString", 2);
+	m_Callback->OnIntEventWithVector = MonoRuntime::Instance()->FindMethod(klass, "OnIntEventWithVector", 2);
 
 	m_Callback->OnAppDeactivate = MonoRuntime::Instance()->FindMethod(klass, "OnAppDeactivate", -1);
 	m_Callback->OnAppHasReactivated = MonoRuntime::Instance()->FindMethod(klass, "OnAppHasReactivated", -1);

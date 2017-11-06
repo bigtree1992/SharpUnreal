@@ -313,5 +313,24 @@ namespace UnrealEngine
 
             return MinValue + DeltaMove;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start">Target Vector</param>
+        /// <param name="end">Self Vector</param>
+        /// <returns></returns>
+        public static Rotator GetLookAtRotator(Vector start, Vector end)
+        {
+            Vector NewX = (start - end).GetSafeNormal();
+
+            float NewXZ = (NewX.Z > 0) ? NewX.Z : -NewX.Z;
+            Vector UpVector = (NewXZ < (1.0f - Const.KINDA_SMALL_NUMBER)) ? new Vector(0, 0, 1.0f) : new Vector(1.0f, 0, 0);
+
+            Vector NewY = (UpVector ^ NewX).GetSafeNormal();
+            Vector NewZ = NewX ^ NewY;
+
+            return new Matrix(NewX, NewY, NewZ, Vector.ZeroVector).Rotator();
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿#include "SharpUnrealPrivatePCH.h"
-#include "MonoComponent.h"
 #include "UnrealAPI_NetWork.h"
 
 #include "UnrealNetwork.h"
@@ -16,17 +15,17 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
-static void UnrealEngine_NetWorkManager_StartOnlineGame(UMonoComponent* _this, MonoString* mapName, int32 playerNum)
+static void UnrealEngine_NetWorkManager_StartOnlineGame(UNetWorkManager* _this, MonoString* mapName, int32 playerNum)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] StartOnlineGame But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[UNetWorkManager] StartOnlineGame But _this is NULL."));
 		return;
 	}
 
 	if (mapName == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] StartOnlineGame But mapName is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[UNetWorkManager] StartOnlineGame But mapName is NULL."));
 		return;
 	}
 
@@ -34,44 +33,44 @@ static void UnrealEngine_NetWorkManager_StartOnlineGame(UMonoComponent* _this, M
 	_this->StartOnlineGame(map_name, playerNum);
 }
 
-static void UnrealEngine_NetWorkManager_FindOnlineGame(UMonoComponent* _this)
+static void UnrealEngine_NetWorkManager_FindOnlineGame(UNetWorkManager* _this)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] FindOnlineGame But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[UNetWorkManager] FindOnlineGame But _this is NULL."));
 		return;
 	}
 
 	_this->FindOnlineGames();
 }
 
-static void UnrealEngine_NetWorkManager_JoinOnlineGame(UMonoComponent* _this)
+static void UnrealEngine_NetWorkManager_JoinOnlineGame(UNetWorkManager* _this)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] JoinOnlineGame But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[UNetWorkManager] JoinOnlineGame But _this is NULL."));
 		return;
 	}
 
 	_this->JoinOnlineGame();
 }
 
-static void UnrealEngine_NetWorkManager_DestroySessionAndLeaveGame(UMonoComponent* _this)
+static void UnrealEngine_NetWorkManager_DestroySessionAndLeaveGame(UNetWorkManager* _this)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] DestroySessionAndLeaveGame But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[UNetWorkManager] DestroySessionAndLeaveGame But _this is NULL."));
 		return;
 	}
 
 	_this->DestroySessionAndLeaveGame();
 }
 
-static int32 UnrealEngine_NetWorkManager_GetOnlineGamePlayerNum(UMonoComponent* _this)
+static int32 UnrealEngine_NetWorkManager_GetOnlineGamePlayerNum(UNetWorkManager* _this)
 {
 	if (_this == NULL)
 	{
-		GLog->Logf(ELogVerbosity::Error, TEXT("[MonoComponent] GetOnlineGamePlayerNum But _this is NULL."));
+		GLog->Logf(ELogVerbosity::Error, TEXT("[UNetWorkManager] GetOnlineGamePlayerNum But _this is NULL."));
 		return 0;
 	}
 

@@ -61,6 +61,21 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
 	void SendEventToMonoWithVector(const FString& Event,FVector data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendIntEventToMono(int Event);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendIntEventToMonoWithInt(int Event, int data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendIntEventToMonoWithFloat(int Event, float data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendIntEventToMonoWithString(int Event, const FString& data);
+
+	UFUNCTION(BlueprintCallable, Category = "SharpUnreal")
+	void SendIntEventToMonoWithVector(int Event, FVector data);
 	#endif
 
 	#if 1 // 回调函数
@@ -207,18 +222,16 @@ public:
 	void CallOnClientWithVQ(int id, FVector data, FQuat data2);
 
 	//OnlineSystem Call Function
-	void StartOnlineGame(FString mapName, int32 playerNum);
-	void FindOnlineGames();
-	void JoinOnlineGame();
-	void DestroySessionAndLeaveGame();
-	int32 GetOnlineGamePlayerNum();
-	//OnlineSystem CallBack Function
-	void OnMyStartOnlineGameComplete(bool bSuccess);
-	void OnMyFindOnlineGameComplete(bool bSuccess);
-	void OnMyJoinOnlineGameComplete(bool bSuccess);
-	void OnMyDestroyOnlineGameComplete(bool bSuccess);
-
-
+	//void StartOnlineGame(FString mapName, int32 playerNum);
+	//void FindOnlineGames();
+	//void JoinOnlineGame();
+	//void DestroySessionAndLeaveGame();
+	//int32 GetOnlineGamePlayerNum();
+	////OnlineSystem CallBack Function
+	//void OnMyStartOnlineGameComplete(bool bSuccess);
+	//void OnMyFindOnlineGameComplete(bool bSuccess);
+	//void OnMyJoinOnlineGameComplete(bool bSuccess);
+	//void OnMyDestroyOnlineGameComplete(bool bSuccess);
 	#endif
 
 	_MonoObject * GetMonoObject();
@@ -230,33 +243,33 @@ protected:
 	uint32_t m_Handle;
 	MonoCallback* m_Callback;
 protected:
-	FString m_MapName;
-	TSharedPtr<class FOnlineSessionSettings> MySessionSettings;
-	TSharedPtr<class FOnlineSessionSearch> MySessionSearch;
+	//FString m_MapName;
+	//TSharedPtr<class FOnlineSessionSettings> MySessionSettings;
+	//TSharedPtr<class FOnlineSessionSearch> MySessionSearch;
 
-	FOnCreateSessionCompleteDelegate OnCreateSessionCompleteDelegate;
-	FOnStartSessionCompleteDelegate OnStartSessionCompleteDelegate;
-	FOnFindSessionsCompleteDelegate OnFindSessionsCompleteDelegate;
-	FOnJoinSessionCompleteDelegate OnJoinSessionCompleteDelegate;
-	FOnDestroySessionCompleteDelegate OnDestroySessionCompleteDelegate;
+	//FOnCreateSessionCompleteDelegate OnCreateSessionCompleteDelegate;
+	//FOnStartSessionCompleteDelegate OnStartSessionCompleteDelegate;
+	//FOnFindSessionsCompleteDelegate OnFindSessionsCompleteDelegate;
+	//FOnJoinSessionCompleteDelegate OnJoinSessionCompleteDelegate;
+	//FOnDestroySessionCompleteDelegate OnDestroySessionCompleteDelegate;
 
-	FDelegateHandle OnCreateSessionCompleteDelegateHandle;
-	FDelegateHandle OnStartSessionCompleteDelegateHandle;
-	FDelegateHandle OnFindSessionsCompleteDelegateHandle;
-	FDelegateHandle OnJoinSessionCompleteDelegateHandle;
-	FDelegateHandle OnDestroySessionCompleteDelegateHandle;
+	//FDelegateHandle OnCreateSessionCompleteDelegateHandle;
+	//FDelegateHandle OnStartSessionCompleteDelegateHandle;
+	//FDelegateHandle OnFindSessionsCompleteDelegateHandle;
+	//FDelegateHandle OnJoinSessionCompleteDelegateHandle;
+	//FDelegateHandle OnDestroySessionCompleteDelegateHandle;
 
-	bool HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName);
-	void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful);
-	void OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful);
+	//bool HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers, FString mapName);
+	//void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful);
+	//void OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful);
 
-	void FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence);
-	void OnFindSessionsComplete(bool bWasSuccessful);
+	//void FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence);
+	//void OnFindSessionsComplete(bool bWasSuccessful);
 
-	void DoJoinSession(TSharedPtr<const FUniqueNetId> UserId);
-	bool JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult);
-	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
+	//void DoJoinSession(TSharedPtr<const FUniqueNetId> UserId);
+	//bool JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult);
+	//void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
-	void DestroySession();
-	void OnDestroySessionComplete(FName SessionName, bool bWasSuccessful);
+	//void DestroySession();
+	//void OnDestroySessionComplete(FName SessionName, bool bWasSuccessful);
 };

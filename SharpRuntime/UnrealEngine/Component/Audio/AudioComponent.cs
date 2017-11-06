@@ -66,7 +66,15 @@ namespace UnrealEngine
         {
             _Stop(NativeHandler);
         }
-        
+        public void RePlay()
+        {
+            if (this.IsPlaying)
+            {
+                this.Stop();
+            }
+            this.Play();
+        }
+
         public void SetPaused(bool bPause)
         {
             _SetPaused(NativeHandler,bPause);

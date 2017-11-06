@@ -25,6 +25,11 @@ struct MonoCallback
 	_MonoMethod* OnEventWithFloat;
 	_MonoMethod* OnEventWithString;
 	_MonoMethod* OnEventWithVector;
+	_MonoMethod* OnIntEvent;
+	_MonoMethod* OnIntEventWithInt;
+	_MonoMethod* OnIntEventWithFloat;
+	_MonoMethod* OnIntEventWithString;
+	_MonoMethod* OnIntEventWithVector;
 	
 	_MonoMethod* OnAppDeactivate;
 	_MonoMethod* OnAppHasReactivated;	
@@ -68,6 +73,11 @@ struct MonoCallback
 		OnEventWithString = NULL;
 		OnEventWithVector = NULL;
 		OnEventWithFloat = NULL;
+		OnIntEvent = NULL;
+		OnIntEventWithInt = NULL;
+		OnIntEventWithFloat = NULL;
+		OnIntEventWithString = NULL;
+		OnIntEventWithVector = NULL;
 
 		OnAppDeactivate = NULL;
 		OnAppHasReactivated = NULL;

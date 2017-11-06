@@ -227,6 +227,21 @@ void FSharpUnrealEditorModule::OnStageBuildsChanged(const TArray<FFileChangeData
 		{
 			GLog->Logf(ELogVerbosity::Error, TEXT("[PostBuild] CopyDirectoryTree Failed : %s -> %s"), *SourceDlls, *TargetDlls);
 		}
+
+		FString TargetConfigs = TargetGame / TEXT("Config");
+		FString SourceConfigs = FPaths::ConvertRelativePathToFull(FPaths::GameDir() / TEXT("Config"));
+		if (PlatformFile.DirectoryExists(*TargetConfigs))
+		{
+			if (!PlatformFile.DeleteDirectoryRecursively(*TargetConfigs))
+			{
+				GLog->Logf(ELogVerbosity::Error, TEXT("[PostBuild] Delete %s Directory Failed."), *TargetConfigs);
+			}
+		}
+
+		if (!PlatformFile.CopyDirectoryTree(*TargetConfigs, *SourceConfigs, true))
+		{
+			GLog->Logf(ELogVerbosity::Error, TEXT("[PostBuild] CopyDirectoryTree Failed : %s -> %s"), *SourceConfigs, *TargetConfigs);
+		}
 	}
 }
 
