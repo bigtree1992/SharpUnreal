@@ -9,13 +9,21 @@ namespace UnrealEngine
 
         void Stop();
 
-        bool Tick(float deta);
+        /// <summary>
+        /// 返回值 0 执行tween 1完成tween 2结束tween
+        /// </summary>
+        /// <param name="deta"></param>
+        /// <returns></returns>
+        int Tick(float deta);
 
         void Complete();
+
+        void Finish();
     }
 
     public class TweenTaskBase<T> : ITweenTask
     {
+        protected bool m_Finish = false;
         protected bool m_Running = false;
         protected float m_CurrentTime;
         protected float m_TotalTime;
@@ -93,16 +101,24 @@ namespace UnrealEngine
             m_Running = false;
         }
 
-        public virtual bool Tick(float delta)
+        public virtual void Finish()
+        {
+            m_Finish = true;
+        }
+
+        public virtual int Tick(float delta)
         {
             m_CurrentTime += delta;
 
+            if (m_Finish)
+                return 2;
+
             if (!m_Running || m_CurrentTime > m_TotalTime)
             {                
-                return false;
+                return 1;
             }
 
-            return true;
+            return 0;
         }
 
         public void Complete()
@@ -128,12 +144,11 @@ namespace UnrealEngine
 
         }
 
-        public override bool Tick(float delta)
+        public override int Tick(float delta)
         {
-            if (!base.Tick(delta))
-            {
-                return false;
-            }
+            int result = base.Tick(delta);
+            if (result != 0)
+                return result;
 
             float value = m_TweenFunction(
                 m_CurrentTime,
@@ -149,7 +164,7 @@ namespace UnrealEngine
                 Log.Error("[FTweenTask] SetValue Error:" + e.Message);
             }
             
-            return true;
+            return 0;
         }
     }
 
@@ -163,12 +178,11 @@ namespace UnrealEngine
 
         }
 
-        public override bool Tick(float delta)
+        public override int Tick(float delta)
         {
-            if (!base.Tick(delta))
-            {
-                return false;
-            }
+            int result = base.Tick(delta);
+            if (result != 0)
+                return result;
 
             float x = m_TweenFunction(
                 m_CurrentTime,
@@ -191,7 +205,7 @@ namespace UnrealEngine
                 Log.Error("[V2TweenTask] SetValue Error:" + e.Message);
             }
 
-            return true;
+            return 0;
         }
     }
 
@@ -205,12 +219,11 @@ namespace UnrealEngine
 
         }
 
-        public override bool Tick(float delta)
+        public override int Tick(float delta)
         {
-            if (!base.Tick(delta))
-            {
-                return false;
-            }
+            int result = base.Tick(delta);
+            if (result != 0)
+                return result;
 
             float x = m_TweenFunction(
                 m_CurrentTime,
@@ -238,7 +251,7 @@ namespace UnrealEngine
                 Log.Error("[VTweenTask] SetValue Error:" + e.Message);
             }
             
-            return true;
+            return 0;
         }
     }
 
@@ -252,12 +265,11 @@ namespace UnrealEngine
 
         }
 
-        public override bool Tick(float delta)
+        public override int Tick(float delta)
         {
-            if (!base.Tick(delta))
-            {
-                return false;
-            }
+            int result = base.Tick(delta);
+            if (result != 0)
+                return result;
 
             float Pitch = m_TweenFunction(
                 m_CurrentTime,
@@ -285,7 +297,7 @@ namespace UnrealEngine
             {
                 Log.Error("[RTweenTask] SetValue Error:" + e.Message);
             }
-            return true;
+            return 0;
         }
     }
 
@@ -299,12 +311,11 @@ namespace UnrealEngine
 
         }
 
-        public override bool Tick(float delta)
+        public override int Tick(float delta)
         {
-            if (!base.Tick(delta))
-            {
-                return false;
-            }
+            int result = base.Tick(delta);
+            if (result != 0)
+                return result;
 
             float R = m_TweenFunction(
                 m_CurrentTime,
@@ -338,7 +349,7 @@ namespace UnrealEngine
             {
                 Log.Error("[CTweenTask] SetValue Error:" + e.Message);
             }
-            return true;
+            return 0;
         }
     }
 }

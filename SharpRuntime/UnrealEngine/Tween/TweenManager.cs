@@ -24,11 +24,13 @@ namespace UnrealEngine
             for (int i = 0; i < m_Tasks.Count; i++)
             {
                 var task = m_Tasks[i];
-                if (!task.Tick(delta))
+                int result = task.Tick(delta);
+                if (result != 0)
                 {
                     m_Tasks.RemoveAt(i);
                     i--;
-                    task.Complete();
+                    if(result == 1)
+                        task.Complete();
                 }
             }
         }
