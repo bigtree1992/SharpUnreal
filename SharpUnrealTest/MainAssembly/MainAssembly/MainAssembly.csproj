@@ -40,6 +40,7 @@
     <Compile Include="BlueprintEventTest.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="GameConfig.cs" />
+    <Compile Include="GetMonoByNameAndActorByTagTest.cs" />
     <Compile Include="HitAndOverlapTest.cs" />
     <Compile Include="InitTest.cs" />
     <Compile Include="InputTest.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="PlayAnimTest.cs" />
     <Compile Include="RPCTest.cs" />
     <Compile Include="SequencerTest.cs" />
+    <Compile Include="ShareMemoryTest.cs" />
     <Compile Include="SplineTest.cs" />
     <Compile Include="TagTest.cs" />
     <Compile Include="TextRenderTest.cs" />

@@ -6,6 +6,13 @@ namespace UnrealEngine
     public class World
     {
         /// <summary>
+        /// 根据tag获取Actor
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        public extern static IntPtr GetActorWithTag(string tag);
+
+        /// <summary>
         /// 获取当前的关卡名字
         /// </summary>
         /// <returns></returns>

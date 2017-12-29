@@ -6,5 +6,7 @@
 class UnrealAPI_GamePlay
 {
 public:
+	static FWindowsPlatformMemory::FSharedMemoryRegion* SharedMemoryRegion;
+	static TArray<uint8> byteArr;
 	static void RegisterAPI();
 };

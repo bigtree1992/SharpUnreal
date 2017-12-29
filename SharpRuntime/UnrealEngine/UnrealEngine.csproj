@@ -84,6 +84,7 @@
     <Compile Include="Core\FLog.cs" />
     <Compile Include="Core\RPC.cs" />
     <Compile Include="Core\Timer.cs" />
+    <Compile Include="Engine\ShareMemory.cs" />
     <Compile Include="Tween\EaseType.cs" />
     <Compile Include="Tween\TweenTask.cs" />
     <Compile Include="Engine\Editor.cs" />

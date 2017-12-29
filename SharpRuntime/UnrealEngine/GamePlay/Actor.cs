@@ -112,6 +112,15 @@ namespace UnrealEngine
         }
 
         /// <summary>
+        /// 获取脚本上的C#组件
+        /// </summary>
+        /// <returns></returns>
+        public ActorComponent GetMonoComponentByTag(string tag)
+        {
+            return _GetMonoComponentByTag(NativeHandler, tag);
+        }
+
+        /// <summary>
         /// 查找Actor上的指定类型的组件
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -290,6 +299,8 @@ namespace UnrealEngine
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static ActorComponent _GetMonoComponent(IntPtr handler);
         [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern static ActorComponent _GetMonoComponentByTag(IntPtr handler, string tag); 
+         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetComponent(IntPtr handler, string type);
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern static IntPtr _GetComponentByTag(IntPtr handler, string type, string tag);

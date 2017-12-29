@@ -204,6 +204,24 @@ static UTexture* UnrealEngine_Resource_LoadTexture(MonoString* path)
 	return texture;
 }
 
+static AActor* UnrealEngine_World_GetActorWithTag(MonoString* tag)
+{
+	if (tag == NULL)
+	{
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] GetActorWithTag But tag is Null."));
+		return NULL;
+	}
+
+	FString _tag = FString((TCHAR*)mono_string_chars(tag));
+	TArray<AActor*> actors;
+	UGameplayStatics::GetAllActorsWithTag(GWorld->GetWorld(), FName(*_tag), actors);
+	if (actors.Num() == 0) {
+		GLog->Log(ELogVerbosity::Error, TEXT("[World] GetActorWithTag But no actor Found."));
+		return NULL;
+	}
+	return actors[0];
+}
+
 static MonoString* UnrealEngine_Resource_GetGameConfigDir()
 {
 	FString path = FPaths::GameConfigDir();
@@ -244,7 +262,9 @@ void UnrealAPI_Engine::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.World::UnLoadStreamingLevel",
 		reinterpret_cast<void*>(UnrealEngine_World_UnLoadStreamingLevel)); 
 	mono_add_internal_call("UnrealEngine.World::_SpwanActor",
-			reinterpret_cast<void*>(UnrealEngine_World_SpwanActor));
+			reinterpret_cast<void*>(UnrealEngine_World_SpwanActor)); 
+	mono_add_internal_call("UnrealEngine.World::GetActorWithTag",
+		reinterpret_cast<void*>(UnrealEngine_World_GetActorWithTag)); 
 
 	mono_add_internal_call("UnrealEngine.Resource::_LoadMaterial",
 		reinterpret_cast<void*>(UnrealEngine_Resource_LoadMaterial));

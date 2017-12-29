@@ -22,6 +22,130 @@
 #include <mono/utils/mono-logger.h>
 #include <mono/metadata/mono-debug.h>
 
+FWindowsPlatformMemory::FSharedMemoryRegion* UnrealAPI_GamePlay::SharedMemoryRegion;
+TArray<uint8> UnrealAPI_GamePlay::byteArr;
+
+static void UnrealEngine_ShareMemory_CreateMemory(MonoString* name, int32 size)
+{
+	FString _name = FString((TCHAR*)mono_string_chars(name));
+	UnrealAPI_GamePlay::SharedMemoryRegion =
+		FWindowsPlatformMemory::MapNamedSharedMemoryRegion(
+			_name,
+			true,
+			FPlatformMemory::ESharedMemoryAccess::Write
+			| FPlatformMemory::ESharedMemoryAccess::Read,
+			size);
+}
+
+static void UnrealEngine_ShareMemory_DestroyMemory()
+{
+	if (UnrealAPI_GamePlay::SharedMemoryRegion == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("UnrealAPI_GamePlay DestroyMemory But SharedMemoryRegion == NULL"));
+		return;
+	}
+	FWindowsPlatformMemory::UnmapNamedSharedMemoryRegion(UnrealAPI_GamePlay::SharedMemoryRegion);
+}
+
+static void UnrealEngine_ShareMemory_WriteMemory(MonoString* data)
+{
+	if (UnrealAPI_GamePlay::SharedMemoryRegion == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("UnrealAPI_GamePlay WriteMemory But SharedMemoryRegion == NULL"));
+		return;
+	}
+
+	if (data == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("UnrealAPI_GamePlay WriteMemory But data == NULL"));
+		return;
+	}
+
+	TCHAR *SerializedChar = (TCHAR*)mono_string_chars(data);
+	int32 Size = FCString::Strlen(SerializedChar);
+	uint8* ResultChars = (uint8*)TCHAR_TO_UTF8(SerializedChar);
+	FGenericPlatformMemory::Memcpy(UnrealAPI_GamePlay::SharedMemoryRegion->GetAddress(), ResultChars, Size);
+}
+
+static void UnrealEngine_ShareMemory_WriteMemoryWithData(FVector data, FRotator data2, FVector data3)
+{
+	if (UnrealAPI_GamePlay::SharedMemoryRegion == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("UnrealAPI_GamePlay WriteMemory But SharedMemoryRegion == NULL"));
+		return;
+	}
+
+	TArray<uint8> bytes;
+	bytes.AddUninitialized(36);
+	int datax = (int)(data.X * 10000);
+	bytes[0] = (uint8)((0x000000FF & datax));
+	bytes[1] = (uint8)((0x0000FF00 & datax) >> 8);
+	bytes[2] = (uint8)((0x00FF0000 & datax) >> 16);
+	bytes[3] = (uint8)((0xFF000000 & datax) >> 24);
+
+	int datay = (int)(data.Y * 10000);
+	bytes[4] = (uint8)((0x000000FF & datay));
+	bytes[5] = (uint8)((0x0000FF00 & datay) >> 8);
+	bytes[6] = (uint8)((0x00FF0000 & datay) >> 16);
+	bytes[7] = (uint8)((0xFF000000 & datay) >> 24);
+
+	int dataz = (int)(data.Z * 10000);
+	bytes[8] = (uint8)((0x000000FF & dataz));
+	bytes[9] = (uint8)((0x0000FF00 & dataz) >> 8);
+	bytes[10] = (uint8)((0x00FF0000 & dataz) >> 16);
+	bytes[11] = (uint8)((0xFF000000 & dataz) >> 24);
+
+	int data2x = (int)(data2.Pitch * 10000);
+	bytes[12] = (uint8)((0x000000FF & data2x));
+	bytes[13] = (uint8)((0x0000FF00 & data2x) >> 8);
+	bytes[14] = (uint8)((0x00FF0000 & data2x) >> 16);
+	bytes[15] = (uint8)((0xFF000000 & data2x) >> 24);
+
+	int data2y = (int)(data2.Yaw * 10000);
+	bytes[16] = (uint8)((0x000000FF & data2y));
+	bytes[17] = (uint8)((0x0000FF00 & data2y) >> 8);
+	bytes[18] = (uint8)((0x00FF0000 & data2y) >> 16);
+	bytes[19] = (uint8)((0xFF000000 & data2y) >> 24);
+
+	int data2z = (int)(data2.Roll * 10000);
+	bytes[20] = (uint8)((0x000000FF & data2z));
+	bytes[21] = (uint8)((0x0000FF00 & data2z) >> 8);
+	bytes[22] = (uint8)((0x00FF0000 & data2z) >> 16);
+	bytes[23] = (uint8)((0xFF000000 & data2z) >> 24);
+
+	int data3x = (int)(data3.X * 10000);
+	bytes[24] = (uint8)((0x000000FF & data3x));
+	bytes[25] = (uint8)((0x0000FF00 & data3x) >> 8);
+	bytes[26] = (uint8)((0x00FF0000 & data3x) >> 16);
+	bytes[27] = (uint8)((0xFF000000 & data3x) >> 24);
+
+	int data3y = (int)(data3.Y * 10000);
+	bytes[28] = (uint8)((0x000000FF & data3y));
+	bytes[29] = (uint8)((0x0000FF00 & data3y) >> 8);
+	bytes[30] = (uint8)((0x00FF0000 & data3y) >> 16);
+	bytes[31] = (uint8)((0xFF000000 & data3y) >> 24);
+
+	int data3z = (int)(data3.Z * 10000);
+	bytes[32] = (uint8)((0x000000FF & data3z));
+	bytes[33] = (uint8)((0x0000FF00 & data3z) >> 8);
+	bytes[34] = (uint8)((0x00FF0000 & data3z) >> 16);
+	bytes[35] = (uint8)((0xFF000000 & data3z) >> 24);
+
+	FGenericPlatformMemory::Memcpy(UnrealAPI_GamePlay::SharedMemoryRegion->GetAddress(), bytes.GetData(), 36);
+}
+
+static MonoString* UnrealEngine_ShareMemory_ReadMemory()
+{
+	if (UnrealAPI_GamePlay::SharedMemoryRegion == NULL)
+	{
+		GLog->Logf(ELogVerbosity::Error, TEXT("UnrealAPI_GamePlay ReadMemory But SharedMemoryRegion == NULL"));
+		return NULL;
+	}
+
+	uint8* bytes2 = static_cast<uint8*>(UnrealAPI_GamePlay::SharedMemoryRegion->GetAddress());
+	FString Result = FString(UTF8_TO_TCHAR(bytes2));
+	return mono_string_from_utf16((mono_unichar2*)*Result);
+}
 
 static mono_bool UnrealEngine_Actor_HasTag(AActor* _this, MonoString* tag)
 {
@@ -124,6 +248,22 @@ static _MonoObject* UnrealEngine_Actor_GetMonoComponent(AActor* _this)
 	if (comp != NULL) 
 	{
 		return comp->GetMonoObject();
+	}
+	return NULL;
+}
+
+static _MonoObject* UnrealEngine_Actor_GetMonoComponentByTag(AActor* _this, MonoString* _tag)
+{
+	auto comps = _this->GetComponentsByClass(UMonoComponent::StaticClass());
+	FName tag = FName((TCHAR*)mono_string_chars(_tag));
+	for (int32 i = 0; i < comps.Num(); i++)
+	{
+		UMonoComponent* comp = (UMonoComponent*)comps[i];
+		
+		if (comp != NULL && comp->ComponentHasTag(tag))
+		{
+			return comp->GetMonoObject();
+		}
 	}
 	return NULL;
 }
@@ -894,7 +1034,9 @@ void UnrealAPI_GamePlay::RegisterAPI()
 	mono_add_internal_call("UnrealEngine.Actor::_SetSceneComponent",
 		reinterpret_cast<void*>(UnrealEngine_Actor_SetSceneComponent)); 
 	mono_add_internal_call("UnrealEngine.Actor::_GetMonoComponent",
-			reinterpret_cast<void*>(UnrealEngine_Actor_GetMonoComponent));
+			reinterpret_cast<void*>(UnrealEngine_Actor_GetMonoComponent)); 
+	mono_add_internal_call("UnrealEngine.Actor::_GetMonoComponentByTag",
+		reinterpret_cast<void*>(UnrealEngine_Actor_GetMonoComponentByTag)); 
 	mono_add_internal_call("UnrealEngine.Actor::_GetComponent",
 		reinterpret_cast<void*>(UnrealEngine_Actor_GetComponent));
 	mono_add_internal_call("UnrealEngine.Actor::_GetComponentByTag",
@@ -1018,6 +1160,17 @@ void UnrealAPI_GamePlay::RegisterAPI()
 		reinterpret_cast<void*>(UnrealEngine_AIController_GetFocusActor));
 	mono_add_internal_call("UnrealEngine.AIController::_SetFocusActor",
 		reinterpret_cast<void*>(UnrealEngine_AIController_SetFocusActor));
+
+	mono_add_internal_call("UnrealEngine.ShareMemory::_CreateMemory",
+		reinterpret_cast<void*>(UnrealEngine_ShareMemory_CreateMemory));
+	mono_add_internal_call("UnrealEngine.ShareMemory::_DestroyMemory",
+		reinterpret_cast<void*>(UnrealEngine_ShareMemory_DestroyMemory));
+	mono_add_internal_call("UnrealEngine.ShareMemory::_WriteMemory",
+		reinterpret_cast<void*>(UnrealEngine_ShareMemory_WriteMemory));
+	mono_add_internal_call("UnrealEngine.ShareMemory::_WriteMemoryWithData",
+		reinterpret_cast<void*>(UnrealEngine_ShareMemory_WriteMemoryWithData));
+	mono_add_internal_call("UnrealEngine.ShareMemory::_ReadMemory",
+		reinterpret_cast<void*>(UnrealEngine_ShareMemory_ReadMemory));
 }
 
 
